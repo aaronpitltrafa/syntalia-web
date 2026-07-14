@@ -1,0 +1,25 @@
+# Syntalia Vértice
+
+> Agencia de marketing digital con enfoque estratégico. Diseñamos sistemas de crecimiento (branding, web, SEO, contenido, ads, email y captación) para empresas con ambición real.
+
+Syntalia Vértice trabaja con negocios que quieren dejar de depender del boca a boca, mejorar su imagen, captar contactos cualificados y construir una presencia digital que genere oportunidades comerciales. Sede en Murcia, España.
+
+## Pages
+
+- [Inicio](/): Qué hacemos y cómo convertimos tu presencia digital en oportunidades comerciales reales.
+- [Quiénes Somos](/quienes-somos): Nuestra visión, propósito, valores y forma de entender el marketing.
+- [Servicios](/servicios): Catálogo completo de servicios de marketing digital.
+- [Contacto](/contacto): Teléfono, email y oficina en Murcia.
+- [Diagnóstico gratuito](/diagnostico): Solicita un análisis estratégico sin compromiso.
+
+## Servicios
+
+- [Branding Completo](/servicios/branding-completo): Identidad visual, narrativa y posicionamiento.
+- [Desarrollo Web](/servicios/desarrollo-web): Sitios web modernos, rápidos y orientados a conversión.
+- [SEO](/servicios/seo): Visibilidad en buscadores y tráfico cualificado.
+- [Grabación de Contenido](/servicios/grabacion-contenido): Grabación y edición para redes.
+- [Redes Sociales](/servicios/redes-sociales): Gestión estratégica de redes sociales.
+- [Estrategias de Contenido](/servicios/contenido): Blogs, textos, guiones y creatividades.
+- [Social Ads](/servicios/social-ads): Publicidad en redes con foco en conversión.
+- [Email Marketing](/servicios/email-marketing): Campañas y flujos automatizados.
+- [Sistema de Captación](/servicios/captacion): Sistemas para atraer y convertir clientes.
