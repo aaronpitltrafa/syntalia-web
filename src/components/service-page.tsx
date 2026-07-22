@@ -24,9 +24,7 @@ export function ServicePage(props: ServicePageProps) {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-navy text-cream">
-        <div className="absolute inset-0 opacity-[0.04] [background-image:radial-gradient(circle_at_2px_2px,white_1px,transparent_0)] [background-size:32px_32px]" />
-        <div className="absolute -right-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-gold/20 blur-3xl" />
+      <section className="relative bg-gradient-navy text-cream">
         <div className="relative mx-auto max-w-6xl px-6 py-24 md:py-32">
           <Link to="/servicios" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-gold hover:text-cream">
             ← Servicios
@@ -104,7 +102,7 @@ export function ServicePage(props: ServicePageProps) {
             </Link>
           </div>
           <div className="rounded-3xl bg-cream p-8 text-foreground md:p-10">
-            <ContactForm />
+            <ContactForm source={`Servicio: ${props.title}`} />
           </div>
         </div>
       </section>

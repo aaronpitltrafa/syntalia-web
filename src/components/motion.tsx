@@ -1,5 +1,24 @@
 import { useEffect, useRef, useState, type ReactNode, type CSSProperties } from "react";
 
+/**
+ * Starts `false` on both server and first client render (so hydration never
+ * mismatches), then corrects itself in an effect once mounted. Checking
+ * `window.matchMedia` directly at render time looks tempting but produces a
+ * server/client branch that React's hydration silently refuses to patch,
+ * leaving the SSR value stuck forever.
+ */
+export function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const onChange = () => setReduced(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  return reduced;
+}
+
 export function useInView<T extends HTMLElement>(threshold = 0.25) {
   const ref = useRef<T | null>(null);
   const [inView, setInView] = useState(false);
@@ -42,9 +61,14 @@ export function Counter({
   className?: string;
 }) {
   const { ref, inView } = useInView<HTMLSpanElement>(0.4);
+  const reduceMotion = usePrefersReducedMotion();
   const [val, setVal] = useState(0);
   useEffect(() => {
     if (!inView) return;
+    if (reduceMotion) {
+      setVal(to);
+      return;
+    }
     const start = performance.now();
     let raf = 0;
     const tick = (t: number) => {
@@ -55,7 +79,7 @@ export function Counter({
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, to, duration]);
+  }, [inView, to, duration, reduceMotion]);
 
   const format = (n: number) => {
     const fixed = n.toFixed(decimals);
@@ -64,10 +88,12 @@ export function Counter({
     return d ? `${withSep}${decimalSep}${d}` : withSep;
   };
   return (
-    <span ref={ref} className={className}>
-      {prefix}
-      {format(val)}
-      {suffix}
+    <span ref={ref} className={className} aria-label={`${prefix}${format(to)}${suffix}`}>
+      <span aria-hidden="true">
+        {prefix}
+        {format(val)}
+        {suffix}
+      </span>
     </span>
   );
 }
@@ -85,12 +111,15 @@ export function Reveal({
   className?: string;
 }) {
   const { ref, inView } = useInView<HTMLDivElement>(0.15);
-  const style: CSSProperties = {
-    transform: inView ? "translateY(0)" : `translateY(${y}px)`,
-    opacity: inView ? 1 : 0,
-    transition: `transform 0.9s cubic-bezier(0.22,1,0.36,1) ${delay}ms, opacity 0.9s ease ${delay}ms`,
-    willChange: "transform, opacity",
-  };
+  const reduceMotion = usePrefersReducedMotion();
+  const style: CSSProperties = reduceMotion
+    ? { opacity: 1, transform: "none" }
+    : {
+        transform: inView ? "translateY(0)" : `translateY(${y}px)`,
+        opacity: inView ? 1 : 0,
+        transition: `transform 0.9s cubic-bezier(0.22,1,0.36,1) ${delay}ms, opacity 0.9s ease ${delay}ms`,
+        willChange: "transform, opacity",
+      };
   return (
     <div ref={ref} style={style} className={className}>
       {children}

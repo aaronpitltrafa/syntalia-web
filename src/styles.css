@@ -60,8 +60,10 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-sans: "Raleway", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Raleway", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-poppins: "Poppins", ui-sans-serif, sans-serif;
+  --font-raleway: "Raleway", ui-sans-serif, sans-serif;
   --color-navy: var(--navy);
   --color-cream: var(--cream);
   --color-gold: var(--gold);
@@ -75,6 +77,9 @@
   --cream: oklch(0.962 0.012 88);
   --gold: oklch(0.745 0.135 82);
   --gold-soft: oklch(0.86 0.08 86);
+  /* Richer, deeper gold for text sitting directly on the cream background
+     — the light --gold reads fine on navy cards but loses contrast on cream. */
+  --gold-deep: oklch(0.56 0.135 78);
 
   --background: var(--cream);
   --foreground: var(--navy);
@@ -160,6 +165,7 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
+    font-weight: 700;
   }
 }
 
@@ -183,6 +189,9 @@
       color: transparent;
     }
   }
+  .text-gold-deep {
+    color: var(--gold-deep);
+  }
   .gold-divider {
     height: 2px;
     width: 64px;
@@ -191,19 +200,12 @@
   .marquee-track {
     animation: marquee 40s linear infinite;
   }
+  .marquee-track-reverse {
+    animation: marquee 46s linear infinite reverse;
+  }
   @keyframes marquee {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
-  }
-  .noise-overlay {
-    background-image: radial-gradient(circle at 1px 1px, oklch(0.745 0.135 82 / 0.18) 1px, transparent 0);
-    background-size: 24px 24px;
-  }
-  .grid-lines {
-    background-image:
-      linear-gradient(to right, oklch(0.235 0.137 269 / 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, oklch(0.235 0.137 269 / 0.06) 1px, transparent 1px);
-    background-size: 80px 80px;
   }
   .ghost-text {
     -webkit-text-stroke: 1px oklch(0.745 0.135 82 / 0.35);
@@ -221,5 +223,90 @@
   @keyframes floatY {
     0%, 100% { transform: translateY(0); }
     50%      { transform: translateY(-14px); }
+  }
+
+  /* Hero meeting-room photo — a camera drift so slow it barely registers.
+     Only transform is animated, and only on the image layer: the photo
+     content itself is never touched. */
+  @keyframes heroReunionKenBurns {
+    from { transform: scale(1.01) translate3d(0, 0, 0); }
+    to   { transform: scale(1.04) translate3d(-0.6%, -0.4%, 0); }
+  }
+  .hero-reunion-image {
+    transform-origin: 60% 45%;
+    animation: heroReunionKenBurns 28s ease-in-out infinite alternate;
+    will-change: transform;
+    filter: blur(2px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-reunion-image {
+      animation: none;
+    }
+    .marquee-track,
+    .marquee-track-reverse {
+      animation: none;
+    }
+  }
+
+  /* Problem-row accordion — grid-rows trick animates height without
+     measuring, inner element carries the subtle "card tilting open" effect. */
+  .problem-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    perspective: 700px;
+    transition: grid-template-rows 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .problem-panel.is-open {
+    grid-template-rows: 1fr;
+  }
+  .problem-panel > div {
+    overflow: hidden;
+  }
+  .problem-panel > div > p {
+    transform-origin: top;
+    transform: translateY(-6px) rotateX(-8deg);
+    opacity: 0;
+    transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1), opacity 300ms ease-out;
+  }
+  .problem-panel.is-open > div > p {
+    transform: translateY(0) rotateX(0deg);
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .problem-panel {
+      transition: grid-template-rows 150ms linear;
+    }
+    .problem-panel > div > p {
+      transition: opacity 150ms linear;
+      transform: none;
+    }
+  }
+
+  /* Roadmap phase panel — plays once on mount (component remounts via
+     React `key`), giving a soft slide-in each time the active phase changes. */
+  @keyframes phaseIn {
+    from { opacity: 0; transform: translateX(10px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .phase-panel-enter {
+    animation: phaseIn 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .phase-panel-enter {
+      animation: none;
+    }
+  }
+
+  /* Sistema Vértice 3D carousel */
+  .vertice-viewport {
+    perspective: 1200px;
+  }
+  .vertice-card {
+    transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1), opacity 620ms cubic-bezier(0.22, 1, 0.36, 1), filter 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .vertice-card {
+      transition: opacity 150ms linear;
+    }
   }
 }

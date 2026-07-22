@@ -11,8 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as QuienesSomosRouteImport } from './routes/quienes-somos'
+import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as DiagnosticoRouteImport } from './routes/diagnostico'
+import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContactoRouteImport } from './routes/contacto'
+import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServiciosIndexRouteImport } from './routes/servicios.index'
 import { Route as ServiciosSocialAdsRouteImport } from './routes/servicios.social-ads'
@@ -35,14 +38,29 @@ const QuienesSomosRoute = QuienesSomosRouteImport.update({
   path: '/quienes-somos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacidadRoute = PrivacidadRouteImport.update({
+  id: '/privacidad',
+  path: '/privacidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DiagnosticoRoute = DiagnosticoRouteImport.update({
   id: '/diagnostico',
   path: '/diagnostico',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactoRoute = ContactoRouteImport.update({
   id: '/contacto',
   path: '/contacto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AvisoLegalRoute = AvisoLegalRouteImport.update({
+  id: '/aviso-legal',
+  path: '/aviso-legal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -105,8 +123,11 @@ const ServiciosBrandingCompletoRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/aviso-legal': typeof AvisoLegalRoute
   '/contacto': typeof ContactoRoute
+  '/cookies': typeof CookiesRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/privacidad': typeof PrivacidadRoute
   '/quienes-somos': typeof QuienesSomosRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/servicios/branding-completo': typeof ServiciosBrandingCompletoRoute
@@ -122,8 +143,11 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/aviso-legal': typeof AvisoLegalRoute
   '/contacto': typeof ContactoRoute
+  '/cookies': typeof CookiesRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/privacidad': typeof PrivacidadRoute
   '/quienes-somos': typeof QuienesSomosRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/servicios/branding-completo': typeof ServiciosBrandingCompletoRoute
@@ -140,8 +164,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/aviso-legal': typeof AvisoLegalRoute
   '/contacto': typeof ContactoRoute
+  '/cookies': typeof CookiesRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/privacidad': typeof PrivacidadRoute
   '/quienes-somos': typeof QuienesSomosRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/servicios/branding-completo': typeof ServiciosBrandingCompletoRoute
@@ -159,8 +186,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/aviso-legal'
     | '/contacto'
+    | '/cookies'
     | '/diagnostico'
+    | '/privacidad'
     | '/quienes-somos'
     | '/sitemap.xml'
     | '/servicios/branding-completo'
@@ -176,8 +206,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/aviso-legal'
     | '/contacto'
+    | '/cookies'
     | '/diagnostico'
+    | '/privacidad'
     | '/quienes-somos'
     | '/sitemap.xml'
     | '/servicios/branding-completo'
@@ -193,8 +226,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/aviso-legal'
     | '/contacto'
+    | '/cookies'
     | '/diagnostico'
+    | '/privacidad'
     | '/quienes-somos'
     | '/sitemap.xml'
     | '/servicios/branding-completo'
@@ -211,8 +247,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AvisoLegalRoute: typeof AvisoLegalRoute
   ContactoRoute: typeof ContactoRoute
+  CookiesRoute: typeof CookiesRoute
   DiagnosticoRoute: typeof DiagnosticoRoute
+  PrivacidadRoute: typeof PrivacidadRoute
   QuienesSomosRoute: typeof QuienesSomosRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ServiciosBrandingCompletoRoute: typeof ServiciosBrandingCompletoRoute
@@ -243,6 +282,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuienesSomosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacidad': {
+      id: '/privacidad'
+      path: '/privacidad'
+      fullPath: '/privacidad'
+      preLoaderRoute: typeof PrivacidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/diagnostico': {
       id: '/diagnostico'
       path: '/diagnostico'
@@ -250,11 +296,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DiagnosticoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contacto': {
       id: '/contacto'
       path: '/contacto'
       fullPath: '/contacto'
       preLoaderRoute: typeof ContactoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aviso-legal': {
+      id: '/aviso-legal'
+      path: '/aviso-legal'
+      fullPath: '/aviso-legal'
+      preLoaderRoute: typeof AvisoLegalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -339,8 +399,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AvisoLegalRoute: AvisoLegalRoute,
   ContactoRoute: ContactoRoute,
+  CookiesRoute: CookiesRoute,
   DiagnosticoRoute: DiagnosticoRoute,
+  PrivacidadRoute: PrivacidadRoute,
   QuienesSomosRoute: QuienesSomosRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ServiciosBrandingCompletoRoute: ServiciosBrandingCompletoRoute,

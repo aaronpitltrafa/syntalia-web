@@ -1,0 +1,17 @@
+# Copia este archivo como .dev.vars (ya está en .gitignore) y rellena tus valores reales.
+# En producción (Cloudflare), define estas mismas variables con:
+#   wrangler secret put RESEND_API_KEY
+#   wrangler secret put LEAD_NOTIFICATION_EMAIL
+#   wrangler secret put LEAD_FROM_EMAIL
+
+# API key de https://resend.com (Settings → API Keys)
+RESEND_API_KEY=
+
+# Email donde quieres recibir los leads del formulario.
+# Mientras Resend esté en modo de prueba (sin dominio verificado), solo puede
+# enviar al email de tu cuenta Resend. Verifica un dominio en resend.com/domains
+# para poder usar vertice@syntalia.es.
+LEAD_NOTIFICATION_EMAIL=marketingsyntalia3@gmail.com
+
+# Remitente. Sin dominio verificado en Resend, usa el sandbox:
+LEAD_FROM_EMAIL=Syntalia Vértice <onboarding@resend.dev>
