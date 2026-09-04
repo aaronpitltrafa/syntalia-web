@@ -87,7 +87,7 @@ function Privacidad() {
                   descrito en la{" "}
                   <Link
                     to="/cookies"
-                    className="font-semibold text-primary underline hover:text-gold-deep"
+                    className="font-semibold text-primary underline hover:text-gold-light"
                   >
                     Política de Cookies
                   </Link>
@@ -319,7 +319,7 @@ function Privacidad() {
                 href="https://www.aepd.es"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-primary underline hover:text-gold-deep"
+                className="font-semibold text-primary underline hover:text-gold-light"
               >
                 www.aepd.es
               </a>

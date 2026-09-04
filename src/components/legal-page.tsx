@@ -35,7 +35,7 @@ export function LegalPage({
         <div className="mx-auto max-w-5xl px-6 py-16 md:py-20">
           <div className="grid gap-12 lg:grid-cols-[220px_1fr]">
             <nav aria-label="Índice" className="lg:sticky lg:top-28 lg:self-start">
-              <p className="text-xs font-bold uppercase tracking-widest text-gold-deep">Índice</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-gold-light">Índice</p>
               <ul className="mt-4 space-y-1 border-l border-border text-sm">
                 {sections.map((s) => (
                   <li key={s.id}>

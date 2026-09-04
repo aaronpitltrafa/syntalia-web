@@ -75,6 +75,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "theme-color", content: "#010A2B" },
       { name: "author", content: "Syntalia Vértice" },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Syntalia Vértice" },
@@ -133,6 +134,32 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": "WebSite",
           name: "Syntalia Vértice",
           url: "https://syntalia.verticeagency.es",
+        }),
+      },
+      {
+        // SEO local. Mismos datos que el bloque Organization: ni precios ni
+        // horarios, que no los tenemos.
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ProfessionalService",
+          name: "Syntalia Vértice",
+          url: "https://syntalia.verticeagency.es",
+          description: "Agencia de marketing digital con enfoque estratégico para empresas con ambición real.",
+          email: "vertice@syntalia.es",
+          telephone: "+34-647-121-117",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Avenida de la Libertad 301",
+            addressLocality: "Murcia",
+            postalCode: "30710",
+            addressCountry: "ES",
+          },
+          areaServed: [
+            { "@type": "City", name: "Murcia" },
+            { "@type": "Country", name: "España" },
+          ],
+          availableLanguage: ["Spanish"],
         }),
       },
     ],

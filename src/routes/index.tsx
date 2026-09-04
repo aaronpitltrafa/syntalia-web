@@ -1256,7 +1256,7 @@ function CasoDeExito() {
               </div>
             </Reveal>
 
-            <div className="grid flex-1 grid-cols-3 gap-4">
+            <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-3">
               {FRULONSA_METRICS.map((m, i) => (
                 <Reveal key={m.label} delay={100 + i * 80} className="h-full">
                   <div className="surface-glass group flex h-full flex-col rounded-2xl p-6 transition-colors duration-200 hover:bg-cream/10 md:p-7">

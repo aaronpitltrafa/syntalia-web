@@ -165,7 +165,7 @@ function AvisoLegal() {
               sitio web se rige por lo establecido en nuestra{" "}
               <Link
                 to="/privacidad"
-                className="font-semibold text-primary underline hover:text-gold-deep"
+                className="font-semibold text-primary underline hover:text-gold-light"
               >
                 Política de Privacidad
               </Link>
