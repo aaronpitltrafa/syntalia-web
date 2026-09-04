@@ -119,7 +119,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           },
           contactPoint: {
             "@type": "ContactPoint",
-            telephone: "+34-647-121-117",
+            telephone: "+34-672-167-758",
             email: "vertice@syntalia.es",
             contactType: "customer service",
             areaServed: "ES",
@@ -147,7 +147,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           url: "https://syntalia.verticeagency.es",
           description: "Agencia de marketing digital con enfoque estratégico para empresas con ambición real.",
           email: "vertice@syntalia.es",
-          telephone: "+34-647-121-117",
+          telephone: "+34-672-167-758",
           address: {
             "@type": "PostalAddress",
             streetAddress: "Avenida de la Libertad 301",

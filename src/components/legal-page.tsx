@@ -53,13 +53,13 @@ export function LegalPage({
             <div
               className={
                 whiteContent
-                  ? "max-w-2xl space-y-14 rounded-3xl border border-border bg-card p-6 shadow-sm md:p-10"
-                  : "max-w-2xl space-y-14"
+                  ? "min-w-0 max-w-2xl space-y-14 rounded-3xl border border-border bg-card p-6 shadow-sm md:p-10"
+                  : "min-w-0 max-w-2xl space-y-14"
               }
             >
               {sections.map((s) => (
                 <section key={s.id} id={s.id} className="scroll-mt-28">
-                  <h2 className="text-xl font-semibold text-primary md:text-2xl">{s.title}</h2>
+                  <h2 className="text-xl font-semibold text-cream md:text-2xl">{s.title}</h2>
                   <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-foreground/75">
                     {s.content}
                   </div>

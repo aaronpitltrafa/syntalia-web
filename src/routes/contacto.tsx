@@ -102,7 +102,7 @@ function Contacto() {
           </div>
 
           <div className="md:col-span-3 rounded-3xl border border-border bg-card p-8 md:p-10">
-            <h2 className="text-2xl font-semibold text-primary">Escríbenos</h2>
+            <h2 className="text-2xl font-semibold text-cream">Escríbenos</h2>
             <p className="mt-2 text-foreground/70">Rellena el formulario y nos pondremos en contacto contigo.</p>
             <div className="mt-8">
               <ContactForm source="Contacto" />

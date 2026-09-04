@@ -14,8 +14,8 @@ export const Route = createFileRoute("/cookies")({
 });
 
 const TABLE_HEAD =
-  "border-b border-border pb-2 text-left text-xs font-bold uppercase tracking-widest text-gold-light";
-const TABLE_CELL = "border-b border-border/60 py-3 pr-4 align-top";
+  "border-b border-border px-2 pb-2 text-left text-xs font-bold uppercase tracking-widest text-gold-light";
+const TABLE_CELL = "border-b border-border/60 px-2 py-3 align-top";
 
 function Cookies() {
   return (

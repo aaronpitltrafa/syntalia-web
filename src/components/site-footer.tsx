@@ -130,8 +130,8 @@ export function SiteFooter() {
                 </a>
               </li>
               <li>
-                <a href="tel:+34647121117" className={`flex items-center gap-2.5 ${columnLink}`}>
-                  <Phone className="h-4 w-4 shrink-0 text-gold-light" aria-hidden /> +34 647 121 117
+                <a href="tel:+34672167758" className={`flex items-center gap-2.5 ${columnLink}`}>
+                  <Phone className="h-4 w-4 shrink-0 text-gold-light" aria-hidden /> +34 672 167 758
                 </a>
               </li>
               <li className="flex items-center gap-2.5 text-[15px] text-cream/70">
