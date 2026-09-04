@@ -56,7 +56,7 @@ function Index() {
       <AQuienVaDirigido />
       <CasoDeExito />
       <Diferenciales />
-      <Hero />
+      <CtaDiagnostico />
       <FinalCTA />
       <FAQ />
     </div>
@@ -278,7 +278,7 @@ function ProblemRow({
   const buttonId = `problem-trigger-${problem.id}`;
   const panelId = `problem-panel-${problem.id}`;
   return (
-    <div className="border-b border-white/10 first:border-t">
+    <div className="surface-glass overflow-hidden rounded-2xl">
       <h3 className="m-0">
         <button
           type="button"
@@ -287,14 +287,14 @@ function ProblemRow({
           aria-controls={panelId}
           onClick={onToggle}
           className={cn(
-            "flex min-h-[88px] w-full items-center gap-4 py-5 text-left transition-colors hover:bg-navy/[0.03] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold sm:min-h-[104px] sm:gap-6 lg:min-h-[112px]",
+            "flex min-h-[88px] w-full items-center gap-4 px-6 py-5 text-left transition-colors hover:bg-cream/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold sm:min-h-[104px] sm:gap-6 sm:px-8 lg:min-h-[112px]",
           )}
         >
-          <span className="w-10 shrink-0 font-poppins text-3xl font-extrabold text-gold sm:w-12 sm:text-4xl">
+          <span className="w-10 shrink-0 font-display text-3xl text-gold sm:w-12 sm:text-4xl">
             {problem.number}
           </span>
-          <span className="h-8 w-px shrink-0 bg-navy/15 sm:h-10" aria-hidden />
-          <span className="flex-1 font-poppins text-base font-bold leading-snug text-cream sm:text-lg lg:text-xl">
+          <span className="h-8 w-px shrink-0 bg-cream/15 sm:h-10" aria-hidden />
+          <span className="flex-1 font-sans text-base font-semibold leading-snug text-cream sm:text-lg lg:text-xl">
             {problem.title}
           </span>
           <ChevronDown
@@ -308,7 +308,7 @@ function ProblemRow({
       </h3>
       <div id={panelId} role="region" aria-labelledby={buttonId} className={cn("problem-panel", isOpen && "is-open")}>
         <div>
-          <p className="max-w-md py-0 pb-6 pl-14 font-sans text-[15px] leading-relaxed text-cream/65 sm:pb-7 sm:pl-[3.75rem] sm:text-base">
+          <p className="max-w-md py-0 pr-6 pb-6 pl-[3.75rem] font-sans text-[15px] leading-relaxed text-cream/70 sm:pb-7 sm:pl-[5.5rem] sm:text-base">
             {problem.description}
           </p>
         </div>
@@ -326,13 +326,14 @@ function Problema() {
         <div className="grid gap-14 lg:grid-cols-2 lg:items-start lg:gap-16">
           {/* Left column — unchanged messaging */}
           <div className="relative">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-navy/5 px-4 py-1.5">
-              <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-cream/70">El problema</span>
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 px-4 py-2">
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
+              <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-light">El problema</span>
             </div>
 
-            <h2 className="mt-6 font-poppins uppercase text-3xl leading-[1.1] tracking-normal text-balance md:text-5xl">
-              No basta con tener valor. Hay que saber convertirlo en <span className="text-gold-light">oportunidades</span>.
+            <h2 className="mt-7 text-[2.1rem] leading-[1.02] tracking-[-0.03em] text-cream text-balance md:text-[3.4rem]">
+              No basta con tener valor. Hay que saber convertirlo en{" "}
+              <span className="text-gradient-gold-hero italic">oportunidades</span>.
             </h2>
 
             <p className="mt-6 max-w-xl text-cream/75 leading-relaxed md:text-lg">
@@ -349,7 +350,7 @@ function Problema() {
           </div>
 
           {/* Right column — accordion rows */}
-          <div>
+          <div className="flex flex-col gap-3">
             {PROBLEMS.map((p) => (
               <ProblemRow
                 key={p.id}
@@ -421,7 +422,7 @@ type PhaseGroupData = { title: string; icon: typeof Search; items: readonly stri
 function PhaseGroup({ group }: { group: PhaseGroupData }) {
   return (
     <div className="sm:border-l sm:border-cream/10 sm:pl-8">
-      <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-gold">
+      <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-light">
         <group.icon className="h-4 w-4" aria-hidden />
         {group.title}
       </div>
@@ -456,15 +457,16 @@ function ComoTrabajamos() {
     <section className="relative border-t border-white/10">
       <div className="relative mx-auto max-w-[1280px] px-6 py-24 md:py-28">
         {/* Header */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-navy/5 px-4 py-1.5">
-          <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-          <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-cream/70">Cómo trabajamos · 4 etapas</span>
+        <div className="inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 px-4 py-2">
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
+          <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-light">Cómo trabajamos · 4 etapas</span>
         </div>
 
         <div className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
           <div className="max-w-2xl">
-            <h2 className="font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-cream md:text-5xl">
-              De una presencia digital dispersa a un <span className="text-gold">sistema preparado para crecer</span>.
+            <h2 className="text-[2.1rem] leading-[1.02] tracking-[-0.03em] text-cream md:text-[3.4rem]">
+              De una presencia digital dispersa a un{" "}
+              <span className="text-gradient-gold-hero italic">sistema preparado para crecer</span>.
             </h2>
             <p className="mt-5 max-w-xl text-cream/75 leading-relaxed md:text-lg">
               Aplicamos lógica comercial y estrategia digital para transformar tu presencia en oportunidades comerciales reales y sostenibles.
@@ -484,9 +486,9 @@ function ComoTrabajamos() {
         {/* Desktop/tablet: horizontal roadmap + single panel */}
         <div className="mt-16 hidden lg:block">
           <div className="relative">
-            <div className="absolute inset-x-[12.5%] top-[22px] h-px bg-navy/15" aria-hidden />
+            <div className="absolute inset-x-[12.5%] top-[28px] h-px bg-gradient-to-r from-cream/15 to-gold/70" aria-hidden />
             <div
-              className="absolute top-[22px] left-[12.5%] h-px bg-gold transition-all duration-500 ease-out"
+              className="absolute top-[28px] left-[12.5%] h-px bg-gold transition-all duration-500 ease-out"
               style={{ width: `${(activeIndex / (WORK_PHASES.length - 1)) * 75}%` }}
               aria-hidden
             />
@@ -506,18 +508,18 @@ function ComoTrabajamos() {
                   >
                     <span
                       className={cn(
-                        "flex h-11 w-11 items-center justify-center rounded-full border-2 font-poppins text-sm font-bold transition-all duration-300",
+                        "flex h-14 w-14 items-center justify-center rounded-full border font-display text-xl transition-all duration-300",
                         isActive
-                          ? "scale-110 border-gold bg-gold text-navy shadow-[0_0_0_6px_rgba(212,175,55,0.15)]"
-                          : "border-white/15 bg-background text-gold",
+                          ? "scale-105 border-transparent bg-gradient-to-b from-gold-light to-gold text-navy shadow-[inset_0_1px_0_oklch(1_0_0/50%),0_10px_26px_-10px_oklch(0.745_0.135_82/80%)]"
+                          : "border-cream/20 bg-cream/5 text-cream/80",
                       )}
                     >
                       {p.number}
                     </span>
                     <span
                       className={cn(
-                        "text-sm tracking-wide text-cream/60 transition-colors",
-                        isActive && "font-bold text-cream",
+                        "text-sm font-medium tracking-[-0.01em] text-cream/60 transition-colors",
+                        isActive && "font-semibold text-cream",
                       )}
                     >
                       {p.shortTitle}
@@ -536,10 +538,10 @@ function ComoTrabajamos() {
             className="phase-panel-enter relative mt-10 overflow-hidden rounded-[2rem] border border-gold/25 bg-gradient-navy p-10 text-cream shadow-[0_40px_100px_-40px_rgba(2,21,87,0.5)] lg:p-12"
           >
             <div className="relative grid gap-10 sm:grid-cols-[auto_1fr]">
-              <div className="font-raleway text-7xl font-extrabold text-gold/90">{active.number}</div>
+              <div className="font-display text-7xl text-gold/90">{active.number}</div>
               <div>
-                <h3 className="font-raleway text-2xl font-bold sm:text-3xl">{active.title}</h3>
-                <p className="mt-2 font-poppins text-base font-semibold text-gold sm:text-lg">{active.tagline}</p>
+                <h3 className="font-sans text-2xl font-semibold tracking-[-0.02em] sm:text-3xl">{active.title}</h3>
+                <p className="mt-2 text-base font-semibold text-gold-light sm:text-lg">{active.tagline}</p>
                 <p className="mt-4 max-w-xl leading-relaxed text-cream/70">{active.description}</p>
 
                 <div className="mt-8 grid gap-8 sm:grid-cols-2">
@@ -560,7 +562,7 @@ function ComoTrabajamos() {
             const triggerId = `phase-mobile-trigger-${p.id}`;
             const panelId = `phase-mobile-panel-${p.id}`;
             return (
-              <div key={p.id} className="border-b border-white/10 first:border-t">
+              <div key={p.id} className="surface-glass mb-3 overflow-hidden rounded-2xl">
                 <h3 className="m-0">
                   <button
                     type="button"
@@ -568,11 +570,11 @@ function ComoTrabajamos() {
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     onClick={() => setActivePhase(p.id)}
-                    className="flex min-h-[80px] w-full items-center gap-4 py-4 text-left transition-colors hover:bg-navy/[0.03] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold"
+                    className="flex min-h-[80px] w-full items-center gap-4 px-5 py-4 text-left transition-colors hover:bg-cream/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold"
                   >
-                    <span className="w-9 shrink-0 font-poppins text-2xl font-extrabold text-gold">{p.number}</span>
-                    <span className="h-7 w-px shrink-0 bg-navy/15" aria-hidden />
-                    <span className="flex-1 font-poppins text-base font-bold text-cream">{p.shortTitle}</span>
+                    <span className="w-9 shrink-0 font-display text-2xl text-gold">{p.number}</span>
+                    <span className="h-7 w-px shrink-0 bg-cream/15" aria-hidden />
+                    <span className="flex-1 font-sans text-base font-semibold text-cream">{p.shortTitle}</span>
                     <ChevronDown
                       aria-hidden
                       className={cn(
@@ -584,15 +586,15 @@ function ComoTrabajamos() {
                 </h3>
                 <div id={panelId} role="region" aria-labelledby={triggerId} className={cn("problem-panel", isOpen && "is-open")}>
                   <div>
-                    <div className="pb-6 pl-14">
-                      <h4 className="font-raleway text-lg font-bold text-cream">{p.title}</h4>
-                      <p className="mt-1 font-poppins text-sm font-semibold text-gold">{p.tagline}</p>
+                    <div className="pr-5 pb-6 pl-[4.5rem]">
+                      <h4 className="font-sans text-lg font-semibold tracking-[-0.02em] text-cream">{p.title}</h4>
+                      <p className="mt-1 text-sm font-semibold text-gold-light">{p.tagline}</p>
                       <p className="mt-3 max-w-md text-[15px] leading-relaxed text-cream/65">{p.description}</p>
 
                       <div className="mt-5 space-y-5">
                         {[p.groupOne, p.groupTwo].map((group) => (
                           <div key={group.title}>
-                            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-cream/55">
+                            <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-cream/55">
                               <group.icon className="h-3.5 w-3.5" aria-hidden />
                               {group.title}
                             </div>
@@ -678,13 +680,13 @@ function VerticeCardContent({ phase }: { phase: (typeof VERTICE_PHASES)[number] 
       <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-gold text-navy">
         <phase.icon className="h-5 w-5" aria-hidden />
       </div>
-      <div className="mt-6 font-raleway text-5xl font-extrabold text-gold/85">{phase.number}</div>
-      <h3 className="mt-3 font-raleway text-xl font-bold text-cream md:text-2xl">{phase.title}</h3>
+      <div className="mt-6 font-display text-5xl text-gold/85">{phase.number}</div>
+      <h3 className="mt-3 font-sans text-xl font-semibold tracking-[-0.02em] text-cream md:text-2xl">{phase.title}</h3>
       <span className="mt-3 block h-[3px] w-10 rounded-full bg-gold" aria-hidden />
       <p className="mt-4 text-sm leading-relaxed text-cream/70">{phase.tagline}</p>
 
       <div className="mt-6 border-t border-white/10 pt-6">
-        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-cream/55">Servicios incluidos</p>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-cream/55">Servicios incluidos</p>
         <ul className="mt-4 space-y-2.5">
           {phase.services.map((s) => (
             <li key={s} className="flex items-start gap-2.5 text-sm text-cream/80">
@@ -982,36 +984,42 @@ const DIFERENCIALES_STRIP = [
 
 function Diferenciales() {
   return (
-    <section className="relative border-t border-white/10">
-      <div className="relative mx-auto max-w-5xl px-6 py-20 md:py-24">
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/15 bg-navy/5 px-4 py-1.5">
-            <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-            <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-cream/70">Diferenciales</span>
+    <section className="relative">
+      <div className="mx-auto max-w-[1240px] px-6 sm:px-8">
+        <div className="h-px w-full bg-cream/12" aria-hidden />
+
+        <div className="flex flex-col gap-7 py-[26px] lg:flex-row lg:items-center lg:gap-10">
+          {/* rotulo a la izquierda */}
+          <div className="lg:w-[300px] lg:shrink-0">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-cream/55">
+              Diferenciales
+            </span>
+            <h2 className="mt-3 text-lg leading-[1.2] tracking-[-0.03em] text-cream lg:text-xl">
+              No hacemos marketing aislado. Construimos sistemas con{" "}
+              <span className="text-gradient-gold-hero italic">lógica comercial</span>.
+            </h2>
+            <p className="mt-2 text-[13px] leading-relaxed text-cream/60">
+              Conectamos estrategia, contenido, captación y seguimiento dentro de un mismo sistema, para que cada pieza cumpla una función en el crecimiento de tu empresa.
+            </p>
           </div>
 
-          <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-cream md:text-5xl">
-            No hacemos marketing aislado. Construimos sistemas con <span className="text-gold">lógica comercial</span>.
-          </h2>
-
-          <p className="mx-auto mt-5 max-w-2xl text-cream/75 leading-relaxed md:text-lg">
-            Conectamos estrategia, contenido, captación y seguimiento dentro de un mismo sistema, para que cada pieza cumpla una función en el crecimiento de tu empresa.
-          </p>
-        </div>
-
-        <div className="surface-glass mx-auto mt-12 grid divide-y divide-white/10 overflow-hidden rounded-3xl sm:grid-cols-3 sm:divide-x sm:divide-y-0 md:mt-14">
-          {DIFERENCIALES_STRIP.map((item, i) => (
-            <Reveal key={item.title} delay={i * 90}>
-              <div className="flex h-full flex-col items-center gap-3 px-6 py-8 text-center md:px-8">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gold/15">
-                  <item.icon className="h-5 w-5 text-gold-light" aria-hidden />
+          {/* los diferenciales, en rejilla */}
+          <div className="grid flex-1 gap-3 sm:grid-cols-3">
+            {DIFERENCIALES_STRIP.map((item, i) => (
+              <Reveal key={item.title} delay={i * 90} className="h-full">
+                <div className="surface-glass flex h-full flex-col gap-2 rounded-2xl px-5 py-4">
+                  <div className="flex items-center gap-2.5">
+                    <item.icon className="h-4 w-4 shrink-0 text-gold-light" aria-hidden />
+                    <h3 className="font-sans text-[15px] font-semibold leading-tight tracking-[-0.02em] text-cream">{item.title}</h3>
+                  </div>
+                  <p className="text-[13px] leading-relaxed text-cream/60">{item.description}</p>
                 </div>
-                <h3 className="text-base font-bold text-cream">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-cream/60">{item.description}</p>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            ))}
+          </div>
         </div>
+
+        <div className="h-px w-full bg-cream/12" aria-hidden />
       </div>
     </section>
   );
@@ -1084,7 +1092,7 @@ function FAQ() {
 /* 1. CTA DIAGNÓSTICO                                                   */
 /* ------------------------------------------------------------------ */
 
-function Hero() {
+function CtaDiagnostico() {
   return (
     <section className="relative border-t border-white/10">
       <div className="relative mx-auto max-w-4xl px-6 py-20 md:py-24">
@@ -1134,7 +1142,7 @@ function MarqueeStrip() {
             {MARQUEE_WORDS.map((w) => (
               <span
                 key={w}
-                className="flex items-center gap-8 font-raleway text-2xl font-extrabold tracking-tight text-cream/35 uppercase md:gap-11 md:text-4xl"
+                className="flex items-center gap-8 font-raleway text-2xl font-extrabold tracking-tight text-cream/40 uppercase md:gap-11 md:text-4xl"
               >
                 {w}
                 <Plus className="h-4 w-4 shrink-0 text-gold/25 md:h-6 md:w-6" />
