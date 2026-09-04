@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import {
@@ -9,6 +9,7 @@ import {
   ChevronDown,
   ClipboardList,
   Layers,
+  Minus,
   ShieldCheck,
   Target,
   Plus,
@@ -23,7 +24,7 @@ import {
   Compass,
   UserPlus,
 } from "lucide-react";
-import logo from "@/assets/logo.png";
+import logoWhite from "@/assets/logo-white.png";
 import { Counter, Reveal, usePrefersReducedMotion } from "@/components/motion";
 import { GoldButton } from "@/components/gold-button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -52,8 +53,10 @@ function Index() {
       <MarqueeStrip />
       <Problema />
       <ComoTrabajamos />
-      <OfertaPrincipal />
-      <AQuienVaDirigido />
+      <BloqueCrema>
+        <OfertaPrincipal />
+        <AQuienVaDirigido />
+      </BloqueCrema>
       <CasoDeExito />
       <Diferenciales />
       <CtaDiagnostico />
@@ -676,21 +679,21 @@ const VERTICE_COUNT = VERTICE_PHASES.length;
 
 function VerticeCardContent({ phase }: { phase: (typeof VERTICE_PHASES)[number] }) {
   return (
-    <div className="surface-glass flex h-full flex-col rounded-[26px] p-8 backdrop-blur-sm md:p-10">
+    <div className="flex h-full flex-col rounded-[22px] border border-navy/12 bg-white/60 p-8 backdrop-blur-sm md:p-10">
       <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-gold text-navy">
         <phase.icon className="h-5 w-5" aria-hidden />
       </div>
-      <div className="mt-6 font-display text-5xl text-gold/85">{phase.number}</div>
-      <h3 className="mt-3 font-sans text-xl font-semibold tracking-[-0.02em] text-cream md:text-2xl">{phase.title}</h3>
-      <span className="mt-3 block h-[3px] w-10 rounded-full bg-gold" aria-hidden />
-      <p className="mt-4 text-sm leading-relaxed text-cream/70">{phase.tagline}</p>
+      <div className="mt-6 font-display text-5xl text-gold-deep">{phase.number}</div>
+      <h3 className="mt-3 font-sans text-xl font-semibold tracking-[-0.02em] text-navy md:text-2xl">{phase.title}</h3>
+      <span className="mt-3 block h-[3px] w-10 rounded-full bg-gold-deep" aria-hidden />
+      <p className="mt-4 text-sm leading-relaxed text-navy/65">{phase.tagline}</p>
 
-      <div className="mt-6 border-t border-white/10 pt-6">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-cream/55">Servicios incluidos</p>
+      <div className="mt-6 border-t border-navy/14 pt-6">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-navy/65">Servicios incluidos</p>
         <ul className="mt-4 space-y-2.5">
           {phase.services.map((s) => (
-            <li key={s} className="flex items-start gap-2.5 text-sm text-cream/80">
-              <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-gold" aria-hidden />
+            <li key={s} className="flex items-start gap-2.5 text-sm text-navy/75">
+              <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-gold-deep" aria-hidden />
               {s}
             </li>
           ))}
@@ -787,7 +790,7 @@ function VerticeCarousel() {
           type="button"
           onClick={goPrev}
           aria-label="Fase anterior"
-          className="absolute top-1/2 left-0 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-background text-cream shadow-[0_10px_30px_-10px_rgba(2,21,87,0.3)] transition hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:left-2 lg:-left-4"
+          className="absolute top-1/2 left-0 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-navy/12 bg-navy text-cream shadow-[0_10px_30px_-10px_rgba(2,21,87,0.3)] transition hover:text-gold-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:left-2 lg:-left-4"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
@@ -795,7 +798,7 @@ function VerticeCarousel() {
           type="button"
           onClick={goNext}
           aria-label="Fase siguiente"
-          className="absolute top-1/2 right-0 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-background text-cream shadow-[0_10px_30px_-10px_rgba(2,21,87,0.3)] transition hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:right-2 lg:-right-4"
+          className="absolute top-1/2 right-0 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-navy/12 bg-navy text-cream shadow-[0_10px_30px_-10px_rgba(2,21,87,0.3)] transition hover:text-gold-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:right-2 lg:-right-4"
         >
           <ArrowRight className="h-5 w-5" />
         </button>
@@ -846,7 +849,7 @@ function VerticeCarousel() {
             aria-current={i === activeIndex}
             className={cn(
               "h-2.5 rounded-full transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold",
-              i === activeIndex ? "w-7 bg-gold" : "w-2.5 bg-navy/20 hover:bg-navy/35",
+              i === activeIndex ? "w-7 bg-gold-deep" : "w-2.5 bg-navy/20 hover:bg-navy/35",
             )}
           />
         ))}
@@ -855,21 +858,41 @@ function VerticeCarousel() {
   );
 }
 
+/**
+ * El unico bloque claro de la home. Dentro manda la regla de superficies:
+ * texto navy, dorado en --gold-deep y filetes en navy/14. La utilidad
+ * surface-cream repunta los tokens semanticos de todo el subarbol.
+ */
+function BloqueCrema({ children }: { children: ReactNode }) {
+  return (
+    <div className="px-3 md:px-5">
+      <div className="surface-cream relative overflow-hidden rounded-[34px] py-20 md:rounded-[52px] md:py-28">
+        <div
+          aria-hidden
+          className="glow-gold pointer-events-none absolute -top-[260px] -right-[220px] h-[700px] w-[700px] rounded-full"
+        />
+        <div className="relative">{children}</div>
+      </div>
+    </div>
+  );
+}
+
 function OfertaPrincipal() {
   return (
-    <section id="fases" className="relative scroll-mt-24 overflow-hidden border-t border-white/10">
-      <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-28">
+    <section id="fases" className="relative scroll-mt-24">
+      <div className="relative mx-auto max-w-7xl px-6">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/15 bg-navy/5 px-4 py-1.5">
-            <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-            <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-cream/70">Sistema Vértice · Oferta principal</span>
+          <div className="mx-auto inline-flex items-center gap-2.5 rounded-full border border-navy/16 bg-navy/6 px-4 py-2">
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold-deep" aria-hidden />
+            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-navy/70">Sistema Vértice · Oferta principal</span>
           </div>
 
-          <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-cream md:text-5xl">
-            Tres capas conectadas para convertir tu presencia digital en <span className="text-gold">oportunidades</span>.
+          <h2 className="mt-7 text-[2.1rem] leading-[1.02] tracking-[-0.03em] text-navy text-balance md:text-[3.4rem]">
+            Tres capas conectadas para convertir tu presencia digital en{" "}
+            <span className="text-gold-deep italic">oportunidades</span>.
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-cream/75 leading-relaxed md:text-lg">
+          <p className="mx-auto mt-6 max-w-2xl leading-relaxed text-navy/60 md:text-lg">
             Posicionamiento, autoridad y captación trabajando dentro de un mismo sistema, no como servicios independientes.
           </p>
         </div>
@@ -878,14 +901,8 @@ function OfertaPrincipal() {
           <VerticeCarousel />
         </div>
 
-        <div className="mt-10 text-center">
-          <Link
-            to="/servicios"
-            className="group inline-flex items-center gap-3 rounded-full bg-gold px-8 py-4 text-sm font-bold uppercase tracking-wide text-navy transition hover:bg-gold-soft"
-          >
-            Conocer el Sistema Vértice
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
+        <div className="mt-10 flex justify-center">
+          <GoldButton to="/servicios">Conocer el Sistema Vértice</GoldButton>
         </div>
       </div>
     </section>
@@ -905,27 +922,27 @@ function AQuienVaDirigido() {
     "Quieres dejar de improvisar y trabajar con una estrategia real.",
   ];
   return (
-    <section className="relative border-t border-white/10">
-      <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
+    <section className="relative">
+      <div className="relative mx-auto max-w-7xl px-6 pt-20 md:pt-28">
         <div className="grid gap-16 md:grid-cols-12">
-          <div className="md:col-span-5 md:sticky md:top-24 md:self-start">
-            <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-navy/5 px-4 py-1.5">
-              <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-cream/70">¿Es esto para ti?</span>
+          <div className="md:col-span-5 md:sticky md:top-28 md:self-start">
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-navy/16 bg-navy/6 px-4 py-2">
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold-deep" aria-hidden />
+              <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-navy/70">¿Es esto para ti?</span>
             </div>
-            <h2 className="mt-6 font-poppins uppercase text-4xl leading-[1.05] tracking-normal md:text-6xl text-balance">
+            <h2 className="mt-7 text-[2.4rem] leading-[1.0] tracking-[-0.03em] text-navy text-balance md:text-[3.8rem]">
               <span className="block">Esto es</span>
               <span className="block">
-                para ti <span className="text-gold">si</span>
+                para ti <span className="text-gold-deep italic">si</span>
               </span>
-              <span className="block text-gold">tu empresa...</span>
+              <span className="block text-gold-deep italic">tu empresa...</span>
             </h2>
-            <p className="mt-8 text-cream/70 leading-relaxed">Tu empresa tiene valor real, pero algo está bloqueando su crecimiento. Si te identificas con alguno de estos puntos, podemos ayudarte:</p>
-            <div className="mt-10 rounded-3xl bg-gradient-navy p-8 text-cream md:p-10 relative overflow-hidden">
+            <p className="mt-8 leading-relaxed text-navy/65">Tu empresa tiene valor real, pero algo está bloqueando su crecimiento. Si te identificas con alguno de estos puntos, podemos ayudarte:</p>
+            <div className="relative mt-10 overflow-hidden rounded-[22px] border border-navy/12 bg-white/60 p-8 md:p-10">
               <div className="relative">
-                <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-gold">El problema real</div>
-                <p className="mt-4 text-2xl font-bold leading-snug md:text-3xl">
-                  No es vender más.<br />Es <span className="text-gradient-gold">posicionarte mejor</span>.
+                <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-navy/65">El problema real</div>
+                <p className="mt-4 font-sans text-2xl font-semibold leading-snug tracking-[-0.02em] text-navy md:text-3xl">
+                  No es vender más.<br />Es <span className="text-gold-deep">posicionarte mejor</span>.
                 </p>
               </div>
             </div>
@@ -934,24 +951,21 @@ function AQuienVaDirigido() {
             <ul className="space-y-3">
               {items.map((it, i) => (
                 <Reveal key={i} delay={i * 90}>
-                  <li className="group relative grid grid-cols-[auto_1fr_auto] items-center gap-6 overflow-hidden rounded-2xl bg-gradient-navy px-6 py-6 text-cream transition-all hover:-translate-y-0.5 hover:translate-x-2">
-                    <span className="pointer-events-none absolute inset-y-0 left-0 w-0 bg-gradient-to-r from-gold/20 to-transparent transition-all duration-500 group-hover:w-full" />
-                    <span className="relative font-mono text-4xl font-light text-gold/60 group-hover:text-gold">
+                  <li className="group relative grid grid-cols-[auto_1fr_auto] items-center gap-6 overflow-hidden rounded-[22px] border border-navy/12 bg-white/60 px-6 py-6 transition-all hover:-translate-y-0.5 hover:translate-x-2">
+                    <span className="pointer-events-none absolute inset-y-0 left-0 w-0 bg-gradient-to-r from-gold-deep/12 to-transparent transition-all duration-500 group-hover:w-full" />
+                    <span className="relative font-display text-4xl text-gold-deep/60 group-hover:text-gold-deep">
                       0{i + 1}
                     </span>
-                    <span className="relative text-cream/90 group-hover:text-cream md:text-lg">{it}</span>
-                    <CheckCircle2 className="relative h-5 w-5 text-gold/80 transition-all group-hover:text-gold group-hover:scale-110" />
+                    <span className="relative text-navy/80 group-hover:text-navy md:text-lg">{it}</span>
+                    <CheckCircle2 className="relative h-5 w-5 text-gold-deep/80 transition-all group-hover:text-gold-deep group-hover:scale-110" />
                   </li>
                 </Reveal>
               ))}
             </ul>
             <Reveal delay={items.length * 90 + 100}>
-              <Link
-                to="/diagnostico"
-                className="group mt-8 inline-flex items-center gap-3 rounded-full bg-gold px-7 py-4 text-sm font-bold text-navy hover:bg-navy hover:text-cream transition-colors"
-              >
-                Quiero mi diagnóstico gratuito <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
+              <GoldButton to="/diagnostico" className="mt-8">
+                Quiero mi diagnóstico gratuito
+              </GoldButton>
             </Reveal>
           </div>
         </div>
@@ -1068,18 +1082,22 @@ function FAQ() {
   return (
     <section id="faq" className="relative scroll-mt-28 border-t border-white/10">
       <div className="relative mx-auto max-w-4xl px-6 py-20 md:py-28">
-        <Accordion type="single" collapsible className="w-full border-t border-white/10">
+        <Accordion type="single" collapsible className="w-full border-t border-cream/12">
           {FAQS.map((f, i) => (
-            <AccordionItem key={f.q} value={`item-${i}`} className="border-white/10">
-              <AccordionTrigger className="gap-5 py-6 text-left hover:no-underline [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gold">
+            <AccordionItem key={f.q} value={`item-${i}`} className="border-cream/12">
+              <AccordionTrigger className="group gap-5 py-7 text-left hover:no-underline [&>svg]:hidden">
                 <span className="flex items-start gap-5">
-                  <span className="shrink-0 pt-0.5 font-mono text-base font-bold text-gold md:text-lg">
+                  <span className="shrink-0 pt-0.5 font-display text-base text-gold md:text-lg">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="text-base font-bold text-cream md:text-lg">{f.q}</span>
+                  <span className="font-sans text-[17px] font-semibold text-cream md:text-lg">{f.q}</span>
+                </span>
+                <span aria-hidden className="ml-5 shrink-0 text-gold">
+                  <Plus className="h-5 w-5 group-data-[state=open]:hidden" />
+                  <Minus className="hidden h-5 w-5 group-data-[state=open]:block" />
                 </span>
               </AccordionTrigger>
-              <AccordionContent className="pl-[3.25rem] text-cream/65 leading-relaxed">{f.a}</AccordionContent>
+              <AccordionContent className="pr-10 pb-7 pl-[3.25rem] leading-relaxed text-cream/70">{f.a}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
@@ -1097,27 +1115,26 @@ function CtaDiagnostico() {
     <section className="relative border-t border-white/10">
       <div className="relative mx-auto max-w-4xl px-6 py-20 md:py-24">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-navy p-10 text-center text-cream shadow-[0_40px_100px_-40px_rgba(2,21,87,0.35)] md:p-14">
+          <div className="surface-glass relative overflow-hidden rounded-[28px] p-9 text-center md:p-12">
             <div className="relative">
-              <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.3em] text-gold">
-                <span className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse" /> Diagnóstico estratégico gratuito
+              <div className="mx-auto inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 px-4 py-2">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
+                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-light">Diagnóstico estratégico gratuito</span>
               </div>
 
-              <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-cream md:text-4xl">
-                Tu empresa ya tiene valor. Ahora necesita un sistema que lo convierta en <span className="text-gold">oportunidades</span>.
+              <h2 className="mx-auto mt-6 max-w-2xl text-[1.7rem] leading-[1.08] tracking-[-0.03em] text-cream text-balance md:text-[2.4rem]">
+                Tu empresa ya tiene valor. Ahora necesita un sistema que lo convierta en{" "}
+                <span className="text-gold-light italic">oportunidades</span>.
               </h2>
 
-              <p className="mx-auto mt-5 max-w-xl text-cream/70 leading-relaxed md:text-lg">
+              <p className="mx-auto mt-5 max-w-xl leading-relaxed text-cream/65">
                 Solicita tu diagnóstico gratuito y descubre qué le está frenando a tu empresa para captar clientes de forma constante.
               </p>
 
-              <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-                <Link
-                  to="/diagnostico"
-                  className="group inline-flex items-center gap-2 rounded-full bg-gold px-8 py-4 text-sm font-bold text-navy transition-all hover:-translate-y-0.5 hover:shadow-[0_20px_50px_-10px_oklch(0.745_0.135_82/0.55)]"
-                >
-                  Pedir diagnóstico gratuito <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
+              <div className="mt-8 flex justify-center">
+                <GoldButton to="/diagnostico" size="compact">
+                  Pedir diagnóstico gratuito
+                </GoldButton>
               </div>
             </div>
           </div>
@@ -1204,13 +1221,14 @@ function CasoDeExito() {
     <section className="relative border-t border-white/10">
       <div className="relative mx-auto max-w-[1280px] px-6 py-24 md:py-28">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/15 bg-navy/5 px-4 py-1.5">
-            <span className="h-2 w-2 rounded-full bg-gold animate-pulse" aria-hidden />
-            <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-cream/70">Caso de éxito · Frulonsa</span>
+<div className="mx-auto inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 px-4 py-2">
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
+            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-light">Caso de éxito · Frulonsa</span>
           </div>
 
-          <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-cream md:text-5xl">
-            Resultados que demuestran lo que pasa cuando <span className="text-gold">el sistema está bien construido</span>.
+          <h2 className="mt-7 text-[2.1rem] leading-[1.02] tracking-[-0.03em] text-cream text-balance md:text-[3.4rem]">
+            Resultados que demuestran lo que pasa cuando{" "}
+            <span className="text-gradient-gold-hero italic">el sistema está bien construido</span>.
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-cream/75 leading-relaxed md:text-lg">
@@ -1225,12 +1243,13 @@ function CasoDeExito() {
               <div className="relative overflow-hidden rounded-[28px] bg-gradient-navy p-8 text-cream md:p-10">
                 <div className="relative flex items-start justify-between">
                   <Play className="h-7 w-7 text-gold" aria-hidden />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-gold">Resultado destacado</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-light">Resultado destacado</span>
                 </div>
-                <div className="relative mt-6 font-raleway text-6xl font-extrabold tracking-tight text-cream md:text-7xl">
+                <div className="relative mt-8 h-px w-full bg-cream/12" aria-hidden />
+                <div className="relative mt-6 font-display text-6xl leading-none text-gold md:text-7xl">
                   <Counter to={5.6} decimals={1} suffix=" M" duration={1200} />
                 </div>
-                <p className="relative mt-2 text-sm font-bold uppercase tracking-[0.2em] text-cream/85">Reproducciones</p>
+                <p className="relative mt-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-cream/55">Reproducciones</p>
                 <p className="relative mt-3 max-w-sm text-sm leading-relaxed text-cream/65">
                   Contenido visualizado durante el periodo analizado. Una estrategia de contenido orientada a alcance e interacción.
                 </p>
@@ -1244,10 +1263,11 @@ function CasoDeExito() {
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gold/15 md:h-12 md:w-12">
                       <m.icon className="h-5 w-5 text-gold md:h-6 md:w-6" aria-hidden />
                     </div>
-                    <div className="mt-5 font-raleway text-3xl font-extrabold text-gold md:text-4xl">
+                    <div className="mt-5 h-px w-full bg-cream/12" aria-hidden />
+                    <div className="mt-4 font-display text-4xl leading-none text-gold md:text-5xl">
                       <Counter to={m.numeric} decimals={m.decimals} prefix={m.prefix} suffix={m.suffix} duration={1100} />
                     </div>
-                    <p className="mt-2 text-xs font-bold uppercase tracking-wide text-cream/60 md:text-sm">{m.label}</p>
+                    <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-cream/55">{m.label}</p>
                     <p className="mt-2 text-xs leading-relaxed text-cream/60 md:text-sm">{m.description}</p>
                   </div>
                 </Reveal>
@@ -1259,7 +1279,7 @@ function CasoDeExito() {
           <Reveal delay={200}>
             <div className="surface-glass flex h-full flex-col rounded-[28px] p-8 md:p-9">
               <div className="flex h-12 items-center">
-                <span className="font-raleway text-2xl font-extrabold tracking-tight text-cream">FRULONSA</span>
+                <span className="font-display text-2xl tracking-[-0.02em] text-cream">FRULONSA</span>
               </div>
 
               <p className="mt-5 text-sm leading-relaxed text-cream/70">
@@ -1273,7 +1293,7 @@ function CasoDeExito() {
                       <w.icon className="h-4 w-4 text-gold-light" aria-hidden />
                     </div>
                     <div>
-                      <h3 className="text-sm font-bold text-cream">{w.title}</h3>
+                      <h3 className="font-sans text-sm font-semibold text-cream">{w.title}</h3>
                       <p className="mt-1 text-xs leading-relaxed text-cream/60">{w.description}</p>
                     </div>
                   </div>
@@ -1313,31 +1333,53 @@ function CasoDeExito() {
 
 function FinalCTA() {
   return (
-    <section className="relative border-t border-white/10">
-      <div className="relative mx-auto max-w-5xl px-6 py-28 text-center md:py-36">
-        <div className="relative mx-auto w-36 overflow-hidden aspect-[761/220] sm:w-44 md:w-56">
-          <img src={logo} alt="" className="h-auto w-full" />
+    <section className="relative px-3 pb-7 md:px-5">
+      <div className="relative overflow-hidden rounded-[34px] border border-gold/24 bg-navy md:rounded-[52px]">
+        {/* resplandores: dorado subiendo desde abajo, navy cayendo desde arriba */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="glow-navy absolute -top-[120px] left-1/2 h-[620px] w-[900px] -translate-x-1/2 rounded-full" />
+          <div className="glow-gold absolute -bottom-[180px] left-1/2 h-[520px] w-[760px] -translate-x-1/2 rounded-full" />
+          <div className="absolute -bottom-[420px] left-1/2 h-[840px] w-[840px] -translate-x-1/2 rounded-full border border-gold/20" />
+          <div className="absolute -bottom-[300px] left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full border border-gold/14" />
+          <div className="hero-grain absolute inset-0 opacity-5" />
         </div>
-        <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-white/15 bg-navy/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.3em] text-gold-light">
-          <span className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse" /> Plazas limitadas este mes
-        </div>
-        <h2 className="mt-8 font-poppins uppercase text-3xl leading-[1.1] tracking-normal md:text-5xl lg:text-6xl text-balance">
-          Si tu empresa tiene valor, también debería notarse en cómo te posicionas y en las <span className="text-gold-light">oportunidades que generas</span>.
-        </h2>
-        <p className="mx-auto mt-10 max-w-2xl text-lg text-cream/75 md:text-xl">
-          Solicita un diagnóstico estratégico y veremos qué necesita tu empresa para construir una presencia digital más clara, más sólida y mejor conectada con su crecimiento.
-        </p>
-        <div className="mt-14 flex flex-wrap items-center justify-center gap-4">
-          <Link to="/diagnostico" className="group inline-flex items-center gap-3 rounded-full bg-gold px-9 py-5 text-sm font-bold text-navy hover:bg-navy hover:text-cream transition-colors">
-            Solicitar diagnóstico estratégico <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </div>
-        <div className="mt-16 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-xs uppercase tracking-[0.25em] text-cream/55">
-          <span>Sin compromiso</span>
-          <span className="text-gold-light">·</span>
-          <span>Respuesta en 24h</span>
-          <span className="text-gold-light">·</span>
-          <span>Plan estratégico gratuito</span>
+
+        <div className="relative mx-auto max-w-[940px] px-6 py-24 text-center md:py-28">
+          <div className="relative mx-auto w-36 overflow-hidden aspect-[761/220] sm:w-44 md:w-56">
+            <img src={logoWhite} alt="" className="h-auto w-full" />
+          </div>
+
+          <div className="mt-8 inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 px-4 py-2">
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
+            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-light">Plazas limitadas este mes</span>
+          </div>
+
+          <h2 className="mt-9 text-[2.4rem] leading-[0.98] tracking-[-0.035em] text-cream text-balance md:text-[4rem]">
+            Si tu empresa tiene valor, también debería notarse en cómo te posicionas y en las{" "}
+            <span className="text-gradient-gold-hero italic">oportunidades que generas</span>.
+          </h2>
+
+          <p className="mx-auto mt-7 max-w-[580px] text-[17px] leading-[1.66] text-cream/66 lg:text-[19px]">
+            Solicita un diagnóstico estratégico y veremos qué necesita tu empresa para construir una presencia digital más clara, más sólida y mejor conectada con su crecimiento.
+          </p>
+
+          <div className="mt-11 flex flex-col items-center justify-center gap-3.5 sm:flex-row">
+            <GoldButton to="/diagnostico">Solicitar diagnóstico estratégico</GoldButton>
+            <Link
+              to="/contacto"
+              className="btn-glass inline-flex min-h-[58px] items-center justify-center gap-2.5 rounded-full px-7 text-base font-medium tracking-[-0.01em] text-cream transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+            >
+              Hablar con el equipo
+            </Link>
+          </div>
+
+          <div className="mt-14 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-cream/55">
+            <span>Sin compromiso</span>
+            <span className="text-gold-light" aria-hidden>·</span>
+            <span>Respuesta en 24h</span>
+            <span className="text-gold-light" aria-hidden>·</span>
+            <span>Plan estratégico gratuito</span>
+          </div>
         </div>
       </div>
     </section>
