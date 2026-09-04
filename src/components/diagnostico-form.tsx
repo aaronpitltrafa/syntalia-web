@@ -313,7 +313,7 @@ export function DiagnosticoForm() {
             </>
           )}
         </button>
-        <p className="mt-4 text-center text-xs text-foreground/50">
+        <p className="mt-4 text-center text-xs text-foreground/70">
           Sin compromiso · Respuesta en menos de 24h · Información confidencial
         </p>
         {status === "error" && (

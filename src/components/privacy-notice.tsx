@@ -8,7 +8,7 @@ import { legalData } from "@/lib/legal-data";
  */
 export function PrivacyNotice() {
   return (
-    <p className="text-xs leading-relaxed text-foreground/55">
+    <p className="text-xs leading-relaxed text-foreground/70">
       Responsable: {legalData.razonSocial}. Finalidad: atender tu consulta o gestionar tu solicitud
       de diagnóstico. Legitimación: medidas precontractuales solicitadas por la persona interesada.
       Puedes ejercer tus derechos en{" "}

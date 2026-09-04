@@ -145,7 +145,7 @@ function QuienesSomos() {
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
                   <div>
                     <h3 className="font-raleway text-base font-bold text-primary">{p.t}</h3>
-                    <p className="mt-1.5 font-sans text-sm leading-relaxed text-primary/60">{p.d}</p>
+                    <p className="mt-1.5 font-sans text-sm leading-relaxed text-cream/60">{p.d}</p>
                   </div>
                 </div>
               ))}

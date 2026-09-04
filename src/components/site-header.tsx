@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { ArrowRight, Menu, X } from "lucide-react";
-import logo from "@/assets/logo.png";
+import { Menu, X } from "lucide-react";
+import logoWhite from "@/assets/logo-white.png";
+import { GoldButton } from "@/components/gold-button";
 import { cn } from "@/lib/utils";
 
 const nav: { to: string; label: string; hash?: string }[] = [
@@ -11,6 +12,13 @@ const nav: { to: string; label: string; hash?: string }[] = [
   { to: "/", hash: "faq", label: "FAQ" },
   { to: "/contacto", label: "Contacto" },
 ];
+
+/** La píldora flotante: navy translúcido, filete crema y brillo interior. */
+const pill =
+  "rounded-full border border-cream/12 bg-navy/55 shadow-[inset_0_1px_0_oklch(0.961_0.012_91/12%),0_20px_44px_-26px_oklch(0_0_0/90%)] backdrop-blur-xl";
+
+const linkBase =
+  "rounded-full px-3.5 py-2.5 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -31,79 +39,83 @@ export function SiteHeader() {
     };
   }, [open]);
 
-  const ctaClass =
-    "inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-semibold uppercase tracking-wider text-navy transition-colors hover:bg-gold-soft focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy";
-  const mobileCtaClass =
-    "mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-3.5 text-sm font-semibold uppercase tracking-wider text-navy";
-
-  const DesktopCta = (
-    <Link to="/diagnostico" className={cn("hidden md:inline-flex", ctaClass)}>
-      Solicitar diagnóstico
-      <ArrowRight className="h-4 w-4" />
-    </Link>
-  );
-
-  const MobileCta = (
-    <Link to="/diagnostico" onClick={() => setOpen(false)} tabIndex={open ? 0 : -1} className={mobileCtaClass}>
-      Solicitar diagnóstico
+  const Wordmark = (
+    <Link
+      to="/"
+      onClick={() => setOpen(false)}
+      className="flex shrink-0 items-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+    >
+      <img src={logoWhite} alt="Syntalia Vértice" className="h-9 w-auto object-contain lg:h-10" />
     </Link>
   );
 
   return (
-    <header
-      className={cn(
-        "z-50",
-        isHome ? "fixed inset-x-0 top-0" : "sticky top-0",
-        "border-b border-border/50 bg-background",
-      )}
-    >
-      <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-6 py-4 sm:px-8 sm:py-5 lg:px-12">
-        <Link to="/" className="col-start-1 flex items-center justify-self-start">
-          <img src={logo} alt="Syntalia Vértice" className="h-12 w-auto object-contain sm:h-14" />
-        </Link>
+    <header className={cn("z-50", isHome ? "fixed inset-x-0 top-0" : "sticky top-0")}>
+      <div className="flex justify-center px-4 pt-4 sm:px-6 sm:pt-6">
+        {/* ---------- Escritorio: una sola píldora con todo dentro ---------- */}
+        <div className={cn("hidden items-center gap-2.5 py-[9px] pr-[9px] pl-6 lg:flex", pill)}>
+          {Wordmark}
 
-        <nav className="col-start-2 hidden items-center gap-7 rounded-full border border-navy/10 bg-navy/[0.04] px-7 py-3 md:flex">
-          {nav.map((n) => (
-            <Link
-              key={n.label}
-              to={n.to}
-              hash={n.hash}
-              hashScrollIntoView={{ behavior: "smooth" }}
-              className="flex items-center gap-2 border-b-2 border-transparent pb-0.5 text-base font-medium text-primary/80 transition-colors hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
-              {...(!n.hash && {
-                activeProps: {
-                  className: "text-primary border-b-gold",
-                  "aria-current": "page" as const,
-                },
-                activeOptions: { exact: n.to === "/" },
-              })}
+          <span className="mx-2 h-5 w-px shrink-0 bg-cream/14" aria-hidden />
+
+          <nav className="flex items-center gap-1">
+            {nav.map((n) => (
+              <Link
+                key={n.label}
+                to={n.to}
+                hash={n.hash}
+                hashScrollIntoView={{ behavior: "smooth" }}
+                className={cn(linkBase, "text-cream/66 hover:text-cream")}
+                {...(!n.hash && {
+                  activeProps: {
+                    className: cn(linkBase, "bg-cream/9 text-cream"),
+                    "aria-current": "page" as const,
+                  },
+                  activeOptions: { exact: n.to === "/" },
+                })}
+              >
+                {n.label}
+              </Link>
+            ))}
+          </nav>
+
+          <GoldButton to="/diagnostico" size="compact" className="ml-2">
+            Diagnóstico
+          </GoldButton>
+        </div>
+
+        {/* ---------- Móvil y tablet: píldora con logotipo y botón redondo ---------- */}
+        <div className={cn("flex w-full items-center justify-between gap-3 py-2.5 pr-2.5 pl-5 lg:hidden", pill)}>
+          {Wordmark}
+
+          <div className="flex items-center gap-2">
+            <GoldButton to="/diagnostico" size="compact" className="hidden sm:inline-flex" onClick={() => setOpen(false)}>
+              Diagnóstico
+            </GoldButton>
+
+            <button
+              onClick={() => setOpen(!open)}
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-cream/16 bg-cream/6 text-cream transition-colors hover:border-gold/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+              aria-label={open ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={open}
+              aria-controls="mobile-nav"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-gold" />
-              {n.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="col-start-3 flex items-center justify-self-end gap-2">
-          {DesktopCta}
-          <button
-            onClick={() => setOpen(!open)}
-            className="p-2 text-primary transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold md:hidden"
-            aria-label={open ? "Cerrar menú" : "Abrir menú"}
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-          >
-            {open ? <X className="h-7 w-7" /> : <Menu className="h-7 w-7" />}
-          </button>
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
       </div>
 
+      {/* ---------- Panel desplegable ---------- */}
       <div
         id="mobile-nav"
         aria-hidden={!open}
-        className={cn("overflow-hidden bg-background transition-all md:hidden", open ? "max-h-96" : "max-h-0")}
+        className={cn(
+          "mx-4 overflow-hidden transition-all duration-300 sm:mx-6 lg:hidden",
+          open ? "mt-3 max-h-[30rem]" : "mt-0 max-h-0",
+        )}
       >
-        <nav className="flex flex-col gap-1 border-t border-border/40 px-6 py-4">
+        <nav className={cn("flex flex-col gap-1 p-4", pill)}>
           {nav.map((n) => (
             <Link
               key={n.label}
@@ -112,13 +124,20 @@ export function SiteHeader() {
               hashScrollIntoView={{ behavior: "smooth" }}
               onClick={() => setOpen(false)}
               tabIndex={open ? 0 : -1}
-              className="flex items-center gap-2 border-b border-border/30 py-3 text-base font-medium text-primary/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+              className="flex items-center gap-2.5 rounded-2xl px-4 py-3 text-base font-medium text-cream/75 transition-colors hover:bg-cream/6 hover:text-cream focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-gold" />
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
               {n.label}
             </Link>
           ))}
-          {MobileCta}
+
+          <GoldButton
+            to="/diagnostico"
+            className="mt-2 w-full sm:hidden"
+            onClick={() => setOpen(false)}
+          >
+            Solicitar diagnóstico
+          </GoldButton>
         </nav>
       </div>
     </header>

@@ -101,7 +101,7 @@ export function ServicePage(props: ServicePageProps) {
               Ver todos los servicios <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="rounded-3xl bg-cream p-8 text-foreground md:p-10">
+          <div className="surface-cream rounded-3xl p-8 md:p-10">
             <ContactForm source={`Servicio: ${props.title}`} />
           </div>
         </div>

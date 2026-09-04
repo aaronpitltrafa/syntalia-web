@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import {
+  ArrowDown,
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
@@ -24,7 +25,7 @@ import {
 } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { Counter, Reveal, usePrefersReducedMotion } from "@/components/motion";
-import SyntaliaMotionHero from "@/components/SyntaliaMotionHero";
+import { GoldButton } from "@/components/gold-button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 
@@ -47,7 +48,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="relative text-cream">
-      <SyntaliaMotionHero />
+      <HeroPrincipal />
       <MarqueeStrip />
       <Problema />
       <ComoTrabajamos />
@@ -59,6 +60,181 @@ function Index() {
       <FinalCTA />
       <FAQ />
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 0. HERO PRINCIPAL                                                    */
+/* ------------------------------------------------------------------ */
+
+/*
+ * El hero del rediseño v2. Sustituye a <SyntaliaMotionHero /> en la
+ * composición de la home, pero ese componente y HeroReunionBackground
+ * siguen en el proyecto por si queremos volver al hero con fotografía.
+ */
+
+// TODO: datos de ejemplo, sustituir por reales
+const PANEL_FLUJO = [
+  { etiqueta: "Entrada", valor: "Meta Ads · Instagram" },
+  { etiqueta: "Conversión", valor: "Landing + formulario" },
+];
+
+// TODO: datos de ejemplo, sustituir por reales
+const PANEL_LEADS = [
+  { iniciales: "CD", nombre: "Clínica dental · Murcia", origen: "Meta Ads", estado: "WhatsApp enviado", activo: true },
+  { iniciales: "GM", nombre: "Gimnasio · Molina de Segura", origen: "Instagram", estado: "En seguimiento", activo: false },
+  { iniciales: "FS", nombre: "Centro de fisioterapia", origen: "SEO local", estado: "Cualificando", activo: false },
+  { iniciales: "AG", nombre: "Asesoría · Cartagena", origen: "Referido", estado: "Propuesta enviada", activo: false },
+];
+
+const PANEL_COLS = "grid grid-cols-[1fr_120px_150px] gap-4 lg:grid-cols-[1fr_190px_170px]";
+const PANEL_LABEL = "text-[9px] font-semibold uppercase tracking-[0.22em] text-cream/55";
+
+function HeroPanel() {
+  return (
+    <div className="surface-glass rounded-[28px] p-[22px]">
+      {/* barra superior */}
+      <div className="flex flex-wrap items-center justify-between gap-3 px-2 pt-1 pb-5">
+        <div className="flex items-center gap-3">
+          <span className="flex gap-1.5" aria-hidden>
+            <span className="h-[9px] w-[9px] rounded-full bg-cream/18" />
+            <span className="h-[9px] w-[9px] rounded-full bg-cream/18" />
+            <span className="h-[9px] w-[9px] rounded-full bg-gold/60" />
+          </span>
+          <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-cream/60">
+            Panel de leads · vista de ejemplo
+          </span>
+        </div>
+
+        <span className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-gold-light">
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
+          Automatización activa
+        </span>
+      </div>
+
+      <div className="grid gap-[18px] lg:grid-cols-[320px_1fr]">
+        {/* flujo lateral */}
+        <div className="flex flex-col">
+          {PANEL_FLUJO.map((paso) => (
+            <div key={paso.etiqueta}>
+              <div className="rounded-2xl border border-cream/10 bg-cream/5 px-[18px] py-4">
+                <div className="text-[9px] font-semibold uppercase tracking-[0.22em] text-gold-light/75">
+                  {paso.etiqueta}
+                </div>
+                <div className="mt-2 text-base font-semibold text-cream">{paso.valor}</div>
+              </div>
+              <div className="flex justify-center py-2.5" aria-hidden>
+                <ArrowDown className="h-4 w-4 text-gold/75" />
+              </div>
+            </div>
+          ))}
+
+          <div className="rounded-2xl bg-gradient-to-b from-gold/90 to-gold-grad/85 px-[18px] py-4 shadow-[inset_0_1px_0_oklch(1_0_0/40%)]">
+            <div className="text-[9px] font-semibold uppercase tracking-[0.22em] text-navy">Seguimiento</div>
+            <div className="mt-2 text-base font-bold text-navy">WhatsApp automático</div>
+          </div>
+        </div>
+
+        {/* tabla de leads */}
+        <div className="overflow-x-auto rounded-[18px] border border-cream/10 bg-ink/55">
+          <div className="min-w-[520px]">
+            <div className={cn(PANEL_COLS, "border-b border-cream/8 px-[22px] py-3.5")}>
+              <span className={PANEL_LABEL}>Contacto</span>
+              <span className={PANEL_LABEL}>Origen</span>
+              <span className={PANEL_LABEL}>Estado</span>
+            </div>
+
+            {PANEL_LEADS.map((lead, i) => (
+              <div
+                key={lead.iniciales}
+                className={cn(
+                  PANEL_COLS,
+                  "items-center px-[22px] py-[17px]",
+                  i < PANEL_LEADS.length - 1 && "border-b border-cream/6",
+                )}
+              >
+                <div className="flex items-center gap-3">
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] border text-[11px] font-bold",
+                      lead.activo
+                        ? "border-gold/25 bg-gold/15 text-gold-light"
+                        : "border-cream/12 bg-cream/8 text-cream/75",
+                    )}
+                  >
+                    {lead.iniciales}
+                  </span>
+                  <span className="text-[15px] font-medium text-cream">{lead.nombre}</span>
+                </div>
+
+                <span className="text-sm text-cream/60">{lead.origen}</span>
+
+                <span
+                  className={cn(
+                    "inline-flex items-center gap-2 text-xs font-semibold",
+                    lead.activo ? "text-gold-light" : "text-cream/70",
+                  )}
+                >
+                  <span
+                    aria-hidden
+                    className={cn("h-1.5 w-1.5 shrink-0 rounded-full", lead.activo ? "bg-gold" : "bg-cream/40")}
+                  />
+                  {lead.estado}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeroPrincipal() {
+  return (
+    <section className="relative overflow-hidden">
+      {/* fondo: los dos resplandores, el círculo de 1px y el grano */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="glow-navy absolute -top-[340px] left-1/2 h-[900px] w-[1120px] -translate-x-1/2 rounded-full" />
+        <div className="glow-gold absolute -top-[180px] -right-[140px] h-[720px] w-[720px] rounded-full" />
+        <div className="absolute top-10 left-1/2 h-[920px] w-[920px] -translate-x-1/2 rounded-full border border-cream/5" />
+        <div className="hero-grain absolute inset-0 opacity-5" />
+      </div>
+
+      <div className="relative mx-auto max-w-[1240px] px-6 pt-32 pb-20 text-center sm:px-8 sm:pt-40 lg:pt-[11.5rem]">
+        <span className="inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-gold-light">
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
+          Consultora estratégica de marketing digital
+        </span>
+
+        <h1 className="mx-auto mt-10 max-w-[1080px] text-[2.6rem] leading-[1.0] tracking-[-0.035em] text-cream sm:text-6xl md:text-7xl lg:text-[6.75rem] lg:leading-[0.94]">
+          Convertimos tu presencia digital en{" "}
+          <span className="text-gradient-gold-hero italic">oportunidades comerciales reales</span>
+        </h1>
+
+        <p className="mx-auto mt-[34px] max-w-[620px] text-[17px] leading-[1.62] text-cream/62 lg:text-[19px]">
+          Ayudamos a empresas y negocios que ya venden, a posicionarse mejor y generar contactos
+          cualificados con una estrategia digital clara.
+        </p>
+
+        <div className="mt-11 flex flex-col items-center justify-center gap-3.5 sm:flex-row">
+          <GoldButton to="/diagnostico">Solicitar diagnóstico gratuito</GoldButton>
+
+          <Link
+            to="/servicios"
+            className="btn-glass inline-flex min-h-[58px] items-center justify-center gap-2.5 rounded-full px-7 text-base font-medium tracking-[-0.01em] text-cream transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+          >
+            <Play className="h-4 w-4 shrink-0" aria-hidden />
+            Ver cómo trabajamos
+          </Link>
+        </div>
+
+        <div className="mt-[76px] text-left">
+          <HeroPanel />
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -958,7 +1134,7 @@ function MarqueeStrip() {
             {MARQUEE_WORDS.map((w) => (
               <span
                 key={w}
-                className="flex items-center gap-8 font-raleway text-2xl font-extrabold tracking-tight text-cream/25 uppercase md:gap-11 md:text-4xl"
+                className="flex items-center gap-8 font-raleway text-2xl font-extrabold tracking-tight text-cream/35 uppercase md:gap-11 md:text-4xl"
               >
                 {w}
                 <Plus className="h-4 w-4 shrink-0 text-gold/25 md:h-6 md:w-6" />
