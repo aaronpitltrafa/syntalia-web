@@ -60,14 +60,21 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-poppins: "Poppins", ui-sans-serif, sans-serif;
-  --font-raleway: "Raleway", ui-sans-serif, sans-serif;
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Instrument Serif", Georgia, serif;
+  /* Los titulares del proyecto usan las clases font-poppins y font-raleway.
+     Conservamos los nombres para que hereden la fuente nueva sin tocar
+     ningun componente; se renombran en la fase 4. */
+  --font-poppins: "Instrument Sans", ui-sans-serif, sans-serif;
+  --font-raleway: "Instrument Sans", ui-sans-serif, sans-serif;
   --color-navy: var(--navy);
   --color-cream: var(--cream);
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
+  --color-ink: var(--ink);
+  --color-navy-soft: var(--navy-soft);
+  --color-gold-light: var(--gold-light);
+  --color-gold-grad: var(--gold-grad);
 }
 
 :root {
@@ -80,38 +87,43 @@
   /* Richer, deeper gold for text sitting directly on the cream background
      — the light --gold reads fine on navy cards but loses contrast on cream. */
   --gold-deep: oklch(0.56 0.135 78);
+  /* Rediseno v2: capa oscura derivada del azul de marca. */
+  --ink: oklch(0.162 0.070 263);        /* #010A2B, fondo de pagina */
+  --navy-soft: oklch(0.295 0.138 265);  /* #0A2170, superficie elevada */
+  --gold-light: oklch(0.868 0.096 91);  /* #EBD289, dorado para texto */
+  --gold-grad: oklch(0.701 0.131 90);   /* #BF9A28, final del degradado */
 
-  --background: var(--cream);
-  --foreground: var(--navy);
-  --card: oklch(1 0 0);
-  --card-foreground: var(--navy);
-  --popover: oklch(1 0 0);
-  --popover-foreground: var(--navy);
-  --primary: var(--navy);
-  --primary-foreground: var(--cream);
-  --secondary: oklch(0.92 0.015 88);
-  --secondary-foreground: var(--navy);
-  --muted: oklch(0.92 0.015 88);
-  --muted-foreground: oklch(0.45 0.04 269);
+  --background: var(--ink);
+  --foreground: var(--cream);
+  --card: oklch(0.200 0.090 263);
+  --card-foreground: var(--cream);
+  --popover: oklch(0.200 0.090 263);
+  --popover-foreground: var(--cream);
+  --primary: var(--gold);
+  --primary-foreground: var(--navy);
+  --secondary: var(--navy-soft);
+  --secondary-foreground: var(--cream);
+  --muted: oklch(0.220 0.080 263);
+  --muted-foreground: oklch(0.961 0.012 91 / 60%);
   --accent: var(--gold);
   --accent-foreground: var(--navy);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.88 0.02 88);
-  --input: oklch(0.88 0.02 88);
+  --border: oklch(0.961 0.012 91 / 11%);
+  --input: oklch(0.961 0.012 91 / 16%);
   --ring: var(--gold);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: var(--cream);
-  --sidebar-foreground: var(--navy);
+  --sidebar: var(--ink);
+  --sidebar-foreground: var(--cream);
   --sidebar-primary: var(--navy);
   --sidebar-primary-foreground: var(--cream);
   --sidebar-accent: var(--gold);
   --sidebar-accent-foreground: var(--navy);
-  --sidebar-border: oklch(0.88 0.02 88);
+  --sidebar-border: oklch(0.961 0.012 91 / 11%);
   --sidebar-ring: var(--gold);
 }
 
@@ -164,8 +176,8 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
-    font-weight: 700;
+    letter-spacing: -0.03em;
+    font-weight: 400;
   }
 }
 
