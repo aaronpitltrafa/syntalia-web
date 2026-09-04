@@ -51,6 +51,7 @@ function Index() {
     <div className="relative text-cream">
       <HeroPrincipal />
       <MarqueeStrip />
+      <Diferenciales />
       <Problema />
       <ComoTrabajamos />
       <BloqueCrema>
@@ -58,10 +59,11 @@ function Index() {
         <AQuienVaDirigido />
       </BloqueCrema>
       <CasoDeExito />
-      <Diferenciales />
       <CtaDiagnostico />
+      <BloqueCrema>
+        <FAQ />
+      </BloqueCrema>
       <FinalCTA />
-      <FAQ />
     </div>
   );
 }
@@ -1000,8 +1002,6 @@ function Diferenciales() {
   return (
     <section className="relative">
       <div className="mx-auto max-w-[1240px] px-6 sm:px-8">
-        <div className="h-px w-full bg-cream/12" aria-hidden />
-
         <div className="flex flex-col gap-7 py-[26px] lg:flex-row lg:items-center lg:gap-10">
           {/* rotulo a la izquierda */}
           <div className="lg:w-[300px] lg:shrink-0">
@@ -1080,24 +1080,24 @@ const FAQS = [
 
 function FAQ() {
   return (
-    <section id="faq" className="relative scroll-mt-28 border-t border-white/10">
-      <div className="relative mx-auto max-w-4xl px-6 py-20 md:py-28">
-        <Accordion type="single" collapsible className="w-full border-t border-cream/12">
+    <section id="faq" className="relative scroll-mt-28">
+      <div className="relative mx-auto max-w-4xl px-6">
+        <Accordion type="single" collapsible className="w-full border-t border-navy/12">
           {FAQS.map((f, i) => (
-            <AccordionItem key={f.q} value={`item-${i}`} className="border-cream/12">
+            <AccordionItem key={f.q} value={`item-${i}`} className="border-navy/12">
               <AccordionTrigger className="group gap-5 py-7 text-left hover:no-underline [&>svg]:hidden">
                 <span className="flex items-start gap-5">
-                  <span className="shrink-0 pt-0.5 font-display text-base text-gold md:text-lg">
+                  <span className="shrink-0 pt-0.5 font-display text-base text-navy/70 md:text-lg">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="font-sans text-[17px] font-semibold text-cream md:text-lg">{f.q}</span>
+                  <span className="font-sans text-[17px] font-semibold text-navy md:text-lg">{f.q}</span>
                 </span>
-                <span aria-hidden className="ml-5 shrink-0 text-gold">
+                <span aria-hidden className="ml-5 shrink-0 text-gold-deep">
                   <Plus className="h-5 w-5 group-data-[state=open]:hidden" />
                   <Minus className="hidden h-5 w-5 group-data-[state=open]:block" />
                 </span>
               </AccordionTrigger>
-              <AccordionContent className="pr-10 pb-7 pl-[3.25rem] leading-relaxed text-cream/70">{f.a}</AccordionContent>
+              <AccordionContent className="pr-10 pb-7 pl-[3.25rem] leading-relaxed text-navy/70">{f.a}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
