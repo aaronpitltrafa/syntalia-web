@@ -131,7 +131,7 @@ function QuienesSomos() {
               Quiénes somos
             </h2>
 
-            <p className="mt-4 font-raleway text-lg font-bold leading-snug text-gold md:text-xl">
+            <p className="mt-4 font-raleway text-lg font-bold leading-snug text-cream md:text-xl">
               Más que una consultora, somos un equipo estratégico que se implica en tu negocio.
             </p>
 
