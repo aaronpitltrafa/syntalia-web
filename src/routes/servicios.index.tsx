@@ -141,7 +141,7 @@ function PhaseBlock({ phase, reversed }: { phase: Phase; reversed: boolean }) {
         <div className="grid gap-14 md:grid-cols-2 md:items-center md:gap-16">
           <div
             className={cn(
-              "rounded-3xl border border-border bg-white/80 p-8 shadow-[0_25px_70px_-35px_oklch(0.235_0.137_269/0.35)] md:p-10",
+              "surface-glass rounded-3xl p-8 md:p-10",
               reversed ? "md:order-2" : undefined,
             )}
           >
@@ -149,20 +149,20 @@ function PhaseBlock({ phase, reversed }: { phase: Phase; reversed: boolean }) {
               <phase.icon className="h-6 w-6" aria-hidden />
             </div>
             <div className="mt-8 font-raleway text-7xl font-extrabold text-gold">{phase.number}</div>
-            <h2 className="mt-4 text-3xl font-semibold text-primary md:text-4xl text-balance">{phase.title}</h2>
+            <h2 className="mt-4 text-3xl font-semibold text-cream md:text-4xl text-balance">{phase.title}</h2>
             <p className="mt-5 max-w-md text-foreground/70 leading-relaxed">{phase.text}</p>
           </div>
 
           <div
             className={cn(
-              "rounded-3xl border border-border bg-cream/70 p-8 shadow-[0_25px_70px_-35px_oklch(0.235_0.137_269/0.35)] md:p-10",
+              "surface-glass rounded-3xl p-8 md:p-10",
               reversed ? "md:order-1" : undefined,
             )}
           >
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-primary/50">Servicios incluidos</p>
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-cream/55">Servicios incluidos</p>
             <ul className="mt-6 space-y-4">
               {phase.services.map((s) => (
-                <li key={s} className="flex items-start gap-3 border-b border-navy/10 pb-4 last:border-0 last:pb-0">
+                <li key={s} className="flex items-start gap-3 border-b border-white/10 pb-4 last:border-0 last:pb-0">
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
                   <span className="text-foreground/85">{s}</span>
                 </li>
@@ -177,7 +177,7 @@ function PhaseBlock({ phase, reversed }: { phase: Phase; reversed: boolean }) {
 
 function ServiciosCTA() {
   return (
-    <section className="border-t border-navy/10 bg-background">
+    <section className="border-t border-white/10 bg-background">
       <div className="mx-auto max-w-6xl px-6 py-20 md:py-24">
         <div className="rounded-[2rem] bg-gradient-navy px-8 py-14 text-center text-cream md:px-16 md:py-16">
           <h2 className="mx-auto max-w-2xl text-3xl font-semibold leading-tight md:text-4xl text-balance">

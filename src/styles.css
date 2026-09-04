@@ -183,6 +183,17 @@
 
 @layer utilities {
   .text-balance { text-wrap: balance; }
+
+  /* Superficie de tarjeta del rediseno v2. El brillo interior superior
+     (inset 0 1px 0) no es opcional: sin el la tarjeta parece un div plano. */
+  .surface-glass {
+    background: linear-gradient(180deg,
+      oklch(0.961 0.012 91 / 7.5%) 0%,
+      oklch(0.961 0.012 91 / 2.8%) 100%);
+    border: 1px solid oklch(0.961 0.012 91 / 11%);
+    box-shadow: inset 0 1px 0 oklch(0.961 0.012 91 / 13%),
+                0 30px 70px -40px oklch(0 0 0 / 90%);
+  }
   .bg-gradient-navy {
     background: linear-gradient(135deg, oklch(0.18 0.12 269) 0%, oklch(0.27 0.14 269) 100%);
   }

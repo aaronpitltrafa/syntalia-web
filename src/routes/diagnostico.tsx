@@ -49,16 +49,16 @@ function Diagnostico() {
             <img src={logo} alt="" className="h-auto w-full" />
           </div>
 
-          <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-navy/15 bg-navy/5 px-4 py-1.5">
+          <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-navy/5 px-4 py-1.5">
             <span className="h-2 w-2 rounded-full bg-gold animate-pulse" aria-hidden />
-            <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-primary/70">Diagnóstico estratégico gratuito</span>
+            <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-cream/70">Diagnóstico estratégico gratuito</span>
           </div>
 
-          <h1 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-primary md:text-5xl">
+          <h1 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-cream md:text-5xl">
             Descubre qué está frenando el crecimiento de tu empresa.
           </h1>
 
-          <p className="mt-6 text-primary/75 leading-relaxed md:text-lg">
+          <p className="mt-6 text-cream/75 leading-relaxed md:text-lg">
             Analizaremos tu posicionamiento, tu presencia digital, tu captación de clientes y tu sistema comercial para identificar qué le falta a tu empresa para crecer de forma más sólida.
           </p>
 
@@ -66,19 +66,19 @@ function Diagnostico() {
             {BENEFITS.map((b) => (
               <li key={b.label} className="flex items-center gap-3.5">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold/15">
-                  <b.icon className="h-4 w-4 text-gold-deep" aria-hidden />
+                  <b.icon className="h-4 w-4 text-gold-light" aria-hidden />
                 </span>
-                <span className="text-sm font-medium text-primary md:text-base">{b.label}</span>
+                <span className="text-sm font-medium text-cream md:text-base">{b.label}</span>
               </li>
             ))}
           </ul>
 
-          <div className="mt-10 rounded-2xl border border-navy/15 bg-navy/5 p-6">
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-primary/60">¿Para quién es?</p>
+          <div className="mt-10 rounded-2xl border border-white/15 bg-navy/5 p-6">
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-cream/60">¿Para quién es?</p>
             <ul className="mt-4 space-y-3">
               {PARA_QUIEN.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-primary/75">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-gold-deep" aria-hidden />
+                <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-cream/75">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-gold-light" aria-hidden />
                   {item}
                 </li>
               ))}
@@ -86,14 +86,14 @@ function Diagnostico() {
           </div>
 
           <div className="mt-10">
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-primary/60">Cómo funciona</p>
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-cream/60">Cómo funciona</p>
             <ol className="mt-5 space-y-5">
               {PASOS.map((paso, i) => (
                 <li key={paso} className="flex items-start gap-4">
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-navy text-sm font-bold text-cream">
                     {i + 1}
                   </span>
-                  <p className="pt-1.5 text-sm font-medium text-primary/80 md:text-base">{paso}</p>
+                  <p className="pt-1.5 text-sm font-medium text-cream/80 md:text-base">{paso}</p>
                 </li>
               ))}
             </ol>
@@ -101,9 +101,9 @@ function Diagnostico() {
         </div>
 
         {/* Right — form */}
-        <div className="rounded-[2rem] border border-navy/10 bg-white p-7 shadow-[0_40px_100px_-40px_rgba(2,21,87,0.3)] md:p-10">
-          <h2 className="text-xl font-bold text-primary md:text-2xl">Solicita tu diagnóstico gratuito</h2>
-          <p className="mt-2 text-sm text-primary/60">Cuéntanos sobre tu empresa y te contactamos en menos de 24h.</p>
+        <div className="surface-glass rounded-[2rem] p-7 md:p-10">
+          <h2 className="text-xl font-bold text-cream md:text-2xl">Solicita tu diagnóstico gratuito</h2>
+          <p className="mt-2 text-sm text-cream/60">Cuéntanos sobre tu empresa y te contactamos en menos de 24h.</p>
           <div className="mt-8">
             <DiagnosticoForm />
           </div>

@@ -46,7 +46,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="relative text-primary">
+    <div className="relative text-cream">
       <SyntaliaMotionHero />
       <MarqueeStrip />
       <Problema />
@@ -102,7 +102,7 @@ function ProblemRow({
   const buttonId = `problem-trigger-${problem.id}`;
   const panelId = `problem-panel-${problem.id}`;
   return (
-    <div className="border-b border-navy/10 first:border-t">
+    <div className="border-b border-white/10 first:border-t">
       <h3 className="m-0">
         <button
           type="button"
@@ -118,13 +118,13 @@ function ProblemRow({
             {problem.number}
           </span>
           <span className="h-8 w-px shrink-0 bg-navy/15 sm:h-10" aria-hidden />
-          <span className="flex-1 font-poppins text-base font-bold leading-snug text-primary sm:text-lg lg:text-xl">
+          <span className="flex-1 font-poppins text-base font-bold leading-snug text-cream sm:text-lg lg:text-xl">
             {problem.title}
           </span>
           <ChevronDown
             aria-hidden
             className={cn(
-              "h-5 w-5 shrink-0 text-primary transition-transform duration-[250ms]",
+              "h-5 w-5 shrink-0 text-cream transition-transform duration-[250ms]",
               isOpen && "rotate-180 text-gold",
             )}
           />
@@ -132,7 +132,7 @@ function ProblemRow({
       </h3>
       <div id={panelId} role="region" aria-labelledby={buttonId} className={cn("problem-panel", isOpen && "is-open")}>
         <div>
-          <p className="max-w-md py-0 pb-6 pl-14 font-sans text-[15px] leading-relaxed text-primary/65 sm:pb-7 sm:pl-[3.75rem] sm:text-base">
+          <p className="max-w-md py-0 pb-6 pl-14 font-sans text-[15px] leading-relaxed text-cream/65 sm:pb-7 sm:pl-[3.75rem] sm:text-base">
             {problem.description}
           </p>
         </div>
@@ -145,21 +145,21 @@ function Problema() {
   const [openProblem, setOpenProblem] = useState<string | null>(null);
 
   return (
-    <section className="relative border-t border-navy/10">
+    <section className="relative border-t border-white/10">
       <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
         <div className="grid gap-14 lg:grid-cols-2 lg:items-start lg:gap-16">
           {/* Left column — unchanged messaging */}
           <div className="relative">
-            <div className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-navy/5 px-4 py-1.5">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-navy/5 px-4 py-1.5">
               <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-primary/70">El problema</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-cream/70">El problema</span>
             </div>
 
             <h2 className="mt-6 font-poppins uppercase text-3xl leading-[1.1] tracking-normal text-balance md:text-5xl">
-              No basta con tener valor. Hay que saber convertirlo en <span className="text-gold-deep">oportunidades</span>.
+              No basta con tener valor. Hay que saber convertirlo en <span className="text-gold-light">oportunidades</span>.
             </h2>
 
-            <p className="mt-6 max-w-xl text-primary/75 leading-relaxed md:text-lg">
+            <p className="mt-6 max-w-xl text-cream/75 leading-relaxed md:text-lg">
               Muchas empresas tienen experiencia y una oferta sólida, pero su presencia digital no está generando confianza ni oportunidades comerciales.
             </p>
 
@@ -277,27 +277,27 @@ function ComoTrabajamos() {
   );
 
   return (
-    <section className="relative border-t border-navy/10">
+    <section className="relative border-t border-white/10">
       <div className="relative mx-auto max-w-[1280px] px-6 py-24 md:py-28">
         {/* Header */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-navy/5 px-4 py-1.5">
+        <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-navy/5 px-4 py-1.5">
           <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-          <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-primary/70">Cómo trabajamos · 4 etapas</span>
+          <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-cream/70">Cómo trabajamos · 4 etapas</span>
         </div>
 
         <div className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
           <div className="max-w-2xl">
-            <h2 className="font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-primary md:text-5xl">
+            <h2 className="font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-cream md:text-5xl">
               De una presencia digital dispersa a un <span className="text-gold">sistema preparado para crecer</span>.
             </h2>
-            <p className="mt-5 max-w-xl text-primary/75 leading-relaxed md:text-lg">
+            <p className="mt-5 max-w-xl text-cream/75 leading-relaxed md:text-lg">
               Aplicamos lógica comercial y estrategia digital para transformar tu presencia en oportunidades comerciales reales y sostenibles.
             </p>
           </div>
 
           <div className="flex gap-4 lg:max-w-[240px] lg:pt-2">
             <span className="w-px shrink-0 bg-gold/50" aria-hidden />
-            <p className="font-poppins text-sm leading-relaxed text-primary/60">
+            <p className="font-poppins text-sm leading-relaxed text-cream/60">
               No ejecutamos por ejecutar.
               <br />
               Cada etapa prepara la siguiente.
@@ -332,16 +332,16 @@ function ComoTrabajamos() {
                       className={cn(
                         "flex h-11 w-11 items-center justify-center rounded-full border-2 font-poppins text-sm font-bold transition-all duration-300",
                         isActive
-                          ? "scale-110 border-gold bg-white text-gold shadow-[0_0_0_6px_rgba(212,175,55,0.15)]"
-                          : "border-navy/15 bg-background text-gold",
+                          ? "scale-110 border-gold bg-gold text-navy shadow-[0_0_0_6px_rgba(212,175,55,0.15)]"
+                          : "border-white/15 bg-background text-gold",
                       )}
                     >
                       {p.number}
                     </span>
                     <span
                       className={cn(
-                        "text-sm tracking-wide text-primary/60 transition-colors",
-                        isActive && "font-bold text-primary",
+                        "text-sm tracking-wide text-cream/60 transition-colors",
+                        isActive && "font-bold text-cream",
                       )}
                     >
                       {p.shortTitle}
@@ -384,7 +384,7 @@ function ComoTrabajamos() {
             const triggerId = `phase-mobile-trigger-${p.id}`;
             const panelId = `phase-mobile-panel-${p.id}`;
             return (
-              <div key={p.id} className="border-b border-navy/10 first:border-t">
+              <div key={p.id} className="border-b border-white/10 first:border-t">
                 <h3 className="m-0">
                   <button
                     type="button"
@@ -396,11 +396,11 @@ function ComoTrabajamos() {
                   >
                     <span className="w-9 shrink-0 font-poppins text-2xl font-extrabold text-gold">{p.number}</span>
                     <span className="h-7 w-px shrink-0 bg-navy/15" aria-hidden />
-                    <span className="flex-1 font-poppins text-base font-bold text-primary">{p.shortTitle}</span>
+                    <span className="flex-1 font-poppins text-base font-bold text-cream">{p.shortTitle}</span>
                     <ChevronDown
                       aria-hidden
                       className={cn(
-                        "h-5 w-5 shrink-0 text-primary transition-transform duration-[250ms]",
+                        "h-5 w-5 shrink-0 text-cream transition-transform duration-[250ms]",
                         isOpen && "rotate-180 text-gold",
                       )}
                     />
@@ -409,20 +409,20 @@ function ComoTrabajamos() {
                 <div id={panelId} role="region" aria-labelledby={triggerId} className={cn("problem-panel", isOpen && "is-open")}>
                   <div>
                     <div className="pb-6 pl-14">
-                      <h4 className="font-raleway text-lg font-bold text-primary">{p.title}</h4>
+                      <h4 className="font-raleway text-lg font-bold text-cream">{p.title}</h4>
                       <p className="mt-1 font-poppins text-sm font-semibold text-gold">{p.tagline}</p>
-                      <p className="mt-3 max-w-md text-[15px] leading-relaxed text-primary/65">{p.description}</p>
+                      <p className="mt-3 max-w-md text-[15px] leading-relaxed text-cream/65">{p.description}</p>
 
                       <div className="mt-5 space-y-5">
                         {[p.groupOne, p.groupTwo].map((group) => (
                           <div key={group.title}>
-                            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-primary/50">
+                            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-cream/55">
                               <group.icon className="h-3.5 w-3.5" aria-hidden />
                               {group.title}
                             </div>
                             <ul className="mt-2 space-y-1.5">
                               {group.items.map((item) => (
-                                <li key={item} className="flex items-center gap-2 text-sm text-primary/75">
+                                <li key={item} className="flex items-center gap-2 text-sm text-cream/75">
                                   <span className="h-1 w-1 shrink-0 rounded-full bg-gold/60" aria-hidden />
                                   {item}
                                 </li>
@@ -498,20 +498,20 @@ const VERTICE_COUNT = VERTICE_PHASES.length;
 
 function VerticeCardContent({ phase }: { phase: (typeof VERTICE_PHASES)[number] }) {
   return (
-    <div className="flex h-full flex-col rounded-[26px] border border-gold/25 bg-white/75 p-8 shadow-[0_30px_70px_-30px_rgba(2,21,87,0.28)] backdrop-blur-sm md:p-10">
+    <div className="surface-glass flex h-full flex-col rounded-[26px] p-8 backdrop-blur-sm md:p-10">
       <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-gold text-navy">
         <phase.icon className="h-5 w-5" aria-hidden />
       </div>
       <div className="mt-6 font-raleway text-5xl font-extrabold text-gold/85">{phase.number}</div>
-      <h3 className="mt-3 font-raleway text-xl font-bold text-primary md:text-2xl">{phase.title}</h3>
+      <h3 className="mt-3 font-raleway text-xl font-bold text-cream md:text-2xl">{phase.title}</h3>
       <span className="mt-3 block h-[3px] w-10 rounded-full bg-gold" aria-hidden />
-      <p className="mt-4 text-sm leading-relaxed text-primary/70">{phase.tagline}</p>
+      <p className="mt-4 text-sm leading-relaxed text-cream/70">{phase.tagline}</p>
 
-      <div className="mt-6 border-t border-navy/10 pt-6">
-        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/45">Servicios incluidos</p>
+      <div className="mt-6 border-t border-white/10 pt-6">
+        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-cream/55">Servicios incluidos</p>
         <ul className="mt-4 space-y-2.5">
           {phase.services.map((s) => (
-            <li key={s} className="flex items-start gap-2.5 text-sm text-primary/80">
+            <li key={s} className="flex items-start gap-2.5 text-sm text-cream/80">
               <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-gold" aria-hidden />
               {s}
             </li>
@@ -609,7 +609,7 @@ function VerticeCarousel() {
           type="button"
           onClick={goPrev}
           aria-label="Fase anterior"
-          className="absolute top-1/2 left-0 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-navy/10 bg-background text-primary shadow-[0_10px_30px_-10px_rgba(2,21,87,0.3)] transition hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:left-2 lg:-left-4"
+          className="absolute top-1/2 left-0 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-background text-cream shadow-[0_10px_30px_-10px_rgba(2,21,87,0.3)] transition hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:left-2 lg:-left-4"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
@@ -617,7 +617,7 @@ function VerticeCarousel() {
           type="button"
           onClick={goNext}
           aria-label="Fase siguiente"
-          className="absolute top-1/2 right-0 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-navy/10 bg-background text-primary shadow-[0_10px_30px_-10px_rgba(2,21,87,0.3)] transition hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:right-2 lg:-right-4"
+          className="absolute top-1/2 right-0 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-background text-cream shadow-[0_10px_30px_-10px_rgba(2,21,87,0.3)] transition hover:text-gold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:right-2 lg:-right-4"
         >
           <ArrowRight className="h-5 w-5" />
         </button>
@@ -679,19 +679,19 @@ function VerticeCarousel() {
 
 function OfertaPrincipal() {
   return (
-    <section id="fases" className="relative scroll-mt-24 overflow-hidden border-t border-navy/10">
+    <section id="fases" className="relative scroll-mt-24 overflow-hidden border-t border-white/10">
       <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-28">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-navy/15 bg-navy/5 px-4 py-1.5">
+          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/15 bg-navy/5 px-4 py-1.5">
             <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-            <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-primary/70">Sistema Vértice · Oferta principal</span>
+            <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-cream/70">Sistema Vértice · Oferta principal</span>
           </div>
 
-          <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-primary md:text-5xl">
+          <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-cream md:text-5xl">
             Tres capas conectadas para convertir tu presencia digital en <span className="text-gold">oportunidades</span>.
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-primary/75 leading-relaxed md:text-lg">
+          <p className="mx-auto mt-6 max-w-2xl text-cream/75 leading-relaxed md:text-lg">
             Posicionamiento, autoridad y captación trabajando dentro de un mismo sistema, no como servicios independientes.
           </p>
         </div>
@@ -727,13 +727,13 @@ function AQuienVaDirigido() {
     "Quieres dejar de improvisar y trabajar con una estrategia real.",
   ];
   return (
-    <section className="relative border-t border-navy/10">
+    <section className="relative border-t border-white/10">
       <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
         <div className="grid gap-16 md:grid-cols-12">
           <div className="md:col-span-5 md:sticky md:top-24 md:self-start">
-            <div className="inline-flex items-center gap-3 rounded-full border border-navy/15 bg-navy/5 px-4 py-1.5">
+            <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-navy/5 px-4 py-1.5">
               <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-primary/70">¿Es esto para ti?</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-cream/70">¿Es esto para ti?</span>
             </div>
             <h2 className="mt-6 font-poppins uppercase text-4xl leading-[1.05] tracking-normal md:text-6xl text-balance">
               <span className="block">Esto es</span>
@@ -742,7 +742,7 @@ function AQuienVaDirigido() {
               </span>
               <span className="block text-gold">tu empresa...</span>
             </h2>
-            <p className="mt-8 text-primary/70 leading-relaxed">Tu empresa tiene valor real, pero algo está bloqueando su crecimiento. Si te identificas con alguno de estos puntos, podemos ayudarte:</p>
+            <p className="mt-8 text-cream/70 leading-relaxed">Tu empresa tiene valor real, pero algo está bloqueando su crecimiento. Si te identificas con alguno de estos puntos, podemos ayudarte:</p>
             <div className="mt-10 rounded-3xl bg-gradient-navy p-8 text-cream md:p-10 relative overflow-hidden">
               <div className="relative">
                 <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-gold">El problema real</div>
@@ -806,32 +806,32 @@ const DIFERENCIALES_STRIP = [
 
 function Diferenciales() {
   return (
-    <section className="relative border-t border-navy/10">
+    <section className="relative border-t border-white/10">
       <div className="relative mx-auto max-w-5xl px-6 py-20 md:py-24">
         <div className="mx-auto max-w-2xl text-center">
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-navy/15 bg-navy/5 px-4 py-1.5">
+          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/15 bg-navy/5 px-4 py-1.5">
             <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-            <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-primary/70">Diferenciales</span>
+            <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-cream/70">Diferenciales</span>
           </div>
 
-          <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-primary md:text-5xl">
+          <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-cream md:text-5xl">
             No hacemos marketing aislado. Construimos sistemas con <span className="text-gold">lógica comercial</span>.
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-primary/75 leading-relaxed md:text-lg">
+          <p className="mx-auto mt-5 max-w-2xl text-cream/75 leading-relaxed md:text-lg">
             Conectamos estrategia, contenido, captación y seguimiento dentro de un mismo sistema, para que cada pieza cumpla una función en el crecimiento de tu empresa.
           </p>
         </div>
 
-        <div className="mx-auto mt-12 grid divide-y divide-navy/10 overflow-hidden rounded-3xl border border-navy/10 bg-white/60 shadow-[0_20px_60px_-40px_rgba(2,21,87,0.2)] sm:grid-cols-3 sm:divide-x sm:divide-y-0 md:mt-14">
+        <div className="surface-glass mx-auto mt-12 grid divide-y divide-white/10 overflow-hidden rounded-3xl sm:grid-cols-3 sm:divide-x sm:divide-y-0 md:mt-14">
           {DIFERENCIALES_STRIP.map((item, i) => (
             <Reveal key={item.title} delay={i * 90}>
               <div className="flex h-full flex-col items-center gap-3 px-6 py-8 text-center md:px-8">
                 <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gold/15">
-                  <item.icon className="h-5 w-5 text-gold-deep" aria-hidden />
+                  <item.icon className="h-5 w-5 text-gold-light" aria-hidden />
                 </div>
-                <h3 className="text-base font-bold text-primary">{item.title}</h3>
-                <p className="text-sm leading-relaxed text-primary/60">{item.description}</p>
+                <h3 className="text-base font-bold text-cream">{item.title}</h3>
+                <p className="text-sm leading-relaxed text-cream/60">{item.description}</p>
               </div>
             </Reveal>
           ))}
@@ -882,20 +882,20 @@ const FAQS = [
 
 function FAQ() {
   return (
-    <section id="faq" className="relative scroll-mt-28 border-t border-navy/10">
+    <section id="faq" className="relative scroll-mt-28 border-t border-white/10">
       <div className="relative mx-auto max-w-4xl px-6 py-20 md:py-28">
-        <Accordion type="single" collapsible className="w-full border-t border-navy/10">
+        <Accordion type="single" collapsible className="w-full border-t border-white/10">
           {FAQS.map((f, i) => (
-            <AccordionItem key={f.q} value={`item-${i}`} className="border-navy/10">
+            <AccordionItem key={f.q} value={`item-${i}`} className="border-white/10">
               <AccordionTrigger className="gap-5 py-6 text-left hover:no-underline [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-gold">
                 <span className="flex items-start gap-5">
                   <span className="shrink-0 pt-0.5 font-mono text-base font-bold text-gold md:text-lg">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="text-base font-bold text-primary md:text-lg">{f.q}</span>
+                  <span className="text-base font-bold text-cream md:text-lg">{f.q}</span>
                 </span>
               </AccordionTrigger>
-              <AccordionContent className="pl-[3.25rem] text-primary/65 leading-relaxed">{f.a}</AccordionContent>
+              <AccordionContent className="pl-[3.25rem] text-cream/65 leading-relaxed">{f.a}</AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
@@ -910,7 +910,7 @@ function FAQ() {
 
 function Hero() {
   return (
-    <section className="relative border-t border-navy/10">
+    <section className="relative border-t border-white/10">
       <div className="relative mx-auto max-w-4xl px-6 py-20 md:py-24">
         <Reveal>
           <div className="relative overflow-hidden rounded-[2rem] bg-gradient-navy p-10 text-center text-cream shadow-[0_40px_100px_-40px_rgba(2,21,87,0.35)] md:p-14">
@@ -958,7 +958,7 @@ function MarqueeStrip() {
             {MARQUEE_WORDS.map((w) => (
               <span
                 key={w}
-                className="flex items-center gap-8 font-raleway text-2xl font-extrabold tracking-tight text-cream/15 uppercase md:gap-11 md:text-4xl"
+                className="flex items-center gap-8 font-raleway text-2xl font-extrabold tracking-tight text-cream/25 uppercase md:gap-11 md:text-4xl"
               >
                 {w}
                 <Plus className="h-4 w-4 shrink-0 text-gold/25 md:h-6 md:w-6" />
@@ -1017,19 +1017,19 @@ const FRULONSA_WORK = [
 
 function CasoDeExito() {
   return (
-    <section className="relative border-t border-navy/10">
+    <section className="relative border-t border-white/10">
       <div className="relative mx-auto max-w-[1280px] px-6 py-24 md:py-28">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-navy/15 bg-navy/5 px-4 py-1.5">
+          <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/15 bg-navy/5 px-4 py-1.5">
             <span className="h-2 w-2 rounded-full bg-gold animate-pulse" aria-hidden />
-            <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-primary/70">Caso de éxito · Frulonsa</span>
+            <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-cream/70">Caso de éxito · Frulonsa</span>
           </div>
 
-          <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-primary md:text-5xl">
+          <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-cream md:text-5xl">
             Resultados que demuestran lo que pasa cuando <span className="text-gold">el sistema está bien construido</span>.
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-primary/75 leading-relaxed md:text-lg">
+          <p className="mx-auto mt-6 max-w-2xl text-cream/75 leading-relaxed md:text-lg">
             Durante 90 días trabajamos la estrategia, planificación y producción de contenido de Frulonsa para aumentar su visibilidad, fortalecer su comunidad y ampliar su presencia digital.
           </p>
         </div>
@@ -1056,15 +1056,15 @@ function CasoDeExito() {
             <div className="grid flex-1 grid-cols-3 gap-4">
               {FRULONSA_METRICS.map((m, i) => (
                 <Reveal key={m.label} delay={100 + i * 80} className="h-full">
-                  <div className="group flex h-full flex-col rounded-2xl border border-gold/25 bg-white/60 p-6 transition-colors duration-200 hover:bg-white/90 md:p-7">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-cream md:h-12 md:w-12">
+                  <div className="surface-glass group flex h-full flex-col rounded-2xl p-6 transition-colors duration-200 hover:bg-cream/10 md:p-7">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gold/15 md:h-12 md:w-12">
                       <m.icon className="h-5 w-5 text-gold md:h-6 md:w-6" aria-hidden />
                     </div>
-                    <div className="mt-5 font-raleway text-3xl font-extrabold text-primary md:text-4xl">
+                    <div className="mt-5 font-raleway text-3xl font-extrabold text-gold md:text-4xl">
                       <Counter to={m.numeric} decimals={m.decimals} prefix={m.prefix} suffix={m.suffix} duration={1100} />
                     </div>
-                    <p className="mt-2 text-xs font-bold uppercase tracking-wide text-primary/70 md:text-sm">{m.label}</p>
-                    <p className="mt-2 text-xs leading-relaxed text-primary/50 md:text-sm">{m.description}</p>
+                    <p className="mt-2 text-xs font-bold uppercase tracking-wide text-cream/60 md:text-sm">{m.label}</p>
+                    <p className="mt-2 text-xs leading-relaxed text-cream/60 md:text-sm">{m.description}</p>
                   </div>
                 </Reveal>
               ))}
@@ -1073,24 +1073,24 @@ function CasoDeExito() {
 
           {/* Right column — Frulonsa panel */}
           <Reveal delay={200}>
-            <div className="flex h-full flex-col rounded-[28px] border border-gold/30 bg-white/70 p-8 md:p-9">
+            <div className="surface-glass flex h-full flex-col rounded-[28px] p-8 md:p-9">
               <div className="flex h-12 items-center">
-                <span className="font-raleway text-2xl font-extrabold tracking-tight text-primary">FRULONSA</span>
+                <span className="font-raleway text-2xl font-extrabold tracking-tight text-cream">FRULONSA</span>
               </div>
 
-              <p className="mt-5 text-sm leading-relaxed text-primary/70">
+              <p className="mt-5 text-sm leading-relaxed text-cream/70">
                 Frulonsa es una empresa del sector hortofrutícola con experiencia comercial y presencia internacional. El objetivo fue reforzar su visibilidad digital y conectar su conocimiento del sector con una audiencia más amplia.
               </p>
 
-              <div className="mt-6 border-t border-navy/10">
+              <div className="mt-6 border-t border-white/10">
                 {FRULONSA_WORK.map((w) => (
-                  <div key={w.title} className="flex items-start gap-3.5 border-b border-navy/10 py-4">
+                  <div key={w.title} className="flex items-start gap-3.5 border-b border-white/10 py-4">
                     <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold/15">
-                      <w.icon className="h-4 w-4 text-gold-deep" aria-hidden />
+                      <w.icon className="h-4 w-4 text-gold-light" aria-hidden />
                     </div>
                     <div>
-                      <h3 className="text-sm font-bold text-primary">{w.title}</h3>
-                      <p className="mt-1 text-xs leading-relaxed text-primary/60">{w.description}</p>
+                      <h3 className="text-sm font-bold text-cream">{w.title}</h3>
+                      <p className="mt-1 text-xs leading-relaxed text-cream/60">{w.description}</p>
                     </div>
                   </div>
                 ))}
@@ -1110,12 +1110,12 @@ function CasoDeExito() {
         </div>
 
         <Reveal delay={300}>
-          <p className="mx-auto mt-12 max-w-3xl text-center text-primary/75 leading-relaxed md:text-lg">
-            Los resultados reflejan una mayor presencia digital, <span className="text-gold-deep">más alcance, más interacción</span> y una comunidad en crecimiento alrededor de la marca.
+          <p className="mx-auto mt-12 max-w-3xl text-center text-cream/75 leading-relaxed md:text-lg">
+            Los resultados reflejan una mayor presencia digital, <span className="text-gold-light">más alcance, más interacción</span> y una comunidad en crecimiento alrededor de la marca.
           </p>
         </Reveal>
 
-        <p className="mx-auto mt-6 max-w-2xl text-center text-xs text-primary/45">
+        <p className="mx-auto mt-6 max-w-2xl text-center text-xs text-cream/55">
           Datos obtenidos de las analíticas de los canales de Frulonsa durante un periodo de 90 días.
         </p>
       </div>
@@ -1129,18 +1129,18 @@ function CasoDeExito() {
 
 function FinalCTA() {
   return (
-    <section className="relative border-t border-navy/10">
+    <section className="relative border-t border-white/10">
       <div className="relative mx-auto max-w-5xl px-6 py-28 text-center md:py-36">
         <div className="relative mx-auto w-36 overflow-hidden aspect-[761/220] sm:w-44 md:w-56">
           <img src={logo} alt="" className="h-auto w-full" />
         </div>
-        <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-navy/15 bg-navy/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.3em] text-gold-deep">
+        <div className="mt-8 inline-flex items-center gap-2 rounded-full border border-white/15 bg-navy/5 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.3em] text-gold-light">
           <span className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse" /> Plazas limitadas este mes
         </div>
         <h2 className="mt-8 font-poppins uppercase text-3xl leading-[1.1] tracking-normal md:text-5xl lg:text-6xl text-balance">
-          Si tu empresa tiene valor, también debería notarse en cómo te posicionas y en las <span className="text-gold-deep">oportunidades que generas</span>.
+          Si tu empresa tiene valor, también debería notarse en cómo te posicionas y en las <span className="text-gold-light">oportunidades que generas</span>.
         </h2>
-        <p className="mx-auto mt-10 max-w-2xl text-lg text-primary/75 md:text-xl">
+        <p className="mx-auto mt-10 max-w-2xl text-lg text-cream/75 md:text-xl">
           Solicita un diagnóstico estratégico y veremos qué necesita tu empresa para construir una presencia digital más clara, más sólida y mejor conectada con su crecimiento.
         </p>
         <div className="mt-14 flex flex-wrap items-center justify-center gap-4">
@@ -1148,11 +1148,11 @@ function FinalCTA() {
             Solicitar diagnóstico estratégico <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
-        <div className="mt-16 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-xs uppercase tracking-[0.25em] text-primary/50">
+        <div className="mt-16 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-xs uppercase tracking-[0.25em] text-cream/55">
           <span>Sin compromiso</span>
-          <span className="text-gold-deep">·</span>
+          <span className="text-gold-light">·</span>
           <span>Respuesta en 24h</span>
-          <span className="text-gold-deep">·</span>
+          <span className="text-gold-light">·</span>
           <span>Plan estratégico gratuito</span>
         </div>
       </div>
