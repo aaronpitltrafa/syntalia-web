@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://syntalia.verticeagency.es/sitemap.xml
+Sitemap: https://verticeagency.es/sitemap.xml

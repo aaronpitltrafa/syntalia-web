@@ -1,4 +1,6 @@
-const BASE = "https://syntalia.verticeagency.es";
+import { SITE_URL } from "@/lib/site";
+
+const BASE = SITE_URL;
 
 export function serviceHead(opts: {
   path: string;

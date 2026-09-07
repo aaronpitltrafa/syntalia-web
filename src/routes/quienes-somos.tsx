@@ -13,6 +13,7 @@ import {
   Workflow,
 } from "lucide-react";
 import { Reveal } from "@/components/motion";
+import { SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/quienes-somos")({
   head: () => ({
@@ -21,12 +22,12 @@ export const Route = createFileRoute("/quienes-somos")({
       { name: "description", content: "Consultora estratégica de marketing digital. Diseñamos sistemas de crecimiento para empresas con actividad real." },
       { property: "og:title", content: "Quiénes Somos — Syntalia Vértice" },
       { property: "og:description", content: "Somos una consultora estratégica de marketing digital. Estrategia, propósito y valores detrás de Syntalia Vértice." },
-      { property: "og:url", content: "https://syntalia.verticeagency.es/quienes-somos" },
+      { property: "og:url", content: `${SITE_URL}/quienes-somos` },
       { property: "og:type", content: "website" },
       { name: "twitter:title", content: "Quiénes Somos — Syntalia Vértice" },
       { name: "twitter:description", content: "Consultora estratégica de marketing digital con enfoque en resultados reales." },
     ],
-    links: [{ rel: "canonical", href: "https://syntalia.verticeagency.es/quienes-somos" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/quienes-somos` }],
   }),
   component: QuienesSomos,
 });

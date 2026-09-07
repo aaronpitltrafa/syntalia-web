@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
+import { SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/contacto")({
   head: () => ({
@@ -9,12 +10,12 @@ export const Route = createFileRoute("/contacto")({
       { name: "description", content: "Habla con nuestro equipo. Marketing digital para empresas con ambición." },
       { property: "og:title", content: "Contacto — Syntalia Vértice" },
       { property: "og:description", content: "Escríbenos o llámanos. Marketing digital estratégico para empresas con ambición." },
-      { property: "og:url", content: "https://syntalia.verticeagency.es/contacto" },
+      { property: "og:url", content: `${SITE_URL}/contacto` },
       { property: "og:type", content: "website" },
       { name: "twitter:title", content: "Contacto — Syntalia Vértice" },
       { name: "twitter:description", content: "Habla con nuestro equipo. Atención presencial y online en Murcia, España." },
     ],
-    links: [{ rel: "canonical", href: "https://syntalia.verticeagency.es/contacto" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/contacto` }],
     scripts: [
       {
         type: "application/ld+json",
@@ -22,7 +23,7 @@ export const Route = createFileRoute("/contacto")({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
           name: "Syntalia Vértice",
-          url: "https://syntalia.verticeagency.es",
+          url: SITE_URL,
           telephone: "+34-672-167-758",
           email: "vertice@syntalia.es",
           address: {

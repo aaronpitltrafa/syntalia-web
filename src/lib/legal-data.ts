@@ -1,3 +1,5 @@
+import { SITE_DOMAIN, SITE_URL } from "@/lib/site";
+
 /**
  * Datos legales centralizados de Syntalia Vértice.
  * Se usan tal cual en /aviso-legal, /privacidad y /cookies, así que basta con
@@ -21,8 +23,8 @@ export const legalData = {
   telefonoHref: "tel:+34672167758",
   ubicacionPublica: "Murcia, España",
 
-  dominio: "syntalia.verticeagency.es",
-  urlBase: "https://syntalia.verticeagency.es",
+  dominio: SITE_DOMAIN,
+  urlBase: SITE_URL,
 
   fechaActualizacion: "21 de julio de 2026",
 } as const;

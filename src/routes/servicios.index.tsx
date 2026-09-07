@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDown, ArrowRight, ShieldCheck, Target, Waypoints, type LucideIcon } from "lucide-react";
+import { SITE_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/servicios/")({
@@ -9,12 +10,12 @@ export const Route = createFileRoute("/servicios/")({
       { name: "description", content: "Posicionamiento, autoridad y captación: un sistema en tres fases para convertir tu presencia digital en resultados medibles." },
       { property: "og:title", content: "Servicios — Syntalia Vértice" },
       { property: "og:description", content: "Posicionamiento, autoridad y captación. Un sistema estratégico en tres fases para hacer crecer tu negocio." },
-      { property: "og:url", content: "https://syntalia.verticeagency.es/servicios" },
+      { property: "og:url", content: `${SITE_URL}/servicios` },
       { property: "og:type", content: "website" },
       { name: "twitter:title", content: "Servicios — Syntalia Vértice" },
       { name: "twitter:description", content: "Un sistema estratégico en tres fases para convertir tu presencia digital en resultados medibles." },
     ],
-    links: [{ rel: "canonical", href: "https://syntalia.verticeagency.es/servicios" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/servicios` }],
   }),
   component: ServiciosPage,
 });

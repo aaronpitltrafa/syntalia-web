@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2, ClipboardList, Search, Target } from "lucide-react";
 import { DiagnosticoForm } from "@/components/diagnostico-form";
 import logo from "@/assets/logo.png";
+import { SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/diagnostico")({
   head: () => ({
@@ -10,12 +11,12 @@ export const Route = createFileRoute("/diagnostico")({
       { name: "description", content: "Evaluamos tu situación digital actual y te mostramos qué le está frenando a tu empresa para crecer. Sin compromiso." },
       { property: "og:title", content: "Diagnóstico estratégico gratuito — Syntalia Vértice" },
       { property: "og:description", content: "Analizamos tu posicionamiento, presencia digital, captación y sistema comercial. Sin compromiso." },
-      { property: "og:url", content: "https://syntalia.verticeagency.es/diagnostico" },
+      { property: "og:url", content: `${SITE_URL}/diagnostico` },
       { property: "og:type", content: "website" },
       { name: "twitter:title", content: "Diagnóstico estratégico gratuito — Syntalia Vértice" },
       { name: "twitter:description", content: "Análisis estratégico gratuito de tu presencia digital." },
     ],
-    links: [{ rel: "canonical", href: "https://syntalia.verticeagency.es/diagnostico" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/diagnostico` }],
   }),
   component: Diagnostico,
 });

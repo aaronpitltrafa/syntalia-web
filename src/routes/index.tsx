@@ -28,6 +28,7 @@ import logoWhite from "@/assets/logo-white.png";
 import { Counter, Reveal, usePrefersReducedMotion } from "@/components/motion";
 import { GoldButton } from "@/components/gold-button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { SITE_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -37,11 +38,11 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Solicita tu diagnóstico estratégico gratuito y descubre qué le está frenando a tu empresa para captar clientes de forma constante." },
       { property: "og:title", content: "Diagnóstico estratégico gratuito — Syntalia Vértice" },
       { property: "og:description", content: "Consultoría de marketing digital estratégico. Solicita tu diagnóstico gratuito, sin compromiso." },
-      { property: "og:url", content: "https://syntalia.verticeagency.es/" },
+      { property: "og:url", content: `${SITE_URL}/` },
       { name: "twitter:title", content: "Diagnóstico estratégico gratuito — Syntalia Vértice" },
       { name: "twitter:description", content: "Consultoría de marketing digital estratégico. Solicita tu diagnóstico gratuito, sin compromiso." },
     ],
-    links: [{ rel: "canonical", href: "https://syntalia.verticeagency.es/" }],
+    links: [{ rel: "canonical", href: `${SITE_URL}/` }],
   }),
   component: Index,
 });

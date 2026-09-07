@@ -12,6 +12,7 @@ import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ParallaxBackground } from "@/components/parallax-background";
+import { SITE_URL } from "@/lib/site";
 
 function NotFoundComponent() {
   return (
@@ -108,7 +109,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "Syntalia Vértice",
-          url: "https://syntalia.verticeagency.es",
+          url: SITE_URL,
           description: "Agencia de marketing digital con enfoque estratégico para empresas con ambición real.",
           address: {
             "@type": "PostalAddress",
@@ -133,7 +134,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "WebSite",
           name: "Syntalia Vértice",
-          url: "https://syntalia.verticeagency.es",
+          url: SITE_URL,
         }),
       },
       {
@@ -144,7 +145,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "ProfessionalService",
           name: "Syntalia Vértice",
-          url: "https://syntalia.verticeagency.es",
+          url: SITE_URL,
           description: "Agencia de marketing digital con enfoque estratégico para empresas con ambición real.",
           email: "vertice@syntalia.es",
           telephone: "+34-672-167-758",
