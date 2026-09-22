@@ -3,28 +3,25 @@ import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * El botón primario del rediseño v2.
- *
- * Siempre lleva el disco navy con la flecha a la derecha: es su seña de
- * identidad en el boceto, no un adorno opcional. Dos tamaños — el normal
- * (58px de alto, disco de 48px) para hero y secciones, y el compacto para
- * la píldora de la cabecera.
+ * El botón principal de la dirección A: píldora navy con texto crema y un
+ * disco dorado a la derecha; el disco gira -45° al pasar el ratón. Dentro
+ * de surface-navy se invierte solo (ver .btn-gold en styles.css).
  */
 type Size = "default" | "compact";
 
 const shell: Record<Size, string> = {
-  default: "min-h-[58px] gap-4 py-[5px] pl-7 pr-[5px] text-base",
-  compact: "min-h-[46px] gap-3 py-[5px] pl-5 pr-[5px] text-sm",
+  default: "min-h-[58px] gap-3.5 py-[7px] pr-[7px] pl-[26px] text-body",
+  compact: "min-h-[42px] gap-2.5 py-[5px] pr-[5px] pl-[18px] text-meta",
 };
 
 const disc: Record<Size, string> = {
-  default: "h-12 w-12",
-  compact: "h-9 w-9",
+  default: "h-11 w-11",
+  compact: "h-8 w-8",
 };
 
 const glyph: Record<Size, string> = {
-  default: "h-[17px] w-[17px]",
-  compact: "h-3.5 w-3.5",
+  default: "h-4 w-4",
+  compact: "h-[13px] w-[13px]",
 };
 
 function Inner({ size, children }: { size: Size; children: React.ReactNode }) {
@@ -33,19 +30,16 @@ function Inner({ size, children }: { size: Size; children: React.ReactNode }) {
       {children}
       <span
         aria-hidden
-        className={cn(
-          "flex shrink-0 items-center justify-center rounded-full bg-navy shadow-[inset_0_1px_0_oklch(0.961_0.012_91/16%)]",
-          disc[size],
-        )}
+        className={cn("btn-disc flex shrink-0 items-center justify-center rounded-full", disc[size])}
       >
-        <ArrowRight className={cn("text-gold-light transition-transform group-hover:translate-x-0.5", glyph[size])} />
+        <ArrowRight className={glyph[size]} strokeWidth={2.2} />
       </span>
     </>
   );
 }
 
 const base =
-  "btn-gold group inline-flex items-center justify-center rounded-full font-semibold tracking-[-0.01em] transition-[background,transform] hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
+  "btn-gold group inline-flex items-center justify-center rounded-full font-semibold tracking-[-0.01em] whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
 
 export function GoldButton({
   to,
@@ -75,7 +69,7 @@ export function GoldButton({
   );
 }
 
-/** Misma pastilla para destinos que no son rutas (anclas, mailto, tel). */
+/** Misma píldora para destinos que no son rutas (anclas, mailto, tel). */
 export function GoldButtonLink({
   href,
   size = "default",

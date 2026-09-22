@@ -97,7 +97,7 @@ function ServiciosHero() {
   return (
     <section className="surface-navy relative">
       <div className="relative mx-auto max-w-6xl px-6 py-24 md:py-32">
-        <p className="text-xs uppercase tracking-[0.4em] text-gold">Servicios</p>
+        <p className="label-mono">Servicios</p>
         <h1 className="mt-6 max-w-4xl text-4xl font-semibold leading-[1.05] md:text-6xl text-balance">
           Tres fases para convertir tu presencia digital en un sistema <span className="text-gradient-gold">preparado para crecer</span>.
         </h1>
@@ -160,7 +160,7 @@ function PhaseBlock({ phase, reversed }: { phase: Phase; reversed: boolean }) {
               reversed ? "md:order-1" : undefined,
             )}
           >
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-foreground/70">Servicios incluidos</p>
+            <p className="label-mono">Servicios incluidos</p>
             <ul className="mt-6 space-y-4">
               {phase.services.map((s) => (
                 <li key={s} className="flex items-start gap-3 border-b border-foreground/10 pb-4 last:border-0 last:pb-0">

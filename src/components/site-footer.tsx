@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, type LucideProps } from "lucide-react";
-import logo from "@/assets/logo.png";
 import { GoldButton } from "@/components/gold-button";
 
 /** lucide-react ships no TikTok glyph; this mirrors its icon conventions. */
@@ -48,7 +47,7 @@ const LEGAL = [
   { to: "/cookies", label: "Política de cookies" },
 ];
 
-const enlace = "text-meta text-foreground/70 transition-colors hover:text-gold-text";
+const enlace = "text-[15px] font-medium text-foreground/70 transition-colors hover:text-gold-text";
 const socialCircle =
   "flex h-9 w-9 items-center justify-center rounded-full border border-foreground/14 text-foreground/70 transition-colors hover:border-gold hover:text-gold-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
 
@@ -60,8 +59,10 @@ export function SiteFooter() {
       <div className="mx-auto max-w-block px-6 pt-8 pb-[calc(5.5rem+env(safe-area-inset-bottom))] sm:px-8 md:pb-8">
         {/* fila 1 · marca, navegación y redes */}
         <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
-          <Link to="/" className="shrink-0">
-            <img src={logo} alt="Syntalia Vértice" className="h-9 w-auto object-contain" />
+          <Link to="/" aria-label="Syntalia Vértice · inicio" className="shrink-0">
+            <span className="text-[24px] leading-none font-extrabold tracking-[-0.04em] text-foreground">
+              Syntalia
+            </span>
           </Link>
 
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
@@ -99,7 +100,7 @@ export function SiteFooter() {
 
         {/* fila 2 · las nueve páginas de servicio */}
         <div className="mt-5 flex flex-wrap items-baseline gap-x-5 gap-y-2">
-          <span className="text-micro font-semibold uppercase tracking-[0.22em] text-foreground/70">Servicios</span>
+          <span className="label-mono">Servicios</span>
           {SERVICIOS.map((s) => (
             <Link key={s.to} to={s.to} className={enlace}>
               {s.label}

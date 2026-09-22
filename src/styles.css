@@ -59,13 +59,14 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Instrument Serif", Georgia, serif;
-  /* Los titulares del proyecto usan las clases font-poppins y font-raleway.
-     Conservamos los nombres para que hereden la fuente nueva sin tocar
-     ningun componente; se renombran en la fase 4. */
-  --font-poppins: "Instrument Sans", ui-sans-serif, sans-serif;
-  --font-raleway: "Instrument Sans", ui-sans-serif, sans-serif;
+  /* Direccion A: una sola grotesca para todo, y la mono solo para
+     micro-etiquetas. Bricolage no tiene cursiva: no se usa italic. */
+  --font-sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Alias heredados: apuntan a la misma grotesca. */
+  --font-poppins: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-raleway: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
   --color-navy: var(--navy);
   --color-cream: var(--cream);
   --color-gold: var(--gold);
@@ -84,9 +85,15 @@
   --text-body: 16px;    /* cuerpo */
   --text-lead: 18px;    /* entradilla */
   --text-title: 22px;   /* titulo de tarjeta */
-  --text-h3: 34px;      /* titular pequeno y titular de bloque en movil */
-  --text-h2: 52px;      /* titular de bloque */
-  --text-hero: 88px;    /* SOLO el H1 del hero; en movil baja a 46px */
+  --text-h3: clamp(26px, 3.2vw, 34px);
+  --text-h3--line-height: 1.05;
+  --text-h3--letter-spacing: -0.04em;
+  --text-h2: clamp(38px, 5.2vw, 80px);
+  --text-h2--line-height: 0.9;
+  --text-h2--letter-spacing: -0.05em;
+  --text-hero: clamp(44px, 9.2vw, 150px);   /* SOLO el H1 del hero */
+  --text-hero--line-height: 0.86;
+  --text-hero--letter-spacing: -0.055em;
 
   /* Dos anchos de contenido y ninguno mas. */
   --container-block: 1200px;
@@ -196,13 +203,40 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    letter-spacing: -0.03em;
-    font-weight: 400;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
   }
 }
 
 @layer utilities {
   .text-balance { text-wrap: balance; }
+
+  /* Micro-etiqueta: la unica pieza que no va en la grotesca. */
+  .label-mono {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: color-mix(in oklab, var(--foreground) 70%, transparent);
+  }
+
+  /* Subrayado dorado de rotulador, se dibuja de izquierda a derecha. */
+  .mark {
+    background: linear-gradient(transparent 58%, var(--gold) 58%, var(--gold) 84%, transparent 84%)
+      no-repeat 0 0 / 100% 100%;
+    padding: 0 0.04em;
+    animation: sweep 1.1s 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  @keyframes sweep {
+    from { background-size: 0 100%; }
+    to   { background-size: 100% 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mark { animation: none; }
+  }
 
   /* Tarjeta. Solo tokens: dentro de surface-navy se vuelve oscura sola. */
   .surface-card {
@@ -234,6 +268,16 @@
     --ring: var(--gold);
   }
 
+  /* El unico bloque dorado de la web. Sobre dorado el texto va en navy:
+     la micro-etiqueta al 56% se queda en 3,3:1 y no llega a AA, asi que
+     aqui .label-mono pasa a opacidad plena. */
+  .surface-gold {
+    background: var(--gold);
+    color: var(--navy);
+    --foreground: var(--navy);
+  }
+  .surface-gold .label-mono { color: var(--navy); }
+
   /* Losa: bloque BLANCO sobre la pagina crema. Un bloque crema sobre
      fondo crema no se veria, por eso usa --card y no --cream. */
   .surface-slab {
@@ -244,19 +288,29 @@
 
   /* Boton primario. Va SIEMPRE con el disco navy y la flecha a la derecha
      (ver components/gold-button.tsx): ese disco es su sena de identidad. */
+  /* Pildora navy con disco dorado. Dentro de surface-navy se invierte:
+     pildora dorada y disco navy. El disco gira -45 grados al pasar. */
   .btn-gold {
-    background: linear-gradient(180deg,
-      oklch(0.868 0.096 91) 0%, oklch(0.767 0.139 91) 55%,
-      oklch(0.701 0.131 90) 100%);
-    color: oklch(0.240 0.121 264);
-    box-shadow: inset 0 1px 0 oklch(1 0 0 / 55%),
-                inset 0 -1px 0 oklch(0.240 0.121 264 / 14%),
-                0 10px 34px -10px oklch(0.767 0.139 91 / 62%);
+    background: var(--navy);
+    color: var(--cream);
   }
-  .btn-gold:hover {
-    background: linear-gradient(180deg,
-      oklch(0.906 0.073 91) 0%, oklch(0.806 0.126 91) 55%,
-      oklch(0.741 0.121 90) 100%);
+  .btn-disc {
+    background: var(--gold);
+    color: var(--navy);
+    transition: transform 0.25s;
+  }
+  .btn-gold:hover .btn-disc { transform: rotate(-45deg); }
+  .surface-navy .btn-gold {
+    background: var(--gold);
+    color: var(--navy);
+  }
+  .surface-navy .btn-gold .btn-disc {
+    background: var(--navy);
+    color: var(--gold);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn-disc { transition: none; }
+    .btn-gold:hover .btn-disc { transform: none; }
   }
   /* Boton fantasma: sin relleno, solo filete. Token, asi que tambien
      funciona dentro de surface-navy. */

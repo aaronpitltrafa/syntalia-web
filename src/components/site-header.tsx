@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
-import logo from "@/assets/logo.png";
 import { GoldButton } from "@/components/gold-button";
 import { cn } from "@/lib/utils";
 
@@ -18,7 +17,7 @@ const pill =
   "rounded-full border border-border bg-white/72 shadow-[0_20px_44px_-26px_oklch(0.240_0.121_264/35%)] backdrop-blur-xl";
 
 const linkBase =
-  "rounded-full px-3.5 py-2.5 text-meta font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
+  "rounded-full px-3.5 py-2.5 text-[15px] font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -43,9 +42,13 @@ export function SiteHeader() {
     <Link
       to="/"
       onClick={() => setOpen(false)}
+      aria-label="Syntalia Vértice · inicio"
       className="flex shrink-0 items-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
     >
-      <img src={logo} alt="Syntalia Vértice" className="h-9 w-auto object-contain lg:h-10" />
+      {/* El logotipo es la propia grotesca: 800 y tracking muy cerrado. */}
+      <span className="text-[24px] leading-none font-extrabold tracking-[-0.04em] text-foreground">
+        Syntalia
+      </span>
     </Link>
   );
 
