@@ -43,7 +43,7 @@ const PASOS = [
 function Diagnostico() {
   return (
     <section className="relative bg-background">
-      <div className="relative mx-auto grid max-w-7xl gap-14 px-6 py-20 md:py-28 lg:grid-cols-2 lg:items-start lg:gap-16">
+      <div className="relative mx-auto grid max-w-block gap-14 px-6 pt-28 pb-12 sm:px-8 md:pb-16 lg:grid-cols-2 lg:items-start lg:gap-16 lg:pt-32">
         {/* Left — pitch */}
         <div className="lg:sticky lg:top-28 lg:self-start">
           <div className="w-16 overflow-hidden aspect-[761/220]">
@@ -55,7 +55,7 @@ function Diagnostico() {
             <span className="label-mono">Diagnóstico estratégico gratuito</span>
           </div>
 
-          <h1 className="mt-6 font-raleway text-3xl leading-[1.15] font-bold tracking-tight text-foreground md:text-5xl">
+          <h1 className="mt-6 max-w-[18ch] text-h2 text-balance">
             Descubre qué está frenando el crecimiento de tu empresa.
           </h1>
 

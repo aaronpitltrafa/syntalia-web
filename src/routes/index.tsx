@@ -16,6 +16,7 @@ import { Reveal } from "@/components/motion";
 import { GoldButton } from "@/components/gold-button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { SITE_URL } from "@/lib/site";
+import { SYSTEM_STAGES } from "@/lib/sistema";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -201,45 +202,6 @@ function Problema() {
 /* 3 · EL SISTEMA                                                       */
 /* ------------------------------------------------------------------ */
 
-/**
- * Fusión de "Cómo trabajamos" y las tres capas del Sistema Vértice: las
- * cuatro etapas a la vista, y los servicios de las capas repartidos
- * dentro de las etapas 02 y 03.
- */
-const SYSTEM_STAGES = [
-  {
-    number: "01",
-    title: "Diagnóstico estratégico",
-    tagline: "Entendemos antes de construir.",
-    description:
-      "Analizamos el negocio, el mercado, el cliente ideal y la presencia digital para identificar qué está frenando el crecimiento.",
-    includes: ["Posicionamiento y captación actual", "Prioridades y objetivos", "Hoja de ruta"],
-  },
-  {
-    number: "02",
-    title: "Posicionamiento y base digital",
-    tagline: "Ordenamos cómo debe percibirse tu empresa.",
-    description:
-      "Clarificamos el mensaje, la propuesta de valor y los activos digitales necesarios para transmitir una imagen sólida, profesional y diferenciada.",
-    includes: ["Branding e identidad visual", "Web y landing pages", "Contenidos y redes sociales", "Copywriting y SEO"],
-  },
-  {
-    number: "03",
-    title: "Captación y conversión",
-    tagline: "Convertimos atención en oportunidades.",
-    description:
-      "Diseñamos el recorrido necesario para atraer, recoger, organizar y seguir contactos con intención comercial.",
-    includes: ["Social Ads y campañas", "Formularios y landing de captación", "CRM y automatizaciones", "Email marketing y seguimiento"],
-  },
-  {
-    number: "04",
-    title: "Optimización y escalado",
-    tagline: "Medimos, corregimos y reforzamos.",
-    description:
-      "Analizamos el funcionamiento del sistema para mejorar su eficiencia y potenciar aquello que realmente genera resultados.",
-    includes: ["Conversión y rendimiento", "Automatización", "Escalado"],
-  },
-] as const;
 
 /**
  * Una etapa. Por debajo de md el detalle (parrafo y viñetas) va plegado

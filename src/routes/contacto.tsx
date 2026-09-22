@@ -75,9 +75,9 @@ function Contacto() {
   return (
     <div>
       <section className="relative">
-        <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
+        <div className="relative mx-auto max-w-block px-6 pt-28 pb-12 sm:px-8 md:pb-16 lg:pt-32">
           <p className="label-mono">Contacto</p>
-          <h1 className="mt-6 max-w-3xl text-5xl font-semibold leading-[1.05] md:text-7xl text-balance">
+          <h1 className="mt-6 max-w-[20ch] text-h2 text-balance">
             ¿Hablamos con nuestro equipo de <span className="mark">comunicación</span>?
           </h1>
           <p className="mt-8 max-w-2xl text-lg text-foreground/75 leading-relaxed">
@@ -87,7 +87,7 @@ function Contacto() {
       </section>
 
       <section className="bg-background">
-        <div className="mx-auto grid max-w-7xl gap-16 px-6 py-24 md:grid-cols-5">
+        <div className="mx-auto grid max-w-block gap-16 px-6 sm:px-8 py-24 md:grid-cols-5">
           <div className="md:col-span-2 divide-y divide-border">
             {CONTACT_ITEMS.map((item) => (
               <div key={item.label} className="flex items-start gap-4 py-7 first:pt-0 last:pb-0">

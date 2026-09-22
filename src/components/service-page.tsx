@@ -25,7 +25,7 @@ export function ServicePage(props: ServicePageProps) {
     <div>
       {/* Hero */}
       <section className="relative">
-        <div className="relative mx-auto max-w-6xl px-6 py-24 md:py-32">
+        <div className="relative mx-auto max-w-block px-6 pt-28 pb-12 sm:px-8 md:pb-16 lg:pt-32">
           <Link to="/servicios" className="label-mono inline-flex items-center gap-2 transition-colors hover:text-foreground">
             ← Servicios
           </Link>
@@ -39,7 +39,7 @@ export function ServicePage(props: ServicePageProps) {
 
       {/* Why */}
       <section className="border-b border-border bg-background">
-        <div className="mx-auto grid max-w-6xl gap-16 px-6 py-24 md:grid-cols-5">
+        <div className="mx-auto grid max-w-block gap-16 px-6 sm:px-8 py-24 md:grid-cols-5">
           <div className="md:col-span-2">
             <div className="gold-divider" />
             <h2 className="mt-6 text-h3 text-balance">{props.whyTitle}</h2>
@@ -52,7 +52,7 @@ export function ServicePage(props: ServicePageProps) {
 
       {/* What includes */}
       <section className="bg-secondary/40">
-        <div className="mx-auto max-w-6xl px-6 py-24">
+        <div className="mx-auto max-w-block px-6 sm:px-8 py-24">
           <div className="gold-divider" />
           <h2 className="mt-6 max-w-3xl text-h3 text-balance">{props.whatTitle}</h2>
           <div className="mt-14 grid gap-5 md:grid-cols-2">
@@ -74,7 +74,7 @@ export function ServicePage(props: ServicePageProps) {
 
       {/* When */}
       <section className="bg-background">
-        <div className="mx-auto max-w-6xl px-6 py-24">
+        <div className="mx-auto max-w-block px-6 sm:px-8 py-24">
           <div className="gold-divider" />
           <h2 className="mt-6 max-w-3xl text-h3 text-balance">{props.whenTitle}</h2>
           {props.whenIntro && <p className="mt-5 max-w-3xl text-foreground/75">{props.whenIntro}</p>}
@@ -92,7 +92,7 @@ export function ServicePage(props: ServicePageProps) {
 
       {/* CTA + Form */}
       <section className="surface-navy">
-        <div className="mx-auto grid max-w-6xl gap-16 px-6 py-24 md:grid-cols-2">
+        <div className="mx-auto grid max-w-block gap-16 px-6 sm:px-8 py-24 md:grid-cols-2">
           <div>
             <img src={logoAsset.url} alt="" className="h-14 w-auto object-contain" />
             <h2 className="mt-8 text-h3 text-balance">{props.ctaTitle}</h2>

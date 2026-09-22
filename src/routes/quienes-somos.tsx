@@ -72,10 +72,10 @@ function QuienesSomos() {
     <div>
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="relative mx-auto grid max-w-7xl gap-14 px-6 py-24 md:grid-cols-2 md:items-center md:gap-16 md:py-32">
+        <div className="relative mx-auto grid max-w-block gap-14 px-6 pt-28 pb-12 sm:px-8 md:grid-cols-2 md:items-center md:gap-16 md:pb-16 lg:pt-32">
           <div>
             <p className="label-mono">Quiénes Somos</p>
-            <h1 className="mt-6 font-raleway text-5xl font-semibold leading-[1.05] md:text-6xl text-balance">
+            <h1 className="mt-6 max-w-[16ch] text-h2 text-balance">
               Estrategia digital con enfoque en <span className="mark">resultados reales</span>.
             </h1>
             <p className="mt-8 max-w-xl font-sans text-lg text-foreground/75 leading-relaxed">
@@ -104,7 +104,7 @@ function QuienesSomos() {
 
       {/* Sobre nosotros */}
       <section className="relative border-t border-navy/10">
-        <div className="relative mx-auto grid max-w-7xl gap-14 px-6 py-24 md:grid-cols-12 md:gap-16 md:py-32">
+        <div className="relative mx-auto grid max-w-block gap-14 px-6 sm:px-8 py-24 md:grid-cols-12 md:gap-16 md:py-32">
           <div className="md:col-span-5">
             <Reveal className="h-full">
               <div className="relative h-full overflow-hidden rounded-[2rem] shadow-[0_40px_100px_-40px_rgba(2,21,87,0.35)]">
@@ -157,7 +157,7 @@ function QuienesSomos() {
 
       {/* Propósito, Misión, Visión */}
       <section className="bg-background border-b border-border">
-        <div className="mx-auto max-w-7xl px-6 py-24">
+        <div className="mx-auto max-w-block px-6 sm:px-8 py-24">
           <div className="grid gap-px overflow-hidden rounded-3xl bg-border shadow-[0_30px_80px_-50px_rgba(2,21,87,0.3)] md:grid-cols-3">
             {PMV.map((b) => (
               <div key={b.t} className="bg-card p-10">
@@ -174,7 +174,7 @@ function QuienesSomos() {
 
       {/* Valores */}
       <section className="bg-secondary/40 border-b border-border">
-        <div className="mx-auto max-w-7xl px-6 py-24">
+        <div className="mx-auto max-w-block px-6 sm:px-8 py-24">
           <div className="gold-divider" />
           <h2 className="mt-6 font-raleway text-4xl font-semibold md:text-5xl text-balance">Nuestros valores</h2>
 
@@ -192,7 +192,7 @@ function QuienesSomos() {
 
       {/* Especialización + Cómo entendemos el marketing */}
       <section className="bg-background">
-        <div className="mx-auto max-w-7xl px-6 py-24">
+        <div className="mx-auto max-w-block px-6 sm:px-8 py-24">
           <div className="grid gap-px overflow-hidden rounded-3xl bg-border shadow-[0_30px_80px_-50px_rgba(2,21,87,0.3)] md:grid-cols-2">
             <div className="bg-card p-10 md:p-12">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-gold text-navy">

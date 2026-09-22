@@ -23,7 +23,7 @@ export function LegalPage({
   return (
     <div>
       <section className="relative">
-        <div className="relative mx-auto max-w-5xl px-6 py-20 md:py-28">
+        <div className="relative mx-auto max-w-5xl px-6 pt-28 pb-12 md:pb-16 lg:pt-32">
           <p className="label-mono">Legal</p>
           <h1 className="mt-6 text-h2 text-balance">{title}</h1>
           {description && <p className="mt-5 max-w-2xl text-foreground/75">{description}</p>}
