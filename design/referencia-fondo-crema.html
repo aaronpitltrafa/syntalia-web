@@ -1,0 +1,341 @@
+<title>Syntalia sin azul</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+  /* ---------- Chrome de la página (el marco, no la web) ---------- */
+  :root{
+    --chrome-bg:#E7E4DC;
+    --chrome-ink:#1A1916;
+    --chrome-muted:#5F5B52;
+    --chrome-line:rgba(26,25,22,.14);
+    --chrome-card:#F7F5EF;
+    --serif:'Instrument Serif', Georgia, 'Times New Roman', serif;
+    --sans:'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--chrome-bg);color:var(--chrome-ink);font-family:var(--sans);font-size:15px;line-height:1.5}
+  .wrap{padding-inline:16px;padding-block:0 48px}
+
+  .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(231,228,220,.92);
+       backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--chrome-line);
+       margin-inline:-16px;padding:14px 16px}
+  .bar-in{max-width:1440px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px}
+  .bar h1{font-family:var(--serif);font-weight:400;font-size:26px;line-height:1;margin:0;letter-spacing:-.01em}
+  .bar h1 span{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--chrome-muted);margin-left:10px;vertical-align:4px}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
+  .tab{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--chrome-line);background:var(--chrome-card);
+       color:var(--chrome-ink);font:600 14px/1 var(--sans);padding:9px 14px 9px 10px;border-radius:999px;cursor:pointer}
+  .tab:hover{border-color:rgba(26,25,22,.35)}
+  .tab:focus-visible{outline:2px solid #021557;outline-offset:2px}
+  .tab[aria-selected="true"]{background:var(--chrome-ink);color:#F7F5EF;border-color:var(--chrome-ink)}
+  .sw{display:inline-flex;border-radius:999px;overflow:hidden;border:1px solid rgba(0,0,0,.18)}
+  .sw i{display:block;width:11px;height:18px}
+  .tab .k{font-weight:500;opacity:.55;font-size:12px}
+  .note{max-width:1440px;margin:18px auto 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+  .note p{margin:0;color:var(--chrome-muted);max-width:62ch}
+  .note p strong{color:var(--chrome-ink);font-weight:600}
+  .note .risk{border-left:2px solid var(--chrome-line);padding-left:16px}
+  @media (max-width:760px){ .note{grid-template-columns:1fr;gap:10px} .tabs{margin-left:0} }
+
+  .frame{max-width:1440px;margin:22px auto 0;border-radius:18px;overflow:hidden;
+         box-shadow:0 1px 0 rgba(0,0,0,.04),0 30px 60px -30px rgba(26,25,22,.45)}
+
+  /* ---------- Tokens de cada dirección ---------- */
+  .site{
+    /* dirección A · crema (base) */
+    --bg:#F5F2E9; --ink:#021557; --ink2:rgba(2,21,87,.68); --ink3:rgba(2,21,87,.5); --line:rgba(2,21,87,.12);
+    --gold-t:#7E640E; --glow:radial-gradient(900px 520px at 85% -10%, rgba(212,175,55,.18), transparent 70%);
+    --chip-bg:rgba(212,175,55,.14); --chip-line:rgba(126,100,14,.32); --chip-ink:#6B550C;
+    --nav-bg:rgba(255,255,255,.72); --nav-line:rgba(2,21,87,.12); --nav-ink:#021557; --nav-ink2:rgba(2,21,87,.62); --nav-on:rgba(2,21,87,.07);
+    --ghost-line:rgba(2,21,87,.24); --ghost-ink:#021557; --ghost-bg:transparent;
+    --panel-bg:#FFFFFF; --panel-line:rgba(2,21,87,.1); --panel-ink:#021557; --panel-ink2:rgba(2,21,87,.6); --panel-soft:#F8F6F0; --panel-shadow:0 30px 60px -36px rgba(2,21,87,.35);
+    --slab-bg:#FFFFFF; --slab-ink:#021557; --slab-ink2:rgba(2,21,87,.66); --slab-line:rgba(2,21,87,.12); --slab-gold:#7E640E; --slab-tag:rgba(2,21,87,.05);
+    --cta-bg:#021557; --cta-ink:#F5F2E9; --cta-ink2:rgba(245,242,233,.72); --cta-gold:#EBD289; --cta-line:rgba(212,175,55,.28);
+    --foot-ink:rgba(2,21,87,.55); --foot-line:rgba(2,21,87,.12);
+    background:var(--bg);color:var(--ink);font-family:var(--sans);
+  }
+  .site[data-dir="b"]{
+    --bg:#12110E; --ink:#F2EEE3; --ink2:rgba(242,238,227,.68); --ink3:rgba(242,238,227,.46); --line:rgba(242,238,227,.12);
+    --gold-t:#E3C574; --glow:radial-gradient(900px 520px at 85% -10%, rgba(212,175,55,.16), transparent 70%), radial-gradient(700px 500px at 0% 120%, rgba(212,175,55,.06), transparent 70%);
+    --chip-bg:rgba(212,175,55,.1); --chip-line:rgba(212,175,55,.32); --chip-ink:#E3C574;
+    --nav-bg:rgba(30,28,24,.8); --nav-line:rgba(242,238,227,.12); --nav-ink:#F2EEE3; --nav-ink2:rgba(242,238,227,.62); --nav-on:rgba(242,238,227,.09);
+    --ghost-line:rgba(242,238,227,.24); --ghost-ink:#F2EEE3; --ghost-bg:rgba(242,238,227,.04);
+    --panel-bg:#1C1A16; --panel-line:rgba(242,238,227,.1); --panel-ink:#F2EEE3; --panel-ink2:rgba(242,238,227,.58); --panel-soft:#23211C; --panel-shadow:0 30px 70px -40px rgba(0,0,0,.9);
+    --slab-bg:#F5F2E9; --slab-ink:#021557; --slab-ink2:rgba(2,21,87,.66); --slab-line:rgba(2,21,87,.12); --slab-gold:#7E640E; --slab-tag:rgba(2,21,87,.05);
+    --cta-bg:#1C1A16; --cta-ink:#F2EEE3; --cta-ink2:rgba(242,238,227,.7); --cta-gold:#E3C574; --cta-line:rgba(212,175,55,.3);
+    --foot-ink:rgba(242,238,227,.5); --foot-line:rgba(242,238,227,.12);
+  }
+  .site[data-dir="c"]{
+    --bg:#FFFFFF; --ink:#021557; --ink2:rgba(2,21,87,.66); --ink3:rgba(2,21,87,.48); --line:rgba(2,21,87,.1);
+    --gold-t:#7E640E; --glow:none;
+    --chip-bg:rgba(2,21,87,.05); --chip-line:rgba(2,21,87,.14); --chip-ink:#021557;
+    --nav-bg:#021557; --nav-line:#021557; --nav-ink:#F5F2E9; --nav-ink2:rgba(245,242,233,.7); --nav-on:rgba(245,242,233,.12);
+    --ghost-line:rgba(2,21,87,.22); --ghost-ink:#021557; --ghost-bg:transparent;
+    --panel-bg:#021557; --panel-line:rgba(245,242,233,.12); --panel-ink:#F5F2E9; --panel-ink2:rgba(245,242,233,.62); --panel-soft:rgba(245,242,233,.06); --panel-shadow:0 30px 60px -34px rgba(2,21,87,.55);
+    --slab-bg:#F5F2E9; --slab-ink:#021557; --slab-ink2:rgba(2,21,87,.66); --slab-line:rgba(2,21,87,.12); --slab-gold:#7E640E; --slab-tag:rgba(2,21,87,.05);
+    --cta-bg:#021557; --cta-ink:#F5F2E9; --cta-ink2:rgba(245,242,233,.72); --cta-gold:#EBD289; --cta-line:transparent;
+    --foot-ink:rgba(2,21,87,.55); --foot-line:rgba(2,21,87,.1);
+  }
+  .site[data-dir="now"]{
+    --bg:#010A2B; --ink:#F5F2E9; --ink2:rgba(245,242,233,.64); --ink3:rgba(245,242,233,.45); --line:rgba(245,242,233,.12);
+    --gold-t:#EBD289; --glow:radial-gradient(1000px 600px at 50% -20%, rgba(2,21,87,.95), transparent 70%), radial-gradient(700px 520px at 95% -10%, rgba(212,175,55,.16), transparent 70%);
+    --chip-bg:rgba(212,175,55,.1); --chip-line:rgba(212,175,55,.3); --chip-ink:#EBD289;
+    --nav-bg:rgba(2,21,87,.55); --nav-line:rgba(245,242,233,.12); --nav-ink:#F5F2E9; --nav-ink2:rgba(245,242,233,.66); --nav-on:rgba(245,242,233,.09);
+    --ghost-line:rgba(245,242,233,.18); --ghost-ink:#F5F2E9; --ghost-bg:rgba(245,242,233,.06);
+    --panel-bg:#0A1540; --panel-line:rgba(245,242,233,.11); --panel-ink:#F5F2E9; --panel-ink2:rgba(245,242,233,.58); --panel-soft:rgba(245,242,233,.05); --panel-shadow:0 30px 70px -40px rgba(0,0,0,.9);
+    --slab-bg:#F5F2E9; --slab-ink:#021557; --slab-ink2:rgba(2,21,87,.66); --slab-line:rgba(2,21,87,.12); --slab-gold:#7E640E; --slab-tag:rgba(2,21,87,.05);
+    --cta-bg:#021557; --cta-ink:#F5F2E9; --cta-ink2:rgba(245,242,233,.7); --cta-gold:#EBD289; --cta-line:rgba(212,175,55,.26);
+    --foot-ink:rgba(245,242,233,.5); --foot-line:rgba(245,242,233,.12);
+  }
+
+  /* ---------- La web ---------- */
+  .site{transition:background-color .35s ease,color .35s ease}
+  .hero{position:relative;padding:22px clamp(18px,5vw,100px) 0;background:var(--glow)}
+  .nav{display:flex;align-items:center;gap:10px;max-width:980px;margin:0 auto;padding:8px 8px 8px 22px;border-radius:999px;
+       background:var(--nav-bg);border:1px solid var(--nav-line);color:var(--nav-ink)}
+  .logo{display:flex;align-items:baseline;gap:8px;margin-right:auto}
+  .logo b{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:.005em}
+  .logo small{font-size:9px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:#D4AF37}
+  .links{display:flex;gap:2px}
+  .links a{color:var(--nav-ink2);text-decoration:none;font-size:14px;font-weight:500;padding:9px 13px;border-radius:999px}
+  .links a.on{color:var(--nav-ink);background:var(--nav-on)}
+
+  .btn-gold{display:inline-flex;align-items:center;gap:14px;border-radius:999px;padding:6px 6px 6px 24px;text-decoration:none;
+            font:600 15px/1 var(--sans);color:#021557;white-space:nowrap;
+            background:linear-gradient(180deg,#EBD289 0%,#D4AF37 55%,#BF9A28 100%);
+            box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -1px 0 rgba(2,21,87,.14),0 10px 28px -12px rgba(191,154,40,.7)}
+  .btn-gold .disc{width:42px;height:42px;border-radius:50%;background:#021557;display:grid;place-items:center}
+  .btn-gold.sm{font-size:13px;padding:4px 4px 4px 18px;gap:10px}
+  .btn-gold.sm .disc{width:32px;height:32px}
+  .btn-ghost{display:inline-flex;align-items:center;border-radius:999px;padding:0 24px;min-height:54px;text-decoration:none;
+             font:500 15px/1 var(--sans);color:var(--ghost-ink);border:1px solid var(--ghost-line);background:var(--ghost-bg)}
+
+  .hero-in{max-width:980px;margin:0 auto;text-align:center;padding:84px 0 60px}
+  .chip{display:inline-flex;align-items:center;gap:9px;padding:7px 15px 7px 11px;border-radius:999px;
+        background:var(--chip-bg);border:1px solid var(--chip-line);color:var(--chip-ink);
+        font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+  .dot{width:6px;height:6px;border-radius:50%;background:#D4AF37;flex:none}
+  .hero h2{font-family:var(--serif);font-weight:400;font-size:clamp(46px,7.2vw,100px);line-height:.95;letter-spacing:-.035em;
+           margin:34px auto 0;max-width:15ch;text-wrap:balance}
+  .hero h2 em{font-style:italic;color:var(--gold-t)}
+  .hero-in p{font-size:clamp(16px,1.6vw,19px);line-height:1.62;color:var(--ink2);max-width:52ch;margin:28px auto 0;text-wrap:pretty}
+  .actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:38px}
+
+  .panel{max-width:1100px;margin:0 auto;border-radius:26px;background:var(--panel-bg);border:1px solid var(--panel-line);
+         color:var(--panel-ink);padding:18px;box-shadow:var(--panel-shadow);transform:translateY(0)}
+  .p-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 6px 16px}
+  .p-head .l{display:flex;align-items:center;gap:12px;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--panel-ink2)}
+  .lights{display:flex;gap:5px}.lights i{width:8px;height:8px;border-radius:50%;background:var(--panel-line)}.lights i:last-child{background:#D4AF37}
+  .p-body{display:grid;grid-template-columns:260px minmax(0,1fr);gap:14px}
+  .flow{display:flex;flex-direction:column;gap:8px}
+  .step{border-radius:14px;background:var(--panel-soft);border:1px solid var(--panel-line);padding:13px 16px}
+  .step small{display:block;font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--panel-ink2)}
+  .step b{display:block;font-size:14px;font-weight:600;margin-top:5px}
+  .step.gold{background:linear-gradient(140deg,#E6C865,#C9A22E);border-color:transparent;color:#021557}
+  .step.gold small{color:rgba(2,21,87,.62)}
+  .tbl{border-radius:16px;border:1px solid var(--panel-line);overflow:hidden}
+  .row{display:grid;grid-template-columns:minmax(0,1fr) 120px 150px;gap:12px;align-items:center;padding:13px 18px;border-top:1px solid var(--panel-line);font-size:14px}
+  .row:first-child{border-top:0;font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--panel-ink2);padding-block:11px}
+  .who{display:flex;align-items:center;gap:10px;min-width:0}
+  .av{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;flex:none;font-size:10px;font-weight:700;background:var(--panel-soft);border:1px solid var(--panel-line)}
+  .who span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .src{color:var(--panel-ink2)}
+  .st{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--panel-ink2)}
+  .st.ok{color:var(--gold-t)}
+  .site[data-dir="c"] .st.ok{color:#EBD289}
+  .site[data-dir="a"] .st.ok{color:#7E640E}
+
+  .capas{padding:110px clamp(18px,5vw,100px) 100px}
+  .slab{max-width:1240px;margin:0 auto;border-radius:44px;background:var(--slab-bg);color:var(--slab-ink);
+        padding:clamp(40px,6vw,84px) clamp(22px,5vw,72px);border:1px solid var(--slab-line)}
+  .slab-head{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:40px;align-items:end}
+  .slab-head .chip{background:var(--slab-tag);border-color:var(--slab-line);color:var(--slab-ink)}
+  .slab h3{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4.4vw,60px);line-height:1;letter-spacing:-.03em;margin:22px 0 0;text-wrap:balance}
+  .slab h3 em{color:var(--slab-gold)}
+  .slab-head p{margin:0;color:var(--slab-ink2);font-size:16px;line-height:1.7;max-width:46ch}
+  .layers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:52px}
+  .layer{border-top:1px solid var(--slab-line);padding-top:22px}
+  .layer .n{font-family:var(--serif);font-size:44px;line-height:1;color:var(--slab-gold)}
+  .layer h4{font-size:20px;font-weight:600;letter-spacing:-.02em;margin:14px 0 8px}
+  .layer p{margin:0;color:var(--slab-ink2);font-size:14.5px;line-height:1.6}
+  .layer ul{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:7px}
+  .layer li{font-size:13.5px;display:flex;gap:10px;align-items:baseline}
+  .layer li::before{content:"";width:5px;height:5px;border-radius:50%;background:#D4AF37;flex:none;transform:translateY(-2px)}
+
+  .cta-wrap{padding:0 clamp(12px,1.6vw,20px) 22px}
+  .cta{border-radius:44px;background:var(--cta-bg);color:var(--cta-ink);border:1px solid var(--cta-line);
+       padding:clamp(56px,8vw,104px) clamp(22px,5vw,80px);text-align:center;position:relative;overflow:hidden}
+  .cta::after{content:"";position:absolute;left:50%;bottom:-60%;width:900px;height:600px;transform:translateX(-50%);
+              background:radial-gradient(closest-side,rgba(212,175,55,.26),transparent);pointer-events:none}
+  .cta > *{position:relative;z-index:1}
+  .cta h3{font-family:var(--serif);font-weight:400;font-size:clamp(34px,5vw,68px);line-height:1;letter-spacing:-.03em;
+          margin:26px auto 0;max-width:20ch;text-wrap:balance}
+  .cta h3 em{color:var(--cta-gold)}
+  .cta p{color:var(--cta-ink2);max-width:54ch;margin:22px auto 0;font-size:17px;line-height:1.65}
+  .cta .chip{background:rgba(212,175,55,.12);border-color:rgba(212,175,55,.32);color:var(--cta-gold)}
+  .cta .actions{margin-top:34px}
+
+  .foot{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:baseline;
+        padding:26px clamp(18px,5vw,100px) 34px;color:var(--foot-ink);font-size:13px;border-top:1px solid var(--foot-line)}
+  .foot b{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--ink)}
+
+  @media (max-width:900px){
+    .links{display:none}
+    .p-body{grid-template-columns:1fr}
+    .flow{flex-direction:row;overflow-x:auto}.step{min-width:170px}
+    .row{grid-template-columns:minmax(0,1fr) 130px}.row > :nth-child(2){display:none}
+    .slab-head{grid-template-columns:1fr;gap:18px}
+    .layers{grid-template-columns:1fr;gap:28px}
+  }
+  @media (max-width:520px){
+    .nav .btn-gold.sm{padding-left:14px}
+    .hero-in{padding:56px 0 44px}
+    .btn-gold,.btn-ghost{width:100%;justify-content:space-between}.btn-ghost{justify-content:center}
+    .row{grid-template-columns:minmax(0,1fr)}.row > :nth-child(3){display:none}
+  }
+  @media (prefers-reduced-motion:reduce){.site{transition:none}}
+</style>
+
+<div class="wrap">
+  <div class="bar" role="region" aria-label="Selector de fondo">
+    <div class="bar-in">
+      <h1>Syntalia sin azul <span>4 fondos, misma web</span></h1>
+      <div class="tabs" role="tablist" aria-label="Dirección de fondo">
+        <button class="tab" role="tab" id="t-a" data-dir="a" aria-selected="true"><span class="sw"><i style="background:#F5F2E9"></i><i style="background:#021557"></i></span>A · Crema <span class="k">1</span></button>
+        <button class="tab" role="tab" id="t-b" data-dir="b" aria-selected="false"><span class="sw"><i style="background:#12110E"></i><i style="background:#D4AF37"></i></span>B · Negro cálido <span class="k">2</span></button>
+        <button class="tab" role="tab" id="t-c" data-dir="c" aria-selected="false"><span class="sw"><i style="background:#FFFFFF"></i><i style="background:#021557"></i></span>C · Blanco + azul <span class="k">3</span></button>
+        <button class="tab" role="tab" id="t-now" data-dir="now" aria-selected="false"><span class="sw"><i style="background:#010A2B"></i><i style="background:#010A2B"></i></span>Actual <span class="k">4</span></button>
+      </div>
+    </div>
+    <div class="note" aria-live="polite">
+      <p id="n-what"></p>
+      <p id="n-risk" class="risk"></p>
+    </div>
+  </div>
+
+  <div class="frame">
+    <div class="site" id="site" data-dir="a">
+
+      <header class="hero">
+        <nav class="nav" aria-label="Menú de ejemplo">
+          <div class="logo"><b>Syntalia</b><small>Vértice</small></div>
+          <div class="links">
+            <a href="#" class="on">Inicio</a><a href="#">Servicios</a><a href="#">Quiénes somos</a><a href="#">FAQ</a><a href="#">Contacto</a>
+          </div>
+          <a class="btn-gold sm" href="#">Diagnóstico <span class="disc"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#EBD289" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        </nav>
+
+        <div class="hero-in">
+          <span class="chip"><span class="dot"></span>Consultora estratégica · Murcia</span>
+          <h2>Convertimos tu presencia digital en <em>oportunidades comerciales reales</em>.</h2>
+          <p>Ayudamos a empresas y negocios que ya venden, a posicionarse mejor y generar contactos cualificados con una estrategia digital clara.</p>
+          <div class="actions">
+            <a class="btn-gold" href="#">Solicitar diagnóstico gratuito <span class="disc"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EBD289" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+            <a class="btn-ghost" href="#">Ver cómo trabajamos</a>
+          </div>
+        </div>
+
+        <div class="panel" aria-label="Panel de leads, datos de ejemplo">
+          <div class="p-head">
+            <div class="l"><span class="lights"><i></i><i></i><i></i></span>Panel de leads · vista de ejemplo</div>
+            <span class="chip" style="font-size:9px;padding:5px 12px 5px 9px"><span class="dot"></span>Automatización activa</span>
+          </div>
+          <div class="p-body">
+            <div class="flow">
+              <div class="step"><small>Entrada</small><b>Meta Ads · Instagram</b></div>
+              <div class="step"><small>Conversión</small><b>Landing + formulario</b></div>
+              <div class="step gold"><small>Seguimiento</small><b>WhatsApp automático</b></div>
+            </div>
+            <div class="tbl">
+              <div class="row"><span>Contacto</span><span>Origen</span><span>Estado</span></div>
+              <div class="row"><span class="who"><span class="av">CD</span><span>Clínica dental · Murcia</span></span><span class="src">Meta Ads</span><span class="st ok"><span class="dot"></span>WhatsApp enviado</span></div>
+              <div class="row"><span class="who"><span class="av">GM</span><span>Gimnasio · Molina de Segura</span></span><span class="src">Instagram</span><span class="st"><span class="dot" style="background:currentColor;opacity:.6"></span>En seguimiento</span></div>
+              <div class="row"><span class="who"><span class="av">AC</span><span>Asesoría · Cartagena</span></span><span class="src">Referido</span><span class="st"><span class="dot" style="background:currentColor;opacity:.6"></span>Propuesta enviada</span></div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="capas">
+        <div class="slab">
+          <div class="slab-head">
+            <div>
+              <span class="chip"><span class="dot"></span>Sistema Vértice</span>
+              <h3>Tres capas conectadas para convertir tu presencia digital en <em>oportunidades</em>.</h3>
+            </div>
+            <p>Cada capa se apoya en la anterior: primero la base, después la visibilidad y al final el sistema que convierte ese interés en contactos.</p>
+          </div>
+          <div class="layers">
+            <article class="layer">
+              <div class="n">01</div>
+              <h4>Posicionamiento y presencia digital</h4>
+              <p>Definimos la base estratégica y visual sobre la que se construirá todo lo demás.</p>
+              <ul><li>Posicionamiento de marca</li><li>Branding e identidad visual</li><li>Web y landing pages</li></ul>
+            </article>
+            <article class="layer">
+              <div class="n">02</div>
+              <h4>Autoridad y visibilidad</h4>
+              <p>Trabajamos tu presencia en los canales adecuados para transmitir valor y generar confianza.</p>
+              <ul><li>Estrategia de contenidos</li><li>Gestión de redes sociales</li><li>Copywriting y SEO</li></ul>
+            </article>
+            <article class="layer">
+              <div class="n">03</div>
+              <h4>Captación y conversión</h4>
+              <p>Construimos el sistema que transforma visibilidad e interés en contactos cualificados.</p>
+              <ul><li>Social Ads y campañas</li><li>CRM y automatizaciones</li><li>Email marketing y seguimiento</li></ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <div class="cta-wrap">
+        <section class="cta">
+          <span class="chip"><span class="dot"></span>Diagnóstico gratuito</span>
+          <h3>Tu empresa ya tiene valor. Ahora necesita un <em>sistema</em> que lo convierta en oportunidades.</h3>
+          <p>Solicita tu diagnóstico gratuito y descubre qué le está frenando a tu empresa para captar clientes de forma constante.</p>
+          <div class="actions"><a class="btn-gold" href="#">Pedir diagnóstico gratuito <span class="disc"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EBD289" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
+        </section>
+      </div>
+
+      <footer class="foot"><b>Syntalia</b><span>+34 672 167 758 · vertice@syntalia.es · Murcia</span><span>© 2026 Syntalia Vértice</span></footer>
+    </div>
+  </div>
+</div>
+
+<script>
+  const NOTES = {
+    a: ["<strong>Crema.</strong> Fondo de tu crema de marca y el azul pasa a ser color de letra. Solo aparece como bloque en el cierre final, para rematar. Cálida, editorial y la más cercana.",
+        "Riesgo: al ser tan clara, depende de fotos y capturas reales para no quedarse plana. Y el dorado brilla menos sobre claro que sobre oscuro."],
+    b: ["<strong>Negro cálido.</strong> Mantiene lo premium del oscuro pero quita el tono azul: un negro con fondo marrón (#12110E) que hace lucir mucho más el dorado. El bloque de las tres capas sigue en crema para dar respiro.",
+        "Riesgo: es la que más se aleja de tu azul de marca. El navy queda solo en el botón y en el texto del bloque claro."],
+    c: ["<strong>Blanco + azul.</strong> Página blanca y limpia. El azul no desaparece: deja de ser fondo y se concentra en tres bloques con intención — el menú, el panel de leads y el cierre.",
+        "Riesgo: la más corporativa y la más parecida a lo que hace todo el mundo. Gana en claridad, pierde en carácter."],
+    now: ["<strong>Actual.</strong> Lo que está publicado hoy en verticeagency.es, para comparar: fondo #010A2B en toda la página y un solo bloque crema.",
+          "Es la referencia. Lo que no te convence: el azul lo cubre todo y la página se ve pesada."]
+  };
+  const site = document.getElementById('site');
+  const tabs = [...document.querySelectorAll('.tab')];
+  const nWhat = document.getElementById('n-what'), nRisk = document.getElementById('n-risk');
+  function pick(dir, focus){
+    site.dataset.dir = dir;
+    tabs.forEach(t => { const on = t.dataset.dir === dir; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; if (on && focus) t.focus(); });
+    nWhat.innerHTML = NOTES[dir][0]; nRisk.textContent = NOTES[dir][1];
+    try { localStorage.setItem('syn-dir', dir); } catch(e){}
+  }
+  tabs.forEach(t => t.addEventListener('click', () => pick(t.dataset.dir)));
+  document.addEventListener('keydown', e => {
+    if (e.target.closest && e.target.closest('input,textarea')) return;
+    const map = {'1':'a','2':'b','3':'c','4':'now'};
+    if (map[e.key]) pick(map[e.key], true);
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      const i = tabs.findIndex(t => t.dataset.dir === site.dataset.dir);
+      if (document.activeElement && document.activeElement.classList.contains('tab')) {
+        const j = (i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length; pick(tabs[j].dataset.dir, true);
+      }
+    }
+  });
+  document.querySelectorAll('.site a').forEach(a => a.addEventListener('click', e => e.preventDefault()));
+  let start = 'a'; try { const s = localStorage.getItem('syn-dir'); if (s && NOTES[s]) start = s; } catch(e){}
+  pick(start);
+</script>

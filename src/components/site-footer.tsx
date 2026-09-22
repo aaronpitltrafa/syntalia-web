@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Mail, MapPin, Phone, type LucideProps } from "lucide-react";
-import logoWhite from "@/assets/logo-white.png";
+import logo from "@/assets/logo.png";
 import { GoldButton } from "@/components/gold-button";
 
 /** lucide-react ships no TikTok glyph; this mirrors its icon conventions. */
@@ -48,21 +48,21 @@ const LEGAL = [
   { to: "/cookies", label: "Política de cookies" },
 ];
 
-const columnTitle = "text-[10px] font-semibold uppercase tracking-[0.22em] text-cream/55";
-const columnLink = "text-[15px] text-cream/70 transition-colors hover:text-gold-light";
+const columnTitle = "text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/70";
+const columnLink = "text-[15px] text-foreground/70 transition-colors hover:text-gold-text";
 const socialCircle =
-  "flex h-10 w-10 items-center justify-center rounded-full border border-cream/14 bg-cream/4 text-cream/70 transition-colors hover:border-gold hover:text-gold-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
+  "flex h-10 w-10 items-center justify-center rounded-full border border-foreground/14 bg-foreground/4 text-foreground/70 transition-colors hover:border-gold hover:text-gold-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
 
 export function SiteFooter() {
   return (
-    <footer className="relative border-t border-cream/10 text-cream">
+    <footer className="relative border-t border-foreground/10 text-foreground">
       <div className="mx-auto max-w-[1240px] px-6 pt-[70px] pb-10 sm:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-[60px]">
           {/* ---------- Marca ---------- */}
           <div>
-            <img src={logoWhite} alt="Syntalia Vértice" className="h-12 w-auto object-contain" />
+            <img src={logo} alt="Syntalia Vértice" className="h-12 w-auto object-contain" />
 
-            <p className="mt-[18px] max-w-[280px] text-[15px] leading-[1.7] text-cream/60">
+            <p className="mt-[18px] max-w-[280px] text-[15px] leading-[1.7] text-foreground/60">
               Consultora estratégica de marketing digital, sistemas y crecimiento. Murcia.
             </p>
 
@@ -126,29 +126,29 @@ export function SiteFooter() {
             <ul className="mt-5 flex flex-col gap-3">
               <li>
                 <a href="mailto:vertice@syntalia.es" className={`flex items-center gap-2.5 ${columnLink}`}>
-                  <Mail className="h-4 w-4 shrink-0 text-gold-light" aria-hidden /> vertice@syntalia.es
+                  <Mail className="h-4 w-4 shrink-0 text-gold-text" aria-hidden /> vertice@syntalia.es
                 </a>
               </li>
               <li>
                 <a href="tel:+34672167758" className={`flex items-center gap-2.5 ${columnLink}`}>
-                  <Phone className="h-4 w-4 shrink-0 text-gold-light" aria-hidden /> +34 672 167 758
+                  <Phone className="h-4 w-4 shrink-0 text-gold-text" aria-hidden /> +34 672 167 758
                 </a>
               </li>
-              <li className="flex items-center gap-2.5 text-[15px] text-cream/70">
-                <MapPin className="h-4 w-4 shrink-0 text-gold-light" aria-hidden /> Murcia · Toda España
+              <li className="flex items-center gap-2.5 text-[15px] text-foreground/70">
+                <MapPin className="h-4 w-4 shrink-0 text-gold-text" aria-hidden /> Murcia · Toda España
               </li>
             </ul>
           </div>
         </div>
 
         {/* ---------- Filete y línea inferior ---------- */}
-        <div className="mt-14 h-px w-full bg-cream/12" aria-hidden />
+        <div className="mt-14 h-px w-full bg-foreground/12" aria-hidden />
 
-        <div className="flex flex-col items-center gap-4 pt-[26px] text-[13px] text-cream/55 md:flex-row md:justify-between">
+        <div className="flex flex-col items-center gap-4 pt-[26px] text-[13px] text-foreground/70 md:flex-row md:justify-between">
           <span>© {new Date().getFullYear()} Syntalia Vértice</span>
           <div className="flex flex-wrap items-center justify-center gap-x-[26px] gap-y-2">
             {LEGAL.map((l) => (
-              <Link key={l.to} to={l.to} className="transition-colors hover:text-cream">
+              <Link key={l.to} to={l.to} className="transition-colors hover:text-foreground">
                 {l.label}
               </Link>
             ))}

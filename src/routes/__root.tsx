@@ -76,7 +76,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { name: "theme-color", content: "#010A2B" },
+      { name: "theme-color", content: "#F5F2E9" },
       { name: "author", content: "Syntalia Vértice" },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Syntalia Vértice" },

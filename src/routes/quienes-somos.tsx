@@ -71,14 +71,14 @@ function QuienesSomos() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-navy text-cream">
+      <section className="surface-navy relative overflow-hidden">
         <div className="relative mx-auto grid max-w-7xl gap-14 px-6 py-24 md:grid-cols-2 md:items-center md:gap-16 md:py-32">
           <div>
             <p className="text-xs uppercase tracking-[0.4em] text-gold">Quiénes Somos</p>
             <h1 className="mt-6 font-raleway text-5xl font-semibold leading-[1.05] md:text-6xl text-balance">
               Estrategia digital con enfoque en <span className="text-gradient-gold">resultados reales</span>.
             </h1>
-            <p className="mt-8 max-w-xl font-sans text-lg text-cream/75 leading-relaxed">
+            <p className="mt-8 max-w-xl font-sans text-lg text-foreground/75 leading-relaxed">
               En Syntalia Vértice ayudamos a empresas con actividad real a crecer con más estructura. Combinamos estrategia, creatividad y ejecución para ordenar su presencia digital, generar oportunidades y construir sistemas conectados con el negocio.
             </p>
             <Link
@@ -125,18 +125,18 @@ function QuienesSomos() {
           <div className="md:col-span-7">
             <div className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-navy/5 px-4 py-1.5">
               <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-cream/70">Sobre nosotros</span>
+              <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-foreground/70">Sobre nosotros</span>
             </div>
 
-            <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-cream md:text-5xl">
+            <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-foreground md:text-5xl">
               Quiénes somos
             </h2>
 
-            <p className="mt-4 font-raleway text-lg font-bold leading-snug text-cream md:text-xl">
+            <p className="mt-4 font-raleway text-lg font-bold leading-snug text-foreground md:text-xl">
               Más que una consultora, somos un equipo estratégico que se implica en tu negocio.
             </p>
 
-            <p className="mt-6 font-sans text-cream/75 leading-relaxed md:text-lg">
+            <p className="mt-6 font-sans text-foreground/75 leading-relaxed md:text-lg">
               No trabajamos desde fuera ni aplicamos soluciones genéricas. Nos integramos en cada proyecto para entender el negocio, detectar qué está frenando su crecimiento y construir una estrategia digital alineada con sus objetivos.
             </p>
 
@@ -145,8 +145,8 @@ function QuienesSomos() {
                 <div key={p.t} className="flex items-start gap-3.5">
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
                   <div>
-                    <h3 className="font-raleway text-base font-bold text-cream">{p.t}</h3>
-                    <p className="mt-1.5 font-sans text-sm leading-relaxed text-cream/60">{p.d}</p>
+                    <h3 className="font-raleway text-base font-bold text-foreground">{p.t}</h3>
+                    <p className="mt-1.5 font-sans text-sm leading-relaxed text-foreground/60">{p.d}</p>
                   </div>
                 </div>
               ))}
@@ -164,7 +164,7 @@ function QuienesSomos() {
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-gold text-navy">
                   <b.icon className="h-5 w-5" aria-hidden />
                 </div>
-                <h2 className="mt-6 font-raleway text-xl font-semibold text-cream">{b.t}</h2>
+                <h2 className="mt-6 font-raleway text-xl font-semibold text-foreground">{b.t}</h2>
                 <p className="mt-4 font-sans text-foreground/70 leading-relaxed">{b.d}</p>
               </div>
             ))}
@@ -182,7 +182,7 @@ function QuienesSomos() {
             {VALORES.map((v) => (
               <div key={v.t} className="flex flex-1 flex-col items-start gap-3 py-8 md:items-center md:px-8 md:py-2 md:text-center">
                 <v.icon className="h-6 w-6 text-gold" strokeWidth={1.5} aria-hidden />
-                <h3 className="font-raleway text-base font-bold text-cream">{v.t}</h3>
+                <h3 className="font-raleway text-base font-bold text-foreground">{v.t}</h3>
                 <p className="font-sans text-sm leading-relaxed text-foreground/60">{v.d}</p>
               </div>
             ))}
@@ -198,7 +198,7 @@ function QuienesSomos() {
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-gold text-navy">
                 <Building2 className="h-5 w-5" aria-hidden />
               </div>
-              <h2 className="mt-6 font-raleway text-2xl font-semibold text-cream md:text-3xl text-balance">Nuestra especialización</h2>
+              <h2 className="mt-6 font-raleway text-2xl font-semibold text-foreground md:text-3xl text-balance">Nuestra especialización</h2>
               <p className="mt-4 font-sans text-foreground/70 leading-relaxed">
                 Enfoque estratégico para empresas en entornos donde la confianza y las relaciones comerciales marcan la diferencia. Entendemos los ciclos de cada sector y construimos presencia digital que genera oportunidades reales.
               </p>
@@ -207,7 +207,7 @@ function QuienesSomos() {
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-gold text-navy">
                 <Workflow className="h-5 w-5" aria-hidden />
               </div>
-              <h2 className="mt-6 font-raleway text-2xl font-semibold text-cream md:text-3xl text-balance">Cómo entendemos el marketing</h2>
+              <h2 className="mt-6 font-raleway text-2xl font-semibold text-foreground md:text-3xl text-balance">Cómo entendemos el marketing</h2>
               <p className="mt-4 font-sans text-foreground/70 leading-relaxed">
                 No son acciones aisladas, sino un sistema que conecta la marca con su audiencia, genera confianza y transforma esa relación en oportunidades de negocio.
               </p>
@@ -217,7 +217,7 @@ function QuienesSomos() {
       </section>
 
       {/* CTA final */}
-      <section className="text-cream" style={{ background: "#021557", backgroundImage: "none" }}>
+      <section className="surface-navy">
         <div className="mx-auto max-w-5xl px-6 py-24 text-center">
           <h2 className="font-raleway text-4xl font-semibold md:text-5xl text-balance">
             ¿Listo para construir un sistema que haga crecer tu empresa?

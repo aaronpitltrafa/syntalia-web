@@ -14,7 +14,7 @@ export const Route = createFileRoute("/cookies")({
 });
 
 const TABLE_HEAD =
-  "border-b border-border px-2 pb-2 text-left text-xs font-bold uppercase tracking-widest text-gold-light";
+  "border-b border-border px-2 pb-2 text-left text-xs font-bold uppercase tracking-widest text-gold-text";
 const TABLE_CELL = "border-b border-border/60 px-2 py-3 align-top";
 
 function Cookies() {
@@ -81,7 +81,7 @@ function Cookies() {
                 El único almacenamiento que utiliza este sitio es de carácter técnico y necesario
                 para su funcionamiento, detallado en la siguiente tabla:
               </p>
-              <p className="text-xs font-bold uppercase tracking-widest text-gold-light">
+              <p className="text-xs font-bold uppercase tracking-widest text-gold-text">
                 Tecnologías de almacenamiento utilizadas
               </p>
               <div className="overflow-x-auto rounded-2xl border border-border">

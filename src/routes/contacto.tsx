@@ -74,13 +74,13 @@ const CONTACT_ITEMS = [
 function Contacto() {
   return (
     <div>
-      <section className="relative bg-gradient-navy text-cream">
+      <section className="surface-navy relative">
         <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
           <p className="text-xs uppercase tracking-[0.4em] text-gold">Contacto</p>
           <h1 className="mt-6 max-w-3xl text-5xl font-semibold leading-[1.05] md:text-7xl text-balance">
             ¿Hablamos con nuestro equipo de <span className="text-gradient-gold">comunicación</span>?
           </h1>
-          <p className="mt-8 max-w-2xl text-lg text-cream/75 leading-relaxed">
+          <p className="mt-8 max-w-2xl text-lg text-foreground/75 leading-relaxed">
             Cuéntanos en qué podemos ayudarte y te responderemos lo antes posible.
           </p>
         </div>
@@ -103,7 +103,7 @@ function Contacto() {
           </div>
 
           <div className="md:col-span-3 rounded-3xl border border-border bg-card p-8 md:p-10">
-            <h2 className="text-2xl font-semibold text-cream">Escríbenos</h2>
+            <h2 className="text-2xl font-semibold text-foreground">Escríbenos</h2>
             <p className="mt-2 text-foreground/70">Rellena el formulario y nos pondremos en contacto contigo.</p>
             <div className="mt-8">
               <ContactForm source="Contacto" />

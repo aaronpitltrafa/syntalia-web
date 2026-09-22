@@ -24,16 +24,16 @@ export function ServicePage(props: ServicePageProps) {
   return (
     <div>
       {/* Hero */}
-      <section className="relative bg-gradient-navy text-cream">
+      <section className="surface-navy relative">
         <div className="relative mx-auto max-w-6xl px-6 py-24 md:py-32">
-          <Link to="/servicios" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-gold hover:text-cream">
+          <Link to="/servicios" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-gold hover:text-foreground">
             ← Servicios
           </Link>
           <p className="mt-6 text-xs uppercase tracking-[0.4em] text-gold">{props.eyebrow}</p>
           <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-[1.05] md:text-6xl text-balance">
             {props.title}
           </h1>
-          <p className="mt-8 max-w-2xl text-lg text-cream/75 leading-relaxed">{props.intro}</p>
+          <p className="mt-8 max-w-2xl text-lg text-foreground/75 leading-relaxed">{props.intro}</p>
         </div>
       </section>
 
@@ -91,17 +91,17 @@ export function ServicePage(props: ServicePageProps) {
       </section>
 
       {/* CTA + Form */}
-      <section className="bg-gradient-navy text-cream">
+      <section className="surface-navy">
         <div className="mx-auto grid max-w-6xl gap-16 px-6 py-24 md:grid-cols-2">
           <div>
             <img src={logoAsset.url} alt="" className="h-14 w-auto object-contain" />
             <h2 className="mt-8 text-3xl font-semibold leading-tight md:text-4xl text-balance">{props.ctaTitle}</h2>
-            <p className="mt-6 text-cream/75 leading-relaxed">{props.ctaText}</p>
-            <Link to="/servicios" className="mt-10 inline-flex items-center gap-2 text-sm font-semibold text-gold hover:text-cream">
+            <p className="mt-6 text-foreground/75 leading-relaxed">{props.ctaText}</p>
+            <Link to="/servicios" className="mt-10 inline-flex items-center gap-2 text-sm font-semibold text-gold hover:text-foreground">
               Ver todos los servicios <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="surface-cream rounded-3xl p-8 md:p-10">
+          <div className="surface-slab rounded-3xl p-8 md:p-10">
             <ContactForm source={`Servicio: ${props.title}`} />
           </div>
         </div>

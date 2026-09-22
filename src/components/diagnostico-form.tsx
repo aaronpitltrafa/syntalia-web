@@ -55,7 +55,7 @@ export function DiagnosticoForm() {
     return (
       <div className="flex scroll-mt-28 flex-col items-center justify-center gap-3 rounded-3xl border border-gold/30 bg-gold/10 px-6 py-16 text-center">
         <CheckCircle2 className="h-10 w-10 text-gold" />
-        <p className="text-lg font-semibold text-cream">Hemos recibido tu solicitud.</p>
+        <p className="text-lg font-semibold text-foreground">Hemos recibido tu solicitud.</p>
         <p className="max-w-sm text-sm text-foreground/70">
           Revisaremos tu empresa y nos pondremos en contacto contigo.
         </p>
@@ -107,7 +107,7 @@ export function DiagnosticoForm() {
     >
       {/* 01 — Datos personales */}
       <div>
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-gold-light">
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-gold-text">
           01 · Datos personales
         </p>
         <div className="mt-5 grid gap-4">
@@ -168,7 +168,7 @@ export function DiagnosticoForm() {
 
       {/* 02 — Sobre tu empresa */}
       <div className="border-t border-border pt-8">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-gold-light">
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-gold-text">
           02 · Sobre tu empresa
         </p>
         <div className="mt-5 grid gap-4">
@@ -237,7 +237,7 @@ export function DiagnosticoForm() {
 
       {/* 03 — Situación actual */}
       <div className="border-t border-border pt-8">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-gold-light">
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-gold-text">
           03 · Situación actual
         </p>
         <div className="mt-5 grid gap-5">
@@ -259,7 +259,7 @@ export function DiagnosticoForm() {
                     className={cn(
                       "flex cursor-pointer items-center gap-2.5 rounded-xl border px-4 py-3 text-sm transition-colors",
                       checked
-                        ? "border-gold bg-gold/10 text-cream"
+                        ? "border-gold bg-gold/10 text-foreground"
                         : "border-border text-foreground/70 hover:border-gold/40",
                     )}
                   >

@@ -75,6 +75,7 @@
   --color-navy-soft: var(--navy-soft);
   --color-gold-light: var(--gold-light);
   --color-gold-grad: var(--gold-grad);
+  --color-gold-text: var(--gold-text);
 }
 
 :root {
@@ -92,38 +93,42 @@
   --navy-soft: oklch(0.295 0.138 265);  /* #0A2170, superficie elevada */
   --gold-light: oklch(0.868 0.096 91);  /* #EBD289, dorado para texto */
   --gold-grad: oklch(0.701 0.131 90);   /* #BF9A28, final del degradado */
+  /* Dorado para TEXTO sobre la superficie actual. En claro es el dorado
+     oscuro (#7E640E, 5.05:1 sobre crema); surface-navy lo repunta a
+     --gold-light para su subarbol. */
+  --gold-text: oklch(0.515 0.101 90);
 
-  --background: var(--ink);
-  --foreground: var(--cream);
-  --card: oklch(0.200 0.090 263);
-  --card-foreground: var(--cream);
-  --popover: oklch(0.200 0.090 263);
-  --popover-foreground: var(--cream);
-  --primary: var(--gold);
-  --primary-foreground: var(--navy);
-  --secondary: var(--navy-soft);
-  --secondary-foreground: var(--cream);
-  --muted: oklch(0.220 0.080 263);
-  --muted-foreground: oklch(0.961 0.012 91 / 60%);
+  --background: var(--cream);
+  --foreground: var(--navy);
+  --card: oklch(1 0 0);
+  --card-foreground: var(--navy);
+  --popover: oklch(1 0 0);
+  --popover-foreground: var(--navy);
+  --primary: var(--navy);
+  --primary-foreground: var(--cream);
+  --secondary: oklch(0.928 0.018 89);
+  --secondary-foreground: var(--navy);
+  --muted: oklch(0.928 0.018 89);
+  --muted-foreground: oklch(0.240 0.121 264 / 66%);
   --accent: var(--gold);
   --accent-foreground: var(--navy);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.961 0.012 91 / 11%);
-  --input: oklch(0.961 0.012 91 / 16%);
+  --border: oklch(0.240 0.121 264 / 12%);
+  --input: oklch(0.240 0.121 264 / 18%);
   --ring: var(--gold);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: var(--ink);
-  --sidebar-foreground: var(--cream);
+  --sidebar: var(--cream);
+  --sidebar-foreground: var(--navy);
   --sidebar-primary: var(--navy);
   --sidebar-primary-foreground: var(--cream);
   --sidebar-accent: var(--gold);
   --sidebar-accent-foreground: var(--navy);
-  --sidebar-border: oklch(0.961 0.012 91 / 11%);
+  --sidebar-border: oklch(0.240 0.121 264 / 12%);
   --sidebar-ring: var(--gold);
 }
 
@@ -184,35 +189,42 @@
 @layer utilities {
   .text-balance { text-wrap: balance; }
 
-  /* Superficie de tarjeta del rediseno v2. El brillo interior superior
-     (inset 0 1px 0) no es opcional: sin el la tarjeta parece un div plano. */
-  .surface-glass {
-    background: linear-gradient(180deg,
-      oklch(0.961 0.012 91 / 7.5%) 0%,
-      oklch(0.961 0.012 91 / 2.8%) 100%);
-    border: 1px solid oklch(0.961 0.012 91 / 11%);
-    box-shadow: inset 0 1px 0 oklch(0.961 0.012 91 / 13%),
-                0 30px 70px -40px oklch(0 0 0 / 90%);
+  /* Tarjeta. Solo tokens: dentro de surface-navy se vuelve oscura sola. */
+  .surface-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: 0 30px 60px -36px oklch(0.240 0.121 264 / 35%);
   }
 
-  /* Isla clara sobre el telon oscuro. Repunta los tokens semanticos del
-     subarbol para que los componentes que ya usan text-foreground,
-     text-muted-foreground o bg-primary funcionen dentro sin tocarlos. */
-  .surface-cream {
-    background-color: var(--cream);
-    color: var(--navy);
-    --background: oklch(1 0 0);
-    --foreground: var(--navy);
-    --primary: var(--navy);
-    --primary-foreground: var(--cream);
-    --secondary: oklch(0.92 0.015 88);
-    --secondary-foreground: var(--navy);
-    --muted-foreground: oklch(0.235 0.137 269 / 62%);
-    --accent: var(--gold-deep);
-    --accent-foreground: var(--cream);
-    --border: oklch(0.235 0.137 269 / 14%);
-    --input: oklch(0.235 0.137 269 / 18%);
-    --ring: var(--gold-deep);
+  /* Bloque azul: lo contrario de la pagina. Repunta los tokens semanticos
+     de su subarbol, asi que todo lo que use text-foreground, border-border
+     o surface-card funciona dentro sin tocar un solo componente. */
+  .surface-navy {
+    background: var(--navy);
+    color: var(--cream);
+    --background: var(--navy);
+    --foreground: var(--cream);
+    --card: var(--navy-soft);
+    --card-foreground: var(--cream);
+    --popover: var(--navy-soft);
+    --popover-foreground: var(--cream);
+    --muted-foreground: oklch(0.961 0.012 91 / 66%);
+    --border: oklch(0.961 0.012 91 / 12%);
+    --input: oklch(0.961 0.012 91 / 18%);
+    --gold-text: var(--gold-light);
+    --primary: var(--gold);
+    --primary-foreground: var(--navy);
+    --accent: var(--gold);
+    --accent-foreground: var(--navy);
+    --ring: var(--gold);
+  }
+
+  /* Losa: bloque BLANCO sobre la pagina crema. Un bloque crema sobre
+     fondo crema no se veria, por eso usa --card y no --cream. */
+  .surface-slab {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--foreground);
   }
 
   /* Boton primario. Va SIEMPRE con el disco navy y la flecha a la derecha
@@ -231,14 +243,15 @@
       oklch(0.906 0.073 91) 0%, oklch(0.806 0.126 91) 55%,
       oklch(0.741 0.121 90) 100%);
   }
+  /* Boton fantasma: sin relleno, solo filete. Token, asi que tambien
+     funciona dentro de surface-navy. */
   .btn-glass {
-    background: oklch(0.961 0.012 91 / 6%);
-    border: 1px solid oklch(0.961 0.012 91 / 16%);
-    box-shadow: inset 0 1px 0 oklch(0.961 0.012 91 / 14%);
+    background: transparent;
+    border: 1px solid color-mix(in oklab, var(--foreground) 24%, transparent);
+    color: var(--foreground);
   }
   .btn-glass:hover {
-    background: oklch(0.961 0.012 91 / 11%);
-    border-color: oklch(0.745 0.135 82 / 50%);
+    border-color: oklch(0.745 0.135 82 / 60%);
   }
 
   /* Resplandores del hero. Por token, sin hex sueltos. */
