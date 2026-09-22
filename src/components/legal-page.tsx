@@ -24,8 +24,8 @@ export function LegalPage({
     <div>
       <section className="relative">
         <div className="relative mx-auto max-w-5xl px-6 py-20 md:py-28">
-          <p className="text-xs uppercase tracking-[0.4em] text-gold-text">Legal</p>
-          <h1 className="mt-6 text-4xl font-semibold leading-[1.05] md:text-5xl">{title}</h1>
+          <p className="label-mono">Legal</p>
+          <h1 className="mt-6 text-h2 text-balance">{title}</h1>
           {description && <p className="mt-5 max-w-2xl text-foreground/75">{description}</p>}
           <p className="mt-5 text-sm text-foreground/60">Última actualización: {updated}</p>
         </div>
@@ -35,7 +35,7 @@ export function LegalPage({
         <div className="mx-auto max-w-5xl px-6 py-16 md:py-20">
           <div className="grid gap-12 lg:grid-cols-[220px_1fr]">
             <nav aria-label="Índice" className="lg:sticky lg:top-28 lg:self-start">
-              <p className="text-xs font-bold uppercase tracking-widest text-gold-text">Índice</p>
+              <p className="label-mono">Índice</p>
               <ul className="mt-4 space-y-1 border-l border-border text-sm">
                 {sections.map((s) => (
                   <li key={s.id}>
@@ -59,7 +59,7 @@ export function LegalPage({
             >
               {sections.map((s) => (
                 <section key={s.id} id={s.id} className="scroll-mt-28">
-                  <h2 className="text-xl font-semibold text-foreground md:text-2xl">{s.title}</h2>
+                  <h2 className="text-title font-bold leading-[1.15] tracking-[-0.03em] text-foreground">{s.title}</h2>
                   <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-foreground/75">
                     {s.content}
                   </div>

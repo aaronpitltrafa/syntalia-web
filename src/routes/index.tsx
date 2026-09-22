@@ -1,31 +1,18 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import {
-  ArrowDown,
-  ArrowLeft,
   ArrowRight,
   CheckCircle2,
   ChevronDown,
-  ClipboardList,
-  Layers,
   Minus,
+  Plus,
   ShieldCheck,
   Target,
-  Plus,
-  Play,
-  Search,
-  Settings2,
-  Users,
-  Heart,
-  Waypoints,
-  Zap,
-  LineChart,
-  Compass,
   UserPlus,
 } from "lucide-react";
 import logoWhite from "@/assets/logo-white.png";
-import { Counter, Reveal, usePrefersReducedMotion } from "@/components/motion";
+import { Reveal } from "@/components/motion";
 import { GoldButton } from "@/components/gold-button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { SITE_URL } from "@/lib/site";
@@ -47,196 +34,100 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+/**
+ * La home en 7 bloques: hero (con los diferenciales dentro), problema,
+ * sistema, para quién, caso, FAQ y cierre. Dos bloques a sangre: el
+ * dorado del sistema y el azul del cierre.
+ */
 function Index() {
   return (
     <div className="relative text-foreground">
       <HeroPrincipal />
-      <MarqueeStrip />
-      <Diferenciales />
       <Problema />
-      <ComoTrabajamos />
-      <BloqueCrema>
-        <OfertaPrincipal />
-        <AQuienVaDirigido />
-      </BloqueCrema>
+      <Sistema />
+      <AQuienVaDirigido />
       <CasoDeExito />
-      <CtaDiagnostico />
-      <BloqueCrema>
-        <FAQ />
-      </BloqueCrema>
+      <FAQ />
       <FinalCTA />
     </div>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* 0. HERO PRINCIPAL                                                    */
+/* Piezas compartidas                                                   */
 /* ------------------------------------------------------------------ */
 
-/*
- * El hero del rediseño v2. Sustituye a <SyntaliaMotionHero /> en la
- * composición de la home, pero ese componente y HeroReunionBackground
- * siguen en el proyecto por si queremos volver al hero con fotografía.
- */
+/** Los dos anchos del sistema: bloque y columna de texto. */
+const BLOQUE = "mx-auto max-w-block px-6 sm:px-8";
 
-// TODO: datos de ejemplo, sustituir por reales
-const PANEL_FLUJO = [
-  { etiqueta: "Entrada", valor: "Meta Ads · Instagram" },
-  { etiqueta: "Conversión", valor: "Landing + formulario" },
-];
+/** Enlace subrayado: la alternativa discreta al botón principal. */
+const FANTASMA =
+  "inline-flex items-center gap-2 border-b-2 border-current pb-1 text-body font-semibold tracking-[-0.01em] transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold";
 
-// TODO: datos de ejemplo, sustituir por reales
-const PANEL_LEADS = [
-  { iniciales: "CD", nombre: "Clínica dental · Murcia", origen: "Meta Ads", estado: "WhatsApp enviado", activo: true },
-  { iniciales: "GM", nombre: "Gimnasio · Molina de Segura", origen: "Instagram", estado: "En seguimiento", activo: false },
-  { iniciales: "FS", nombre: "Centro de fisioterapia", origen: "SEO local", estado: "Cualificando", activo: false },
-  { iniciales: "AG", nombre: "Asesoría · Cartagena", origen: "Referido", estado: "Propuesta enviada", activo: false },
-];
+/* ------------------------------------------------------------------ */
+/* 1 · HERO                                                             */
+/* ------------------------------------------------------------------ */
 
-const PANEL_COLS = "grid grid-cols-[1fr_120px_150px] gap-4 lg:grid-cols-[1fr_190px_170px]";
-const PANEL_LABEL = "text-[9px] font-semibold uppercase tracking-[0.22em] text-foreground/70";
-
-function HeroPanel() {
-  return (
-    <div className="surface-card rounded-[28px] p-[22px]">
-      {/* barra superior */}
-      <div className="flex flex-wrap items-center justify-between gap-3 px-2 pt-1 pb-5">
-        <div className="flex items-center gap-3">
-          <span className="flex gap-1.5" aria-hidden>
-            <span className="h-[9px] w-[9px] rounded-full bg-foreground/18" />
-            <span className="h-[9px] w-[9px] rounded-full bg-foreground/18" />
-            <span className="h-[9px] w-[9px] rounded-full bg-gold/60" />
-          </span>
-          <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/60">
-            Panel de leads · vista de ejemplo
-          </span>
-        </div>
-
-        <span className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-gold-text">
-          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
-          Automatización activa
-        </span>
-      </div>
-
-      <div className="grid gap-[18px] lg:grid-cols-[320px_1fr]">
-        {/* flujo lateral */}
-        <div className="flex flex-col">
-          {PANEL_FLUJO.map((paso) => (
-            <div key={paso.etiqueta}>
-              <div className="rounded-2xl border border-foreground/10 bg-foreground/5 px-[18px] py-4">
-                <div className="text-[9px] font-semibold uppercase tracking-[0.22em] text-gold-text">
-                  {paso.etiqueta}
-                </div>
-                <div className="mt-2 text-base font-semibold text-foreground">{paso.valor}</div>
-              </div>
-              <div className="flex justify-center py-2.5" aria-hidden>
-                <ArrowDown className="h-4 w-4 text-gold/75" />
-              </div>
-            </div>
-          ))}
-
-          <div className="rounded-2xl bg-gradient-to-b from-gold/90 to-gold-grad/85 px-[18px] py-4 shadow-[inset_0_1px_0_oklch(1_0_0/40%)]">
-            <div className="text-[9px] font-semibold uppercase tracking-[0.22em] text-navy">Seguimiento</div>
-            <div className="mt-2 text-base font-bold text-navy">WhatsApp automático</div>
-          </div>
-        </div>
-
-        {/* tabla de leads */}
-        <div className="surface-card overflow-x-auto rounded-[18px]">
-          <div className="min-w-[520px]">
-            <div className={cn(PANEL_COLS, "border-b border-foreground/8 px-[22px] py-3.5")}>
-              <span className={PANEL_LABEL}>Contacto</span>
-              <span className={PANEL_LABEL}>Origen</span>
-              <span className={PANEL_LABEL}>Estado</span>
-            </div>
-
-            {PANEL_LEADS.map((lead, i) => (
-              <div
-                key={lead.iniciales}
-                className={cn(
-                  PANEL_COLS,
-                  "items-center px-[22px] py-[17px]",
-                  i < PANEL_LEADS.length - 1 && "border-b border-foreground/6",
-                )}
-              >
-                <div className="flex items-center gap-3">
-                  <span
-                    aria-hidden
-                    className={cn(
-                      "flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] border text-[11px] font-bold",
-                      lead.activo
-                        ? "border-gold/25 bg-gold/15 text-gold-text"
-                        : "border-foreground/12 bg-foreground/8 text-foreground/75",
-                    )}
-                  >
-                    {lead.iniciales}
-                  </span>
-                  <span className="text-[15px] font-medium text-foreground">{lead.nombre}</span>
-                </div>
-
-                <span className="text-sm text-foreground/60">{lead.origen}</span>
-
-                <span
-                  className={cn(
-                    "inline-flex items-center gap-2 text-xs font-semibold",
-                    lead.activo ? "text-gold-text" : "text-foreground/70",
-                  )}
-                >
-                  <span
-                    aria-hidden
-                    className={cn("h-1.5 w-1.5 shrink-0 rounded-full", lead.activo ? "bg-gold" : "bg-foreground/40")}
-                  />
-                  {lead.estado}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+const DIFERENCIALES_STRIP = [
+  {
+    title: "Estrategia antes que ejecución",
+    description: "Cada acción responde a un plan claro, no a impulsos ni modas pasajeras.",
+  },
+  {
+    title: "Captación y contenido conectados",
+    description: "El contenido no es decorativo: alimenta directamente el sistema de captación.",
+  },
+  {
+    title: "Seguimiento orientado a crecimiento",
+    description: "Medimos, ajustamos y evolucionamos la estrategia con datos reales.",
+  },
+] as const;
 
 function HeroPrincipal() {
   return (
     <section className="relative overflow-hidden">
-      {/* fondo: los dos resplandores, el círculo de 1px y el grano */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="glow-gold absolute -top-[180px] -right-[140px] h-[720px] w-[720px] rounded-full opacity-70" />
-        <div className="absolute top-10 left-1/2 h-[920px] w-[920px] -translate-x-1/2 rounded-full border border-foreground/5" />
         <div className="hero-grain absolute inset-0 opacity-5" />
       </div>
 
-      <div className="relative mx-auto max-w-[1240px] px-6 pt-32 pb-20 text-center sm:px-8 sm:pt-40 lg:pt-[11.5rem]">
-        <span className="inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-gold-text">
-          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
-          Consultora estratégica de marketing digital
-        </span>
+      <div className="relative pt-28 pb-16 lg:pt-32">
+        <div className={BLOQUE}>
+          <p className="label-mono">Syntalia Vértice · Consultora estratégica · Murcia</p>
 
-        <h1 className="mx-auto mt-10 max-w-[1080px] text-[2.6rem] leading-[1.0] tracking-[-0.035em] text-foreground sm:text-6xl md:text-7xl lg:text-[6.75rem] lg:leading-[0.94]">
-          Convertimos tu presencia digital en{" "}
-          <span className="text-gradient-gold-hero italic">oportunidades comerciales reales</span>
-        </h1>
+          {/* El H1 manda: ancho corto para que caiga en pocas líneas muy
+              grandes, y una sola palabra subrayada en dorado. */}
+          <h1 className="mt-6 max-w-[17ch] text-hero text-foreground">
+            Convertimos tu presencia digital en{" "}
+            <span className="mark">oportunidades</span> comerciales reales
+          </h1>
 
-        <p className="mx-auto mt-[34px] max-w-[620px] text-[17px] leading-[1.62] text-foreground/62 lg:text-[19px]">
-          Ayudamos a empresas y negocios que ya venden, a posicionarse mejor y generar contactos
-          cualificados con una estrategia digital clara.
-        </p>
+          {/* filete y dos columnas: el argumento a la izquierda, la acción a la derecha */}
+          <div className="mt-10 grid gap-8 border-t-2 border-navy pt-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-12">
+            <p className="max-w-[34ch] text-[18px] leading-[1.5] text-foreground/75 md:text-[21px]">
+              Ayudamos a empresas y negocios que ya venden, a posicionarse mejor y generar contactos
+              cualificados con una estrategia digital clara.
+            </p>
 
-        <div className="mt-11 flex flex-col items-center justify-center gap-3.5 sm:flex-row">
-          <GoldButton to="/diagnostico">Solicitar diagnóstico gratuito</GoldButton>
-
-          <Link
-            to="/servicios"
-            className="btn-glass inline-flex min-h-[58px] items-center justify-center gap-2.5 rounded-full px-7 text-base font-medium tracking-[-0.01em] text-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
-          >
-            <Play className="h-4 w-4 shrink-0" aria-hidden />
-            Ver cómo trabajamos
-          </Link>
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-4 lg:justify-end">
+              <Link to="/servicios" className={cn(FANTASMA, "text-foreground")}>
+                Ver cómo trabajamos
+              </Link>
+              <GoldButton to="/diagnostico">Solicitar diagnóstico gratuito</GoldButton>
+            </div>
+          </div>
         </div>
 
-        <div className="mt-[76px] text-left">
-          <HeroPanel />
+        {/* diferenciales, dentro del propio hero */}
+        <div className={cn(BLOQUE, "mt-14")}>
+          <div className="grid gap-7 text-left sm:grid-cols-3">
+            {DIFERENCIALES_STRIP.map((d) => (
+              <div key={d.title} className="border-t-2 border-navy pt-4">
+                <span className="label-mono">{d.title}</span>
+                <p className="mt-2 text-meta leading-[1.55] text-foreground/75">{d.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -244,127 +135,62 @@ function HeroPrincipal() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 0. EL PROBLEMA                                                       */
+/* 2 · EL PROBLEMA                                                      */
 /* ------------------------------------------------------------------ */
 
 const PROBLEMS = [
   {
     id: "diferenciacion",
-    number: "01",
+    icon: Target,
     title: "No se entiende qué te diferencia",
     description:
       "Tu mensaje se parece al de cualquier otra empresa y el cliente no encuentra una razón clara para elegirte.",
   },
   {
     id: "confianza",
-    number: "02",
+    icon: ShieldCheck,
     title: "Tu presencia no genera confianza",
     description:
       "Tu web, tus redes y tu mensaje no reflejan el nivel real, la experiencia ni la solidez de tu negocio.",
   },
   {
     id: "contactos",
-    number: "03",
+    icon: UserPlus,
     title: "El marketing no genera contactos",
     description:
       "Hay acciones, publicaciones o campañas, pero no un sistema claro para convertir el interés en oportunidades comerciales.",
   },
-];
-
-function ProblemRow({
-  problem,
-  isOpen,
-  onToggle,
-}: {
-  problem: (typeof PROBLEMS)[number];
-  isOpen: boolean;
-  onToggle: () => void;
-}) {
-  const buttonId = `problem-trigger-${problem.id}`;
-  const panelId = `problem-panel-${problem.id}`;
-  return (
-    <div className="surface-card overflow-hidden rounded-2xl">
-      <h3 className="m-0">
-        <button
-          type="button"
-          id={buttonId}
-          aria-expanded={isOpen}
-          aria-controls={panelId}
-          onClick={onToggle}
-          className={cn(
-            "flex min-h-[88px] w-full items-center gap-4 px-6 py-5 text-left transition-colors hover:bg-cream/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold sm:min-h-[104px] sm:gap-6 sm:px-8 lg:min-h-[112px]",
-          )}
-        >
-          <span className="w-10 shrink-0 font-display text-3xl text-gold-text sm:w-12 sm:text-4xl">
-            {problem.number}
-          </span>
-          <span className="h-8 w-px shrink-0 bg-foreground/15 sm:h-10" aria-hidden />
-          <span className="flex-1 font-sans text-base font-semibold leading-snug text-foreground sm:text-lg lg:text-xl">
-            {problem.title}
-          </span>
-          <ChevronDown
-            aria-hidden
-            className={cn(
-              "h-5 w-5 shrink-0 text-foreground transition-transform duration-[250ms]",
-              isOpen && "rotate-180 text-gold-text",
-            )}
-          />
-        </button>
-      </h3>
-      <div id={panelId} role="region" aria-labelledby={buttonId} className={cn("problem-panel", isOpen && "is-open")}>
-        <div>
-          <p className="max-w-md py-0 pr-6 pb-6 pl-[3.75rem] font-sans text-[15px] leading-relaxed text-foreground/70 sm:pb-7 sm:pl-[5.5rem] sm:text-base">
-            {problem.description}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
+] as const;
 
 function Problema() {
-  const [openProblem, setOpenProblem] = useState<string | null>(null);
-
   return (
-    <section className="relative border-t border-foreground/10">
-      <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
-        <div className="grid gap-14 lg:grid-cols-2 lg:items-start lg:gap-16">
-          {/* Left column — unchanged messaging */}
-          <div className="relative">
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 px-4 py-2">
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-text">El problema</span>
-            </div>
+    <section className="relative py-16 md:py-24">
+      <div className={BLOQUE}>
+        <p className="label-mono">El problema</p>
 
-            <h2 className="mt-7 text-[2.1rem] leading-[1.02] tracking-[-0.03em] text-foreground text-balance md:text-[3.4rem]">
-              No basta con tener valor. Hay que saber convertirlo en{" "}
-              <span className="text-gradient-gold-hero italic">oportunidades</span>.
-            </h2>
+        <h2 className="mt-5 max-w-[16ch] text-h2 text-foreground">
+          No basta con tener valor. Hay que saber convertirlo en{" "}
+          <span className="mark">oportunidades</span>.
+        </h2>
 
-            <p className="mt-6 max-w-xl text-foreground/75 leading-relaxed md:text-lg">
-              Muchas empresas tienen experiencia y una oferta sólida, pero su presencia digital no está generando confianza ni oportunidades comerciales.
-            </p>
+        <p className="mt-6 max-w-text text-lead leading-[1.65] text-foreground/75">
+          Muchas empresas tienen experiencia y una oferta sólida, pero su presencia digital no está generando confianza ni oportunidades comerciales.
+        </p>
 
-            <div className="surface-slab mt-10 max-w-xl rounded-3xl p-8 md:p-10">
-              <p className="text-xl font-bold leading-snug md:text-2xl">
-                El problema no es vender.
-                <br />
-                El problema es <span className="text-gold-text">no tener un sistema claro</span>.
-              </p>
-            </div>
-          </div>
-
-          {/* Right column — accordion rows */}
-          <div className="flex flex-col gap-3">
-            {PROBLEMS.map((p) => (
-              <ProblemRow
-                key={p.id}
-                problem={p}
-                isOpen={openProblem === p.id}
-                onToggle={() => setOpenProblem((cur) => (cur === p.id ? null : p.id))}
-              />
-            ))}
-          </div>
+        <div className="mt-12 grid gap-[18px] md:grid-cols-3">
+          {PROBLEMS.map((p, i) => (
+            <Reveal key={p.id} delay={i * 90} className="h-full">
+              <div className="surface-card flex h-full flex-col rounded-[22px] p-7">
+                <span className="mb-[22px] flex h-9 w-9 items-center justify-center rounded-xl bg-gold/15" aria-hidden>
+                  <p.icon className="h-[18px] w-[18px] text-gold-text" />
+                </span>
+                <h3 className="text-title leading-[1.15] font-bold tracking-[-0.03em] text-foreground text-balance">
+                  {p.title}
+                </h3>
+                <p className="mt-3 leading-[1.6] text-foreground/75">{p.description}</p>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
@@ -372,331 +198,95 @@ function Problema() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 0.5 CÓMO TRABAJAMOS                                                  */
+/* 3 · EL SISTEMA                                                       */
 /* ------------------------------------------------------------------ */
 
-const WORK_PHASES = [
+/**
+ * Fusión de "Cómo trabajamos" y las tres capas del Sistema Vértice: las
+ * cuatro etapas a la vista, y los servicios de las capas repartidos
+ * dentro de las etapas 02 y 03.
+ */
+const SYSTEM_STAGES = [
   {
-    id: "diagnostico",
     number: "01",
-    shortTitle: "Diagnóstico",
     title: "Diagnóstico estratégico",
     tagline: "Entendemos antes de construir.",
     description:
       "Analizamos el negocio, el mercado, el cliente ideal y la presencia digital para identificar qué está frenando el crecimiento.",
-    groupOne: { title: "Qué revisamos", icon: Search, items: ["Posicionamiento", "Presencia digital", "Captación actual"] },
-    groupTwo: { title: "Qué definimos", icon: Compass, items: ["Prioridades", "Objetivos", "Hoja de ruta"] },
+    includes: ["Posicionamiento y captación actual", "Prioridades y objetivos", "Hoja de ruta"],
   },
   {
-    id: "posicionamiento",
     number: "02",
-    shortTitle: "Posicionamiento",
     title: "Posicionamiento y base digital",
     tagline: "Ordenamos cómo debe percibirse tu empresa.",
     description:
       "Clarificamos el mensaje, la propuesta de valor y los activos digitales necesarios para transmitir una imagen sólida, profesional y diferenciada.",
-    groupOne: { title: "Qué trabajamos", icon: Target, items: ["Posicionamiento", "Propuesta de valor", "Mensaje principal"] },
-    groupTwo: { title: "Qué construimos", icon: Layers, items: ["Identidad y presencia", "Web o landing", "Canales principales"] },
+    includes: ["Branding e identidad visual", "Web y landing pages", "Contenidos y redes sociales", "Copywriting y SEO"],
   },
   {
-    id: "captacion",
     number: "03",
-    shortTitle: "Captación",
     title: "Captación y conversión",
     tagline: "Convertimos atención en oportunidades.",
     description:
       "Diseñamos el recorrido necesario para atraer, recoger, organizar y seguir contactos con intención comercial.",
-    groupOne: { title: "Qué conectamos", icon: Waypoints, items: ["Contenido y campañas", "Formularios y landing", "Activos de captación"] },
-    groupTwo: { title: "Qué organizamos", icon: ClipboardList, items: ["CRM", "Seguimiento comercial", "Recorrido de conversión"] },
+    includes: ["Social Ads y campañas", "Formularios y landing de captación", "CRM y automatizaciones", "Email marketing y seguimiento"],
   },
   {
-    id: "optimizacion",
     number: "04",
-    shortTitle: "Optimización",
     title: "Optimización y escalado",
     tagline: "Medimos, corregimos y reforzamos.",
     description:
       "Analizamos el funcionamiento del sistema para mejorar su eficiencia y potenciar aquello que realmente genera resultados.",
-    groupOne: { title: "Qué medimos", icon: LineChart, items: ["Conversión", "Rendimiento", "Seguimiento"] },
-    groupTwo: { title: "Qué mejoramos", icon: Settings2, items: ["Automatización", "Eficiencia", "Escalado"] },
+    includes: ["Conversión y rendimiento", "Automatización", "Escalado"],
   },
 ] as const;
 
-type PhaseGroupData = { title: string; icon: typeof Search; items: readonly string[] };
-
-function PhaseGroup({ group }: { group: PhaseGroupData }) {
-  return (
-    <div className="sm:border-l sm:border-foreground/10 sm:pl-8">
-      <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-text">
-        <group.icon className="h-4 w-4" aria-hidden />
-        {group.title}
-      </div>
-      <ul className="mt-3 space-y-2">
-        {group.items.map((item) => (
-          <li key={item} className="flex items-center gap-2 text-sm text-foreground/80">
-            <span className="h-1 w-1 shrink-0 rounded-full bg-gold/60" aria-hidden />
-            {item}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-function ComoTrabajamos() {
-  const [activePhase, setActivePhase] = useState<(typeof WORK_PHASES)[number]["id"]>("diagnostico");
-  const activeIndex = WORK_PHASES.findIndex((p) => p.id === activePhase);
-  const active = WORK_PHASES[activeIndex];
-
-  const ctaButton = (
-    <Link
-      to="/diagnostico"
-      className="group inline-flex items-center gap-3 rounded-full bg-gold px-8 py-4 text-sm font-bold uppercase tracking-wide text-navy transition hover:bg-gold-soft"
-    >
-      Solicitar diagnóstico estratégico
-      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-    </Link>
-  );
+/**
+ * Una etapa. Por debajo de md el detalle (parrafo y viñetas) va plegado
+ * detras de "Ver qué incluye": cuatro etapas abiertas hacian del bloque
+ * una pantalla y media de scroll en movil. De md en adelante el detalle
+ * esta siempre visible y el boton no se monta.
+ */
+function Etapa({ stage }: { stage: (typeof SYSTEM_STAGES)[number] }) {
+  const [abierta, setAbierta] = useState(false);
+  const panelId = `etapa-${stage.number}`;
 
   return (
-    <section className="relative border-t border-foreground/10">
-      <div className="relative mx-auto max-w-[1280px] px-6 py-24 md:py-28">
-        {/* Header */}
-        <div className="inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 px-4 py-2">
-          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
-          <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-text">Cómo trabajamos · 4 etapas</span>
-        </div>
+    <div className="flex h-full flex-col pr-4">
+      <span
+        aria-hidden
+        className="block text-[64px] leading-[0.9] font-bold tracking-[-0.04em] text-foreground lg:text-[96px]"
+      >
+        {stage.number}
+      </span>
 
-        <div className="mt-6 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
-          <div className="max-w-2xl">
-            <h2 className="text-[2.1rem] leading-[1.02] tracking-[-0.03em] text-foreground md:text-[3.4rem]">
-              De una presencia digital dispersa a un{" "}
-              <span className="text-gradient-gold-hero italic">sistema preparado para crecer</span>.
-            </h2>
-            <p className="mt-5 max-w-xl text-foreground/75 leading-relaxed md:text-lg">
-              Aplicamos lógica comercial y estrategia digital para transformar tu presencia en oportunidades comerciales reales y sostenibles.
-            </p>
-          </div>
+      <h3 className="mt-5 text-[23px] leading-[1.1] font-bold tracking-[-0.03em] text-foreground text-balance">
+        {stage.title}
+      </h3>
+      <p className="mt-1.5 text-lead leading-[1.3] font-semibold text-foreground/80">{stage.tagline}</p>
 
-          <div className="flex gap-4 lg:max-w-[240px] lg:pt-2">
-            <span className="w-px shrink-0 bg-gold/50" aria-hidden />
-            <p className="font-poppins text-sm leading-relaxed text-foreground/60">
-              No ejecutamos por ejecutar.
-              <br />
-              Cada etapa prepara la siguiente.
-            </p>
-          </div>
-        </div>
+      <button
+        type="button"
+        onClick={() => setAbierta((v) => !v)}
+        aria-expanded={abierta}
+        aria-controls={panelId}
+        className="mt-4 flex w-full items-center justify-between gap-3 border-t border-navy/25 pt-3.5 text-left text-meta font-semibold text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy md:hidden"
+      >
+        Ver qué incluye
+        <ChevronDown
+          aria-hidden
+          className={cn("h-4 w-4 shrink-0 transition-transform", abierta && "rotate-180")}
+        />
+      </button>
 
-        {/* Desktop/tablet: horizontal roadmap + single panel */}
-        <div className="mt-16 hidden lg:block">
-          <div className="relative">
-            <div className="absolute inset-x-[12.5%] top-[28px] h-px bg-gradient-to-r from-cream/15 to-gold/70" aria-hidden />
-            <div
-              className="absolute top-[28px] left-[12.5%] h-px bg-gold transition-all duration-500 ease-out"
-              style={{ width: `${(activeIndex / (WORK_PHASES.length - 1)) * 75}%` }}
-              aria-hidden
-            />
-            <div role="tablist" aria-label="Fases del proceso" className="relative grid grid-cols-4">
-              {WORK_PHASES.map((p) => {
-                const isActive = p.id === activePhase;
-                return (
-                  <button
-                    key={p.id}
-                    type="button"
-                    role="tab"
-                    id={`phase-tab-${p.id}`}
-                    aria-selected={isActive}
-                    aria-controls={`phase-panel-${p.id}`}
-                    onClick={() => setActivePhase(p.id)}
-                    className="flex cursor-pointer flex-col items-center gap-3 rounded-lg py-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
-                  >
-                    <span
-                      className={cn(
-                        "flex h-14 w-14 items-center justify-center rounded-full border font-display text-xl transition-all duration-300",
-                        isActive
-                          ? "scale-105 border-transparent bg-gradient-to-b from-gold-light to-gold text-navy shadow-[inset_0_1px_0_oklch(1_0_0/50%),0_10px_26px_-10px_oklch(0.745_0.135_82/80%)]"
-                          : "border-foreground/20 bg-foreground/5 text-foreground/80",
-                      )}
-                    >
-                      {p.number}
-                    </span>
-                    <span
-                      className={cn(
-                        "text-sm font-medium tracking-[-0.01em] text-foreground/60 transition-colors",
-                        isActive && "font-semibold text-foreground",
-                      )}
-                    >
-                      {p.shortTitle}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+      <div id={panelId} className={cn("md:block", abierta ? "block" : "hidden")}>
+        <p className="mt-3 text-meta leading-[1.6] text-foreground/85">{stage.description}</p>
 
-          <div
-            key={active.id}
-            id={`phase-panel-${active.id}`}
-            role="tabpanel"
-            aria-labelledby={`phase-tab-${active.id}`}
-            className="surface-card phase-panel-enter relative mt-10 overflow-hidden rounded-[2rem] p-10 lg:p-12"
-          >
-            <div className="relative grid gap-10 sm:grid-cols-[auto_1fr]">
-              <div className="font-display text-7xl text-gold-text">{active.number}</div>
-              <div>
-                <h3 className="font-sans text-2xl font-semibold tracking-[-0.02em] sm:text-3xl">{active.title}</h3>
-                <p className="mt-2 text-base font-semibold text-gold-text sm:text-lg">{active.tagline}</p>
-                <p className="mt-4 max-w-xl leading-relaxed text-foreground/70">{active.description}</p>
-
-                <div className="mt-8 grid gap-8 sm:grid-cols-2">
-                  <PhaseGroup group={active.groupOne} />
-                  <PhaseGroup group={active.groupTwo} />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-9 text-center">{ctaButton}</div>
-        </div>
-
-        {/* Mobile/tablet: accordion */}
-        <div className="mt-12 lg:hidden">
-          {WORK_PHASES.map((p) => {
-            const isOpen = p.id === activePhase;
-            const triggerId = `phase-mobile-trigger-${p.id}`;
-            const panelId = `phase-mobile-panel-${p.id}`;
-            return (
-              <div key={p.id} className="surface-card mb-3 overflow-hidden rounded-2xl">
-                <h3 className="m-0">
-                  <button
-                    type="button"
-                    id={triggerId}
-                    aria-expanded={isOpen}
-                    aria-controls={panelId}
-                    onClick={() => setActivePhase(p.id)}
-                    className="flex min-h-[80px] w-full items-center gap-4 px-5 py-4 text-left transition-colors hover:bg-cream/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-gold"
-                  >
-                    <span className="w-9 shrink-0 font-display text-2xl text-gold-text">{p.number}</span>
-                    <span className="h-7 w-px shrink-0 bg-foreground/15" aria-hidden />
-                    <span className="flex-1 font-sans text-base font-semibold text-foreground">{p.shortTitle}</span>
-                    <ChevronDown
-                      aria-hidden
-                      className={cn(
-                        "h-5 w-5 shrink-0 text-foreground transition-transform duration-[250ms]",
-                        isOpen && "rotate-180 text-gold-text",
-                      )}
-                    />
-                  </button>
-                </h3>
-                <div id={panelId} role="region" aria-labelledby={triggerId} className={cn("problem-panel", isOpen && "is-open")}>
-                  <div>
-                    <div className="pr-5 pb-6 pl-[4.5rem]">
-                      <h4 className="font-sans text-lg font-semibold tracking-[-0.02em] text-foreground">{p.title}</h4>
-                      <p className="mt-1 text-sm font-semibold text-gold-text">{p.tagline}</p>
-                      <p className="mt-3 max-w-md text-[15px] leading-relaxed text-foreground/65">{p.description}</p>
-
-                      <div className="mt-5 space-y-5">
-                        {[p.groupOne, p.groupTwo].map((group) => (
-                          <div key={group.title}>
-                            <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/70">
-                              <group.icon className="h-3.5 w-3.5" aria-hidden />
-                              {group.title}
-                            </div>
-                            <ul className="mt-2 space-y-1.5">
-                              {group.items.map((item) => (
-                                <li key={item} className="flex items-center gap-2 text-sm text-foreground/75">
-                                  <span className="h-1 w-1 shrink-0 rounded-full bg-gold/60" aria-hidden />
-                                  {item}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-
-          <div className="mt-10 text-center">{ctaButton}</div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* 0.7 OFERTA PRINCIPAL                                                 */
-/* ------------------------------------------------------------------ */
-
-const VERTICE_PHASES = [
-  {
-    id: "posicionamiento",
-    number: "01",
-    title: "Posicionamiento y presencia digital",
-    tagline: "Definimos la base estratégica y visual sobre la que se construirá todo lo demás.",
-    services: [
-      "Posicionamiento de marca",
-      "Propuesta de valor y mensaje",
-      "Branding e identidad visual",
-      "Web y landing pages",
-      "Optimización de perfiles digitales",
-    ],
-    icon: Target,
-  },
-  {
-    id: "autoridad",
-    number: "02",
-    title: "Autoridad y visibilidad",
-    tagline: "Trabajamos tu presencia en los canales adecuados para transmitir valor, generar confianza y aumentar tu visibilidad.",
-    services: [
-      "Estrategia de contenidos",
-      "Gestión de redes sociales",
-      "Copywriting y SEO",
-      "Contenido de autoridad",
-      "Optimización de canales digitales",
-    ],
-    icon: ShieldCheck,
-  },
-  {
-    id: "captacion",
-    number: "03",
-    title: "Captación y conversión",
-    tagline: "Construimos el sistema necesario para transformar visibilidad e interés en contactos cualificados y oportunidades.",
-    services: [
-      "Social Ads y campañas",
-      "Formularios y landing de captación",
-      "CRM y automatizaciones",
-      "Email marketing y seguimiento",
-      "Optimización de conversión",
-    ],
-    icon: Waypoints,
-  },
-] as const;
-
-const VERTICE_COUNT = VERTICE_PHASES.length;
-
-function VerticeCardContent({ phase }: { phase: (typeof VERTICE_PHASES)[number] }) {
-  return (
-    <div className="flex h-full flex-col rounded-[22px] border border-navy/12 bg-white/60 p-8 backdrop-blur-sm md:p-10">
-      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-gold text-navy">
-        <phase.icon className="h-5 w-5" aria-hidden />
-      </div>
-      <div className="mt-6 font-display text-5xl text-gold-deep">{phase.number}</div>
-      <h3 className="mt-3 font-sans text-xl font-semibold tracking-[-0.02em] text-navy md:text-2xl">{phase.title}</h3>
-      <span className="mt-3 block h-[3px] w-10 rounded-full bg-gold-deep" aria-hidden />
-      <p className="mt-4 text-sm leading-relaxed text-navy/65">{phase.tagline}</p>
-
-      <div className="mt-6 border-t border-navy/14 pt-6">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-navy/65">Servicios incluidos</p>
-        <ul className="mt-4 space-y-2.5">
-          {phase.services.map((s) => (
-            <li key={s} className="flex items-start gap-2.5 text-sm text-navy/75">
-              <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-gold-deep" aria-hidden />
-              {s}
+        <ul className="mt-4 flex flex-col gap-1.5 pt-3.5 md:border-t md:border-navy/25">
+          {stage.includes.map((item) => (
+            <li key={item} className="flex items-baseline gap-2.5 text-meta text-foreground">
+              <span aria-hidden className="h-[5px] w-[5px] shrink-0 -translate-y-0.5 rounded-full bg-navy" />
+              {item}
             </li>
           ))}
         </ul>
@@ -705,206 +295,38 @@ function VerticeCardContent({ phase }: { phase: (typeof VERTICE_PHASES)[number] 
   );
 }
 
-/** Position of a card relative to the active one: 0 = center, 1 = right, 2 = left. */
-function cardSlot(index: number, activeIndex: number) {
-  return (index - activeIndex + VERTICE_COUNT) % VERTICE_COUNT;
-}
-
-function cardTransform(slot: number, reduced: boolean) {
-  if (reduced) {
-    if (slot === 0) return { transform: "translateX(0)", opacity: 1, filter: "blur(0)", zIndex: 3 };
-    const side = slot === 1 ? 40 : -40;
-    return { transform: `translateX(${side}%) scale(0.9)`, opacity: 0.4, filter: "blur(0)", zIndex: 1 };
-  }
-  if (slot === 0) {
-    return { transform: "translateX(0) translateZ(0) scale(1) rotateY(0deg)", opacity: 1, filter: "blur(0)", zIndex: 3 };
-  }
-  if (slot === 1) {
-    return {
-      transform: "translateX(72%) translateZ(-100px) scale(0.86) rotateY(-7deg)",
-      opacity: 0.4,
-      filter: "blur(2px)",
-      zIndex: 2,
-    };
-  }
-  return {
-    transform: "translateX(-72%) translateZ(-100px) scale(0.86) rotateY(7deg)",
-    opacity: 0.4,
-    filter: "blur(2px)",
-    zIndex: 2,
-  };
-}
-
-function VerticeCarousel() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const reduced = usePrefersReducedMotion();
-  const liveRegionRef = useRef<HTMLDivElement>(null);
-  const dragRef = useRef({ startX: 0, dragging: false });
-
-  const goTo = (index: number) => setActiveIndex(((index % VERTICE_COUNT) + VERTICE_COUNT) % VERTICE_COUNT);
-  const goNext = () => goTo(activeIndex + 1);
-  const goPrev = () => goTo(activeIndex - 1);
-
-  useEffect(() => {
-    if (liveRegionRef.current) {
-      const p = VERTICE_PHASES[activeIndex];
-      liveRegionRef.current.textContent = `Mostrando fase ${p.number}: ${p.title}`;
-    }
-  }, [activeIndex]);
-
-  const onPointerDown = (e: React.PointerEvent) => {
-    dragRef.current = { startX: e.clientX, dragging: true };
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
-  };
-  const onPointerUp = (e: React.PointerEvent) => {
-    if (!dragRef.current.dragging) return;
-    dragRef.current.dragging = false;
-    const dx = e.clientX - dragRef.current.startX;
-    if (Math.abs(dx) > 50) {
-      if (dx < 0) goNext();
-      else goPrev();
-    }
-  };
-
-  const onKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowRight") {
-      e.preventDefault();
-      goNext();
-    } else if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      goPrev();
-    }
-  };
-
+/** El único bloque dorado de la web: a sangre y con todo el texto en navy. */
+function Sistema() {
   return (
-    <div>
-      <div
-        role="group"
-        aria-roledescription="carousel"
-        aria-label="Sistema Vértice: fases del servicio"
-        tabIndex={0}
-        onKeyDown={onKeyDown}
-        className="relative mx-auto max-w-[1180px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-gold"
-      >
-        <div aria-live="polite" ref={liveRegionRef} className="sr-only" />
-
-        <button
-          type="button"
-          onClick={goPrev}
-          aria-label="Fase anterior"
-          className="absolute top-1/2 left-0 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center surface-navy rounded-full border border-border shadow-[0_10px_30px_-10px_rgba(2,21,87,0.3)] transition hover:text-gold-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:left-2 lg:-left-4"
-        >
-          <ArrowLeft className="h-5 w-5" />
-        </button>
-        <button
-          type="button"
-          onClick={goNext}
-          aria-label="Fase siguiente"
-          className="absolute top-1/2 right-0 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center surface-navy rounded-full border border-border shadow-[0_10px_30px_-10px_rgba(2,21,87,0.3)] transition hover:text-gold-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:right-2 lg:-right-4"
-        >
-          <ArrowRight className="h-5 w-5" />
-        </button>
-
-        <div
-          className="vertice-viewport relative mx-auto h-[500px] w-full max-w-[300px] touch-pan-y select-none sm:h-[520px] sm:max-w-[400px] lg:h-[540px] lg:max-w-[440px]"
-          onPointerDown={onPointerDown}
-          onPointerUp={onPointerUp}
-        >
-          {VERTICE_PHASES.map((phase, i) => {
-            const slot = cardSlot(i, activeIndex);
-            const isCenter = slot === 0;
-            const style = cardTransform(slot, reduced);
-
-            if (isCenter) {
-              return (
-                <div key={phase.id} className="vertice-card absolute inset-0" style={style}>
-                  <VerticeCardContent phase={phase} />
-                </div>
-              );
-            }
-
-            return (
-              <button
-                key={phase.id}
-                type="button"
-                onClick={() => goTo(i)}
-                aria-label={`Ir a ${phase.title}`}
-                className="vertice-card absolute inset-0 cursor-pointer text-left transition-[filter] duration-300 hover:opacity-[0.6]"
-                style={style}
-              >
-                <div aria-hidden className="h-full">
-                  <VerticeCardContent phase={phase} />
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="mt-9 flex items-center justify-center gap-3">
-        {VERTICE_PHASES.map((phase, i) => (
-          <button
-            key={phase.id}
-            type="button"
-            onClick={() => goTo(i)}
-            aria-label={`Ir a ${phase.title}`}
-            aria-current={i === activeIndex}
-            className={cn(
-              "h-2.5 rounded-full transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold",
-              i === activeIndex ? "w-7 bg-gold-deep" : "w-2.5 bg-navy/20 hover:bg-navy/35",
-            )}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/**
- * El unico bloque claro de la home. Dentro manda la regla de superficies:
- * texto navy, dorado en --gold-deep y filetes en navy/14. La utilidad
- * surface-slab repunta los tokens semanticos de todo el subarbol.
- */
-function BloqueCrema({ children }: { children: ReactNode }) {
-  return (
-    <div className="px-3 md:px-5">
-      <div className="surface-slab relative overflow-hidden rounded-[34px] py-20 md:rounded-[52px] md:py-28">
-        <div
-          aria-hidden
-          className="glow-gold pointer-events-none absolute -top-[260px] -right-[220px] h-[700px] w-[700px] rounded-full"
-        />
-        <div className="relative">{children}</div>
-      </div>
-    </div>
-  );
-}
-
-function OfertaPrincipal() {
-  return (
-    <section id="fases" className="relative scroll-mt-24">
-      <div className="relative mx-auto max-w-7xl px-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="mx-auto inline-flex items-center gap-2.5 rounded-full border border-navy/16 bg-navy/6 px-4 py-2">
-            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold-deep" aria-hidden />
-            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-navy/70">Sistema Vértice · Oferta principal</span>
-          </div>
-
-          <h2 className="mt-7 text-[2.1rem] leading-[1.02] tracking-[-0.03em] text-navy text-balance md:text-[3.4rem]">
-            Tres capas conectadas para convertir tu presencia digital en{" "}
-            <span className="text-gold-deep italic">oportunidades</span>.
+    <section id="fases" className="surface-gold relative scroll-mt-24 py-[72px] md:py-24">
+      <div className={BLOQUE}>
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:items-end lg:gap-10">
+          <h2 className="max-w-[16ch] text-h2 text-foreground">
+            De una presencia digital dispersa a un sistema preparado para crecer.
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl leading-relaxed text-navy/60 md:text-lg">
-            Posicionamiento, autoridad y captación trabajando dentro de un mismo sistema, no como servicios independientes.
-          </p>
+          <div>
+            <p className="label-mono">Sistema Vértice · 4 etapas</p>
+            <p className="mt-3 max-w-text text-lead leading-[1.55] text-foreground/85">
+              Cada etapa se apoya en la anterior. Las tres capas de servicio viven dentro de las etapas 02 y 03.
+            </p>
+          </div>
         </div>
 
-        <div className="mt-16">
-          <VerticeCarousel />
-        </div>
-
-        <div className="mt-10 flex justify-center">
-          <GoldButton to="/servicios">Conocer el Sistema Vértice</GoldButton>
+        <div className="mt-12 grid gap-y-10 sm:grid-cols-2 md:mt-16 lg:grid-cols-4">
+          {SYSTEM_STAGES.map((s, i) => (
+            <Reveal
+              key={s.number}
+              delay={i * 80}
+              className={cn(
+                "h-full border-t-2 border-navy pt-6",
+                "sm:[&:nth-child(2n)]:border-l-2 sm:[&:nth-child(2n)]:border-navy sm:[&:nth-child(2n)]:pl-6",
+                "lg:[&:nth-child(n+2)]:border-l-2 lg:[&:nth-child(n+2)]:border-navy lg:[&:nth-child(n+2)]:pl-6",
+              )}
+            >
+              <Etapa stage={s} />
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
@@ -912,135 +334,136 @@ function OfertaPrincipal() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 0.9 ¿ES ESTO PARA TI?                                                */
+/* 4 · ¿ES ESTO PARA TI?                                                */
 /* ------------------------------------------------------------------ */
+
+const FIT_ITEMS = [
+  "Tu empresa funciona bien, pero no crece al ritmo que debería.",
+  "No transmite online el nivel real de calidad que tiene.",
+  "Depende demasiado del boca a boca o de clientes de siempre.",
+  "No genera contactos nuevos de forma constante cada mes.",
+  "Quieres dejar de improvisar y trabajar con una estrategia real.",
+];
 
 function AQuienVaDirigido() {
-  const items = [
-    "Tu empresa funciona bien, pero no crece al ritmo que debería.",
-    "No transmite online el nivel real de calidad que tiene.",
-    "Depende demasiado del boca a boca o de clientes de siempre.",
-    "No genera contactos nuevos de forma constante cada mes.",
-    "Quieres dejar de improvisar y trabajar con una estrategia real.",
-  ];
   return (
-    <section className="relative">
-      <div className="relative mx-auto max-w-7xl px-6 pt-20 md:pt-28">
-        <div className="grid gap-16 md:grid-cols-12">
-          <div className="md:col-span-5 md:sticky md:top-28 md:self-start">
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-navy/16 bg-navy/6 px-4 py-2">
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold-deep" aria-hidden />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-navy/70">¿Es esto para ti?</span>
-            </div>
-            <h2 className="mt-7 text-[2.4rem] leading-[1.0] tracking-[-0.03em] text-navy text-balance md:text-[3.8rem]">
-              <span className="block">Esto es</span>
-              <span className="block">
-                para ti <span className="text-gold-deep italic">si</span>
-              </span>
-              <span className="block text-gold-deep italic">tu empresa...</span>
+    <section className="relative py-16 md:py-24">
+      <div className={BLOQUE}>
+        <div className="surface-slab grid gap-12 rounded-[30px] px-6 py-10 md:rounded-[40px] md:px-16 md:py-[72px] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-14">
+          <div>
+            <p className="label-mono">¿Es esto para ti?</p>
+
+            <h2 className="mt-5 max-w-[15ch] text-h2 text-foreground">
+              Esto es para ti <span className="mark">si tu empresa...</span>
             </h2>
-            <p className="mt-8 leading-relaxed text-navy/65">Tu empresa tiene valor real, pero algo está bloqueando su crecimiento. Si te identificas con alguno de estos puntos, podemos ayudarte:</p>
-            <div className="relative mt-10 overflow-hidden rounded-[22px] border border-navy/12 bg-white/60 p-8 md:p-10">
-              <div className="relative">
-                <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-navy/65">El problema real</div>
-                <p className="mt-4 font-sans text-2xl font-semibold leading-snug tracking-[-0.02em] text-navy md:text-3xl">
-                  No es vender más.<br />Es <span className="text-gold-deep">posicionarte mejor</span>.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="md:col-span-7">
-            <ul className="space-y-3">
-              {items.map((it, i) => (
-                <Reveal key={i} delay={i * 90}>
-                  <li className="group relative grid grid-cols-[auto_1fr_auto] items-center gap-6 overflow-hidden rounded-[22px] border border-navy/12 bg-white/60 px-6 py-6 transition-all hover:-translate-y-0.5 hover:translate-x-2">
-                    <span className="pointer-events-none absolute inset-y-0 left-0 w-0 bg-gradient-to-r from-gold-deep/12 to-transparent transition-all duration-500 group-hover:w-full" />
-                    <span className="relative font-display text-4xl text-gold-deep/60 group-hover:text-gold-deep">
-                      0{i + 1}
-                    </span>
-                    <span className="relative text-navy/80 group-hover:text-navy md:text-lg">{it}</span>
-                    <CheckCircle2 className="relative h-5 w-5 text-gold-deep/80 transition-all group-hover:text-gold-deep group-hover:scale-110" />
-                  </li>
-                </Reveal>
-              ))}
-            </ul>
-            <Reveal delay={items.length * 90 + 100}>
-              <GoldButton to="/diagnostico" className="mt-8">
-                Quiero mi diagnóstico gratuito
-              </GoldButton>
-            </Reveal>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
-/* ------------------------------------------------------------------ */
-/* 0.97 DIFERENCIALES                                                   */
-/* ------------------------------------------------------------------ */
+            <p className="mt-6 max-w-text text-lead leading-[1.65] text-foreground/75">
+              Tu empresa tiene valor real, pero algo está bloqueando su crecimiento. Si te identificas con alguno de estos puntos, podemos ayudarte:
+            </p>
 
-const DIFERENCIALES_STRIP = [
-  {
-    icon: Compass,
-    title: "Estrategia antes que ejecución",
-    description: "Cada acción responde a un plan claro, no a impulsos ni modas pasajeras.",
-  },
-  {
-    icon: Waypoints,
-    title: "Captación y contenido conectados",
-    description: "El contenido no es decorativo: alimenta directamente el sistema de captación.",
-  },
-  {
-    icon: LineChart,
-    title: "Seguimiento orientado a crecimiento",
-    description: "Medimos, ajustamos y evolucionamos la estrategia con datos reales.",
-  },
-] as const;
-
-function Diferenciales() {
-  return (
-    <section className="relative">
-      <div className="mx-auto max-w-[1240px] px-6 sm:px-8">
-        <div className="flex flex-col gap-7 py-[26px] lg:flex-row lg:items-center lg:gap-10">
-          {/* rotulo a la izquierda */}
-          <div className="lg:w-[300px] lg:shrink-0">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/70">
-              Diferenciales
-            </span>
-            <h2 className="mt-3 text-lg leading-[1.2] tracking-[-0.03em] text-foreground lg:text-xl">
-              No hacemos marketing aislado. Construimos sistemas con{" "}
-              <span className="text-gradient-gold-hero italic">lógica comercial</span>.
-            </h2>
-            <p className="mt-2 text-[13px] leading-relaxed text-foreground/60">
-              Conectamos estrategia, contenido, captación y seguimiento dentro de un mismo sistema, para que cada pieza cumpla una función en el crecimiento de tu empresa.
+            <p className="mt-7 text-title leading-[1.15] font-bold tracking-[-0.03em] text-foreground">
+              No es vender más.
+              <br />
+              Es posicionarte mejor.
             </p>
           </div>
 
-          {/* los diferenciales, en rejilla */}
-          <div className="grid flex-1 gap-3 sm:grid-cols-3">
-            {DIFERENCIALES_STRIP.map((item, i) => (
-              <Reveal key={item.title} delay={i * 90} className="h-full">
-                <div className="surface-card flex h-full flex-col gap-2 rounded-2xl px-5 py-4">
-                  <div className="flex items-center gap-2.5">
-                    <item.icon className="h-4 w-4 shrink-0 text-gold-text" aria-hidden />
-                    <h3 className="font-sans text-[15px] font-semibold leading-tight tracking-[-0.02em] text-foreground">{item.title}</h3>
-                  </div>
-                  <p className="text-[13px] leading-relaxed text-foreground/60">{item.description}</p>
-                </div>
+          {/* En movil no hay tarjetas: una linea por punto, a todo el
+              ancho y separadas por filetes. */}
+          <ul className="flex flex-col md:gap-2.5">
+            {FIT_ITEMS.map((it, i) => (
+              <Reveal key={it} delay={i * 80}>
+                <li className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 border-b border-border py-4 text-lead text-foreground md:gap-4 md:rounded-[18px] md:border md:bg-background md:px-5">
+                  <CheckCircle2 aria-hidden className="h-[18px] w-[18px] shrink-0 text-gold-text md:hidden" />
+                  <span className="hidden h-7 w-7 items-center justify-center rounded-full bg-gold/18 md:flex" aria-hidden>
+                    <CheckCircle2 className="h-[15px] w-[15px] text-gold-text" />
+                  </span>
+                  {it}
+                </li>
               </Reveal>
             ))}
-          </div>
+          </ul>
         </div>
-
-        <div className="h-px w-full bg-foreground/12" aria-hidden />
       </div>
     </section>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* 0.99 PREGUNTAS FRECUENTES                                            */
+/* 5 · CASO DE ÉXITO                                                    */
+/* ------------------------------------------------------------------ */
+
+/** Cifras fijas, sin contador: una captura a medias mostraba un dato falso. */
+const FRULONSA_DESTACADO = "5,6 M";
+
+/** La unidad se pinta más pequeña, así que la separamos de la cifra. */
+const [FRULONSA_CIFRA, FRULONSA_UNIDAD] = FRULONSA_DESTACADO.split(" ");
+
+const FRULONSA_METRICS = [
+  { value: "1,4 M", label: "Usuarios únicos" },
+  { value: "157 K", label: "Interacciones" },
+  { value: "+7.301", label: "Nuevos seguidores" },
+] as const;
+
+function CasoDeExito() {
+  return (
+    <section className="relative py-16 md:py-24">
+      <div className={BLOQUE}>
+        <p className="label-mono">Caso de éxito · Frulonsa</p>
+
+        <h2 className="mt-5 max-w-[18ch] text-h2 text-foreground">
+          Resultados que demuestran lo que pasa cuando el sistema está{" "}
+          <span className="mark">bien construido</span>.
+        </h2>
+
+        <div className="mt-14 grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:gap-16">
+          {/* izquierda: la cifra estrella, a tamaño de titular */}
+          <div>
+            <Reveal>
+              <span className="block text-[clamp(84px,13vw,200px)] leading-[0.92] font-bold tracking-[-0.04em] text-foreground">
+                {FRULONSA_CIFRA}
+                <span className="text-[0.34em] tracking-[-0.03em]">{FRULONSA_UNIDAD}</span>
+              </span>
+            </Reveal>
+
+            <p className="mt-6 max-w-[34ch] text-lead leading-[1.55] text-foreground/75">
+              Reproducciones del contenido durante los 90 días en los que trabajamos la estrategia,
+              la planificación y la producción de contenido de Frulonsa.
+            </p>
+
+            <Link to="/contacto" className={cn(FANTASMA, "mt-7 text-foreground")}>
+              Ver el caso completo
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+            </Link>
+          </div>
+
+          {/* derecha: el resto de métricas, en lista con filetes */}
+          <div>
+            <dl className="border-t-2 border-navy">
+              {FRULONSA_METRICS.map((m, i) => (
+                <Reveal key={m.label} delay={100 + i * 80}>
+                  <div className="flex items-baseline justify-between gap-5 border-b border-border py-[18px]">
+                    <dt className="label-mono">{m.label}</dt>
+                    <dd className="text-[40px] leading-none font-bold tracking-[-0.035em] text-foreground">
+                      {m.value}
+                    </dd>
+                  </div>
+                </Reveal>
+              ))}
+            </dl>
+
+            <p className="mt-4 text-meta text-foreground/75">
+              Datos de las analíticas de los canales de Frulonsa durante 90 días.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 6 · PREGUNTAS FRECUENTES                                             */
 /* ------------------------------------------------------------------ */
 
 const FAQS = [
@@ -1080,305 +503,80 @@ const FAQS = [
 
 function FAQ() {
   return (
-    <section id="faq" className="relative scroll-mt-28">
-      <div className="relative mx-auto max-w-4xl px-6">
-        <Accordion type="single" collapsible className="w-full border-t border-navy/12">
-          {FAQS.map((f, i) => (
-            <AccordionItem key={f.q} value={`item-${i}`} className="border-navy/12">
-              <AccordionTrigger className="group gap-5 py-7 text-left hover:no-underline [&>svg]:hidden">
-                <span className="flex items-start gap-5">
-                  <span className="shrink-0 pt-0.5 font-display text-base text-navy/70 md:text-lg">
-                    {String(i + 1).padStart(2, "0")}
+    <section id="faq" className="relative scroll-mt-28 py-16 md:py-24">
+      <div className={BLOQUE}>
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] lg:items-start lg:gap-14">
+          <div>
+            <p className="label-mono">FAQ</p>
+            <h2 className="mt-5 max-w-[9ch] text-h2 text-foreground">
+              Preguntas <span className="mark">frecuentes</span>.
+            </h2>
+          </div>
+
+          <Accordion type="single" collapsible className="w-full border-t-2 border-navy">
+            {FAQS.map((f, i) => (
+              <AccordionItem key={f.q} value={`item-${i}`} className="border-border">
+                <AccordionTrigger className="group gap-5 py-5 text-left hover:no-underline [&>svg]:hidden">
+                  <span className="font-sans text-lead font-semibold tracking-[-0.015em] text-foreground">
+                    {f.q}
                   </span>
-                  <span className="font-sans text-[17px] font-semibold text-navy md:text-lg">{f.q}</span>
-                </span>
-                <span aria-hidden className="ml-5 shrink-0 text-gold-text">
-                  <Plus className="h-5 w-5 group-data-[state=open]:hidden" />
-                  <Minus className="hidden h-5 w-5 group-data-[state=open]:block" />
-                </span>
-              </AccordionTrigger>
-              <AccordionContent className="pr-10 pb-7 pl-[3.25rem] leading-relaxed text-navy/70">{f.a}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* 1. CTA DIAGNÓSTICO                                                   */
-/* ------------------------------------------------------------------ */
-
-function CtaDiagnostico() {
-  return (
-    <section className="relative border-t border-foreground/10">
-      <div className="relative mx-auto max-w-4xl px-6 py-20 md:py-24">
-        <Reveal>
-          <div className="surface-card relative overflow-hidden rounded-[28px] p-9 text-center md:p-12">
-            <div className="relative">
-              <div className="mx-auto inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 px-4 py-2">
-                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
-                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-text">Diagnóstico estratégico gratuito</span>
-              </div>
-
-              <h2 className="mx-auto mt-6 max-w-2xl text-[1.7rem] leading-[1.08] tracking-[-0.03em] text-foreground text-balance md:text-[2.4rem]">
-                Tu empresa ya tiene valor. Ahora necesita un sistema que lo convierta en{" "}
-                <span className="text-gold-text italic">oportunidades</span>.
-              </h2>
-
-              <p className="mx-auto mt-5 max-w-xl leading-relaxed text-foreground/65">
-                Solicita tu diagnóstico gratuito y descubre qué le está frenando a tu empresa para captar clientes de forma constante.
-              </p>
-
-              <div className="mt-8 flex justify-center">
-                <GoldButton to="/diagnostico" size="compact">
-                  Pedir diagnóstico gratuito
-                </GoldButton>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* 0.5. MARQUEE — palabras clave en bucle, dos filas opuestas          */
-/* ------------------------------------------------------------------ */
-
-const MARQUEE_WORDS = ["ESTRATEGIA", "CONVERSIÓN", "ESCALADO", "VISIBILIDAD", "AUTORIDAD", "CAPTACIÓN"];
-
-function MarqueeStrip() {
-  return (
-    <section aria-hidden className="relative overflow-hidden border-y border-foreground/12 py-5 md:py-6">
-      <div className="marquee-track flex w-max items-center gap-8 whitespace-nowrap md:gap-11">
-        {[...Array(2)].map((_, dup) => (
-          <div key={dup} className="flex items-center gap-8 md:gap-11">
-            {MARQUEE_WORDS.map((w) => (
-              <span
-                key={w}
-                className="flex items-center gap-8 font-raleway text-2xl font-extrabold tracking-tight text-foreground/40 uppercase md:gap-11 md:text-4xl"
-              >
-                {w}
-                <Plus className="h-4 w-4 shrink-0 text-gold/25 md:h-6 md:w-6" />
-              </span>
+                  <span aria-hidden className="ml-5 shrink-0 text-gold-text">
+                    <Plus className="h-5 w-5 group-data-[state=open]:hidden" />
+                    <Minus className="hidden h-5 w-5 group-data-[state=open]:block" />
+                  </span>
+                </AccordionTrigger>
+                <AccordionContent className="pr-10 pb-5 leading-relaxed text-foreground/75">{f.a}</AccordionContent>
+              </AccordionItem>
             ))}
-          </div>
-        ))}
-      </div>
-
-      <div className="marquee-track-reverse mt-0.5 flex w-max items-center gap-8 whitespace-nowrap md:mt-1 md:gap-11">
-        {[...Array(2)].map((_, dup) => (
-          <div key={dup} className="flex items-center gap-8 md:gap-11">
-            {MARQUEE_WORDS.map((w) => (
-              <span
-                key={w}
-                className="flex items-center gap-8 font-raleway text-2xl font-extrabold tracking-tight text-foreground uppercase md:gap-11 md:text-4xl"
-              >
-                {w}
-                <Plus className="h-4 w-4 shrink-0 text-gold md:h-6 md:w-6" />
-              </span>
-            ))}
-          </div>
-        ))}
+          </Accordion>
+        </div>
       </div>
     </section>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/* 0.95 CASO DE ÉXITO                                                   */
-/* ------------------------------------------------------------------ */
-
-const FRULONSA_METRICS = [
-  { numeric: 1.4, decimals: 1, prefix: "", suffix: " M", label: "Usuarios únicos alcanzados", description: "Alcance acumulado durante el periodo.", icon: Users },
-  { numeric: 157, decimals: 0, prefix: "", suffix: " K", label: "Interacciones", description: "Comentarios, compartidos y reacciones.", icon: Heart },
-  { numeric: 7301, decimals: 0, prefix: "+", suffix: "", label: "Nuevos seguidores", description: "Crecimiento de la comunidad.", icon: UserPlus },
-] as const;
-
-const FRULONSA_WORK = [
-  {
-    title: "Estrategia y planificación",
-    description: "Definimos líneas de contenido, formatos y prioridades para comunicar mejor la experiencia real de la marca.",
-    icon: Compass,
-  },
-  {
-    title: "Producción orientada a alcance",
-    description: "Creamos piezas visuales y formatos capaces de captar atención y ampliar la visibilidad de Frulonsa.",
-    icon: Play,
-  },
-  {
-    title: "Optimización continua",
-    description: "Analizamos el rendimiento y reforzamos los formatos con mayor capacidad de generar interacción y crecimiento.",
-    icon: LineChart,
-  },
-] as const;
-
-function CasoDeExito() {
-  return (
-    <section className="relative border-t border-foreground/10">
-      <div className="relative mx-auto max-w-[1280px] px-6 py-24 md:py-28">
-        <div className="mx-auto max-w-3xl text-center">
-<div className="mx-auto inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 px-4 py-2">
-            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
-            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-text">Caso de éxito · Frulonsa</span>
-          </div>
-
-          <h2 className="mt-7 text-[2.1rem] leading-[1.02] tracking-[-0.03em] text-foreground text-balance md:text-[3.4rem]">
-            Resultados que demuestran lo que pasa cuando{" "}
-            <span className="text-gradient-gold-hero italic">el sistema está bien construido</span>.
-          </h2>
-
-          <p className="mx-auto mt-6 max-w-2xl text-foreground/75 leading-relaxed md:text-lg">
-            Durante 90 días trabajamos la estrategia, planificación y producción de contenido de Frulonsa para aumentar su visibilidad, fortalecer su comunidad y ampliar su presencia digital.
-          </p>
-        </div>
-
-        <div className="mt-14 grid gap-7 lg:grid-cols-[1.3fr_1fr] lg:items-stretch lg:gap-8">
-          {/* Left column — metrics */}
-          <div className="flex flex-col gap-6">
-            <Reveal>
-              <div className="surface-navy relative overflow-hidden rounded-[28px] p-8 md:p-10">
-                <div className="relative flex items-start justify-between">
-                  <Play className="h-7 w-7 text-gold" aria-hidden />
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-text">Resultado destacado</span>
-                </div>
-                <div className="relative mt-8 h-px w-full bg-foreground/12" aria-hidden />
-                <div className="relative mt-6 font-display text-6xl leading-none text-gold md:text-7xl">
-                  <Counter to={5.6} decimals={1} suffix=" M" duration={1200} />
-                </div>
-                <p className="relative mt-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/70">Reproducciones</p>
-                <p className="relative mt-3 max-w-sm text-sm leading-relaxed text-foreground/65">
-                  Contenido visualizado durante el periodo analizado. Una estrategia de contenido orientada a alcance e interacción.
-                </p>
-              </div>
-            </Reveal>
-
-            <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-3">
-              {FRULONSA_METRICS.map((m, i) => (
-                <Reveal key={m.label} delay={100 + i * 80} className="h-full">
-                  <div className="surface-card group flex h-full flex-col rounded-2xl p-6 transition-colors duration-200 hover:bg-foreground/10 md:p-7">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gold/15 md:h-12 md:w-12">
-                      <m.icon className="h-5 w-5 text-gold md:h-6 md:w-6" aria-hidden />
-                    </div>
-                    <div className="mt-5 h-px w-full bg-foreground/12" aria-hidden />
-                    <div className="mt-4 font-display text-4xl leading-none text-gold-text md:text-5xl">
-                      <Counter to={m.numeric} decimals={m.decimals} prefix={m.prefix} suffix={m.suffix} duration={1100} />
-                    </div>
-                    <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/70">{m.label}</p>
-                    <p className="mt-2 text-xs leading-relaxed text-foreground/60 md:text-sm">{m.description}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-
-          {/* Right column — Frulonsa panel */}
-          <Reveal delay={200}>
-            <div className="surface-card flex h-full flex-col rounded-[28px] p-8 md:p-9">
-              <div className="flex h-12 items-center">
-                <span className="font-display text-2xl tracking-[-0.02em] text-foreground">FRULONSA</span>
-              </div>
-
-              <p className="mt-5 text-sm leading-relaxed text-foreground/70">
-                Frulonsa es una empresa del sector hortofrutícola con experiencia comercial y presencia internacional. El objetivo fue reforzar su visibilidad digital y conectar su conocimiento del sector con una audiencia más amplia.
-              </p>
-
-              <div className="mt-6 border-t border-foreground/10">
-                {FRULONSA_WORK.map((w) => (
-                  <div key={w.title} className="flex items-start gap-3.5 border-b border-foreground/10 py-4">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold/15">
-                      <w.icon className="h-4 w-4 text-gold-text" aria-hidden />
-                    </div>
-                    <div>
-                      <h3 className="font-sans text-sm font-semibold text-foreground">{w.title}</h3>
-                      <p className="mt-1 text-xs leading-relaxed text-foreground/60">{w.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-auto pt-6">
-                <button
-                  type="button"
-                  className="group inline-flex items-center gap-2.5 rounded-full bg-gold px-6 py-3.5 text-sm font-bold text-navy transition hover:bg-gold-soft"
-                >
-                  Ver el caso completo
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </button>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-
-        <Reveal delay={300}>
-          <p className="mx-auto mt-12 max-w-3xl text-center text-foreground/75 leading-relaxed md:text-lg">
-            Los resultados reflejan una mayor presencia digital, <span className="text-gold-text">más alcance, más interacción</span> y una comunidad en crecimiento alrededor de la marca.
-          </p>
-        </Reveal>
-
-        <p className="mx-auto mt-6 max-w-2xl text-center text-xs text-foreground/70">
-          Datos obtenidos de las analíticas de los canales de Frulonsa durante un periodo de 90 días.
-        </p>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* 5. CTA FINAL                                                        */
+/* 7 · CIERRE                                                           */
 /* ------------------------------------------------------------------ */
 
 function FinalCTA() {
   return (
     <section className="relative px-3 pb-7 md:px-5">
-      <div className="surface-navy relative overflow-hidden rounded-[34px] border border-gold/24 md:rounded-[52px]">
-        {/* resplandores: dorado subiendo desde abajo, navy cayendo desde arriba */}
+      <div className="surface-navy relative overflow-hidden rounded-[34px] md:rounded-[40px]">
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="glow-navy absolute -top-[120px] left-1/2 h-[620px] w-[900px] -translate-x-1/2 rounded-full" />
-          <div className="glow-gold absolute -bottom-[180px] left-1/2 h-[520px] w-[760px] -translate-x-1/2 rounded-full" />
-          <div className="absolute -bottom-[420px] left-1/2 h-[840px] w-[840px] -translate-x-1/2 rounded-full border border-gold/20" />
-          <div className="absolute -bottom-[300px] left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full border border-gold/14" />
+          <div className="glow-gold absolute -bottom-[340px] left-1/2 h-[600px] w-[900px] -translate-x-1/2 rounded-full" />
           <div className="hero-grain absolute inset-0 opacity-5" />
         </div>
 
-        <div className="relative mx-auto max-w-[940px] px-6 py-24 text-center md:py-28">
-          <div className="relative mx-auto w-36 overflow-hidden aspect-[761/220] sm:w-44 md:w-56">
-            <img src={logoWhite} alt="" className="h-auto w-full" />
+        <div className="relative mx-auto max-w-block px-6 py-20 sm:px-8 md:py-[104px]">
+          <div className="flex flex-wrap items-center justify-between gap-6">
+            <div className="relative w-32 overflow-hidden aspect-[761/220] sm:w-40">
+              <img src={logoWhite} alt="" className="h-auto w-full" />
+            </div>
+            <p className="label-mono">Plazas limitadas este mes</p>
           </div>
 
-          <div className="mt-8 inline-flex items-center gap-2.5 rounded-full border border-gold/30 bg-gold/10 px-4 py-2">
-            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
-            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-text">Plazas limitadas este mes</span>
-          </div>
-
-          <h2 className="mt-9 text-[2.4rem] leading-[0.98] tracking-[-0.035em] text-foreground text-balance md:text-[4rem]">
-            Si tu empresa tiene valor, también debería notarse en cómo te posicionas y en las{" "}
-            <span className="text-gradient-gold-hero italic">oportunidades que generas</span>.
+          <h2 className="mt-12 max-w-[13ch] text-[clamp(40px,6.7vw,104px)] leading-[0.98] tracking-[-0.035em] text-foreground">
+            Tu empresa ya tiene valor.
           </h2>
 
-          <p className="mx-auto mt-7 max-w-[580px] text-[17px] leading-[1.66] text-foreground/66 lg:text-[19px]">
-            Solicita un diagnóstico estratégico y veremos qué necesita tu empresa para construir una presencia digital más clara, más sólida y mejor conectada con su crecimiento.
+          <p className="mt-6 max-w-[24ch] text-[clamp(22px,2.4vw,34px)] leading-[1.15] font-bold tracking-[-0.03em] text-gold">
+            Ahora necesita un sistema que lo convierta en oportunidades.
           </p>
 
-          <div className="mt-11 flex flex-col items-center justify-center gap-3.5 sm:flex-row">
-            <GoldButton to="/diagnostico">Solicitar diagnóstico estratégico</GoldButton>
-            <Link
-              to="/contacto"
-              className="btn-glass inline-flex min-h-[58px] items-center justify-center gap-2.5 rounded-full px-7 text-base font-medium tracking-[-0.01em] text-foreground transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
-            >
-              Hablar con el equipo
-            </Link>
-          </div>
+          <p className="mt-8 max-w-text text-lead leading-[1.6] text-foreground/75">
+            Solicita tu diagnóstico gratuito y descubre qué le está frenando a tu empresa para captar clientes de forma constante.
+          </p>
 
-          <div className="mt-14 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-foreground/70">
-            <span>Sin compromiso</span>
-            <span className="text-gold-text" aria-hidden>·</span>
-            <span>Respuesta en 24h</span>
-            <span className="text-gold-text" aria-hidden>·</span>
-            <span>Plan estratégico gratuito</span>
+          <div className="mt-16 flex flex-col gap-6 border-t border-cream/20 pt-7 md:flex-row md:items-center md:justify-between">
+            <p className="label-mono">Sin compromiso · Respuesta en 24 h · Plan estratégico gratuito</p>
+
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
+              <Link to="/contacto" className={cn(FANTASMA, "text-foreground")}>
+                Hablar con el equipo
+              </Link>
+              <GoldButton to="/diagnostico">Solicitar diagnóstico gratuito</GoldButton>
+            </div>
           </div>
         </div>
       </div>

@@ -52,10 +52,10 @@ function Diagnostico() {
 
           <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-navy/5 px-4 py-1.5">
             <span className="h-2 w-2 rounded-full bg-gold animate-pulse" aria-hidden />
-            <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-foreground/70">Diagnóstico estratégico gratuito</span>
+            <span className="label-mono">Diagnóstico estratégico gratuito</span>
           </div>
 
-          <h1 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-foreground md:text-5xl">
+          <h1 className="mt-6 font-raleway text-3xl leading-[1.15] font-bold tracking-tight text-foreground md:text-5xl">
             Descubre qué está frenando el crecimiento de tu empresa.
           </h1>
 
@@ -75,7 +75,7 @@ function Diagnostico() {
           </ul>
 
           <div className="mt-10 rounded-2xl border border-foreground/15 bg-navy/5 p-6">
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-foreground/60">¿Para quién es?</p>
+            <p className="label-mono">¿Para quién es?</p>
             <ul className="mt-4 space-y-3">
               {PARA_QUIEN.map((item) => (
                 <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-foreground/75">
@@ -87,7 +87,7 @@ function Diagnostico() {
           </div>
 
           <div className="mt-10">
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-foreground/60">Cómo funciona</p>
+            <p className="label-mono">Cómo funciona</p>
             <ol className="mt-5 space-y-5">
               {PASOS.map((paso, i) => (
                 <li key={paso} className="flex items-start gap-4">

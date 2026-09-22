@@ -41,64 +41,6 @@ export function useInView<T extends HTMLElement>(threshold = 0.25) {
 }
 
 /** Animated number counter that runs when scrolled into view. */
-export function Counter({
-  to,
-  duration = 1800,
-  decimals = 0,
-  prefix = "",
-  suffix = "",
-  separator = ".",
-  decimalSep = ",",
-  className,
-}: {
-  to: number;
-  duration?: number;
-  decimals?: number;
-  prefix?: string;
-  suffix?: string;
-  separator?: string;
-  decimalSep?: string;
-  className?: string;
-}) {
-  const { ref, inView } = useInView<HTMLSpanElement>(0.4);
-  const reduceMotion = usePrefersReducedMotion();
-  const [val, setVal] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    if (reduceMotion) {
-      setVal(to);
-      return;
-    }
-    const start = performance.now();
-    let raf = 0;
-    const tick = (t: number) => {
-      const p = Math.min((t - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setVal(to * eased);
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [inView, to, duration, reduceMotion]);
-
-  const format = (n: number) => {
-    const fixed = n.toFixed(decimals);
-    const [i, d] = fixed.split(".");
-    const withSep = i.replace(/\B(?=(\d{3})+(?!\d))/g, separator);
-    return d ? `${withSep}${decimalSep}${d}` : withSep;
-  };
-  return (
-    <span ref={ref} className={className} aria-label={`${prefix}${format(to)}${suffix}`}>
-      <span aria-hidden="true">
-        {prefix}
-        {format(val)}
-        {suffix}
-      </span>
-    </span>
-  );
-}
-
-/** Wrap children in a scroll-reveal container with optional stagger. */
 export function Reveal({
   children,
   delay = 0,

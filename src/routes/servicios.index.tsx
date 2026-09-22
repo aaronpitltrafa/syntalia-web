@@ -97,9 +97,9 @@ function ServiciosHero() {
   return (
     <section className="relative">
       <div className="relative mx-auto max-w-6xl px-6 py-24 md:py-32">
-        <p className="text-xs uppercase tracking-[0.4em] text-gold-text">Servicios</p>
+        <p className="label-mono">Servicios</p>
         <h1 className="mt-6 max-w-4xl text-4xl font-semibold leading-[1.05] md:text-6xl text-balance">
-          Tres fases para convertir tu presencia digital en un sistema <span className="text-gradient-gold">preparado para crecer</span>.
+          Tres fases para convertir tu presencia digital en un sistema <span className="mark">preparado para crecer</span>.
         </h1>
         <p className="mt-8 max-w-2xl text-lg text-foreground/75 leading-relaxed">
           Un enfoque estratégico en tres fases que alinea tu marca, genera autoridad y convierte oportunidades en resultados medibles.
@@ -112,7 +112,7 @@ function ServiciosHero() {
               href={`#${phase.id}`}
               className="group flex items-center gap-4 rounded-2xl border border-foreground/15 bg-foreground/5 px-6 py-5 transition-colors hover:border-gold/50 hover:bg-foreground/10"
             >
-              <span className="font-raleway text-3xl font-extrabold text-gold-text/80 transition-colors group-hover:text-gold-text">
+              <span className="font-raleway text-3xl font-bold text-gold-text transition-colors group-hover:text-navy">
                 {phase.number}
               </span>
               <span className="text-sm font-semibold uppercase tracking-wide text-foreground/90">{phase.shortTitle}</span>
@@ -149,7 +149,7 @@ function PhaseBlock({ phase, reversed }: { phase: Phase; reversed: boolean }) {
             <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-gold text-navy">
               <phase.icon className="h-6 w-6" aria-hidden />
             </div>
-            <div className="mt-8 font-raleway text-7xl font-extrabold text-gold-text">{phase.number}</div>
+            <div className="mt-8 font-raleway text-7xl font-bold text-gold-text">{phase.number}</div>
             <h2 className="mt-4 text-3xl font-semibold text-foreground md:text-4xl text-balance">{phase.title}</h2>
             <p className="mt-5 max-w-md text-foreground/70 leading-relaxed">{phase.text}</p>
           </div>
@@ -160,7 +160,7 @@ function PhaseBlock({ phase, reversed }: { phase: Phase; reversed: boolean }) {
               reversed ? "md:order-1" : undefined,
             )}
           >
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-foreground/70">Servicios incluidos</p>
+            <p className="label-mono">Servicios incluidos</p>
             <ul className="mt-6 space-y-4">
               {phase.services.map((s) => (
                 <li key={s} className="flex items-start gap-3 border-b border-foreground/10 pb-4 last:border-0 last:pb-0">
@@ -191,7 +191,7 @@ function ServiciosCTA() {
             to="/diagnostico"
             className="group mt-9 inline-flex items-center gap-3 rounded-full bg-gold px-8 py-4 text-sm font-bold text-navy transition hover:bg-gold-soft"
           >
-            Solicitar diagnóstico <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            Solicitar diagnóstico gratuito <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
       </div>

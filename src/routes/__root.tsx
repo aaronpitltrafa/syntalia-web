@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -12,6 +13,7 @@ import appCss from "../styles.css?url";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ParallaxBackground } from "@/components/parallax-background";
+import { MobileCtaBar } from "@/components/mobile-cta-bar";
 import { SITE_URL } from "@/lib/site";
 
 function NotFoundComponent() {
@@ -99,7 +101,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Geist+Mono:wght@400;500;600&display=swap",
       },
     ],
     scripts: [
@@ -185,8 +187,13 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** Paginas que ya tienen formulario propio: alli la barra estorba. */
+const SIN_BARRA_CTA = ["/diagnostico", "/contacto"];
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const conBarra = !SIN_BARRA_CTA.includes(pathname);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -198,6 +205,7 @@ function RootComponent() {
         </main>
         <SiteFooter />
       </div>
+      {conBarra && <MobileCtaBar />}
     </QueryClientProvider>
   );
 }

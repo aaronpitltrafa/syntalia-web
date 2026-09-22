@@ -74,29 +74,29 @@ function QuienesSomos() {
       <section className="relative overflow-hidden">
         <div className="relative mx-auto grid max-w-7xl gap-14 px-6 py-24 md:grid-cols-2 md:items-center md:gap-16 md:py-32">
           <div>
-            <p className="text-xs uppercase tracking-[0.4em] text-gold-text">Quiénes Somos</p>
+            <p className="label-mono">Quiénes Somos</p>
             <h1 className="mt-6 font-raleway text-5xl font-semibold leading-[1.05] md:text-6xl text-balance">
-              Estrategia digital con enfoque en <span className="text-gradient-gold">resultados reales</span>.
+              Estrategia digital con enfoque en <span className="mark">resultados reales</span>.
             </h1>
             <p className="mt-8 max-w-xl font-sans text-lg text-foreground/75 leading-relaxed">
               En Syntalia Vértice ayudamos a empresas con actividad real a crecer con más estructura. Combinamos estrategia, creatividad y ejecución para ordenar su presencia digital, generar oportunidades y construir sistemas conectados con el negocio.
             </p>
             <Link
               to="/servicios"
-              className="mt-10 inline-flex items-center gap-3 rounded-full bg-gold px-7 py-4 text-sm font-semibold text-navy transition-colors hover:bg-cream"
+              className="mt-10 inline-flex items-center gap-3 rounded-full bg-gold px-7 py-4 text-sm font-semibold text-navy transition-colors hover:bg-gold-soft"
             >
               Conoce cómo podemos ayudarte <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
           <div className="relative mx-auto w-full max-w-md md:max-w-none">
-            <div className="relative overflow-hidden rounded-[2rem] shadow-[0_40px_100px_-30px_rgba(0,0,0,0.55)]">
+            <div className="relative overflow-hidden rounded-[2rem] shadow-[0_40px_100px_-40px_rgba(2,21,87,0.35)]">
               <img
                 src="/images/quienes-somos-hero.jpg"
                 alt="Persona en el centro mientras el movimiento ocurre a su alrededor"
                 className="h-[340px] w-full object-cover object-[50%_60%] md:h-[440px]"
               />
-              <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-gold/20 rounded-[2rem]" aria-hidden />
+              <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-navy/10 rounded-[2rem]" aria-hidden />
             </div>
           </div>
         </div>
@@ -125,10 +125,10 @@ function QuienesSomos() {
           <div className="md:col-span-7">
             <div className="inline-flex items-center gap-2 rounded-full border border-navy/15 bg-navy/5 px-4 py-1.5">
               <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-foreground/70">Sobre nosotros</span>
+              <span className="label-mono">Sobre nosotros</span>
             </div>
 
-            <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-foreground md:text-5xl">
+            <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-bold tracking-tight text-foreground md:text-5xl">
               Quiénes somos
             </h2>
 
@@ -180,7 +180,7 @@ function QuienesSomos() {
 
           <div className="mt-14 flex flex-col divide-y divide-navy/10 md:flex-row md:divide-x md:divide-y-0">
             {VALORES.map((v) => (
-              <div key={v.t} className="flex flex-1 flex-col items-start gap-3 py-8 md:items-center md:px-8 md:py-2 md:text-center">
+              <div key={v.t} className="flex min-w-0 flex-1 flex-col items-start gap-3 py-8 md:items-center md:px-4 md:py-2 md:text-center lg:px-8">
                 <v.icon className="h-6 w-6 text-gold" strokeWidth={1.5} aria-hidden />
                 <h3 className="font-raleway text-base font-bold text-foreground">{v.t}</h3>
                 <p className="font-sans text-sm leading-relaxed text-foreground/60">{v.d}</p>
@@ -226,7 +226,7 @@ function QuienesSomos() {
             to="/diagnostico"
             className="mt-10 inline-flex items-center gap-3 rounded-full bg-gold px-8 py-4 text-sm font-semibold text-navy transition-colors hover:bg-cream"
           >
-            Solicitar diagnóstico <ArrowRight className="h-4 w-4" />
+            Solicitar diagnóstico gratuito <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </section>

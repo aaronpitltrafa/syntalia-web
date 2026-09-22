@@ -19,7 +19,7 @@ export default function SyntaliaMotionHero() {
 
           <h1 className="mx-auto max-w-4xl font-poppins text-4xl uppercase leading-[1.12] tracking-normal sm:text-6xl lg:text-7xl">
             Convertimos tu presencia digital en{" "}
-            <span className="italic" style={{ color: ACCENT }}>
+            <span style={{ color: ACCENT }}>
               oportunidades comerciales reales
             </span>
           </h1>
