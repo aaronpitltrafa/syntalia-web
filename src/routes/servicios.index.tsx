@@ -99,7 +99,7 @@ function ServiciosHero() {
       <div className="relative mx-auto max-w-6xl px-6 py-24 md:py-32">
         <p className="label-mono">Servicios</p>
         <h1 className="mt-6 max-w-4xl text-4xl font-semibold leading-[1.05] md:text-6xl text-balance">
-          Tres fases para convertir tu presencia digital en un sistema <span className="text-gradient-gold">preparado para crecer</span>.
+          Tres fases para convertir tu presencia digital en un sistema <span className="mark">preparado para crecer</span>.
         </h1>
         <p className="mt-8 max-w-2xl text-lg text-foreground/75 leading-relaxed">
           Un enfoque estratégico en tres fases que alinea tu marca, genera autoridad y convierte oportunidades en resultados medibles.

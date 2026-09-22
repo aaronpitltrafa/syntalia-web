@@ -225,16 +225,33 @@
     color: color-mix(in oklab, var(--foreground) 70%, transparent);
   }
 
-  /* Subrayado dorado de rotulador, se dibuja de izquierda a derecha. */
+  /* Subrayado dorado de rotulador, se dibuja de izquierda a derecha.
+     La banda siempre es dorada, asi que el texto va siempre en navy:
+     dentro de surface-navy heredaria crema y se quedaria en 2:1. */
   .mark {
+    color: var(--navy);
     background: linear-gradient(transparent 62%, var(--gold) 62%, var(--gold) 88%, transparent 88%)
       no-repeat 0 0 / 100% 100%;
     padding: 0 0.04em;
+    /* Una frase marcada puede partirse en varias lineas: cada trozo
+       lleva su propia banda en vez de una sola caja estirada. */
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
     animation: sweep 1.1s 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
   }
   @keyframes sweep {
     from { background-size: 0 100%; }
     to   { background-size: 100% 100%; }
+  }
+  /* Sobre azul la banda no vale: el trozo de letra que queda por encima
+     del 62 % seria navy sobre navy. Ahi la marca pasa a texto dorado con
+     un filete debajo, que sobre navy da 8:1. */
+  .surface-navy .mark {
+    background: none;
+    color: var(--gold);
+    padding: 0;
+    border-bottom: 3px solid var(--gold);
+    animation: none;
   }
   @media (prefers-reduced-motion: reduce) {
     .mark { animation: none; }
@@ -337,37 +354,11 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
   }
 
-  /* La palabra en cursiva del titular del hero. */
-  .text-gradient-gold-hero {
-    color: var(--gold-light);
-  }
-  @supports (background-clip: text) or (-webkit-background-clip: text) {
-    .text-gradient-gold-hero {
-      background: linear-gradient(96deg,
-        var(--gold-light) 10%, var(--gold) 55%, var(--gold-grad) 95%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
-    }
-  }
   .bg-gradient-navy {
     background: linear-gradient(135deg, oklch(0.18 0.12 269) 0%, oklch(0.27 0.14 269) 100%);
   }
   .bg-gradient-gold {
     background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
-  }
-  .text-gradient-gold {
-    color: var(--gold);
-  }
-  @supports (background-clip: text) or (-webkit-background-clip: text) {
-    .text-gradient-gold {
-      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
-    }
   }
   .gold-divider {
     height: 2px;

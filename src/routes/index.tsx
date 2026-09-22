@@ -1,9 +1,10 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import {
-  ArrowDown,
   ArrowRight,
   CheckCircle2,
+  ChevronDown,
   Minus,
   Plus,
   ShieldCheck,
@@ -67,22 +68,6 @@ const FANTASMA =
 /* 1 · HERO                                                             */
 /* ------------------------------------------------------------------ */
 
-// TODO: datos de ejemplo, sustituir por reales
-const PANEL_FLUJO = [
-  { etiqueta: "Entrada", valor: "Meta Ads · Instagram" },
-  { etiqueta: "Conversión", valor: "Landing + formulario" },
-];
-
-// TODO: datos de ejemplo, sustituir por reales
-const PANEL_LEADS = [
-  { iniciales: "CD", nombre: "Clínica dental · Murcia", origen: "Meta Ads", estado: "WhatsApp enviado", activo: true },
-  { iniciales: "GM", nombre: "Gimnasio · Molina de Segura", origen: "Instagram", estado: "En seguimiento", activo: false },
-  { iniciales: "FS", nombre: "Centro de fisioterapia", origen: "SEO local", estado: "Cualificando", activo: false },
-  { iniciales: "AG", nombre: "Asesoría · Cartagena", origen: "Referido", estado: "Propuesta enviada", activo: false },
-];
-
-const PANEL_COLS = "grid grid-cols-[1fr_120px_150px] gap-4 lg:grid-cols-[1fr_190px_170px]";
-
 const DIFERENCIALES_STRIP = [
   {
     title: "Estrategia antes que ejecución",
@@ -97,91 +82,6 @@ const DIFERENCIALES_STRIP = [
     description: "Medimos, ajustamos y evolucionamos la estrategia con datos reales.",
   },
 ] as const;
-
-function HeroPanel() {
-  return (
-    <div className="surface-card rounded-[26px] p-[18px]">
-      {/* barra superior */}
-      <div className="flex flex-wrap items-center justify-between gap-3 px-2 pt-1 pb-4">
-        <div className="flex items-center gap-3">
-          <span className="flex gap-1.5" aria-hidden>
-            <span className="h-2 w-2 rounded-full bg-border" />
-            <span className="h-2 w-2 rounded-full bg-border" />
-            <span className="h-2 w-2 rounded-full bg-gold" />
-          </span>
-          <span className="label-mono">Panel de leads · vista de ejemplo</span>
-        </div>
-
-        <span className="label-mono">Automatización activa</span>
-      </div>
-
-      <div className="grid gap-3.5 lg:grid-cols-[250px_minmax(0,1fr)]">
-        {/* flujo lateral */}
-        <div className="flex flex-col">
-          {PANEL_FLUJO.map((paso) => (
-            <div key={paso.etiqueta}>
-              <div className="rounded-[14px] border border-border bg-background px-4 py-3">
-                <div className="label-mono">{paso.etiqueta}</div>
-                <div className="mt-1 text-meta font-semibold text-foreground">{paso.valor}</div>
-              </div>
-              <div className="flex justify-center py-2" aria-hidden>
-                <ArrowDown className="h-4 w-4 text-gold-text" />
-              </div>
-            </div>
-          ))}
-
-          <div className="surface-gold rounded-[14px] px-4 py-3">
-            <div className="label-mono">Seguimiento</div>
-            <div className="mt-1 text-meta font-bold text-navy">WhatsApp automático</div>
-          </div>
-        </div>
-
-        {/* tabla de leads */}
-        <div className="overflow-x-auto rounded-[16px] border border-border">
-          <div className="min-w-[520px]">
-            <div className={cn(PANEL_COLS, "border-b border-border px-[18px] py-3")}>
-              <span className="label-mono">Contacto</span>
-              <span className="label-mono">Origen</span>
-              <span className="label-mono">Estado</span>
-            </div>
-
-            {PANEL_LEADS.map((lead, i) => (
-              <div
-                key={lead.iniciales}
-                className={cn(PANEL_COLS, "items-center px-[18px] py-3", i < PANEL_LEADS.length - 1 && "border-b border-border")}
-              >
-                <div className="flex items-center gap-2.5">
-                  <span
-                    aria-hidden
-                    className={cn(
-                      "flex h-7 w-7 shrink-0 items-center justify-center rounded-[9px] border font-mono text-[11px] font-semibold",
-                      lead.activo ? "border-gold/30 bg-gold/15 text-gold-text" : "border-border bg-background text-foreground/70",
-                    )}
-                  >
-                    {lead.iniciales}
-                  </span>
-                  <span className="truncate text-meta font-medium text-foreground">{lead.nombre}</span>
-                </div>
-
-                <span className="text-meta text-foreground/70">{lead.origen}</span>
-
-                <span
-                  className={cn(
-                    "inline-flex items-center gap-2 text-meta font-medium",
-                    lead.activo ? "text-gold-text" : "text-foreground/70",
-                  )}
-                >
-                  <span aria-hidden className={cn("h-1.5 w-1.5 shrink-0 rounded-full", lead.activo ? "bg-gold" : "bg-foreground/40")} />
-                  {lead.estado}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function HeroPrincipal() {
   return (
@@ -218,13 +118,8 @@ function HeroPrincipal() {
           </div>
         </div>
 
-        {/* panel de producto */}
-        <div className={cn(BLOQUE, "mt-14")}>
-          <HeroPanel />
-        </div>
-
         {/* diferenciales, dentro del propio hero */}
-        <div className={cn(BLOQUE, "mt-10")}>
+        <div className={cn(BLOQUE, "mt-14")}>
           <div className="grid gap-7 text-left sm:grid-cols-3">
             {DIFERENCIALES_STRIP.map((d) => (
               <div key={d.title} className="border-t-2 border-navy pt-4">
@@ -275,7 +170,7 @@ function Problema() {
 
         <h2 className="mt-5 max-w-[16ch] text-h2 text-foreground">
           No basta con tener valor. Hay que saber convertirlo en{" "}
-          <span className="text-gradient-gold-hero">oportunidades</span>.
+          <span className="mark">oportunidades</span>.
         </h2>
 
         <p className="mt-6 max-w-text text-lead leading-[1.65] text-foreground/75">
@@ -346,6 +241,60 @@ const SYSTEM_STAGES = [
   },
 ] as const;
 
+/**
+ * Una etapa. Por debajo de md el detalle (parrafo y viñetas) va plegado
+ * detras de "Ver qué incluye": cuatro etapas abiertas hacian del bloque
+ * una pantalla y media de scroll en movil. De md en adelante el detalle
+ * esta siempre visible y el boton no se monta.
+ */
+function Etapa({ stage }: { stage: (typeof SYSTEM_STAGES)[number] }) {
+  const [abierta, setAbierta] = useState(false);
+  const panelId = `etapa-${stage.number}`;
+
+  return (
+    <div className="flex h-full flex-col pr-4">
+      <span
+        aria-hidden
+        className="block text-[64px] leading-[0.9] font-bold tracking-[-0.04em] text-foreground lg:text-[96px]"
+      >
+        {stage.number}
+      </span>
+
+      <h3 className="mt-5 text-[23px] leading-[1.1] font-bold tracking-[-0.03em] text-foreground text-balance">
+        {stage.title}
+      </h3>
+      <p className="mt-1.5 text-lead leading-[1.3] font-semibold text-foreground/80">{stage.tagline}</p>
+
+      <button
+        type="button"
+        onClick={() => setAbierta((v) => !v)}
+        aria-expanded={abierta}
+        aria-controls={panelId}
+        className="mt-4 flex w-full items-center justify-between gap-3 border-t border-navy/25 pt-3.5 text-left text-meta font-semibold text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy md:hidden"
+      >
+        Ver qué incluye
+        <ChevronDown
+          aria-hidden
+          className={cn("h-4 w-4 shrink-0 transition-transform", abierta && "rotate-180")}
+        />
+      </button>
+
+      <div id={panelId} className={cn("md:block", abierta ? "block" : "hidden")}>
+        <p className="mt-3 text-meta leading-[1.6] text-foreground/85">{stage.description}</p>
+
+        <ul className="mt-4 flex flex-col gap-1.5 pt-3.5 md:border-t md:border-navy/25">
+          {stage.includes.map((item) => (
+            <li key={item} className="flex items-baseline gap-2.5 text-meta text-foreground">
+              <span aria-hidden className="h-[5px] w-[5px] shrink-0 -translate-y-0.5 rounded-full bg-navy" />
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 /** El único bloque dorado de la web: a sangre y con todo el texto en navy. */
 function Sistema() {
   return (
@@ -375,29 +324,7 @@ function Sistema() {
                 "lg:[&:nth-child(n+2)]:border-l-2 lg:[&:nth-child(n+2)]:border-navy lg:[&:nth-child(n+2)]:pl-6",
               )}
             >
-              <div className="flex h-full flex-col pr-4">
-                <span
-                  aria-hidden
-                  className="block text-[64px] leading-[0.9] font-bold tracking-[-0.04em] text-foreground lg:text-[96px]"
-                >
-                  {s.number}
-                </span>
-
-                <h3 className="mt-5 text-[23px] leading-[1.1] font-bold tracking-[-0.03em] text-foreground text-balance">
-                  {s.title}
-                </h3>
-                <p className="mt-1.5 text-lead leading-[1.3] font-semibold text-foreground/80">{s.tagline}</p>
-                <p className="mt-3 text-meta leading-[1.6] text-foreground/85">{s.description}</p>
-
-                <ul className="mt-4 flex flex-col gap-1.5 border-t border-navy/25 pt-3.5">
-                  {s.includes.map((item) => (
-                    <li key={item} className="flex items-baseline gap-2.5 text-meta text-foreground">
-                      <span aria-hidden className="h-[5px] w-[5px] shrink-0 -translate-y-0.5 rounded-full bg-navy" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <Etapa stage={s} />
             </Reveal>
           ))}
         </div>
@@ -426,8 +353,8 @@ function AQuienVaDirigido() {
           <div>
             <p className="label-mono">¿Es esto para ti?</p>
 
-            <h2 className="mt-5 max-w-[12ch] text-h2 text-foreground">
-              Esto es para ti <span className="text-gradient-gold-hero">si tu empresa...</span>
+            <h2 className="mt-5 max-w-[15ch] text-h2 text-foreground">
+              Esto es para ti <span className="mark">si tu empresa...</span>
             </h2>
 
             <p className="mt-6 max-w-text text-lead leading-[1.65] text-foreground/75">
@@ -437,15 +364,18 @@ function AQuienVaDirigido() {
             <p className="mt-7 text-title leading-[1.15] font-bold tracking-[-0.03em] text-foreground">
               No es vender más.
               <br />
-              Es <span className="text-gold-text">posicionarte mejor</span>.
+              Es posicionarte mejor.
             </p>
           </div>
 
-          <ul className="flex flex-col gap-2.5">
+          {/* En movil no hay tarjetas: una linea por punto, a todo el
+              ancho y separadas por filetes. */}
+          <ul className="flex flex-col md:gap-2.5">
             {FIT_ITEMS.map((it, i) => (
               <Reveal key={it} delay={i * 80}>
-                <li className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-4 rounded-[18px] border border-border bg-background px-5 py-4 text-lead text-foreground">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gold/18" aria-hidden>
+                <li className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 border-b border-border py-4 text-lead text-foreground md:gap-4 md:rounded-[18px] md:border md:bg-background md:px-5">
+                  <CheckCircle2 aria-hidden className="h-[18px] w-[18px] shrink-0 text-gold-text md:hidden" />
+                  <span className="hidden h-7 w-7 items-center justify-center rounded-full bg-gold/18 md:flex" aria-hidden>
                     <CheckCircle2 className="h-[15px] w-[15px] text-gold-text" />
                   </span>
                   {it}
@@ -482,8 +412,8 @@ function CasoDeExito() {
         <p className="label-mono">Caso de éxito · Frulonsa</p>
 
         <h2 className="mt-5 max-w-[18ch] text-h2 text-foreground">
-          Resultados que demuestran lo que pasa cuando{" "}
-          <span className="text-gradient-gold-hero">el sistema está bien construido</span>.
+          Resultados que demuestran lo que pasa cuando el sistema está{" "}
+          <span className="mark">bien construido</span>.
         </h2>
 
         <div className="mt-14 grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:gap-16">
@@ -579,7 +509,7 @@ function FAQ() {
           <div>
             <p className="label-mono">FAQ</p>
             <h2 className="mt-5 max-w-[9ch] text-h2 text-foreground">
-              Preguntas <span className="text-gradient-gold-hero">frecuentes</span>.
+              Preguntas <span className="mark">frecuentes</span>.
             </h2>
           </div>
 
