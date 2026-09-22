@@ -95,9 +95,9 @@ function ServiciosPage() {
 
 function ServiciosHero() {
   return (
-    <section className="surface-navy relative">
+    <section className="relative">
       <div className="relative mx-auto max-w-6xl px-6 py-24 md:py-32">
-        <p className="text-xs uppercase tracking-[0.4em] text-gold">Servicios</p>
+        <p className="text-xs uppercase tracking-[0.4em] text-gold-text">Servicios</p>
         <h1 className="mt-6 max-w-4xl text-4xl font-semibold leading-[1.05] md:text-6xl text-balance">
           Tres fases para convertir tu presencia digital en un sistema <span className="text-gradient-gold">preparado para crecer</span>.
         </h1>
@@ -112,7 +112,7 @@ function ServiciosHero() {
               href={`#${phase.id}`}
               className="group flex items-center gap-4 rounded-2xl border border-foreground/15 bg-foreground/5 px-6 py-5 transition-colors hover:border-gold/50 hover:bg-foreground/10"
             >
-              <span className="font-raleway text-3xl font-extrabold text-gold/80 transition-colors group-hover:text-gold">
+              <span className="font-raleway text-3xl font-extrabold text-gold-text/80 transition-colors group-hover:text-gold-text">
                 {phase.number}
               </span>
               <span className="text-sm font-semibold uppercase tracking-wide text-foreground/90">{phase.shortTitle}</span>

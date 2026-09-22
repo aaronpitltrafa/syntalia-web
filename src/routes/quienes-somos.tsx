@@ -71,10 +71,10 @@ function QuienesSomos() {
   return (
     <div>
       {/* Hero */}
-      <section className="surface-navy relative overflow-hidden">
+      <section className="relative overflow-hidden">
         <div className="relative mx-auto grid max-w-7xl gap-14 px-6 py-24 md:grid-cols-2 md:items-center md:gap-16 md:py-32">
           <div>
-            <p className="text-xs uppercase tracking-[0.4em] text-gold">Quiénes Somos</p>
+            <p className="text-xs uppercase tracking-[0.4em] text-gold-text">Quiénes Somos</p>
             <h1 className="mt-6 font-raleway text-5xl font-semibold leading-[1.05] md:text-6xl text-balance">
               Estrategia digital con enfoque en <span className="text-gradient-gold">resultados reales</span>.
             </h1>

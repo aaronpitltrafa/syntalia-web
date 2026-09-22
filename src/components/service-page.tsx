@@ -24,12 +24,12 @@ export function ServicePage(props: ServicePageProps) {
   return (
     <div>
       {/* Hero */}
-      <section className="surface-navy relative">
+      <section className="relative">
         <div className="relative mx-auto max-w-6xl px-6 py-24 md:py-32">
-          <Link to="/servicios" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-gold hover:text-foreground">
+          <Link to="/servicios" className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-gold-text hover:text-foreground">
             ← Servicios
           </Link>
-          <p className="mt-6 text-xs uppercase tracking-[0.4em] text-gold">{props.eyebrow}</p>
+          <p className="mt-6 text-xs uppercase tracking-[0.4em] text-gold-text">{props.eyebrow}</p>
           <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-[1.05] md:text-6xl text-balance">
             {props.title}
           </h1>

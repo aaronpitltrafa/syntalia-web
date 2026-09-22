@@ -91,7 +91,7 @@ function Diagnostico() {
             <ol className="mt-5 space-y-5">
               {PASOS.map((paso, i) => (
                 <li key={paso} className="flex items-start gap-4">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-navy text-sm font-bold text-foreground">
+                  <span className="surface-navy flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold">
                     {i + 1}
                   </span>
                   <p className="pt-1.5 text-sm font-medium text-foreground/80 md:text-base">{paso}</p>

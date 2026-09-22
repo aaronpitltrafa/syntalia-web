@@ -272,36 +272,17 @@
   }
 
   /* La palabra en cursiva del titular del hero. */
+  /* Acento del titular. Plano y por token: sobre crema sale --gold-text
+     y dentro de surface-navy, --gold-light. Sin background-clip, que
+     ademas impedia medir su contraste. */
   .text-gradient-gold-hero {
-    color: var(--gold-light);
-  }
-  @supports (background-clip: text) or (-webkit-background-clip: text) {
-    .text-gradient-gold-hero {
-      background: linear-gradient(96deg,
-        var(--gold-light) 10%, var(--gold) 55%, var(--gold-grad) 95%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
-    }
-  }
-  .bg-gradient-navy {
-    background: linear-gradient(135deg, oklch(0.18 0.12 269) 0%, oklch(0.27 0.14 269) 100%);
+    color: var(--gold-text);
   }
   .bg-gradient-gold {
     background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
   }
   .text-gradient-gold {
-    color: var(--gold);
-  }
-  @supports (background-clip: text) or (-webkit-background-clip: text) {
-    .text-gradient-gold {
-      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-soft) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
-    }
+    color: var(--gold-text);
   }
   .text-gold-deep {
     color: var(--gold-deep);

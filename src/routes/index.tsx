@@ -306,7 +306,7 @@ function ProblemRow({
             aria-hidden
             className={cn(
               "h-5 w-5 shrink-0 text-foreground transition-transform duration-[250ms]",
-              isOpen && "rotate-180 text-gold",
+              isOpen && "rotate-180 text-gold-text",
             )}
           />
         </button>
@@ -345,11 +345,11 @@ function Problema() {
               Muchas empresas tienen experiencia y una oferta sólida, pero su presencia digital no está generando confianza ni oportunidades comerciales.
             </p>
 
-            <div className="surface-navy mt-10 max-w-xl rounded-3xl p-8 md:p-10">
+            <div className="surface-slab mt-10 max-w-xl rounded-3xl p-8 md:p-10">
               <p className="text-xl font-bold leading-snug md:text-2xl">
                 El problema no es vender.
                 <br />
-                El problema es <span className="text-gradient-gold">no tener un sistema claro</span>.
+                El problema es <span className="text-gold-text">no tener un sistema claro</span>.
               </p>
             </div>
           </div>
@@ -540,10 +540,10 @@ function ComoTrabajamos() {
             id={`phase-panel-${active.id}`}
             role="tabpanel"
             aria-labelledby={`phase-tab-${active.id}`}
-            className="surface-navy phase-panel-enter relative mt-10 overflow-hidden rounded-[2rem] border border-gold/25 p-10 shadow-[0_40px_100px_-40px_rgba(2,21,87,0.5)] lg:p-12"
+            className="surface-card phase-panel-enter relative mt-10 overflow-hidden rounded-[2rem] p-10 lg:p-12"
           >
             <div className="relative grid gap-10 sm:grid-cols-[auto_1fr]">
-              <div className="font-display text-7xl text-gold/90">{active.number}</div>
+              <div className="font-display text-7xl text-gold-text">{active.number}</div>
               <div>
                 <h3 className="font-sans text-2xl font-semibold tracking-[-0.02em] sm:text-3xl">{active.title}</h3>
                 <p className="mt-2 text-base font-semibold text-gold-text sm:text-lg">{active.tagline}</p>
@@ -584,7 +584,7 @@ function ComoTrabajamos() {
                       aria-hidden
                       className={cn(
                         "h-5 w-5 shrink-0 text-foreground transition-transform duration-[250ms]",
-                        isOpen && "rotate-180 text-gold",
+                        isOpen && "rotate-180 text-gold-text",
                       )}
                     />
                   </button>
@@ -792,7 +792,7 @@ function VerticeCarousel() {
           type="button"
           onClick={goPrev}
           aria-label="Fase anterior"
-          className="absolute top-1/2 left-0 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-navy/12 bg-navy text-foreground shadow-[0_10px_30px_-10px_rgba(2,21,87,0.3)] transition hover:text-gold-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:left-2 lg:-left-4"
+          className="absolute top-1/2 left-0 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center surface-navy rounded-full border border-border shadow-[0_10px_30px_-10px_rgba(2,21,87,0.3)] transition hover:text-gold-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:left-2 lg:-left-4"
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
@@ -800,7 +800,7 @@ function VerticeCarousel() {
           type="button"
           onClick={goNext}
           aria-label="Fase siguiente"
-          className="absolute top-1/2 right-0 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-navy/12 bg-navy text-foreground shadow-[0_10px_30px_-10px_rgba(2,21,87,0.3)] transition hover:text-gold-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:right-2 lg:-right-4"
+          className="absolute top-1/2 right-0 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center surface-navy rounded-full border border-border shadow-[0_10px_30px_-10px_rgba(2,21,87,0.3)] transition hover:text-gold-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold sm:right-2 lg:-right-4"
         >
           <ArrowRight className="h-5 w-5" />
         </button>
@@ -1092,7 +1092,7 @@ function FAQ() {
                   </span>
                   <span className="font-sans text-[17px] font-semibold text-navy md:text-lg">{f.q}</span>
                 </span>
-                <span aria-hidden className="ml-5 shrink-0 text-gold-deep">
+                <span aria-hidden className="ml-5 shrink-0 text-gold-text">
                   <Plus className="h-5 w-5 group-data-[state=open]:hidden" />
                   <Minus className="hidden h-5 w-5 group-data-[state=open]:block" />
                 </span>
@@ -1152,14 +1152,14 @@ const MARQUEE_WORDS = ["ESTRATEGIA", "CONVERSIÓN", "ESCALADO", "VISIBILIDAD", "
 
 function MarqueeStrip() {
   return (
-    <section aria-hidden className="surface-navy relative overflow-hidden border-y border-foreground/10 py-5 md:py-6">
+    <section aria-hidden className="relative overflow-hidden border-y border-foreground/12 py-5 md:py-6">
       <div className="marquee-track flex w-max items-center gap-8 whitespace-nowrap md:gap-11">
         {[...Array(2)].map((_, dup) => (
           <div key={dup} className="flex items-center gap-8 md:gap-11">
             {MARQUEE_WORDS.map((w) => (
               <span
                 key={w}
-                className="flex items-center gap-8 font-raleway text-2xl font-extrabold tracking-tight text-foreground/65 uppercase md:gap-11 md:text-4xl"
+                className="flex items-center gap-8 font-raleway text-2xl font-extrabold tracking-tight text-foreground/40 uppercase md:gap-11 md:text-4xl"
               >
                 {w}
                 <Plus className="h-4 w-4 shrink-0 text-gold/25 md:h-6 md:w-6" />

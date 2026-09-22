@@ -22,9 +22,9 @@ export function LegalPage({
 }) {
   return (
     <div>
-      <section className="surface-navy relative">
+      <section className="relative">
         <div className="relative mx-auto max-w-5xl px-6 py-20 md:py-28">
-          <p className="text-xs uppercase tracking-[0.4em] text-gold">Legal</p>
+          <p className="text-xs uppercase tracking-[0.4em] text-gold-text">Legal</p>
           <h1 className="mt-6 text-4xl font-semibold leading-[1.05] md:text-5xl">{title}</h1>
           {description && <p className="mt-5 max-w-2xl text-foreground/75">{description}</p>}
           <p className="mt-5 text-sm text-foreground/60">Última actualización: {updated}</p>
