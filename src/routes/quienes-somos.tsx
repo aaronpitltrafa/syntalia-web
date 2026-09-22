@@ -128,7 +128,7 @@ function QuienesSomos() {
               <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-foreground/70">Sobre nosotros</span>
             </div>
 
-            <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-foreground md:text-5xl">
+            <h2 className="mt-6 font-raleway text-3xl leading-[1.15] font-bold tracking-tight text-foreground md:text-5xl">
               Quiénes somos
             </h2>
 

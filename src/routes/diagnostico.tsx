@@ -55,7 +55,7 @@ function Diagnostico() {
             <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-foreground/70">Diagnóstico estratégico gratuito</span>
           </div>
 
-          <h1 className="mt-6 font-raleway text-3xl leading-[1.15] font-extrabold tracking-tight text-foreground md:text-5xl">
+          <h1 className="mt-6 font-raleway text-3xl leading-[1.15] font-bold tracking-tight text-foreground md:text-5xl">
             Descubre qué está frenando el crecimiento de tu empresa.
           </h1>
 

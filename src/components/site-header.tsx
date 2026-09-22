@@ -18,7 +18,7 @@ const pill =
   "rounded-full border border-border bg-white/72 shadow-[0_20px_44px_-26px_oklch(0.240_0.121_264/35%)] backdrop-blur-xl";
 
 const linkBase =
-  "rounded-full px-3.5 py-2.5 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
+  "rounded-full px-3.5 py-2.5 text-meta font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -124,7 +124,7 @@ export function SiteHeader() {
               hashScrollIntoView={{ behavior: "smooth" }}
               onClick={() => setOpen(false)}
               tabIndex={open ? 0 : -1}
-              className="flex items-center gap-2.5 rounded-2xl px-4 py-3 text-base font-medium text-foreground/75 transition-colors hover:bg-foreground/6 hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+              className="flex items-center gap-2.5 rounded-2xl px-4 py-3 text-body font-medium text-foreground/75 transition-colors hover:bg-foreground/6 hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
             >
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
               {n.label}

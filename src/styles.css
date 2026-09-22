@@ -75,6 +75,22 @@
   --color-gold-light: var(--gold-light);
   --color-gold-grad: var(--gold-grad);
   --color-gold-text: var(--gold-text);
+
+  /* Escala tipografica: ocho tamanos y ninguno mas. Nombres propios para
+     no pisar los text-xl/2xl/3xl de Tailwind, que siguen usandose en las
+     paginas que aun no estan pasadas a la escala. */
+  --text-micro: 12px;   /* micro-etiquetas */
+  --text-meta: 14px;    /* apoyo, pies, listas */
+  --text-body: 16px;    /* cuerpo */
+  --text-lead: 18px;    /* entradilla */
+  --text-title: 22px;   /* titulo de tarjeta */
+  --text-h3: 34px;      /* titular pequeno y titular de bloque en movil */
+  --text-h2: 52px;      /* titular de bloque */
+  --text-hero: 88px;    /* SOLO el H1 del hero; en movil baja a 46px */
+
+  /* Dos anchos de contenido y ninguno mas. */
+  --container-block: 1200px;
+  --container-text: 680px;
 }
 
 :root {

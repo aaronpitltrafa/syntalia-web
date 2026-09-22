@@ -112,7 +112,7 @@ function ServiciosHero() {
               href={`#${phase.id}`}
               className="group flex items-center gap-4 rounded-2xl border border-foreground/15 bg-foreground/5 px-6 py-5 transition-colors hover:border-gold/50 hover:bg-foreground/10"
             >
-              <span className="font-raleway text-3xl font-extrabold text-gold/80 transition-colors group-hover:text-gold">
+              <span className="font-raleway text-3xl font-bold text-gold/80 transition-colors group-hover:text-gold">
                 {phase.number}
               </span>
               <span className="text-sm font-semibold uppercase tracking-wide text-foreground/90">{phase.shortTitle}</span>
@@ -149,7 +149,7 @@ function PhaseBlock({ phase, reversed }: { phase: Phase; reversed: boolean }) {
             <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-gold text-navy">
               <phase.icon className="h-6 w-6" aria-hidden />
             </div>
-            <div className="mt-8 font-raleway text-7xl font-extrabold text-gold-text">{phase.number}</div>
+            <div className="mt-8 font-raleway text-7xl font-bold text-gold-text">{phase.number}</div>
             <h2 className="mt-4 text-3xl font-semibold text-foreground md:text-4xl text-balance">{phase.title}</h2>
             <p className="mt-5 max-w-md text-foreground/70 leading-relaxed">{phase.text}</p>
           </div>
