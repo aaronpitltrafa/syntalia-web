@@ -191,19 +191,19 @@ function HeroPrincipal() {
         <div className="hero-grain absolute inset-0 opacity-5" />
       </div>
 
-      <div className="relative pt-28 pb-20 sm:pt-36 lg:pt-44">
+      <div className="relative pt-28 pb-16 lg:pt-32">
         <div className={BLOQUE}>
           <p className="label-mono">Syntalia Vértice · Consultora estratégica · Murcia</p>
 
           {/* El H1 manda: ancho corto para que caiga en pocas líneas muy
               grandes, y una sola palabra subrayada en dorado. */}
-          <h1 className="mt-7 max-w-[12.5ch] text-hero text-foreground">
+          <h1 className="mt-6 max-w-[17ch] text-hero text-foreground">
             Convertimos tu presencia digital en{" "}
             <span className="mark">oportunidades</span> comerciales reales
           </h1>
 
           {/* filete y dos columnas: el argumento a la izquierda, la acción a la derecha */}
-          <div className="mt-14 grid gap-10 border-t-2 border-navy pt-7 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-12">
+          <div className="mt-10 grid gap-8 border-t-2 border-navy pt-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-12">
             <p className="max-w-[34ch] text-[18px] leading-[1.5] text-foreground/75 md:text-[21px]">
               Ayudamos a empresas y negocios que ya venden, a posicionarse mejor y generar contactos
               cualificados con una estrategia digital clara.
@@ -219,7 +219,7 @@ function HeroPrincipal() {
         </div>
 
         {/* panel de producto */}
-        <div className={cn(BLOQUE, "mt-16")}>
+        <div className={cn(BLOQUE, "mt-14")}>
           <HeroPanel />
         </div>
 
@@ -352,7 +352,7 @@ function Sistema() {
     <section id="fases" className="surface-gold relative scroll-mt-24 py-[72px] md:py-24">
       <div className={BLOQUE}>
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:items-end lg:gap-10">
-          <h2 className="max-w-[14ch] text-h2 text-foreground">
+          <h2 className="max-w-[16ch] text-h2 text-foreground">
             De una presencia digital dispersa a un sistema preparado para crecer.
           </h2>
 
@@ -378,7 +378,7 @@ function Sistema() {
               <div className="flex h-full flex-col pr-4">
                 <span
                   aria-hidden
-                  className="block text-[72px] leading-[0.8] font-extrabold tracking-[-0.06em] text-foreground lg:text-[104px]"
+                  className="block text-[64px] leading-[0.9] font-bold tracking-[-0.04em] text-foreground lg:text-[96px]"
                 >
                   {s.number}
                 </span>
@@ -490,9 +490,9 @@ function CasoDeExito() {
           {/* izquierda: la cifra estrella, a tamaño de titular */}
           <div>
             <Reveal>
-              <span className="block text-[clamp(96px,17vw,260px)] leading-[0.8] font-extrabold tracking-[-0.07em] text-foreground">
+              <span className="block text-[clamp(84px,13vw,200px)] leading-[0.92] font-bold tracking-[-0.04em] text-foreground">
                 {FRULONSA_CIFRA}
-                <span className="text-[0.32em] tracking-[-0.03em]">{FRULONSA_UNIDAD}</span>
+                <span className="text-[0.34em] tracking-[-0.03em]">{FRULONSA_UNIDAD}</span>
               </span>
             </Reveal>
 
@@ -514,7 +514,7 @@ function CasoDeExito() {
                 <Reveal key={m.label} delay={100 + i * 80}>
                   <div className="flex items-baseline justify-between gap-5 border-b border-border py-[18px]">
                     <dt className="label-mono">{m.label}</dt>
-                    <dd className="text-[44px] leading-none font-extrabold tracking-[-0.04em] text-foreground">
+                    <dd className="text-[40px] leading-none font-bold tracking-[-0.035em] text-foreground">
                       {m.value}
                     </dd>
                   </div>
@@ -626,11 +626,11 @@ function FinalCTA() {
             <p className="label-mono">Plazas limitadas este mes</p>
           </div>
 
-          <h2 className="mt-12 max-w-[11ch] text-[clamp(48px,8.4vw,136px)] leading-[0.86] tracking-[-0.055em] text-foreground">
+          <h2 className="mt-12 max-w-[13ch] text-[clamp(40px,6.7vw,104px)] leading-[0.98] tracking-[-0.035em] text-foreground">
             Tu empresa ya tiene valor.
           </h2>
 
-          <p className="mt-6 max-w-[22ch] text-[clamp(24px,2.8vw,40px)] leading-[1.1] font-bold tracking-[-0.03em] text-gold">
+          <p className="mt-6 max-w-[24ch] text-[clamp(22px,2.4vw,34px)] leading-[1.15] font-bold tracking-[-0.03em] text-gold">
             Ahora necesita un sistema que lo convierta en oportunidades.
           </p>
 
