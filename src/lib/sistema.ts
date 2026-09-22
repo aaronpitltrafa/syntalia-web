@@ -54,7 +54,6 @@ export const SYSTEM_STAGES: readonly EtapaSistema[] = [
       { label: "Gestión de redes sociales", to: "/servicios/redes-sociales" },
       { label: "Copywriting y SEO", to: "/servicios/seo" },
       { label: "Contenido de autoridad", to: "/servicios/grabacion-contenido" },
-      { label: "Optimización de canales digitales" },
     ],
   },
   {

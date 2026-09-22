@@ -270,7 +270,7 @@ function Sistema() {
           <div>
             <p className="label-mono">Sistema Vértice · 4 etapas</p>
             <p className="mt-3 max-w-text text-lead leading-[1.55] text-foreground/85">
-              Cada etapa se apoya en la anterior. Las tres capas de servicio viven dentro de las etapas 02 y 03.
+              Cada etapa se apoya en la anterior.
             </p>
           </div>
         </div>
