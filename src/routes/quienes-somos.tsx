@@ -226,7 +226,7 @@ function QuienesSomos() {
             to="/diagnostico"
             className="mt-10 inline-flex items-center gap-3 rounded-full bg-gold px-8 py-4 text-sm font-semibold text-navy transition-colors hover:bg-cream"
           >
-            Solicitar diagnóstico <ArrowRight className="h-4 w-4" />
+            Solicitar diagnóstico gratuito <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </section>

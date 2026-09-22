@@ -136,7 +136,7 @@ export function SiteHeader() {
             className="mt-2 w-full sm:hidden"
             onClick={() => setOpen(false)}
           >
-            Solicitar diagnóstico
+            Solicitar diagnóstico gratuito
           </GoldButton>
         </nav>
       </div>

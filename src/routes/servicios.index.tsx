@@ -191,7 +191,7 @@ function ServiciosCTA() {
             to="/diagnostico"
             className="group mt-9 inline-flex items-center gap-3 rounded-full bg-gold px-8 py-4 text-sm font-bold text-navy transition hover:bg-gold-soft"
           >
-            Solicitar diagnóstico <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            Solicitar diagnóstico gratuito <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
       </div>

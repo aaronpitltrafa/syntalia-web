@@ -2,7 +2,6 @@
 @import "tw-animate-css";
 @source "../src";
 
-
 @custom-variant dark (&:is(.dark *));
 
 /*
@@ -254,12 +253,7 @@
     border-color: oklch(0.745 0.135 82 / 60%);
   }
 
-  /* Resplandores del hero. Por token, sin hex sueltos. */
-  .glow-navy {
-    background: radial-gradient(closest-side,
-      color-mix(in oklab, var(--navy) 95%, transparent) 0%,
-      color-mix(in oklab, var(--navy) 0%, transparent) 100%);
-  }
+  /* Resplandor dorado del hero. Por token, sin hex sueltos. */
   .glow-gold {
     background: radial-gradient(closest-side,
       color-mix(in oklab, var(--gold) 16%, transparent) 0%,
@@ -303,27 +297,10 @@
       color: transparent;
     }
   }
-  .text-gold-deep {
-    color: var(--gold-deep);
-  }
   .gold-divider {
     height: 2px;
     width: 64px;
     background: linear-gradient(90deg, var(--gold), transparent);
-  }
-  .marquee-track {
-    animation: marquee 40s linear infinite;
-  }
-  .marquee-track-reverse {
-    animation: marquee 46s linear infinite reverse;
-  }
-  @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-  .ghost-text {
-    -webkit-text-stroke: 1px oklch(0.745 0.135 82 / 0.35);
-    color: transparent;
   }
   @keyframes bgShift {
     0%   { transform: translate3d(-2%, -1%, 0) scale(1); }
@@ -346,81 +323,16 @@
     from { transform: scale(1.01) translate3d(0, 0, 0); }
     to   { transform: scale(1.04) translate3d(-0.6%, -0.4%, 0); }
   }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-reunion-image {
+      animation: none;
+    }
+  }
   .hero-reunion-image {
     transform-origin: 60% 45%;
     animation: heroReunionKenBurns 28s ease-in-out infinite alternate;
     will-change: transform;
     filter: blur(2px);
   }
-  @media (prefers-reduced-motion: reduce) {
-    .hero-reunion-image {
-      animation: none;
-    }
-    .marquee-track,
-    .marquee-track-reverse {
-      animation: none;
-    }
-  }
 
-  /* Problem-row accordion — grid-rows trick animates height without
-     measuring, inner element carries the subtle "card tilting open" effect. */
-  .problem-panel {
-    display: grid;
-    grid-template-rows: 0fr;
-    perspective: 700px;
-    transition: grid-template-rows 360ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .problem-panel.is-open {
-    grid-template-rows: 1fr;
-  }
-  .problem-panel > div {
-    overflow: hidden;
-  }
-  .problem-panel > div > p {
-    transform-origin: top;
-    transform: translateY(-6px) rotateX(-8deg);
-    opacity: 0;
-    transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1), opacity 300ms ease-out;
-  }
-  .problem-panel.is-open > div > p {
-    transform: translateY(0) rotateX(0deg);
-    opacity: 1;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .problem-panel {
-      transition: grid-template-rows 150ms linear;
-    }
-    .problem-panel > div > p {
-      transition: opacity 150ms linear;
-      transform: none;
-    }
-  }
-
-  /* Roadmap phase panel — plays once on mount (component remounts via
-     React `key`), giving a soft slide-in each time the active phase changes. */
-  @keyframes phaseIn {
-    from { opacity: 0; transform: translateX(10px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-  .phase-panel-enter {
-    animation: phaseIn 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .phase-panel-enter {
-      animation: none;
-    }
-  }
-
-  /* Sistema Vértice 3D carousel */
-  .vertice-viewport {
-    perspective: 1200px;
-  }
-  .vertice-card {
-    transition: transform 620ms cubic-bezier(0.22, 1, 0.36, 1), opacity 620ms cubic-bezier(0.22, 1, 0.36, 1), filter 620ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .vertice-card {
-      transition: opacity 150ms linear;
-    }
-  }
 }

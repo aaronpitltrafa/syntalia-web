@@ -67,7 +67,7 @@ export function SiteFooter() {
             </p>
 
             <GoldButton to="/diagnostico" size="compact" className="mt-7">
-              Diagnóstico gratuito
+              Solicitar diagnóstico gratuito
             </GoldButton>
 
             <div className="mt-6 flex gap-2.5">

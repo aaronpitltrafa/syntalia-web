@@ -1,0 +1,418 @@
+<title>Syntalia en 7 bloques</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --chrome-bg:#E7E4DC; --chrome-ink:#1A1916; --chrome-muted:#5F5B52; --chrome-line:rgba(26,25,22,.14); --chrome-card:#F7F5EF;
+    --serif:'Instrument Serif', Georgia, 'Times New Roman', serif;
+    --sans:'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+    /* tema A · crema */
+    --cream:#F5F2E9; --navy:#021557; --white:#FFFFFF;
+    --ink:#021557; --ink2:rgba(2,21,87,.7); --ink3:rgba(2,21,87,.55); --line:rgba(2,21,87,.12);
+    --gold:#D4AF37; --gold-t:#7E640E; --gold-l:#EBD289;
+    /* escala tipográfica: 8 tamaños y ninguno más */
+    --t-xs:12px; --t-sm:14px; --t-base:16px; --t-md:18px; --t-lg:22px; --t-xl:34px; --t-2xl:52px; --t-hero:88px;
+    /* dos anchos */
+    --w-block:1200px; --w-text:680px;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--chrome-bg);color:var(--chrome-ink);font-family:var(--sans);font-size:15px;line-height:1.5}
+  .wrap{padding-inline:16px;padding-block:0 56px}
+
+  /* ---- barra de control ---- */
+  .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:rgba(231,228,220,.93);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+       border-bottom:1px solid var(--chrome-line);margin-inline:-16px;padding:12px 16px}
+  .bar-in{max-width:1440px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px}
+  .bar h1{font-family:var(--serif);font-weight:400;font-size:26px;line-height:1;margin:0}
+  .seg{display:inline-flex;border:1px solid var(--chrome-line);border-radius:999px;background:var(--chrome-card);padding:3px}
+  .seg button{border:0;background:transparent;font:600 13px/1 var(--sans);color:var(--chrome-muted);padding:8px 14px;border-radius:999px;cursor:pointer}
+  .seg button[aria-pressed="true"]{background:var(--chrome-ink);color:#F7F5EF}
+  .seg button:focus-visible,.tog:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+  .tog{display:inline-flex;align-items:center;gap:8px;font:600 13px/1 var(--sans);color:var(--chrome-ink);background:var(--chrome-card);border:1px solid var(--chrome-line);border-radius:999px;padding:9px 14px;cursor:pointer}
+  .tog i{width:26px;height:15px;border-radius:999px;background:#C9C4B8;position:relative;transition:background .2s}
+  .tog i::after{content:"";position:absolute;top:2px;left:2px;width:11px;height:11px;border-radius:50%;background:#fff;transition:transform .2s}
+  .tog[aria-pressed="true"] i{background:var(--navy)} .tog[aria-pressed="true"] i::after{transform:translateX(11px)}
+  .ctrls{display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}
+  .stats{max-width:1440px;margin:14px auto 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+  .stat{background:var(--chrome-card);border:1px solid var(--chrome-line);border-radius:14px;padding:10px 14px}
+  .stat small{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--chrome-muted);font-weight:600}
+  .stat b{font-size:17px;font-weight:600;font-variant-numeric:tabular-nums}
+  .stat s{color:var(--chrome-muted);font-weight:500;margin-right:6px;text-decoration-thickness:1px}
+  @media (max-width:760px){ .stats{grid-template-columns:repeat(2,minmax(0,1fr))} .ctrls{margin-left:0} }
+
+  .frame{margin:22px auto 0;max-width:1440px;border-radius:18px;overflow:clip;box-shadow:0 1px 0 rgba(0,0,0,.04),0 30px 60px -30px rgba(26,25,22,.45);transition:max-width .35s ease}
+  .frame.mobile{max-width:390px;border-radius:30px;border:8px solid #1A1916}
+
+  /* ---- anotaciones de cambio ---- */
+  .ann{display:flex;align-items:center;gap:10px;max-width:var(--w-block);margin:0 auto;padding:0 0 18px;font-size:var(--t-xs);color:#8A3B12;font-weight:600;letter-spacing:.02em}
+  .ann span{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#8A3B12;color:#fff;font-size:11px;flex:none}
+  .ann em{font-style:normal;font-weight:500;color:#6B4A36}
+  .site:not(.show-ann) .ann{display:none}
+
+  /* ---- la web ---- */
+  .site{container:site / inline-size;background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:var(--t-base);line-height:1.6}
+  .blk{padding:112px 40px}
+  .in{max-width:var(--w-block);margin:0 auto}
+  .chip{display:inline-flex;align-items:center;gap:9px;padding:7px 15px 7px 11px;border-radius:999px;background:rgba(212,175,55,.14);border:1px solid rgba(126,100,14,.3);
+        color:#6B550C;font-size:var(--t-xs);font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex:none}
+  .h2{font-family:var(--serif);font-weight:400;font-size:var(--t-2xl);line-height:1;letter-spacing:-.03em;margin:22px 0 0;text-wrap:balance;max-width:18ch}
+  .h2 em,.hero h2 em{color:var(--gold-t)}
+  .lead{font-size:var(--t-md);color:var(--ink2);max-width:var(--w-text);margin:20px 0 0;line-height:1.65;text-wrap:pretty}
+  .label{font-size:var(--t-xs);font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3)}
+
+  .btn-gold{display:inline-flex;align-items:center;gap:14px;border-radius:999px;padding:6px 6px 6px 24px;text-decoration:none;font:600 var(--t-base)/1 var(--sans);color:var(--navy);white-space:nowrap;
+            background:linear-gradient(180deg,#EBD289 0%,#D4AF37 55%,#BF9A28 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),inset 0 -1px 0 rgba(2,21,87,.14),0 10px 28px -12px rgba(191,154,40,.7)}
+  .btn-gold .disc{width:44px;height:44px;border-radius:50%;background:var(--navy);display:grid;place-items:center;flex:none}
+  .btn-gold.sm{font-size:var(--t-sm);padding:4px 4px 4px 18px;gap:10px}.btn-gold.sm .disc{width:32px;height:32px}
+  .btn-ghost{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:0 24px;min-height:56px;text-decoration:none;font:500 var(--t-base)/1 var(--sans);color:var(--ink);border:1px solid rgba(2,21,87,.24)}
+
+  /* nav */
+  .nav{display:flex;align-items:center;gap:10px;max-width:980px;margin:0 auto;padding:8px 8px 8px 22px;border-radius:999px;background:rgba(255,255,255,.72);border:1px solid var(--line)}
+  .logo{display:flex;align-items:baseline;gap:8px;margin-right:auto}
+  .logo b{font-family:var(--serif);font-weight:400;font-size:var(--t-lg)}
+  .logo small{font-size:9px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-t)}
+  .links{display:flex;gap:2px}
+  .links a{color:var(--ink2);text-decoration:none;font-size:var(--t-sm);font-weight:500;padding:9px 13px;border-radius:999px}
+  .links a.on{color:var(--ink);background:rgba(2,21,87,.07)}
+  .burger{display:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);place-items:center;background:#fff}
+
+  /* 1 · hero */
+  .hero{padding:22px 40px 96px;background:radial-gradient(900px 520px at 85% -10%, rgba(212,175,55,.16), transparent 70%)}
+  .hero-in{max-width:980px;margin:0 auto;text-align:center;padding:80px 0 56px}
+  .hero h2{font-family:var(--serif);font-weight:400;font-size:var(--t-hero);line-height:.95;letter-spacing:-.035em;margin:30px auto 0;max-width:15ch;text-wrap:balance}
+  .hero .lead{margin:26px auto 0;max-width:52ch}
+  .actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:36px}
+  .panel{max-width:1100px;margin:0 auto;border-radius:26px;background:#fff;border:1px solid rgba(2,21,87,.1);padding:18px;box-shadow:0 30px 60px -36px rgba(2,21,87,.35)}
+  .p-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 6px 16px}
+  .p-head .label{display:flex;align-items:center;gap:12px}
+  .lights{display:flex;gap:5px}.lights i{width:8px;height:8px;border-radius:50%;background:var(--line)}.lights i:last-child{background:var(--gold)}
+  .p-body{display:grid;grid-template-columns:250px minmax(0,1fr);gap:14px}
+  .flow{display:flex;flex-direction:column;gap:8px}
+  .step{border-radius:14px;background:#F8F6F0;border:1px solid var(--line);padding:12px 16px}
+  .step small{display:block;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3)}
+  .step b{display:block;font-size:var(--t-sm);font-weight:600;margin-top:4px}
+  .step.g{background:linear-gradient(140deg,#E6C865,#C9A22E);border-color:transparent}
+  .step.g small{color:rgba(2,21,87,.65)}
+  .tbl{border-radius:16px;border:1px solid var(--line);overflow:hidden}
+  .row{display:grid;grid-template-columns:minmax(0,1fr) 110px 160px;gap:12px;align-items:center;padding:12px 18px;border-top:1px solid var(--line);font-size:var(--t-sm)}
+  .row:first-child{border-top:0;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3)}
+  .who{display:flex;align-items:center;gap:10px;min-width:0}.who span:last-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .av{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;flex:none;font-size:10px;font-weight:700;background:#F8F6F0;border:1px solid var(--line)}
+  .src{color:var(--ink3)} .st{display:inline-flex;align-items:center;gap:7px;font-size:var(--t-xs);font-weight:600;color:var(--ink3)} .st.ok{color:var(--gold-t)}
+  .difs{max-width:1100px;margin:36px auto 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;text-align:left}
+  .dif{border-top:1px solid var(--line);padding-top:16px}
+  .dif b{display:block;font-size:var(--t-base);font-weight:600;letter-spacing:-.01em}
+  .dif p{margin:6px 0 0;font-size:var(--t-sm);color:var(--ink2);line-height:1.55}
+
+  /* 2 · problema */
+  .probs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:48px}
+  .prob{background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px}
+  .prob h3{font-size:var(--t-lg);font-weight:600;letter-spacing:-.02em;margin:0;line-height:1.25;text-wrap:balance}
+  .prob p{margin:12px 0 0;color:var(--ink2);font-size:var(--t-base);line-height:1.6}
+  .prob .ic{width:36px;height:36px;border-radius:12px;background:rgba(212,175,55,.16);display:grid;place-items:center;margin-bottom:22px}
+
+  /* 3 · sistema */
+  .sys-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:40px;align-items:end}
+  .sys-head .lead{margin:0}
+  .stages{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:56px}
+  .stages::before{content:"";position:absolute;left:28px;right:28px;top:27px;height:1px;background:linear-gradient(90deg,rgba(2,21,87,.18),var(--gold))}
+  .stage{position:relative;background:#fff;border:1px solid var(--line);border-radius:22px;padding:0 24px 26px;margin-top:0}
+  .num{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:var(--t-lg);background:var(--cream);border:1px solid rgba(2,21,87,.2);margin:0 0 18px;transform:translateY(0)}
+  .stages .stage{background:transparent;border:0;padding:0}
+  .stage .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;height:calc(100% - 74px)}
+  .stage:last-child .num{background:linear-gradient(180deg,#EBD289,#D4AF37);border-color:transparent;box-shadow:0 10px 24px -10px rgba(191,154,40,.8)}
+  .stage h3{font-size:var(--t-md);font-weight:600;letter-spacing:-.015em;margin:0;line-height:1.3}
+  .stage .tag{margin:6px 0 0;font-family:var(--serif);font-style:italic;font-size:var(--t-md);color:var(--gold-t);line-height:1.3}
+  .stage p{margin:12px 0 0;font-size:var(--t-sm);color:var(--ink2);line-height:1.6}
+  .stage ul{list-style:none;padding:14px 0 0;margin:16px 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+  .stage li{font-size:var(--t-sm);display:flex;gap:9px;align-items:baseline}
+  .stage li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold);flex:none;transform:translateY(-2px)}
+
+  /* 4 · para quién */
+  .fit{background:#fff;border:1px solid var(--line);border-radius:40px;padding:72px 64px;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:56px}
+  .fit .punch{font-size:var(--t-lg);font-weight:600;letter-spacing:-.02em;line-height:1.3;margin:28px 0 0}
+  .fit .punch span{color:var(--gold-t)}
+  .fit ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+  .fit li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;border:1px solid var(--line);border-radius:18px;padding:18px 20px;font-size:var(--t-md);background:#FBFAF6}
+  .ck{width:28px;height:28px;border-radius:50%;background:rgba(212,175,55,.18);display:grid;place-items:center}
+
+  /* 5 · caso */
+  .case{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center}
+  .case .h2{font-size:var(--t-xl);max-width:20ch}
+  .kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
+  .kpi{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px}
+  .kpi b{display:block;font-family:var(--serif);font-weight:400;font-size:var(--t-xl);line-height:1;color:var(--gold-t);font-variant-numeric:tabular-nums}
+  .kpi span{display:block;margin-top:8px;font-size:var(--t-xs);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+  .star{background:var(--navy);color:var(--cream);border-radius:26px;padding:34px;position:relative;overflow:hidden}
+  .star::after{content:"";position:absolute;right:-120px;top:-140px;width:360px;height:360px;background:radial-gradient(closest-side,rgba(212,175,55,.3),transparent)}
+  .star .label{color:var(--gold-l)} .star b{display:block;font-family:var(--serif);font-weight:400;font-size:var(--t-hero);line-height:.9;margin-top:12px;color:var(--cream)}
+  .star p{margin:10px 0 0;color:rgba(245,242,233,.72);font-size:var(--t-sm);max-width:36ch;position:relative;z-index:1}
+  .fine{font-size:var(--t-xs);color:var(--ink3);margin:14px 0 0}
+  .txtlink{display:inline-flex;align-items:center;gap:8px;margin-top:26px;font-weight:600;font-size:var(--t-sm);color:var(--ink);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:3px}
+
+  /* 6 · faq */
+  .faq{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:56px;align-items:start}
+  .faq details{border-top:1px solid var(--line);padding:20px 0}
+  .faq details:last-child{border-bottom:1px solid var(--line)}
+  .faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:18px;font-size:var(--t-md);font-weight:600;letter-spacing:-.01em}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-family:var(--sans);font-weight:400;font-size:var(--t-lg);line-height:1;color:var(--gold-t)}
+  .faq details[open] summary::after{content:"–"}
+  .faq summary:focus-visible{outline:2px solid var(--navy);outline-offset:4px;border-radius:4px}
+  .faq .ans{margin:12px 0 0;color:var(--ink3);font-size:var(--t-sm);font-style:italic}
+
+  /* 7 · cta */
+  .cta-w{padding:0 20px 20px}
+  .cta{background:var(--navy);color:var(--cream);border-radius:40px;padding:104px 40px;text-align:center;position:relative;overflow:hidden}
+  .cta::after{content:"";position:absolute;left:50%;bottom:-340px;width:900px;height:600px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(212,175,55,.28),transparent);pointer-events:none}
+  .cta > *{position:relative;z-index:1}
+  .cta .chip{background:rgba(212,175,55,.12);border-color:rgba(212,175,55,.34);color:var(--gold-l)}
+  .cta .h2{margin:24px auto 0;max-width:20ch}.cta .h2 em{color:var(--gold-l)}
+  .cta .lead{color:rgba(245,242,233,.74);margin:22px auto 0;max-width:54ch}
+  .cta .btn-ghost{color:var(--cream);border-color:rgba(245,242,233,.26)}
+  .trust{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px;margin-top:30px;font-size:var(--t-sm);color:rgba(245,242,233,.72)}
+  .trust span{display:inline-flex;gap:8px;align-items:center}
+
+  .foot{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center;justify-content:space-between;max-width:var(--w-block);margin:0 auto;padding:30px 40px 36px;font-size:var(--t-sm);color:var(--ink3)}
+  .foot b{font-family:var(--serif);font-weight:400;font-size:var(--t-lg);color:var(--ink)}
+  .foot nav{display:flex;flex-wrap:wrap;gap:6px 20px}.foot a{color:var(--ink2);text-decoration:none}
+
+  .mbar{display:none}
+
+  /* ---------- móvil (según el ancho del marco, no de la pantalla) ---------- */
+  @container site (max-width: 760px){
+    :is(.blk){padding:72px 20px}
+    .hero{padding:14px 14px 64px}
+    .links{display:none}.burger{display:grid}.nav{padding-left:18px}.nav .btn-gold{display:none}
+    .hero-in{padding:48px 6px 40px}
+    .hero h2{font-size:46px}.h2{font-size:34px}.case .h2{font-size:28px}
+    .lead{font-size:var(--t-base)}
+    .actions > a{width:100%;justify-content:space-between}.btn-ghost{justify-content:center}
+    .p-body{grid-template-columns:1fr}.flow{flex-direction:row;overflow-x:auto}.step{min-width:150px}
+    .row{grid-template-columns:minmax(0,1fr) 120px}.row > :nth-child(2){display:none}
+    .difs,.probs,.stages,.kpis{grid-template-columns:1fr}
+    .stages::before{left:27px;right:auto;top:28px;bottom:28px;width:1px;height:auto;background:linear-gradient(180deg,rgba(2,21,87,.18),var(--gold))}
+    .stage{display:grid;grid-template-columns:56px minmax(0,1fr);gap:14px}.stage .card{height:auto}
+    .sys-head,.fit,.case,.faq{grid-template-columns:1fr;gap:28px}
+    .fit{padding:40px 22px;border-radius:30px}
+    .star b{font-size:64px}
+    .cta-w{padding:0 10px 10px}.cta{padding:64px 22px;border-radius:30px}
+    .cta .actions > a{width:100%}
+    .foot{padding:26px 20px 100px;flex-direction:column;align-items:flex-start}
+    .mbar{display:flex;gap:10px;position:sticky;bottom:0;z-index:5;padding:12px 14px calc(12px + env(safe-area-inset-bottom,0px));
+          background:rgba(245,242,233,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+    .mbar .btn-gold{flex:1;justify-content:space-between;font-size:var(--t-sm)}
+    .wa{width:52px;height:52px;border-radius:50%;border:1px solid var(--line);background:#fff;display:grid;place-items:center;flex:none}
+    .ann{padding-inline:4px}
+  }
+  @media (prefers-reduced-motion:reduce){.frame{transition:none}}
+</style>
+
+<div class="wrap">
+  <div class="bar">
+    <div class="bar-in">
+      <h1>Syntalia en 7 bloques</h1>
+      <div class="ctrls">
+        <div class="seg" role="group" aria-label="Tamaño de pantalla">
+          <button type="button" id="v-desk" aria-pressed="true">Escritorio</button>
+          <button type="button" id="v-mob" aria-pressed="false">Móvil</button>
+        </div>
+        <button type="button" class="tog" id="t-ann" aria-pressed="true"><i></i>Marcar cambios</button>
+      </div>
+    </div>
+    <div class="stats" aria-label="Antes y después">
+      <div class="stat"><small>Bloques</small><b><s>11</s>7</b></div>
+      <div class="stat"><small>Textos de botón</small><b><s>8</s>1</b></div>
+      <div class="stat"><small>Tamaños de letra</small><b><s>21</s>8</b></div>
+      <div class="stat"><small>Anchos de contenido</small><b><s>16</s>2</b></div>
+    </div>
+  </div>
+
+  <div class="frame" id="frame">
+    <div class="site show-ann" id="site">
+
+      <!-- 1 · HERO -->
+      <header class="hero">
+        <nav class="nav" aria-label="Menú de ejemplo">
+          <div class="logo"><b>Syntalia</b><small>Vértice</small></div>
+          <div class="links"><a href="#" class="on">Inicio</a><a href="#">Servicios</a><a href="#">Quiénes somos</a><a href="#">FAQ</a><a href="#">Contacto</a></div>
+          <a class="btn-gold sm" href="#">Diagnóstico <span class="disc"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#EBD289" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+          <span class="burger" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#021557" stroke-width="2" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg></span>
+        </nav>
+        <div class="hero-in">
+          <div class="ann" style="justify-content:center"><span>1</span>Hero <em>· absorbe la tira de Diferenciales · fuera el marquee</em></div>
+          <span class="chip"><span class="dot"></span>Consultora estratégica · Murcia</span>
+          <h2>Convertimos tu presencia digital en <em>oportunidades comerciales reales</em>.</h2>
+          <p class="lead">Ayudamos a empresas y negocios que ya venden, a posicionarse mejor y generar contactos cualificados con una estrategia digital clara.</p>
+          <div class="actions">
+            <a class="btn-gold" href="#">Solicitar diagnóstico gratuito <span class="disc"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EBD289" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+            <a class="btn-ghost" href="#">Ver cómo trabajamos</a>
+          </div>
+        </div>
+        <div class="panel" aria-label="Panel de leads, datos de ejemplo">
+          <div class="p-head"><span class="label"><span class="lights"><i></i><i></i><i></i></span>Panel de leads · vista de ejemplo</span><span class="chip" style="font-size:10px;padding:5px 12px 5px 9px"><span class="dot"></span>Automatización activa</span></div>
+          <div class="p-body">
+            <div class="flow">
+              <div class="step"><small>Entrada</small><b>Meta Ads · Instagram</b></div>
+              <div class="step"><small>Conversión</small><b>Landing + formulario</b></div>
+              <div class="step g"><small>Seguimiento</small><b>WhatsApp automático</b></div>
+            </div>
+            <div class="tbl">
+              <div class="row"><span>Contacto</span><span>Origen</span><span>Estado</span></div>
+              <div class="row"><span class="who"><span class="av">CD</span><span>Clínica dental · Murcia</span></span><span class="src">Meta Ads</span><span class="st ok"><span class="dot"></span>WhatsApp enviado</span></div>
+              <div class="row"><span class="who"><span class="av">GM</span><span>Gimnasio · Molina de Segura</span></span><span class="src">Instagram</span><span class="st">En seguimiento</span></div>
+              <div class="row"><span class="who"><span class="av">AC</span><span>Asesoría · Cartagena</span></span><span class="src">Referido</span><span class="st">Propuesta enviada</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="difs">
+          <div class="dif"><b>Estrategia antes que ejecución</b><p>Cada acción responde a un plan claro, no a impulsos ni modas pasajeras.</p></div>
+          <div class="dif"><b>Captación y contenido conectados</b><p>El contenido no es decorativo: alimenta directamente el sistema de captación.</p></div>
+          <div class="dif"><b>Seguimiento orientado a crecimiento</b><p>Medimos, ajustamos y evolucionamos la estrategia con datos reales.</p></div>
+        </div>
+      </header>
+
+      <!-- 2 · PROBLEMA -->
+      <section class="blk" style="padding-top:40px">
+        <div class="in">
+          <div class="ann"><span>2</span>El problema <em>· los tres a la vista, sin acordeón</em></div>
+          <span class="chip"><span class="dot"></span>El problema</span>
+          <h2 class="h2">No basta con tener valor. Hay que saber <em>convertirlo en oportunidades</em>.</h2>
+          <div class="probs">
+            <article class="prob"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7E640E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5M12 17h.01"/></svg></div><h3>No se entiende qué te diferencia</h3><p>Tu mensaje se parece al de cualquier otra empresa y el cliente no encuentra una razón clara para elegirte.</p></article>
+            <article class="prob"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7E640E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/></svg></div><h3>Tu presencia no genera confianza</h3><p>Tu web, tus redes y tu mensaje no reflejan el nivel real, la experiencia ni la solidez de tu negocio.</p></article>
+            <article class="prob"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7E640E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div><h3>El marketing no genera contactos</h3><p>Hay acciones, publicaciones o campañas, pero no un sistema claro para convertir el interés en oportunidades comerciales.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3 · SISTEMA -->
+      <section class="blk" style="padding-top:24px">
+        <div class="in">
+          <div class="ann"><span>3</span>El sistema <em>· une "Cómo trabajamos" y "Tres capas" · las 4 etapas a la vista, sin pestañas ni carrusel</em></div>
+          <div class="sys-head">
+            <div>
+              <span class="chip"><span class="dot"></span>Sistema Vértice · 4 etapas</span>
+              <h2 class="h2">De una presencia digital dispersa a un sistema <em>preparado para crecer</em>.</h2>
+            </div>
+            <p class="lead">Cada etapa se apoya en la anterior. Las tres capas de servicio viven dentro de las etapas 02 y 03.</p>
+          </div>
+          <div class="stages">
+            <div class="stage"><div class="num">01</div><div class="card"><h3>Diagnóstico estratégico</h3><p class="tag">Entendemos antes de construir.</p><p>Analizamos el negocio, el mercado, el cliente ideal y la presencia digital para identificar qué está frenando el crecimiento.</p><ul><li>Posicionamiento y captación actual</li><li>Prioridades y objetivos</li><li>Hoja de ruta</li></ul></div></div>
+            <div class="stage"><div class="num">02</div><div class="card"><h3>Posicionamiento y base digital</h3><p class="tag">Ordenamos cómo debe percibirse tu empresa.</p><p>Clarificamos el mensaje, la propuesta de valor y los activos digitales para transmitir una imagen sólida y diferenciada.</p><ul><li>Branding e identidad visual</li><li>Web y landing pages</li><li>Contenidos y redes sociales</li><li>Copywriting y SEO</li></ul></div></div>
+            <div class="stage"><div class="num">03</div><div class="card"><h3>Captación y conversión</h3><p class="tag">Convertimos atención en oportunidades.</p><p>Diseñamos el recorrido para atraer, recoger, organizar y seguir contactos con intención comercial.</p><ul><li>Social Ads y campañas</li><li>Formularios y landing de captación</li><li>CRM y automatizaciones</li><li>Email marketing y seguimiento</li></ul></div></div>
+            <div class="stage"><div class="num">04</div><div class="card"><h3>Optimización y escalado</h3><p class="tag">Medimos, corregimos y reforzamos.</p><p>Analizamos el funcionamiento del sistema para potenciar aquello que realmente genera resultados.</p><ul><li>Conversión y rendimiento</li><li>Automatización</li><li>Escalado</li></ul></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4 · PARA QUIÉN -->
+      <section class="blk" style="padding-top:24px">
+        <div class="in">
+          <div class="ann"><span>4</span>Para quién <em>· mismo contenido, sin botón propio</em></div>
+          <div class="fit">
+            <div>
+              <span class="chip"><span class="dot"></span>¿Es esto para ti?</span>
+              <h2 class="h2">Esto es para ti <em>si tu empresa…</em></h2>
+              <p class="lead">Tu empresa tiene valor real, pero algo está bloqueando su crecimiento. Si te identificas con alguno de estos puntos, podemos ayudarte.</p>
+              <p class="punch">No es vender más.<br>Es <span>posicionarte mejor</span>.</p>
+            </div>
+            <ul>
+              <li><span class="ck"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7E640E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Funciona bien, pero no crece al ritmo que debería.</li>
+              <li><span class="ck"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7E640E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>No transmite online el nivel real de calidad que tiene.</li>
+              <li><span class="ck"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7E640E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Depende demasiado del boca a boca o de clientes de siempre.</li>
+              <li><span class="ck"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7E640E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>No genera contactos nuevos de forma constante cada mes.</li>
+              <li><span class="ck"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7E640E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Quieres dejar de improvisar y trabajar con una estrategia real.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5 · CASO -->
+      <section class="blk" style="padding-top:24px">
+        <div class="in">
+          <div class="ann"><span>5</span>Caso Frulonsa <em>· más compacto · el azul solo en el dato estrella</em></div>
+          <div class="case">
+            <div>
+              <span class="chip"><span class="dot"></span>Caso de éxito · Frulonsa</span>
+              <h2 class="h2">Resultados que demuestran lo que pasa cuando <em>el sistema está bien construido</em>.</h2>
+              <p class="lead">Durante 90 días trabajamos la estrategia, planificación y producción de contenido de Frulonsa para aumentar su visibilidad, fortalecer su comunidad y ampliar su presencia digital.</p>
+              <a class="txtlink" href="#">Ver el caso completo <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </div>
+            <div>
+              <div class="star"><span class="label">Resultado destacado</span><b>5,3 M</b><p>Reproducciones del contenido durante el periodo analizado.</p></div>
+              <div class="kpis">
+                <div class="kpi"><b>1,4 M</b><span>Usuarios únicos</span></div>
+                <div class="kpi"><b>157 K</b><span>Interacciones</span></div>
+                <div class="kpi"><b>+7.301</b><span>Nuevos seguidores</span></div>
+              </div>
+              <p class="fine">Datos de las analíticas de los canales de Frulonsa durante 90 días.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6 · FAQ -->
+      <section class="blk" style="padding-top:24px">
+        <div class="in">
+          <div class="ann"><span>6</span>Preguntas frecuentes <em>· mismas preguntas, a dos columnas</em></div>
+          <div class="faq">
+            <div>
+              <span class="chip"><span class="dot"></span>FAQ</span>
+              <h2 class="h2">Preguntas <em>frecuentes</em>.</h2>
+            </div>
+            <div>
+              <details><summary>¿Para qué tipo de empresas está pensado el Sistema Vértice?</summary><p class="ans">Se mantiene la respuesta actual.</p></details>
+              <details><summary>¿Puedo trabajar con vosotros si todavía no tengo una base digital bien construida?</summary><p class="ans">Se mantiene la respuesta actual.</p></details>
+              <details><summary>¿Y si ya tengo web, redes o campañas, pero no están funcionando?</summary><p class="ans">Se mantiene la respuesta actual.</p></details>
+              <details><summary>¿Trabajáis solo la estrategia o también implementáis?</summary><p class="ans">Se mantiene la respuesta actual.</p></details>
+              <details><summary>¿Puedo contratar únicamente una parte del sistema?</summary><p class="ans">Se mantiene la respuesta actual.</p></details>
+              <details><summary>¿Cuánto tiempo tarda en ponerse en marcha?</summary><p class="ans">Se mantiene la respuesta actual.</p></details>
+              <details><summary>¿Cómo se determina la inversión?</summary><p class="ans">Se mantiene la respuesta actual.</p></details>
+              <details><summary>¿Qué ocurre después de solicitar el diagnóstico?</summary><p class="ans">Se mantiene la respuesta actual.</p></details>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7 · CTA -->
+      <div class="cta-w">
+        <div class="ann" style="padding-inline:20px"><span>7</span>Cierre <em>· une los dos CTA en uno · el único bloque azul de la página</em></div>
+        <section class="cta">
+          <span class="chip"><span class="dot"></span>Plazas limitadas este mes</span>
+          <h2 class="h2">Tu empresa ya tiene valor. Ahora necesita un <em>sistema</em> que lo convierta en oportunidades.</h2>
+          <p class="lead">Solicita tu diagnóstico gratuito y descubre qué le está frenando a tu empresa para captar clientes de forma constante.</p>
+          <div class="actions">
+            <a class="btn-gold" href="#">Solicitar diagnóstico gratuito <span class="disc"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EBD289" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+            <a class="btn-ghost" href="#">Hablar con el equipo</a>
+          </div>
+          <div class="trust"><span><span class="dot"></span>Sin compromiso</span><span><span class="dot"></span>Respuesta en 24 h</span><span><span class="dot"></span>Plan estratégico gratuito</span></div>
+        </section>
+      </div>
+
+      <footer class="foot">
+        <b>Syntalia</b>
+        <nav aria-label="Pie"><a href="#">Servicios</a><a href="#">Quiénes somos</a><a href="#">Contacto</a><a href="#">Aviso legal</a><a href="#">Privacidad</a><a href="#">Cookies</a></nav>
+        <span>+34 672 167 758 · vertice@syntalia.es</span>
+      </footer>
+
+      <div class="mbar" aria-label="Barra fija en móvil">
+        <a class="btn-gold" href="#">Solicitar diagnóstico <span class="disc"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EBD289" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+        <a class="wa" href="#" aria-label="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#021557" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-4-1L3 21l2.1-5a8.4 8.4 0 0 1-1-4A8.5 8.5 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const frame = document.getElementById('frame'), site = document.getElementById('site');
+  const bD = document.getElementById('v-desk'), bM = document.getElementById('v-mob'), tA = document.getElementById('t-ann');
+  function view(m){ frame.classList.toggle('mobile', m); bD.setAttribute('aria-pressed', !m); bM.setAttribute('aria-pressed', m); try{localStorage.setItem('s7-view', m?'m':'d')}catch(e){} }
+  function ann(on){ site.classList.toggle('show-ann', on); tA.setAttribute('aria-pressed', on); try{localStorage.setItem('s7-ann', on?'1':'0')}catch(e){} }
+  bD.onclick = () => view(false); bM.onclick = () => view(true);
+  tA.onclick = () => ann(tA.getAttribute('aria-pressed') !== 'true');
+  document.querySelectorAll('.site a').forEach(a => a.addEventListener('click', e => e.preventDefault()));
+  try { if (localStorage.getItem('s7-view') === 'm') view(true); if (localStorage.getItem('s7-ann') === '0') ann(false); } catch(e){}
+</script>
