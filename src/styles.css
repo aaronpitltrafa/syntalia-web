@@ -76,6 +76,7 @@
   --color-gold-grad: var(--gold-grad);
   --color-gold-text: var(--gold-text);
   --color-cream-2: var(--cream-2);
+  --color-paper: var(--paper);
   --color-gold-ink: var(--gold-ink);
   --color-on-gold: var(--on-gold);
 
@@ -105,8 +106,9 @@
   --text-hero--line-height: 0.98;
   --text-hero--letter-spacing: -0.035em;
 
-  /* Dos anchos de contenido y ninguno mas. */
-  --container-block: 1200px;
+  /* Dos anchos de contenido y ninguno mas. Ojo con el nombre: Tailwind
+     genera inline-<nombre> con esta escala, y "block" pisaba inline-block. */
+  --container-wide: 1200px;
   --container-text: 680px;
 }
 
@@ -116,6 +118,7 @@
   --navy: oklch(0.2402 0.1206 264.06);    /* #021557 */
   --cream: oklch(0.9610 0.0124 91.52);    /* #F5F2E9 */
   --cream-2: oklch(0.9339 0.0166 91.56);  /* #EDE9DD, crema alterno */
+  --paper: oklch(0.9942 0.0069 88.64);    /* #FFFDF8, blanco roto de tarjeta */
   --gold: oklch(0.7665 0.1387 91.06);     /* #D4AF37 */
   --gold-soft: oklch(0.86 0.08 86);
   /* Richer, deeper gold for text sitting directly on the cream background
@@ -426,7 +429,7 @@
 
   /* Contenedor de 1200px con 16px de margen (40px desde 900px). */
   .contenedor {
-    max-width: var(--container-block);
+    max-width: var(--container-wide);
     margin-inline: auto;
     padding-inline: 16px;
   }
@@ -448,6 +451,20 @@
     text-transform: uppercase;
     color: color-mix(in oklab, var(--cream) 62%, transparent);
   }
+  .etiqueta-num {
+    color: var(--gold-light);
+    margin-right: 0.9em;
+  }
+
+  /* Seccion crema de la home. La etiqueta va en navy al 68% (5,9:1); el
+     50% de la referencia se quedaba en 3,3:1. El numero, en dorado
+     oscuro (5:1). */
+  .seccion-clara {
+    background: var(--cream);
+    color: var(--navy);
+  }
+  .seccion-clara .etiqueta { color: color-mix(in oklab, var(--navy) 68%, transparent); }
+  .seccion-clara .etiqueta-num { color: var(--gold-ink); }
 
   /* Fondo del hero: degradado radial azul, lineas verticales y un velo
      que funde con la pagina. El velo es el que garantiza el contraste
@@ -468,37 +485,30 @@
       var(--ink) 100%);
   }
 
-  /* Subrayado dorado del H1: banda del 62% al 88% de la letra que se
-     dibuja de izquierda a derecha. Crema sobre dorado se queda en 1,9:1,
-     asi que el trozo de letra que pisa la banda se pinta en ink (15:1)
-     con una segunda capa recortada al texto que avanza a la vez. */
+  /* Subrayado dorado del H1: una raya por debajo de la palabra, nunca
+     por encima de las letras. La g de Raleway baja ~0.075em por debajo
+     de la caja; con 0.16em la raya la rozaba, con 0.22em queda un aire
+     de ~0.06em por debajo de la descendente. */
   .mark-v3 {
-    background: linear-gradient(transparent 62%, var(--gold) 62%, var(--gold) 88%, transparent 88%)
-      no-repeat 0 0 / 100% 100%;
-    -webkit-box-decoration-break: clone;
-    box-decoration-break: clone;
-    animation: sweep-v3 1s 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.22em;
   }
-  @supports (background-clip: text) or (-webkit-background-clip: text) {
-    .mark-v3 > span {
-      color: transparent;
-      background:
-        linear-gradient(transparent 62%, var(--ink) 62%, var(--ink) 88%, transparent 88%) no-repeat 0 0 / 100% 100%,
-        linear-gradient(var(--cream), var(--cream));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-box-decoration-break: clone;
-      box-decoration-break: clone;
-      animation: sweep-v3-text 1s 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-    }
+  .mark-v3::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 0.085em;
+    border-radius: 2px;
+    background: var(--gold);
+    transform-origin: left;
+    animation: subrayado-v3 1s 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
   }
-  @keyframes sweep-v3 {
-    from { background-size: 0 100%; }
-    to   { background-size: 100% 100%; }
-  }
-  @keyframes sweep-v3-text {
-    from { background-size: 0 100%, 100% 100%; }
-    to   { background-size: 100% 100%, 100% 100%; }
+  @keyframes subrayado-v3 {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
   }
 
   /* Marquesina de logos. Cada logo lleva su hueco a la derecha (no gap)
@@ -517,8 +527,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .mark-v3,
-    .mark-v3 > span { animation: none; }
+    .mark-v3::after { animation: none; }
     /* Quieta: una sola tanda de logos, centrada y en varias lineas. */
     .marquesina { mask-image: none; -webkit-mask-image: none; }
     .marquesina-track {

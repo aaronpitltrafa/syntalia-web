@@ -56,7 +56,7 @@ export function SiteFooter() {
   return (
     <footer className="relative border-t border-foreground/10 text-foreground">
       {/* el padding inferior extra en móvil deja hueco a la barra fija de CTA */}
-      <div className="mx-auto max-w-block px-6 pt-8 pb-[calc(5.5rem+env(safe-area-inset-bottom))] sm:px-8 md:pb-8">
+      <div className="mx-auto max-w-wide px-6 pt-8 pb-[calc(5.5rem+env(safe-area-inset-bottom))] sm:px-8 md:pb-8">
         {/* fila 1 · marca, navegación y redes */}
         <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
           <Link to="/" aria-label="Syntalia Vértice · inicio" className="shrink-0">

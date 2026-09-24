@@ -8,9 +8,6 @@ import {
   Minus,
   Play,
   Plus,
-  ShieldCheck,
-  Target,
-  UserPlus,
 } from "lucide-react";
 import logoWhite from "@/assets/logo-white.png";
 import logoBruma from "@/assets/logos-clientes/bruma-tropical.png";
@@ -57,10 +54,10 @@ function Index() {
       <SectionRail />
       <Hero />
       <Logos />
+      <Problema />
 
       {/* Bloques anteriores, pendientes de rehacer */}
       <div className="bg-background text-foreground">
-        <Problema />
         <Sistema />
         <AQuienVaDirigido />
         <CasoDeExito />
@@ -76,7 +73,7 @@ function Index() {
 /* ------------------------------------------------------------------ */
 
 /** Los dos anchos del sistema: bloque y columna de texto. */
-const BLOQUE = "mx-auto max-w-block px-6 sm:px-8";
+const BLOQUE = "mx-auto max-w-wide px-6 sm:px-8";
 
 /** Enlace subrayado: la alternativa discreta al botón principal. */
 const FANTASMA =
@@ -137,9 +134,7 @@ function Hero() {
 
           <h1 className="mt-6 max-w-[15ch] text-hero text-balance text-cream">
             Construimos el{" "}
-            <span className="mark-v3 sm:whitespace-nowrap">
-              <span>sistema digital</span>
-            </span>{" "}
+            <span className="mark-v3">sistema digital</span>{" "}
             que hace crecer tu empresa
           </h1>
 
@@ -264,60 +259,75 @@ function Logos() {
 /* 2 · EL PROBLEMA                                                      */
 /* ------------------------------------------------------------------ */
 
-const PROBLEMS = [
+/** Los iconos son los trazos de la referencia (24x24, trazo 2). */
+const PROBLEMAS = [
   {
-    id: "diferenciacion",
-    icon: Target,
-    title: "No se entiende qué te diferencia",
-    description:
+    titulo: "No se entiende qué te diferencia",
+    texto:
       "Tu mensaje se parece al de cualquier otra empresa y el cliente no encuentra una razón clara para elegirte.",
+    icono: "M3 12h4l3 8 4-16 3 8h4",
   },
   {
-    id: "confianza",
-    icon: ShieldCheck,
-    title: "Tu presencia no genera confianza",
-    description:
+    titulo: "Tu presencia no genera confianza",
+    texto:
       "Tu web, tus redes y tu mensaje no reflejan el nivel real, la experiencia ni la solidez de tu negocio.",
+    icono: "M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z",
   },
   {
-    id: "contactos",
-    icon: UserPlus,
-    title: "El marketing no genera contactos",
-    description:
+    titulo: "El marketing no genera contactos",
+    texto:
       "Hay acciones, publicaciones o campañas, pero no un sistema claro para convertir el interés en oportunidades comerciales.",
+    icono: "M4 6h16M4 12h10M4 18h6M20 14l-4 4 4 4",
   },
 ] as const;
 
 function Problema() {
   return (
-    <section id="problema" className="relative scroll-mt-24 py-16 md:py-24">
-      <div className={BLOQUE}>
-        <p className="label-mono">El problema</p>
-
-        <h2 className="mt-5 max-w-[16ch] text-h2 text-foreground">
-          No basta con tener valor. Hay que saber convertirlo en{" "}
-          <span className="mark">oportunidades</span>.
-        </h2>
-
-        <p className="mt-6 max-w-text text-lead leading-[1.65] text-foreground/75">
-          Muchas empresas tienen experiencia y una oferta sólida, pero su presencia digital no está generando confianza ni oportunidades comerciales.
-        </p>
-
-        <div className="mt-12 grid gap-[18px] md:grid-cols-3">
-          {PROBLEMS.map((p, i) => (
-            <Reveal key={p.id} delay={i * 90} className="h-full">
-              <div className="surface-card flex h-full flex-col rounded-[22px] p-7">
-                <span className="mb-[22px] flex h-9 w-9 items-center justify-center rounded-xl bg-gold/15" aria-hidden>
-                  <p.icon className="h-[18px] w-[18px] text-gold-text" />
-                </span>
-                <h3 className="text-title leading-[1.15] font-bold tracking-[-0.03em] text-foreground text-balance">
-                  {p.title}
-                </h3>
-                <p className="mt-3 leading-[1.6] text-foreground/75">{p.description}</p>
-              </div>
-            </Reveal>
-          ))}
+    <section id="problema" className="seccion-clara seccion scroll-mt-6">
+      <div className="contenedor">
+        <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-start min-[900px]:gap-14">
+          <div>
+            <p className="etiqueta">
+              <span className="etiqueta-num">01</span>El problema
+            </p>
+            <h2 className="mt-5 max-w-[15ch] text-h2 text-balance">
+              Tu empresa tiene valor. Su presencia digital no lo demuestra.
+            </h2>
+          </div>
+          <p className="max-w-[34em] text-lead text-navy/72">
+            Empresas con experiencia y una oferta sólida que, sin embargo, no generan confianza ni
+            oportunidades en el canal donde hoy decide el cliente.
+          </p>
         </div>
+
+        <ul className="mt-[clamp(36px,4vw,54px)] grid gap-[18px] min-[860px]:grid-cols-3">
+          {PROBLEMAS.map((p) => (
+            <li
+              key={p.titulo}
+              className="rounded-card border border-navy/12 bg-paper p-[26px] shadow-[0_26px_48px_-40px_rgb(2_21_87/0.5)] transition-[border-color,translate] duration-200 hover:-translate-y-0.5 hover:border-gold/60 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+            >
+              <span
+                aria-hidden
+                className="grid h-11 w-11 place-content-center rounded-[13px] bg-navy text-gold-light"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d={p.icono} />
+                </svg>
+              </span>
+              <h3 className="mt-5 text-h3 font-semibold text-balance">{p.titulo}</h3>
+              <p className="mt-2.5 text-[15px] leading-[1.65] text-navy/72">{p.texto}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
@@ -674,7 +684,7 @@ function FinalCTA() {
           <div className="hero-grain absolute inset-0 opacity-5" />
         </div>
 
-        <div className="relative mx-auto max-w-block px-6 py-20 sm:px-8 md:py-[104px]">
+        <div className="relative mx-auto max-w-wide px-6 py-20 sm:px-8 md:py-[104px]">
           <div className="flex flex-wrap items-center justify-between gap-6">
             <div className="relative w-32 overflow-hidden aspect-[761/220] sm:w-40">
               <img src={logoWhite} alt="" className="h-auto w-full" />
