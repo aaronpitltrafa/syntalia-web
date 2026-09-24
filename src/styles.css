@@ -312,16 +312,6 @@
     --ring: var(--gold);
   }
 
-  /* El unico bloque dorado de la web. Sobre dorado el texto va en navy:
-     la micro-etiqueta al 56% se queda en 3,3:1 y no llega a AA, asi que
-     aqui .label-mono pasa a opacidad plena. */
-  .surface-gold {
-    background: var(--gold);
-    color: var(--navy);
-    --foreground: var(--navy);
-  }
-  .surface-gold .label-mono { color: var(--navy); }
-
   /* Losa: bloque BLANCO sobre la pagina crema. Un bloque crema sobre
      fondo crema no se veria, por eso usa --card y no --cream. */
   .surface-slab {

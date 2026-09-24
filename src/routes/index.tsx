@@ -1,10 +1,8 @@
-import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   CheckCircle2,
-  ChevronDown,
   Minus,
   Play,
   Plus,
@@ -20,6 +18,7 @@ import { GoldCta } from "@/components/gold-cta";
 import { SectionLink } from "@/components/section-link";
 import { SectionRail } from "@/components/section-rail";
 import { useHomeSectionObserver } from "@/lib/home-sections";
+import { SYSTEM_STAGES } from "@/lib/sistema";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { SITE_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -55,10 +54,10 @@ function Index() {
       <Hero />
       <Logos />
       <Problema />
+      <Sistema />
 
       {/* Bloques anteriores, pendientes de rehacer */}
       <div className="bg-background text-foreground">
-        <Sistema />
         <AQuienVaDirigido />
         <CasoDeExito />
         <FAQ />
@@ -213,8 +212,8 @@ function Hero() {
 const LOGOS = [
   { src: logoFrulonsa, alt: "Frulonsa", height: 34 },
   { src: logoRevivalia, alt: "Revivalia", height: 46 },
-  { src: logoCnc, alt: "Método CNC", height: 40 },
-  { src: logoBruma, alt: "Bruma Tropical", height: 44 },
+  { src: logoCnc, alt: "Método CNC", height: 34 },
+  { src: logoBruma, alt: "Bruma Tropical", height: 38 },
 ] as const;
 
 function Logos() {
@@ -338,132 +337,56 @@ function Problema() {
 /* ------------------------------------------------------------------ */
 
 /**
- * Fusión de "Cómo trabajamos" y las tres capas del Sistema Vértice: las
- * cuatro etapas a la vista, y los servicios de las capas repartidos
- * dentro de las etapas 02 y 03.
+ * La home resume cada etapa en una frase. El título, el lema y las listas
+ * de servicios salen de lib/sistema.ts, que comparte con /servicios.
  */
-const SYSTEM_STAGES = [
-  {
-    number: "01",
-    title: "Diagnóstico estratégico",
-    tagline: "Entendemos antes de construir.",
-    description:
-      "Analizamos el negocio, el mercado, el cliente ideal y la presencia digital para identificar qué está frenando el crecimiento.",
-    includes: ["Posicionamiento y captación actual", "Prioridades y objetivos", "Hoja de ruta"],
-  },
-  {
-    number: "02",
-    title: "Posicionamiento y base digital",
-    tagline: "Ordenamos cómo debe percibirse tu empresa.",
-    description:
-      "Clarificamos el mensaje, la propuesta de valor y los activos digitales necesarios para transmitir una imagen sólida, profesional y diferenciada.",
-    includes: ["Branding e identidad visual", "Web y landing pages", "Contenidos y redes sociales", "Copywriting y SEO"],
-  },
-  {
-    number: "03",
-    title: "Captación y conversión",
-    tagline: "Convertimos atención en oportunidades.",
-    description:
-      "Diseñamos el recorrido necesario para atraer, recoger, organizar y seguir contactos con intención comercial.",
-    includes: ["Social Ads y campañas", "Formularios y landing de captación", "CRM y automatizaciones", "Email marketing y seguimiento"],
-  },
-  {
-    number: "04",
-    title: "Optimización y escalado",
-    tagline: "Medimos, corregimos y reforzamos.",
-    description:
-      "Analizamos el funcionamiento del sistema para mejorar su eficiencia y potenciar aquello que realmente genera resultados.",
-    includes: ["Conversión y rendimiento", "Automatización", "Escalado"],
-  },
-] as const;
+const RESUMEN_ETAPA: Record<string, string> = {
+  "01": "Negocio, mercado, cliente ideal y presencia digital, para ver qué frena el crecimiento.",
+  "02": "Mensaje, propuesta de valor, marca, web y contenidos que sostienen todo lo demás.",
+  "03": "Campañas, landings, formularios, CRM y automatizaciones conectados entre sí.",
+  "04": "Analizamos el sistema para potenciar lo que de verdad genera negocio.",
+};
 
-/**
- * Una etapa. Por debajo de md el detalle (parrafo y viñetas) va plegado
- * detras de "Ver qué incluye": cuatro etapas abiertas hacian del bloque
- * una pantalla y media de scroll en movil. De md en adelante el detalle
- * esta siempre visible y el boton no se monta.
- */
-function Etapa({ stage }: { stage: (typeof SYSTEM_STAGES)[number] }) {
-  const [abierta, setAbierta] = useState(false);
-  const panelId = `etapa-${stage.number}`;
-
-  return (
-    <div className="flex h-full flex-col pr-4">
-      <span
-        aria-hidden
-        className="block text-[64px] leading-[0.9] font-bold tracking-[-0.04em] text-foreground lg:text-[96px]"
-      >
-        {stage.number}
-      </span>
-
-      <h3 className="mt-5 text-[23px] leading-[1.1] font-bold tracking-[-0.03em] text-foreground text-balance">
-        {stage.title}
-      </h3>
-      <p className="mt-1.5 text-lead leading-[1.3] font-semibold text-foreground/80">{stage.tagline}</p>
-
-      <button
-        type="button"
-        onClick={() => setAbierta((v) => !v)}
-        aria-expanded={abierta}
-        aria-controls={panelId}
-        className="mt-4 flex w-full items-center justify-between gap-3 border-t border-navy/25 pt-3.5 text-left text-meta font-semibold text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy md:hidden"
-      >
-        Ver qué incluye
-        <ChevronDown
-          aria-hidden
-          className={cn("h-4 w-4 shrink-0 transition-transform", abierta && "rotate-180")}
-        />
-      </button>
-
-      <div id={panelId} className={cn("md:block", abierta ? "block" : "hidden")}>
-        <p className="mt-3 text-meta leading-[1.6] text-foreground/85">{stage.description}</p>
-
-        <ul className="mt-4 flex flex-col gap-1.5 pt-3.5 md:border-t md:border-navy/25">
-          {stage.includes.map((item) => (
-            <li key={item} className="flex items-baseline gap-2.5 text-meta text-foreground">
-              <span aria-hidden className="h-[5px] w-[5px] shrink-0 -translate-y-0.5 rounded-full bg-navy" />
-              {item}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
-
-/** El único bloque dorado de la web: a sangre y con todo el texto en navy. */
+/** Bloque azul de marca a sangre. Crema sobre #021557: 15:1, y al 72% 8:1. */
 function Sistema() {
   return (
-    <section id="sistema" className="surface-gold relative scroll-mt-24 py-[72px] md:py-24">
-      <div className={BLOQUE}>
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:items-end lg:gap-10">
-          <h2 className="max-w-[16ch] text-h2 text-foreground">
-            De una presencia digital dispersa a un sistema preparado para crecer.
-          </h2>
-
+    <section id="sistema" className="seccion scroll-mt-6 bg-navy text-cream">
+      <div className="contenedor">
+        <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-start min-[900px]:gap-14">
           <div>
-            <p className="label-mono">Sistema Vértice · 4 etapas</p>
-            <p className="mt-3 max-w-text text-lead leading-[1.55] text-foreground/85">
-              Cada etapa se apoya en la anterior. Las tres capas de servicio viven dentro de las etapas 02 y 03.
+            <p className="etiqueta">
+              <span className="etiqueta-num">02</span>Sistema Vértice
             </p>
+            <h2 className="mt-5 max-w-[15ch] text-h2 text-balance">
+              Cuatro etapas, un solo ecosistema
+            </h2>
           </div>
+          <p className="max-w-[34em] text-lead text-cream/72">
+            Cada etapa se apoya en la anterior. No lanzamos campañas hasta que la base está
+            construida, porque es lo que hace que el gasto se convierta en retorno.
+          </p>
         </div>
 
-        <div className="mt-12 grid gap-y-10 sm:grid-cols-2 md:mt-16 lg:grid-cols-4">
-          {SYSTEM_STAGES.map((s, i) => (
-            <Reveal
+        <ol className="mt-[clamp(40px,4.5vw,60px)] grid border-t border-cream/13 min-[960px]:grid-cols-4">
+          {SYSTEM_STAGES.map((s) => (
+            <li
               key={s.number}
-              delay={i * 80}
-              className={cn(
-                "h-full border-t-2 border-navy pt-6",
-                "sm:[&:nth-child(2n)]:border-l-2 sm:[&:nth-child(2n)]:border-navy sm:[&:nth-child(2n)]:pl-6",
-                "lg:[&:nth-child(n+2)]:border-l-2 lg:[&:nth-child(n+2)]:border-navy lg:[&:nth-child(n+2)]:pl-6",
-              )}
+              className="border-b border-cream/13 pt-[26px] pb-[30px] min-[960px]:border-b-0 min-[960px]:pt-7 min-[960px]:pr-[26px] min-[960px]:pb-[34px] min-[960px]:[&+&]:border-l min-[960px]:[&+&]:pl-[26px]"
             >
-              <Etapa stage={s} />
-            </Reveal>
+              <span
+                aria-hidden
+                className="block font-display text-[clamp(46px,4.6vw,64px)] leading-[0.85] font-bold tracking-[-0.05em] text-gold-light [font-variant-numeric:lining-nums]"
+              >
+                {s.number}
+              </span>
+              <h3 className="mt-[18px] text-h3 font-semibold text-balance">{s.title}</h3>
+              <p className="mt-[9px] text-[14.5px] leading-[1.5] font-semibold">{s.tagline}</p>
+              <p className="mt-2.5 text-[14.5px] leading-[1.6] text-cream/72">
+                {RESUMEN_ETAPA[s.number]}
+              </p>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
