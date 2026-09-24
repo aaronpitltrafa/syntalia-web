@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
  */
 const nav: { label: string; section: string; page?: string }[] = [
   { label: "Sistema", section: "sistema" },
-  { label: "Servicios", section: "servicios", page: "/servicios" },
+  { label: "Servicios", section: "servicios" },
   { label: "Resultados", section: "caso" },
   { label: "Quiénes somos", section: "equipo", page: "/quienes-somos" },
   { label: "FAQ", section: "faq" },

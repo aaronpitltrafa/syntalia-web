@@ -1,10 +1,9 @@
 /**
  * Las cuatro etapas del Sistema Vértice, en un solo sitio.
  *
- * La home las pinta resumidas (number, title, tagline, description e
- * includes) y /servicios las pinta desarrolladas, con la lista `services`.
- * Antes cada página tenía su propia copia y se desincronizaron: la home
- * hablaba de cuatro etapas y servicios de tres fases.
+ * La home las pinta resumidas (number, title y tagline, con su propia
+ * frase corta) y /servicios las pinta desarrolladas, con la lista
+ * `services`. Antes cada página tenía su propia copia y se desincronizaron.
  */
 
 /** Un servicio de la etapa. Si tiene página propia, `to` la apunta. */

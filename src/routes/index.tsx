@@ -17,6 +17,7 @@ import { GoldButton } from "@/components/gold-button";
 import { GoldCta } from "@/components/gold-cta";
 import { SectionLink } from "@/components/section-link";
 import { SectionRail } from "@/components/section-rail";
+import { Subrayado } from "@/components/subrayado";
 import { useHomeSectionObserver } from "@/lib/home-sections";
 import { SYSTEM_STAGES } from "@/lib/sistema";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -55,6 +56,7 @@ function Index() {
       <Logos />
       <Problema />
       <Sistema />
+      <Servicios />
 
       {/* Bloques anteriores, pendientes de rehacer */}
       <div className="bg-background text-foreground">
@@ -132,9 +134,7 @@ function Hero() {
           </span>
 
           <h1 className="mt-6 max-w-[15ch] text-hero text-balance text-cream">
-            Construimos el{" "}
-            <span className="mark-v3">sistema digital</span>{" "}
-            que hace crecer tu empresa
+            Construimos el <Subrayado>sistema digital</Subrayado> que hace crecer tu empresa
           </h1>
 
           <p className="mt-6 max-w-[46ch] text-lead text-cream/72">
@@ -387,6 +387,103 @@ function Sistema() {
             </li>
           ))}
         </ol>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 3b · SERVICIOS                                                       */
+/* ------------------------------------------------------------------ */
+
+const SERVICIOS_HOME = [
+  {
+    nombre: "Diseño y desarrollo web",
+    texto: "Webs, landings y aplicaciones a medida, pensadas para captar.",
+    to: "/servicios/desarrollo-web",
+  },
+  {
+    nombre: "Branding y posicionamiento",
+    texto: "Identidad, mensaje y propuesta de valor con criterio.",
+    to: "/servicios/branding-completo",
+  },
+  {
+    nombre: "Contenido y redes sociales",
+    texto: "Estrategia, producción audiovisual y publicación constante.",
+    to: "/servicios/contenido",
+  },
+  {
+    nombre: "Publicidad y captación",
+    texto: "Campañas, landings y seguimiento de cada contacto.",
+    to: "/servicios/social-ads",
+  },
+  {
+    nombre: "Automatización y sistemas",
+    texto: "CRM, flujos y herramientas internas que quitan trabajo manual.",
+    to: "/servicios/captacion",
+  },
+] as const;
+
+/**
+ * Índice de servicios sobre crema apagado: una fila enlazable por
+ * servicio, sin tarjetas. El número en dorado oscuro (4,7:1) pasa a navy
+ * al pasar el ratón, porque sobre el fondo del hover se quedaría en 4,3:1.
+ */
+function Servicios() {
+  return (
+    <section id="servicios" className="seccion-clara alterna seccion scroll-mt-6">
+      <div className="contenedor">
+        <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-start min-[900px]:gap-14">
+          <div>
+            <p className="etiqueta">
+              <span className="etiqueta-num">03</span>Servicios
+            </p>
+            <h2 className="mt-5 max-w-[14ch] text-h2 text-balance">
+              Las piezas que montamos dentro del sistema
+            </h2>
+          </div>
+          <p className="max-w-[34em] text-lead text-navy/72">
+            Se pueden contratar por separado, pero cobran sentido cuando forman parte del ecosistema
+            completo.
+          </p>
+        </div>
+
+        <ol className="mt-[clamp(36px,4vw,52px)] border-t border-navy/12">
+          {SERVICIOS_HOME.map((s, i) => (
+            <li key={s.to} className="border-b border-navy/12">
+              <Link
+                to={s.to}
+                className="group grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-5 px-1.5 py-[22px] transition-[background-color,padding] duration-200 hover:bg-navy/4 hover:pr-3 hover:pl-3.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy motion-reduce:transition-none"
+              >
+                <span className="text-[11px] leading-none font-semibold tracking-[0.16em] text-gold-ink group-hover:text-navy [font-variant-numeric:lining-nums_tabular-nums]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="min-w-0">
+                  <span className="block font-display text-[clamp(18px,1.7vw,22px)] leading-[1.25] font-semibold tracking-[-0.015em]">
+                    {s.nombre}
+                  </span>
+                  <span className="mt-1 block text-[14.5px] leading-[1.5] text-navy/72">
+                    {s.texto}
+                  </span>
+                </span>
+                <span
+                  aria-hidden
+                  className="grid h-[38px] w-[38px] shrink-0 place-content-center rounded-full border border-navy/18 transition-colors duration-200 group-hover:border-transparent group-hover:bg-gold motion-reduce:transition-none"
+                >
+                  <ArrowRight className="h-[15px] w-[15px]" strokeWidth={2.4} />
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ol>
+
+        <Link
+          to="/servicios"
+          className="mt-8 inline-flex items-center gap-2 border-b-2 border-current pb-1 text-[15px] font-semibold text-navy transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-navy"
+        >
+          Ver todos los servicios
+          <ArrowRight aria-hidden className="h-3.5 w-3.5" />
+        </Link>
       </div>
     </section>
   );

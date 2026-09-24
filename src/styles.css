@@ -453,6 +453,8 @@
     background: var(--cream);
     color: var(--navy);
   }
+  /* Variante crema apagado, para dos bloques claros seguidos. */
+  .seccion-clara.alterna { background: var(--cream-2); }
   .seccion-clara .etiqueta { color: color-mix(in oklab, var(--navy) 68%, transparent); }
   .seccion-clara .etiqueta-num { color: var(--gold-ink); }
 

@@ -1,92 +1,56 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowDown, ArrowRight, ShieldCheck, Target, Waypoints, type LucideIcon } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { GoldCta } from "@/components/gold-cta";
+import { Subrayado } from "@/components/subrayado";
 import { SITE_URL } from "@/lib/site";
+import { SYSTEM_STAGES, type EtapaSistema } from "@/lib/sistema";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/servicios/")({
   head: () => ({
     meta: [
       { title: "Servicios — Syntalia Vértice" },
-      { name: "description", content: "Posicionamiento, autoridad y captación: un sistema en tres fases para convertir tu presencia digital en resultados medibles." },
+      {
+        name: "description",
+        content:
+          "Diagnóstico, posicionamiento, captación y optimización: un sistema en cuatro etapas para convertir tu presencia digital en resultados medibles.",
+      },
       { property: "og:title", content: "Servicios — Syntalia Vértice" },
-      { property: "og:description", content: "Posicionamiento, autoridad y captación. Un sistema estratégico en tres fases para hacer crecer tu negocio." },
+      {
+        property: "og:description",
+        content:
+          "Diagnóstico, posicionamiento, captación y optimización. Un sistema estratégico en cuatro etapas para hacer crecer tu negocio.",
+      },
       { property: "og:url", content: `${SITE_URL}/servicios` },
       { property: "og:type", content: "website" },
       { name: "twitter:title", content: "Servicios — Syntalia Vértice" },
-      { name: "twitter:description", content: "Un sistema estratégico en tres fases para convertir tu presencia digital en resultados medibles." },
+      {
+        name: "twitter:description",
+        content:
+          "Un sistema estratégico en cuatro etapas —diagnóstico, posicionamiento, captación y optimización— para convertir tu presencia digital en resultados medibles.",
+      },
     ],
     links: [{ rel: "canonical", href: `${SITE_URL}/servicios` }],
   }),
   component: ServiciosPage,
 });
 
-type Phase = {
-  id: string;
-  number: string;
-  shortTitle: string;
-  title: string;
-  text: string;
-  icon: LucideIcon;
-  services: string[];
-};
+/** El ancla de cada etapa: 01 -> #etapa-01. */
+const ancla = (e: EtapaSistema) => `etapa-${e.number}`;
 
-const PHASES: Phase[] = [
-  {
-    id: "posicionamiento",
-    number: "01",
-    shortTitle: "Posicionamiento",
-    title: "Posicionamiento y presencia digital",
-    text: "Definimos la base estratégica y visual sobre la que se construirá todo lo demás.",
-    icon: Target,
-    services: [
-      "Posicionamiento de marca",
-      "Propuesta de valor y mensaje",
-      "Branding e identidad visual",
-      "Web y landing pages",
-      "Optimización de perfiles digitales",
-    ],
-  },
-  {
-    id: "autoridad",
-    number: "02",
-    shortTitle: "Autoridad",
-    title: "Autoridad y visibilidad",
-    text: "Trabajamos tu presencia en los canales adecuados para transmitir valor, generar confianza y aumentar tu visibilidad.",
-    icon: ShieldCheck,
-    services: [
-      "Estrategia de contenidos",
-      "Gestión de redes sociales",
-      "Copywriting y SEO",
-      "Contenido de autoridad",
-      "Optimización de canales digitales",
-    ],
-  },
-  {
-    id: "captacion",
-    number: "03",
-    shortTitle: "Captación",
-    title: "Captación y conversión",
-    text: "Construimos el sistema necesario para transformar visibilidad e interés en contactos cualificados y oportunidades.",
-    icon: Waypoints,
-    services: [
-      "Social Ads y campañas",
-      "Formularios y landing de captación",
-      "CRM y automatizaciones",
-      "Email marketing y seguimiento",
-      "Optimización de conversión",
-    ],
-  },
-];
+const focoNavy =
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy";
 
+/**
+ * Las cuatro etapas del Sistema Vértice desarrolladas, con los servicios de
+ * cada una. Todo sale de lib/sistema.ts, el mismo origen que la home.
+ */
 function ServiciosPage() {
   return (
     <div>
       <ServiciosHero />
-      {PHASES.map((phase, i) => (
-        <div key={phase.id}>
-          <PhaseBlock phase={phase} reversed={i % 2 === 1} />
-          {i < PHASES.length - 1 && <PhaseDivider />}
-        </div>
+      {SYSTEM_STAGES.map((etapa, i) => (
+        <EtapaBloque key={etapa.number} etapa={etapa} alterna={i % 2 === 0} />
       ))}
       <ServiciosCTA />
     </div>
@@ -95,81 +59,92 @@ function ServiciosPage() {
 
 function ServiciosHero() {
   return (
-    <section className="relative">
-      <div className="relative mx-auto max-w-6xl px-6 py-24 md:py-32">
-        <p className="label-mono">Servicios</p>
-        <h1 className="mt-6 max-w-4xl text-4xl font-semibold leading-[1.05] md:text-6xl text-balance">
-          Tres fases para convertir tu presencia digital en un sistema <span className="mark">preparado para crecer</span>.
+    <section className="seccion-clara">
+      <div className="contenedor pt-[clamp(48px,6vw,88px)] pb-[clamp(48px,6vw,80px)]">
+        <p className="etiqueta">Servicios</p>
+        <h1 className="mt-5 max-w-[22ch] text-h2 text-balance">
+          <Subrayado>Cuatro etapas</Subrayado> para convertir tu presencia digital en un sistema
+          preparado para crecer
         </h1>
-        <p className="mt-8 max-w-2xl text-lg text-foreground/75 leading-relaxed">
-          Un enfoque estratégico en tres fases que alinea tu marca, genera autoridad y convierte oportunidades en resultados medibles.
+        <p className="mt-6 max-w-[40em] text-lead text-navy/72">
+          Diagnóstico, posicionamiento, captación y optimización. Cada etapa se apoya en la
+          anterior, y los servicios cobran sentido cuando trabajan juntos.
         </p>
 
-        <div className="mt-14 grid gap-4 sm:grid-cols-3">
-          {PHASES.map((phase) => (
-            <a
-              key={phase.id}
-              href={`#${phase.id}`}
-              className="group flex items-center gap-4 rounded-2xl border border-foreground/15 bg-foreground/5 px-6 py-5 transition-colors hover:border-gold/50 hover:bg-foreground/10"
-            >
-              <span className="font-raleway text-3xl font-bold text-gold-text transition-colors group-hover:text-navy">
-                {phase.number}
-              </span>
-              <span className="text-sm font-semibold uppercase tracking-wide text-foreground/90">{phase.shortTitle}</span>
-            </a>
+        <ol className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {SYSTEM_STAGES.map((etapa) => (
+            <li key={etapa.number}>
+              <a
+                href={`#${ancla(etapa)}`}
+                className={cn(
+                  "flex h-full items-center gap-4 rounded-btn border border-navy/12 bg-paper px-5 py-4 transition-colors hover:border-gold/60 motion-reduce:transition-none",
+                  focoNavy,
+                )}
+              >
+                <span className="font-display text-[28px] leading-none font-bold tracking-[-0.04em] text-gold-ink [font-variant-numeric:lining-nums]">
+                  {etapa.number}
+                </span>
+                <span className="text-[14.5px] leading-[1.35] font-semibold">{etapa.title}</span>
+              </a>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );
 }
 
-function PhaseDivider() {
+/**
+ * Una etapa: a la izquierda número, título, lema y descripción; a la
+ * derecha sus servicios. Los que tienen página propia se enlazan y llevan
+ * el círculo con flecha; los demás van como texto.
+ */
+function EtapaBloque({ etapa, alterna }: { etapa: EtapaSistema; alterna: boolean }) {
   return (
-    <div className="relative mx-auto flex h-16 max-w-6xl items-center justify-center px-6" aria-hidden>
-      <span className="h-full w-px bg-gradient-to-b from-transparent via-gold/40 to-transparent" />
-      <span className="absolute flex h-9 w-9 items-center justify-center rounded-full border border-gold/40 bg-background">
-        <ArrowDown className="h-4 w-4 text-gold" />
-      </span>
-    </div>
-  );
-}
-
-function PhaseBlock({ phase, reversed }: { phase: Phase; reversed: boolean }) {
-  return (
-    <section id={phase.id} className={cn("scroll-mt-24", reversed ? "bg-secondary/40" : "bg-background")}>
-      <div className="mx-auto max-w-6xl px-6 py-24 md:py-28">
-        <div className="grid gap-14 md:grid-cols-2 md:items-center md:gap-16">
-          <div
-            className={cn(
-              "surface-card rounded-3xl p-8 md:p-10",
-              reversed ? "md:order-2" : undefined,
-            )}
+    <section
+      id={ancla(etapa)}
+      className={cn("seccion-clara seccion scroll-mt-24", alterna && "alterna")}
+    >
+      <div className="contenedor grid gap-10 min-[900px]:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] min-[900px]:gap-14">
+        <div>
+          <span
+            aria-hidden
+            className="block font-display text-[clamp(56px,7vw,96px)] leading-[0.85] font-bold tracking-[-0.05em] text-gold-ink [font-variant-numeric:lining-nums]"
           >
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-gold text-navy">
-              <phase.icon className="h-6 w-6" aria-hidden />
-            </div>
-            <div className="mt-8 font-raleway text-7xl font-bold text-gold-text">{phase.number}</div>
-            <h2 className="mt-4 text-3xl font-semibold text-foreground md:text-4xl text-balance">{phase.title}</h2>
-            <p className="mt-5 max-w-md text-foreground/70 leading-relaxed">{phase.text}</p>
-          </div>
+            {etapa.number}
+          </span>
+          <h2 className="mt-6 max-w-[16ch] text-h2 text-balance">{etapa.title}</h2>
+          <p className="mt-3 text-lead font-semibold">{etapa.tagline}</p>
+          <p className="mt-4 max-w-[38em] text-navy/72">{etapa.description}</p>
+        </div>
 
-          <div
-            className={cn(
-              "surface-card rounded-3xl p-8 md:p-10",
-              reversed ? "md:order-1" : undefined,
-            )}
-          >
-            <p className="label-mono">Servicios incluidos</p>
-            <ul className="mt-6 space-y-4">
-              {phase.services.map((s) => (
-                <li key={s} className="flex items-start gap-3 border-b border-foreground/10 pb-4 last:border-0 last:pb-0">
-                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden />
-                  <span className="text-foreground/85">{s}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div>
+          <p className="etiqueta">Servicios de esta etapa</p>
+          <ul className="mt-5 border-t border-navy/12">
+            {(etapa.services ?? []).map((s) => (
+              <li key={s.label} className="border-b border-navy/12">
+                {s.to ? (
+                  <Link
+                    to={s.to}
+                    className={cn(
+                      "group flex items-center justify-between gap-4 px-1.5 py-4 text-[16px] font-medium transition-[background-color,padding] duration-200 hover:bg-navy/4 hover:pr-3 hover:pl-3.5 motion-reduce:transition-none",
+                      focoNavy,
+                    )}
+                  >
+                    {s.label}
+                    <span
+                      aria-hidden
+                      className="grid h-8 w-8 shrink-0 place-content-center rounded-full border border-navy/18 transition-colors duration-200 group-hover:border-transparent group-hover:bg-gold motion-reduce:transition-none"
+                    >
+                      <ArrowRight className="h-3.5 w-3.5" strokeWidth={2.4} />
+                    </span>
+                  </Link>
+                ) : (
+                  <span className="block px-1.5 py-4 text-[16px] text-navy/80">{s.label}</span>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
@@ -178,21 +153,19 @@ function PhaseBlock({ phase, reversed }: { phase: Phase; reversed: boolean }) {
 
 function ServiciosCTA() {
   return (
-    <section className="border-t border-foreground/10 bg-background">
-      <div className="mx-auto max-w-6xl px-6 py-20 md:py-24">
-        <div className="surface-navy rounded-[2rem] px-8 py-14 text-center md:px-16 md:py-16">
-          <h2 className="mx-auto max-w-2xl text-3xl font-semibold leading-tight md:text-4xl text-balance">
+    <section className="seccion-clara seccion">
+      <div className="contenedor">
+        <div className="rounded-block bg-navy px-6 py-14 text-center text-cream md:px-16 md:py-16">
+          <h2 className="mx-auto max-w-[22ch] text-h2 text-balance">
             ¿Listo para crecer con un sistema estratégico y medible?
           </h2>
-          <p className="mx-auto mt-5 max-w-xl text-foreground/75 leading-relaxed">
-            Solicita tu diagnóstico y descubre oportunidades de crecimiento personalizadas para tu negocio.
+          <p className="mx-auto mt-5 max-w-[38em] text-lead text-cream/72">
+            Solicita tu diagnóstico y descubre oportunidades de crecimiento personalizadas para tu
+            negocio.
           </p>
-          <Link
-            to="/diagnostico"
-            className="group mt-9 inline-flex items-center gap-3 rounded-full bg-gold px-8 py-4 text-sm font-bold text-navy transition hover:bg-gold-soft"
-          >
-            Solicitar diagnóstico gratuito <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </Link>
+          <GoldCta to="/diagnostico" className="mt-9">
+            Solicitar diagnóstico gratuito
+          </GoldCta>
         </div>
       </div>
     </section>

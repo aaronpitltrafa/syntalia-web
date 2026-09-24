@@ -9,6 +9,7 @@ export const HOME_SECTIONS = [
   { id: "hero", label: "Inicio" },
   { id: "problema", label: "Problema" },
   { id: "sistema", label: "Sistema" },
+  { id: "servicios", label: "Servicios" },
   { id: "para-ti", label: "Para quién" },
   { id: "caso", label: "Resultados" },
   { id: "faq", label: "FAQ" },
