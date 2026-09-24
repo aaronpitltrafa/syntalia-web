@@ -50,6 +50,7 @@ export function DiagnosticoForm() {
   const employeesId = useId();
   const websiteId = useId();
   const challengeId = useId();
+  const trampaId = useId();
 
   if (status === "sent") {
     return (
@@ -95,6 +96,7 @@ export function DiagnosticoForm() {
               challenge: String(formData.get("challenge") || ""),
               areas,
               marketingConsent,
+              honeypot: String(formData.get("url") || ""),
               source: "Diagnóstico estratégico gratuito",
             },
           });
@@ -103,7 +105,7 @@ export function DiagnosticoForm() {
           setStatus("error");
         }
       }}
-      className="grid gap-10"
+      className="relative grid gap-10"
     >
       {/* 01 — Datos personales */}
       <div>
@@ -295,6 +297,14 @@ export function DiagnosticoForm() {
 
           <PrivacyNotice />
         </div>
+      </div>
+
+      {/* Campo trampa, igual que el del formulario corto de la home: fuera de
+          pantalla y fuera del orden de tabulación. Si llega relleno, el
+          servidor responde ok sin enviar nada. */}
+      <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
+        <label htmlFor={trampaId}>No rellenes este campo</label>
+        <input id={trampaId} name="url" type="text" tabIndex={-1} autoComplete="off" />
       </div>
 
       <div>

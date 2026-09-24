@@ -1,10 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Play } from "lucide-react";
+import logoAlmaValdes from "@/assets/logos-clientes/alma-valdes.png";
 import logoBruma from "@/assets/logos-clientes/bruma-tropical.png";
 import logoCnc from "@/assets/logos-clientes/cnc.png";
 import logoFrulonsa from "@/assets/logos-clientes/frulonsa.png";
+import logoMn from "@/assets/logos-clientes/mn.png";
 import logoRevivalia from "@/assets/logos-clientes/revivalia.png";
+import logoTradyn from "@/assets/logos-clientes/tradyn-ai.png";
 import { Reveal } from "@/components/motion";
 import { FormularioCorto } from "@/components/formulario-corto";
 import { GoldCta } from "@/components/gold-cta";
@@ -221,11 +224,20 @@ function Hero() {
 /* 1b · LOGOS                                                           */
 /* ------------------------------------------------------------------ */
 
+/**
+ * `natural` es el tamaño real del PNG: va en width/height del <img> para que
+ * el navegador reserve el ancho antes de cargarlo. Sin eso, una copia sin
+ * cargar mide 0, el track cambia de ancho a mitad de animación y el bucle
+ * da un salto.
+ */
 const LOGOS = [
-  { src: logoFrulonsa, alt: "Frulonsa", height: 34 },
-  { src: logoRevivalia, alt: "Revivalia", height: 46 },
-  { src: logoCnc, alt: "Método CNC", height: 34 },
-  { src: logoBruma, alt: "Bruma Tropical", height: 38 },
+  { src: logoFrulonsa, alt: "Frulonsa", height: 34, natural: [541, 102] },
+  { src: logoRevivalia, alt: "Revivalia", height: 46, natural: [307, 138] },
+  { src: logoAlmaValdes, alt: "Alma Valdés", height: 40, natural: [254, 120] },
+  { src: logoCnc, alt: "Método CNC", height: 34, natural: [336, 120] },
+  { src: logoTradyn, alt: "Tradyn.ai", height: 46, natural: [254, 138] },
+  { src: logoBruma, alt: "Bruma Tropical", height: 38, natural: [139, 132] },
+  { src: logoMn, alt: "MN", height: 42, natural: [145, 126] },
 ] as const;
 
 function Logos() {
@@ -252,9 +264,10 @@ function Logos() {
                 <img
                   src={l.src}
                   alt={copia ? "" : l.alt}
+                  width={l.natural[0]}
+                  height={l.natural[1]}
                   style={{ height: l.height }}
                   className="block w-auto max-w-none"
-                  loading="lazy"
                   decoding="async"
                 />
               </li>

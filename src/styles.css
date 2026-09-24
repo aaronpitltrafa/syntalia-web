@@ -484,8 +484,10 @@
     mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
   }
+  /* 55s con siete logos: la misma velocidad (unos 19-25 px/s segun el
+     ancho) que tenian 34s con cuatro. */
   .marquesina-track {
-    animation: marquesina 34s linear infinite;
+    animation: marquesina 55s linear infinite;
   }
   .marquesina:hover .marquesina-track { animation-play-state: paused; }
   @keyframes marquesina {
