@@ -22,7 +22,7 @@ function TikTokIcon(props: LucideProps) {
 const NAV: { to: string; label: string; hash?: string }[] = [
   { to: "/", label: "Inicio" },
   { to: "/servicios", label: "Servicios" },
-  { to: "/", hash: "fases", label: "Sistema Vértice" },
+  { to: "/", hash: "sistema", label: "Sistema Vértice" },
   { to: "/quienes-somos", label: "Quiénes somos" },
   { to: "/", hash: "faq", label: "FAQ" },
   { to: "/contacto", label: "Contacto" },

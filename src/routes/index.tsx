@@ -6,14 +6,23 @@ import {
   CheckCircle2,
   ChevronDown,
   Minus,
+  Play,
   Plus,
   ShieldCheck,
   Target,
   UserPlus,
 } from "lucide-react";
 import logoWhite from "@/assets/logo-white.png";
+import logoBruma from "@/assets/logos-clientes/bruma-tropical.png";
+import logoCnc from "@/assets/logos-clientes/cnc.png";
+import logoFrulonsa from "@/assets/logos-clientes/frulonsa.png";
+import logoRevivalia from "@/assets/logos-clientes/revivalia.png";
 import { Reveal } from "@/components/motion";
 import { GoldButton } from "@/components/gold-button";
+import { GoldCta } from "@/components/gold-cta";
+import { SectionLink } from "@/components/section-link";
+import { SectionRail } from "@/components/section-rail";
+import { useHomeSectionObserver } from "@/lib/home-sections";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { SITE_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -35,20 +44,29 @@ export const Route = createFileRoute("/")({
 });
 
 /**
- * La home en 7 bloques: hero (con los diferenciales dentro), problema,
- * sistema, para quién, caso, FAQ y cierre. Dos bloques a sangre: el
- * dorado del sistema y el azul del cierre.
+ * Home v3, en obras: hero y logos ya van en la dirección nueva, sobre
+ * fondo ink. El resto de bloques se rehacen uno a uno; mientras tanto
+ * siguen tal cual dentro de una banda crema, porque su texto navy sobre
+ * ink no se leería.
  */
 function Index() {
+  useHomeSectionObserver();
+
   return (
-    <div className="relative text-foreground">
-      <HeroPrincipal />
-      <Problema />
-      <Sistema />
-      <AQuienVaDirigido />
-      <CasoDeExito />
-      <FAQ />
-      <FinalCTA />
+    <div className="home-v3 relative bg-ink text-cream">
+      <SectionRail />
+      <Hero />
+      <Logos />
+
+      {/* Bloques anteriores, pendientes de rehacer */}
+      <div className="bg-background text-foreground">
+        <Problema />
+        <Sistema />
+        <AQuienVaDirigido />
+        <CasoDeExito />
+        <FAQ />
+        <FinalCTA />
+      </div>
     </div>
   );
 }
@@ -68,69 +86,177 @@ const FANTASMA =
 /* 1 · HERO                                                             */
 /* ------------------------------------------------------------------ */
 
-const DIFERENCIALES_STRIP = [
-  {
-    title: "Estrategia antes que ejecución",
-    description: "Cada acción responde a un plan claro, no a impulsos ni modas pasajeras.",
-  },
-  {
-    title: "Captación y contenido conectados",
-    description: "El contenido no es decorativo: alimenta directamente el sistema de captación.",
-  },
-  {
-    title: "Seguimiento orientado a crecimiento",
-    description: "Medimos, ajustamos y evolucionamos la estrategia con datos reales.",
-  },
+/** Cifras del caso Frulonsa en 90 días. La unidad se pinta aparte, más pequeña y en dorado. */
+const CIFRAS_FRULONSA = [
+  { label: "Reproducciones", value: "5,6", unit: "M" },
+  { label: "Usuarios únicos", value: "1,4", unit: "M" },
+  { label: "Interacciones", value: "157", unit: "K" },
+  { label: "Nuevos seguidores", value: "+7.301" },
 ] as const;
 
-function HeroPrincipal() {
+const FUENTE_CIFRAS = "Caso Frulonsa · 90 días · datos de las analíticas de sus canales";
+
+const GARANTIAS = ["Sin compromiso", "Respuesta en 24 h", "Plan estratégico gratuito"] as const;
+
+function Hero() {
   return (
-    <section className="relative overflow-hidden">
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="glow-gold absolute -top-[180px] -right-[140px] h-[720px] w-[720px] rounded-full opacity-70" />
-        <div className="hero-grain absolute inset-0 opacity-5" />
+    <section
+      id="hero"
+      className="relative flex min-h-[clamp(600px,88svh,920px)] flex-col justify-end overflow-hidden"
+    >
+      <div aria-hidden className="hero-stage pointer-events-none absolute inset-0 overflow-hidden">
+        {/*
+          HUECO PARA EL VÍDEO DE FONDO. Cuando esté listo, va aquí: encima
+          del degradado (que queda de respaldo mientras carga) y debajo de
+          las líneas y el velo:
+
+            <video
+              className="absolute inset-0 h-full w-full object-cover"
+              src={heroVideo}
+              poster={heroPoster}
+              autoPlay muted loop playsInline preload="metadata"
+            />
+
+          El velo NO se quita: es lo que mantiene el texto del hero en AA
+          encima de cualquier imagen. Con prefers-reduced-motion conviene
+          dejar solo el poster.
+        */}
+        <div className="hero-lines absolute inset-0" />
+        <div className="hero-veil absolute inset-0" />
       </div>
 
-      <div className="relative pt-28 pb-16 lg:pt-32">
-        <div className={BLOQUE}>
-          <p className="label-mono">Syntalia Vértice · Consultora estratégica · Murcia</p>
+      <div className="relative z-[2] pt-[clamp(120px,15vw,190px)] pb-[clamp(28px,3vw,44px)]">
+        <div className="contenedor">
+          <span className="inline-flex items-center gap-[9px] rounded-full border border-cream/13 bg-cream/4 px-[17px] py-[9px] text-[11px] leading-none font-semibold tracking-[0.16em] text-cream/72 uppercase">
+            <i
+              aria-hidden
+              className="h-[7px] w-[7px] shrink-0 rounded-full bg-gold shadow-[0_0_0_4px_rgb(212_175_55/0.16)]"
+            />
+            Consultora estratégica de marketing digital
+          </span>
 
-          {/* El H1 manda: ancho corto para que caiga en pocas líneas muy
-              grandes, y una sola palabra subrayada en dorado. */}
-          <h1 className="mt-6 max-w-[17ch] text-hero text-foreground">
-            Convertimos tu presencia digital en{" "}
-            <span className="mark">oportunidades</span> comerciales reales
+          <h1 className="mt-6 max-w-[15ch] text-hero text-balance text-cream">
+            Construimos el{" "}
+            <span className="mark-v3 sm:whitespace-nowrap">
+              <span>sistema digital</span>
+            </span>{" "}
+            que hace crecer tu empresa
           </h1>
 
-          {/* filete y dos columnas: el argumento a la izquierda, la acción a la derecha */}
-          <div className="mt-10 grid gap-8 border-t-2 border-navy pt-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-12">
-            <p className="max-w-[34ch] text-[18px] leading-[1.5] text-foreground/75 md:text-[21px]">
-              Ayudamos a empresas y negocios que ya venden, a posicionarse mejor y generar contactos
-              cualificados con una estrategia digital clara.
-            </p>
+          <p className="mt-6 max-w-[46ch] text-lead text-cream/72">
+            No hacemos acciones aisladas. Analizamos qué necesita tu empresa y montamos un
+            ecosistema donde estrategia, marca, captación, tecnología y automatización trabajan
+            juntas.
+          </p>
 
-            <div className="flex flex-wrap items-center gap-x-8 gap-y-4 lg:justify-end">
-              <Link to="/servicios" className={cn(FANTASMA, "text-foreground")}>
-                Ver cómo trabajamos
-              </Link>
-              <GoldButton to="/diagnostico">Solicitar diagnóstico gratuito</GoldButton>
-            </div>
+          <div className="mt-[34px] flex flex-wrap items-center gap-[13px]">
+            <GoldCta to="/diagnostico">Solicitar diagnóstico</GoldCta>
+            <SectionLink
+              id="caso"
+              className="group inline-flex items-center gap-3 rounded-full pr-2 text-[14px] text-cream/72 transition-colors hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+            >
+              <span
+                aria-hidden
+                className="grid h-[46px] w-[46px] place-content-center rounded-full border border-cream/28 bg-cream/9 backdrop-blur-[6px] transition-colors group-hover:border-gold group-hover:bg-gold/20"
+              >
+                <Play className="h-4 w-4 fill-cream text-cream" strokeWidth={0} />
+              </span>
+              Ver el caso Frulonsa
+            </SectionLink>
           </div>
-        </div>
 
-        {/* diferenciales, dentro del propio hero */}
-        <div className={cn(BLOQUE, "mt-14")}>
-          <div className="grid gap-7 text-left sm:grid-cols-3">
-            {DIFERENCIALES_STRIP.map((d) => (
-              <div key={d.title} className="border-t-2 border-navy pt-4">
-                <span className="label-mono">{d.title}</span>
-                <p className="mt-2 text-meta leading-[1.55] text-foreground/75">{d.description}</p>
+          <ul className="mt-[26px] flex flex-wrap gap-x-7 gap-y-2.5 text-[13px] leading-[1.5] font-normal text-cream/62">
+            {GARANTIAS.map((g) => (
+              <li key={g} className="flex items-center gap-2">
+                <span aria-hidden className="h-[5px] w-[5px] shrink-0 rounded-full bg-gold" />
+                {g}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Banda de cifras sobre cristal, pegada al borde inferior */}
+      <div className="relative z-[2] border-t border-cream/13 bg-[rgb(3_11_36/0.5)] backdrop-blur-[10px]">
+        <div className="contenedor">
+          <dl className="grid grid-cols-2 min-[860px]:grid-cols-4">
+            {CIFRAS_FRULONSA.map((c, i) => (
+              <div
+                key={c.label}
+                className={cn(
+                  "px-[22px] py-5",
+                  i % 2 === 1 && "border-l border-cream/13",
+                  i >= 2 && "border-t border-cream/13 min-[860px]:border-t-0",
+                  i === 2 && "min-[860px]:border-l",
+                )}
+              >
+                <dt className="text-[11px] leading-[1.3] font-normal tracking-[0.14em] text-cream/62 uppercase">
+                  {c.label}
+                </dt>
+                <dd className="mt-[9px] font-display text-[clamp(26px,2.9vw,38px)] leading-none font-bold tracking-[-0.035em] text-cream [font-variant-numeric:lining-nums_tabular-nums]">
+                  {c.value}
+                  {"unit" in c && (
+                    <small className="ml-[0.05em] text-[0.5em] text-gold-light">{c.unit}</small>
+                  )}
+                </dd>
               </div>
             ))}
-          </div>
+          </dl>
+          <p className="border-t border-cream/13 px-[22px] pt-3 pb-4 text-[12.5px] leading-[1.5] text-cream/62">
+            {FUENTE_CIFRAS}
+          </p>
         </div>
       </div>
     </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 1b · LOGOS                                                           */
+/* ------------------------------------------------------------------ */
+
+const LOGOS = [
+  { src: logoFrulonsa, alt: "Frulonsa", height: 34 },
+  { src: logoRevivalia, alt: "Revivalia", height: 46 },
+  { src: logoCnc, alt: "Método CNC", height: 40 },
+  { src: logoBruma, alt: "Bruma Tropical", height: 44 },
+] as const;
+
+function Logos() {
+  return (
+    <div className="overflow-hidden border-y border-cream/13 py-[clamp(30px,3.4vw,44px)]">
+      <div className="contenedor">
+        <p className="etiqueta mb-[26px] text-center">Empresas que confían en nosotros</p>
+      </div>
+
+      <div className="marquesina">
+        {/* La misma tanda dos veces en el mismo track: al llegar a -50% el
+            track vuelve a 0 sin que se note. La copia no se anuncia. */}
+        <ul className="marquesina-track flex w-max items-center">
+          {[false, true].map((copia) =>
+            LOGOS.map((l) => (
+              <li
+                key={`${l.alt}-${copia}`}
+                aria-hidden={copia || undefined}
+                className={cn(
+                  "grid min-h-[58px] shrink-0 place-content-center pr-[clamp(56px,7vw,110px)] opacity-82 transition-[opacity,translate] duration-200 hover:-translate-y-px hover:opacity-100 motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:px-6",
+                  copia && "marquesina-copia",
+                )}
+              >
+                <img
+                  src={l.src}
+                  alt={copia ? "" : l.alt}
+                  style={{ height: l.height }}
+                  className="block w-auto max-w-none"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </li>
+            )),
+          )}
+        </ul>
+      </div>
+    </div>
   );
 }
 
@@ -164,7 +290,7 @@ const PROBLEMS = [
 
 function Problema() {
   return (
-    <section className="relative py-16 md:py-24">
+    <section id="problema" className="relative scroll-mt-24 py-16 md:py-24">
       <div className={BLOQUE}>
         <p className="label-mono">El problema</p>
 
@@ -298,7 +424,7 @@ function Etapa({ stage }: { stage: (typeof SYSTEM_STAGES)[number] }) {
 /** El único bloque dorado de la web: a sangre y con todo el texto en navy. */
 function Sistema() {
   return (
-    <section id="fases" className="surface-gold relative scroll-mt-24 py-[72px] md:py-24">
+    <section id="sistema" className="surface-gold relative scroll-mt-24 py-[72px] md:py-24">
       <div className={BLOQUE}>
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:items-end lg:gap-10">
           <h2 className="max-w-[16ch] text-h2 text-foreground">
@@ -347,7 +473,7 @@ const FIT_ITEMS = [
 
 function AQuienVaDirigido() {
   return (
-    <section className="relative py-16 md:py-24">
+    <section id="para-ti" className="relative scroll-mt-24 py-16 md:py-24">
       <div className={BLOQUE}>
         <div className="surface-slab grid gap-12 rounded-[30px] px-6 py-10 md:rounded-[40px] md:px-16 md:py-[72px] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-14">
           <div>
@@ -407,7 +533,7 @@ const FRULONSA_METRICS = [
 
 function CasoDeExito() {
   return (
-    <section className="relative py-16 md:py-24">
+    <section id="caso" className="relative scroll-mt-24 py-16 md:py-24">
       <div className={BLOQUE}>
         <p className="label-mono">Caso de éxito · Frulonsa</p>
 
@@ -541,7 +667,7 @@ function FAQ() {
 
 function FinalCTA() {
   return (
-    <section className="relative px-3 pb-7 md:px-5">
+    <section id="contacto" className="relative scroll-mt-24 px-3 pb-7 md:px-5">
       <div className="surface-navy relative overflow-hidden rounded-[34px] md:rounded-[40px]">
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="glow-gold absolute -bottom-[340px] left-1/2 h-[600px] w-[900px] -translate-x-1/2 rounded-full" />

@@ -59,14 +59,13 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  /* Direccion A: una sola grotesca para todo, y la mono solo para
-     micro-etiquetas. Bricolage no tiene cursiva: no se usa italic. */
-  --font-sans: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  /* Alias heredados: apuntan a la misma grotesca. */
-  --font-poppins: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
-  --font-raleway: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  /* Home v3: Raleway para titulares, Poppins para texto. La mono ya no
+     se carga: font-mono cae en la del sistema (solo tablas y graficas). */
+  --font-sans: "Poppins", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Raleway", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-poppins: "Poppins", "Helvetica Neue", Arial, sans-serif;
+  --font-raleway: "Raleway", "Helvetica Neue", Arial, sans-serif;
   --color-navy: var(--navy);
   --color-cream: var(--cream);
   --color-gold: var(--gold);
@@ -76,24 +75,33 @@
   --color-gold-light: var(--gold-light);
   --color-gold-grad: var(--gold-grad);
   --color-gold-text: var(--gold-text);
+  --color-cream-2: var(--cream-2);
+  --color-gold-ink: var(--gold-ink);
+  --color-on-gold: var(--on-gold);
 
-  /* Escala tipografica: ocho tamanos y ninguno mas. Nombres propios para
-     no pisar los text-xl/2xl/3xl de Tailwind, que siguen usandose en las
-     paginas que aun no estan pasadas a la escala. */
+  /* Radios v3: botones y campos, tarjetas, bloques grandes. */
+  --radius-btn: 12px;
+  --radius-card: 18px;
+  --radius-block: 26px;
+
+  /* Escala tipografica v3. Nombres propios para no pisar los
+     text-xl/2xl/3xl de Tailwind, que siguen usandose en las paginas que
+     aun no estan pasadas a la escala. */
+  --text-label: 11.5px; /* etiqueta: 600, mayusculas, tracking .2em */
   --text-micro: 12px;   /* micro-etiquetas */
   --text-meta: 14px;    /* apoyo, pies, listas */
   --text-body: 16px;    /* cuerpo */
-  --text-lead: 18px;    /* entradilla */
+  --text-body--line-height: 1.7;
+  --text-lead: clamp(17px, 1.3vw, 19px);   /* entradilla */
+  --text-lead--line-height: 1.65;
   --text-title: 22px;   /* titulo de tarjeta */
-  /* Los interlineados no bajan de 0.95: por debajo, las descendentes de
-     p, g y j se meten en la linea siguiente. */
-  --text-h3: clamp(26px, 3.2vw, 34px);
-  --text-h3--line-height: 1.05;
-  --text-h3--letter-spacing: -0.035em;
-  --text-h2: clamp(38px, 5.2vw, 80px);
-  --text-h2--line-height: 0.95;
-  --text-h2--letter-spacing: -0.035em;
-  --text-hero: clamp(40px, 5.6vw, 96px);   /* SOLO el H1 del hero */
+  --text-h3: clamp(19px, 1.8vw, 24px);
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: -0.015em;
+  --text-h2: clamp(28px, 3.6vw, 52px);
+  --text-h2--line-height: 1.06;
+  --text-h2--letter-spacing: -0.025em;
+  --text-hero: clamp(42px, 6.4vw, 104px);  /* SOLO el H1 del hero */
   --text-hero--line-height: 0.98;
   --text-hero--letter-spacing: -0.035em;
 
@@ -104,18 +112,21 @@
 
 :root {
   --radius: 0.625rem;
-  /* Brand: #021557 navy, #f5f2e9 cream, #d4af37 gold */
-  --navy: oklch(0.235 0.137 269);
-  --cream: oklch(0.962 0.012 88);
-  --gold: oklch(0.745 0.135 82);
+  /* Marca, valores exactos de los hex. */
+  --navy: oklch(0.2402 0.1206 264.06);    /* #021557 */
+  --cream: oklch(0.9610 0.0124 91.52);    /* #F5F2E9 */
+  --cream-2: oklch(0.9339 0.0166 91.56);  /* #EDE9DD, crema alterno */
+  --gold: oklch(0.7665 0.1387 91.06);     /* #D4AF37 */
   --gold-soft: oklch(0.86 0.08 86);
   /* Richer, deeper gold for text sitting directly on the cream background
      — the light --gold reads fine on navy cards but loses contrast on cream. */
   --gold-deep: oklch(0.56 0.135 78);
   /* Rediseno v2: capa oscura derivada del azul de marca. */
-  --ink: oklch(0.162 0.070 263);        /* #010A2B, fondo de pagina */
+  --ink: oklch(0.1594 0.0544 264.05);   /* #030B24, fondo de la home */
   --navy-soft: oklch(0.295 0.138 265);  /* #0A2170, superficie elevada */
-  --gold-light: oklch(0.868 0.096 91);  /* #EBD289, dorado para texto */
+  --gold-light: oklch(0.8684 0.0962 91.26); /* #EBD289, texto dorado sobre oscuro (13:1 sobre ink) */
+  --gold-ink: oklch(0.5149 0.1005 89.83);   /* #7E640E, texto dorado sobre crema (5:1) */
+  --on-gold: oklch(0.2083 0.0348 89.05);    /* #1E1704, texto del boton dorado (8,5:1) */
   --gold-grad: oklch(0.701 0.131 90);   /* #BF9A28, final del degradado */
   /* Dorado para TEXTO sobre la superficie actual. En claro es el dorado
      oscuro (#7E640E, 5.05:1 sobre crema); surface-navy lo repunta a
@@ -200,23 +211,34 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    font-feature-settings: "ss01", "ss02";
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* La home v3 va sobre ink; el resto de paginas sigue en crema. */
+  body:has(.home-v3) {
+    background-color: var(--ink);
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.035em;
-    line-height: 0.95;
+    letter-spacing: -0.025em;
+    line-height: 1.06;
+    /* Raleway trae cifras de estilo antiguo por defecto: en titulares
+       queremos las de caja alta. */
+    font-variant-numeric: lining-nums;
   }
 }
 
 @layer utilities {
   .text-balance { text-wrap: balance; }
 
-  /* Micro-etiqueta: la unica pieza que no va en la grotesca. */
+  /* Micro-etiqueta de las paginas interiores. Iba en Geist Mono; sin
+     ella pasa a Poppins hasta que esas paginas usen .etiqueta. */
   .label-mono {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-weight: 500;
     font-size: 13px;
     line-height: 1.3;
@@ -396,6 +418,116 @@
     animation: heroReunionKenBurns 28s ease-in-out infinite alternate;
     will-change: transform;
     filter: blur(2px);
+  }
+
+  /* ================================================================ */
+  /* Home v3                                                           */
+  /* ================================================================ */
+
+  /* Contenedor de 1200px con 16px de margen (40px desde 900px). */
+  .contenedor {
+    max-width: var(--container-block);
+    margin-inline: auto;
+    padding-inline: 16px;
+  }
+  @media (min-width: 900px) {
+    .contenedor { padding-inline: 40px; }
+  }
+
+  /* Aire de seccion: 72px en movil, 120px en escritorio. */
+  .seccion { padding-block: clamp(72px, 8vw, 120px); }
+
+  /* Etiqueta. Crema al 62% sobre ink da 6,6:1 (el 44% de la referencia
+     se quedaba en 4:1 y no llegaba a AA). */
+  .etiqueta {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--text-label);
+    line-height: 1;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--cream) 62%, transparent);
+  }
+
+  /* Fondo del hero: degradado radial azul, lineas verticales y un velo
+     que funde con la pagina. El velo es el que garantiza el contraste
+     del texto, y se queda tambien cuando entre el video. */
+  .hero-stage {
+    background: radial-gradient(130% 120% at 22% 8%, #0e317c 0%, #061032 52%, #01060f 100%);
+  }
+  .hero-lines {
+    opacity: 0.35;
+    background-image: linear-gradient(90deg, oklch(0.961 0.012 91 / 9%) 1px, transparent 1px);
+    background-size: 78px 100%;
+  }
+  .hero-veil {
+    background: linear-gradient(180deg,
+      rgb(1 6 15 / 72%) 0%,
+      rgb(1 6 15 / 45%) 38%,
+      rgb(3 11 36 / 86%) 82%,
+      var(--ink) 100%);
+  }
+
+  /* Subrayado dorado del H1: banda del 62% al 88% de la letra que se
+     dibuja de izquierda a derecha. Crema sobre dorado se queda en 1,9:1,
+     asi que el trozo de letra que pisa la banda se pinta en ink (15:1)
+     con una segunda capa recortada al texto que avanza a la vez. */
+  .mark-v3 {
+    background: linear-gradient(transparent 62%, var(--gold) 62%, var(--gold) 88%, transparent 88%)
+      no-repeat 0 0 / 100% 100%;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    animation: sweep-v3 1s 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  @supports (background-clip: text) or (-webkit-background-clip: text) {
+    .mark-v3 > span {
+      color: transparent;
+      background:
+        linear-gradient(transparent 62%, var(--ink) 62%, var(--ink) 88%, transparent 88%) no-repeat 0 0 / 100% 100%,
+        linear-gradient(var(--cream), var(--cream));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+      animation: sweep-v3-text 1s 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    }
+  }
+  @keyframes sweep-v3 {
+    from { background-size: 0 100%; }
+    to   { background-size: 100% 100%; }
+  }
+  @keyframes sweep-v3-text {
+    from { background-size: 0 100%, 100% 100%; }
+    to   { background-size: 100% 100%, 100% 100%; }
+  }
+
+  /* Marquesina de logos. Cada logo lleva su hueco a la derecha (no gap)
+     para que -50% caiga justo al inicio de la copia y no haya salto. */
+  .marquesina {
+    mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  }
+  .marquesina-track {
+    animation: marquesina 34s linear infinite;
+  }
+  .marquesina:hover .marquesina-track { animation-play-state: paused; }
+  @keyframes marquesina {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mark-v3,
+    .mark-v3 > span { animation: none; }
+    /* Quieta: una sola tanda de logos, centrada y en varias lineas. */
+    .marquesina { mask-image: none; -webkit-mask-image: none; }
+    .marquesina-track {
+      animation: none;
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .marquesina-copia { display: none; }
   }
 
 }
