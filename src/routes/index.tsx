@@ -1,26 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import {
-  ArrowRight,
-  CheckCircle2,
-  Minus,
-  Play,
-  Plus,
-} from "lucide-react";
-import logoWhite from "@/assets/logo-white.png";
+import { ArrowRight, Play } from "lucide-react";
 import logoBruma from "@/assets/logos-clientes/bruma-tropical.png";
 import logoCnc from "@/assets/logos-clientes/cnc.png";
 import logoFrulonsa from "@/assets/logos-clientes/frulonsa.png";
 import logoRevivalia from "@/assets/logos-clientes/revivalia.png";
 import { Reveal } from "@/components/motion";
-import { GoldButton } from "@/components/gold-button";
+import { FormularioCorto } from "@/components/formulario-corto";
 import { GoldCta } from "@/components/gold-cta";
 import { SectionLink } from "@/components/section-link";
 import { SectionRail } from "@/components/section-rail";
 import { Subrayado } from "@/components/subrayado";
 import { useHomeSectionObserver } from "@/lib/home-sections";
 import { SYSTEM_STAGES } from "@/lib/sistema";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { SITE_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -58,13 +50,14 @@ function Index() {
       <Sistema />
       <Servicios />
 
-      {/* Bloques anteriores, pendientes de rehacer */}
+      {/* Caso de éxito antiguo, pendiente de rehacer */}
       <div className="bg-background text-foreground">
-        <AQuienVaDirigido />
         <CasoDeExito />
-        <FAQ />
-        <FinalCTA />
       </div>
+
+      <Empezar />
+      <FAQ />
+      <Cierre />
     </div>
   );
 }
@@ -96,6 +89,38 @@ const FUENTE_CIFRAS = "Caso Frulonsa · 90 días · datos de las analíticas de 
 
 const GARANTIAS = ["Sin compromiso", "Respuesta en 24 h", "Plan estratégico gratuito"] as const;
 
+/** Píldora con punto dorado, sobre fondo oscuro (hero y cierre). */
+function Pildora({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center gap-[9px] rounded-full border border-cream/13 bg-cream/4 px-[17px] py-[9px] text-[11px] leading-none font-semibold tracking-[0.16em] text-cream/72 uppercase">
+      <i
+        aria-hidden
+        className="h-[7px] w-[7px] shrink-0 rounded-full bg-gold shadow-[0_0_0_4px_rgb(212_175_55/0.16)]"
+      />
+      {children}
+    </span>
+  );
+}
+
+/** Garantías con punto dorado: crema al 62% sobre oscuro (6,6:1 sobre ink). */
+function Garantias({ items, className }: { items: readonly string[]; className?: string }) {
+  return (
+    <ul
+      className={cn(
+        "flex flex-wrap gap-x-7 gap-y-2.5 text-[13px] leading-[1.5] font-normal text-cream/62",
+        className,
+      )}
+    >
+      {items.map((g) => (
+        <li key={g} className="flex items-center gap-2">
+          <span aria-hidden className="h-[5px] w-[5px] shrink-0 rounded-full bg-gold" />
+          {g}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function Hero() {
   return (
     <section
@@ -125,13 +150,7 @@ function Hero() {
 
       <div className="relative z-[2] pt-[clamp(120px,15vw,190px)] pb-[clamp(28px,3vw,44px)]">
         <div className="contenedor">
-          <span className="inline-flex items-center gap-[9px] rounded-full border border-cream/13 bg-cream/4 px-[17px] py-[9px] text-[11px] leading-none font-semibold tracking-[0.16em] text-cream/72 uppercase">
-            <i
-              aria-hidden
-              className="h-[7px] w-[7px] shrink-0 rounded-full bg-gold shadow-[0_0_0_4px_rgb(212_175_55/0.16)]"
-            />
-            Consultora estratégica de marketing digital
-          </span>
+          <Pildora>Consultora estratégica de marketing digital</Pildora>
 
           <h1 className="mt-6 max-w-[15ch] text-hero text-balance text-cream">
             Construimos el <Subrayado>sistema digital</Subrayado> que hace crecer tu empresa
@@ -159,14 +178,7 @@ function Hero() {
             </SectionLink>
           </div>
 
-          <ul className="mt-[26px] flex flex-wrap gap-x-7 gap-y-2.5 text-[13px] leading-[1.5] font-normal text-cream/62">
-            {GARANTIAS.map((g) => (
-              <li key={g} className="flex items-center gap-2">
-                <span aria-hidden className="h-[5px] w-[5px] shrink-0 rounded-full bg-gold" />
-                {g}
-              </li>
-            ))}
-          </ul>
+          <Garantias items={GARANTIAS} className="mt-[26px]" />
         </div>
       </div>
 
@@ -490,63 +502,7 @@ function Servicios() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 4 · ¿ES ESTO PARA TI?                                                */
-/* ------------------------------------------------------------------ */
-
-const FIT_ITEMS = [
-  "Tu empresa funciona bien, pero no crece al ritmo que debería.",
-  "No transmite online el nivel real de calidad que tiene.",
-  "Depende demasiado del boca a boca o de clientes de siempre.",
-  "No genera contactos nuevos de forma constante cada mes.",
-  "Quieres dejar de improvisar y trabajar con una estrategia real.",
-];
-
-function AQuienVaDirigido() {
-  return (
-    <section id="para-ti" className="relative scroll-mt-24 py-16 md:py-24">
-      <div className={BLOQUE}>
-        <div className="surface-slab grid gap-12 rounded-[30px] px-6 py-10 md:rounded-[40px] md:px-16 md:py-[72px] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-14">
-          <div>
-            <p className="label-mono">¿Es esto para ti?</p>
-
-            <h2 className="mt-5 max-w-[15ch] text-h2 text-foreground">
-              Esto es para ti <span className="mark">si tu empresa...</span>
-            </h2>
-
-            <p className="mt-6 max-w-text text-lead leading-[1.65] text-foreground/75">
-              Tu empresa tiene valor real, pero algo está bloqueando su crecimiento. Si te identificas con alguno de estos puntos, podemos ayudarte:
-            </p>
-
-            <p className="mt-7 text-title leading-[1.15] font-bold tracking-[-0.03em] text-foreground">
-              No es vender más.
-              <br />
-              Es posicionarte mejor.
-            </p>
-          </div>
-
-          {/* En movil no hay tarjetas: una linea por punto, a todo el
-              ancho y separadas por filetes. */}
-          <ul className="flex flex-col md:gap-2.5">
-            {FIT_ITEMS.map((it, i) => (
-              <Reveal key={it} delay={i * 80}>
-                <li className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 border-b border-border py-4 text-lead text-foreground md:gap-4 md:rounded-[18px] md:border md:bg-background md:px-5">
-                  <CheckCircle2 aria-hidden className="h-[18px] w-[18px] shrink-0 text-gold-text md:hidden" />
-                  <span className="hidden h-7 w-7 items-center justify-center rounded-full bg-gold/18 md:flex" aria-hidden>
-                    <CheckCircle2 className="h-[15px] w-[15px] text-gold-text" />
-                  </span>
-                  {it}
-                </li>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* 5 · CASO DE ÉXITO                                                    */
+/* 4 · CASO DE ÉXITO (antiguo)                                          */
 /* ------------------------------------------------------------------ */
 
 /** Cifras fijas, sin contador: una captura a medias mostraba un dato falso. */
@@ -619,72 +575,133 @@ function CasoDeExito() {
 }
 
 /* ------------------------------------------------------------------ */
+/* 5 · CÓMO EMPEZAMOS                                                   */
+/* ------------------------------------------------------------------ */
+
+const PASOS = [
+  {
+    titulo: "Cuéntanos tu proyecto",
+    texto: "Rellenas el formulario en dos minutos. Sin compromiso ni letra pequeña.",
+  },
+  {
+    titulo: "Analizamos tu situación",
+    texto: "Revisamos tu posicionamiento, tu presencia digital y tu captación actual.",
+  },
+  {
+    titulo: "Te entregamos el plan",
+    texto: "Una hoja de ruta clara con prioridades y qué haríamos primero. Gratis.",
+  },
+] as const;
+
+/**
+ * Tres pasos sobre fondo oscuro. El último, el que entrega valor, va en
+ * dorado con texto casi negro (8,5:1).
+ */
+function Empezar() {
+  return (
+    <section id="empezar" className="seccion scroll-mt-6">
+      <div className="contenedor">
+        <p className="etiqueta">
+          <span className="etiqueta-num">05</span>Cómo empezamos
+        </p>
+        <h2 className="mt-5 max-w-[15ch] text-h2 text-balance">
+          Tres pasos y sabrás qué le falta a tu empresa
+        </h2>
+
+        <ol className="mt-[clamp(36px,4vw,52px)] grid gap-[18px] min-[860px]:grid-cols-3">
+          {PASOS.map((p, i) => {
+            const ultimo = i === PASOS.length - 1;
+            return (
+              <li
+                key={p.titulo}
+                className={cn(
+                  "rounded-card border p-[26px]",
+                  ultimo
+                    ? "border-transparent bg-gold text-on-gold"
+                    : "border-cream/13 bg-[rgb(245_242_233/0.035)]",
+                )}
+              >
+                <span
+                  aria-hidden
+                  className={cn(
+                    "grid h-[42px] w-[42px] place-content-center rounded-btn font-display text-[15px] font-bold [font-variant-numeric:lining-nums]",
+                    ultimo ? "bg-navy/14 text-navy" : "bg-gold/16 text-gold-light",
+                  )}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mt-[18px] text-h3 font-semibold text-balance">{p.titulo}</h3>
+                <p
+                  className={cn(
+                    "mt-[9px] text-[14.5px] leading-[1.6]",
+                    ultimo ? "text-on-gold/80" : "text-cream/72",
+                  )}
+                >
+                  {p.texto}
+                </p>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /* 6 · PREGUNTAS FRECUENTES                                             */
 /* ------------------------------------------------------------------ */
 
 const FAQS = [
   {
-    q: "¿Para qué tipo de empresas está pensado el Sistema Vértice?",
-    a: "Trabajamos principalmente con empresas que ya tienen actividad real, una oferta sólida y necesitan ordenar su posicionamiento, presencia digital, captación o seguimiento comercial.",
+    q: "Ya he trabajado con agencias y no funcionó",
+    a: "Suele pasar cuando se ejecutan acciones sueltas sin una base detrás: campañas sin posicionamiento, contenido sin estrategia o una web que no está pensada para captar. Nosotros empezamos siempre por el diagnóstico, y si algo no tiene sentido para tu negocio, te lo decimos.",
   },
   {
-    q: "¿Puedo trabajar con vosotros si todavía no tengo una base digital bien construida?",
-    a: "Sí. Podemos comenzar definiendo posicionamiento, mensaje, identidad y los activos digitales necesarios antes de trabajar visibilidad o captación.",
+    q: "¿Cuánto cuesta?",
+    a: "Depende de qué necesite tu empresa, y eso se ve en el diagnóstico. Salimos de ahí con un alcance y una inversión concretos, no con una tarifa cerrada que no encaja con nadie.",
   },
   {
-    q: "¿Y si ya tengo web, redes o campañas, pero no están funcionando?",
-    a: "Analizamos lo que ya existe para detectar qué debe mantenerse, corregirse o conectarse mejor. Aprovechamos lo útil y reorganizamos lo que no cumple una función clara.",
+    q: "¿Cuánto tarda en verse resultados?",
+    a: "Las primeras mejoras de posicionamiento y presencia se notan pronto. Los resultados comerciales sostenidos llegan cuando el sistema completo lleva un tiempo funcionando y optimizándose.",
   },
   {
-    q: "¿Trabajáis solo la estrategia o también implementáis?",
-    a: "Trabajamos ambas partes. Podemos implementar webs, landings, contenido, captación, CRM, automatizaciones y procesos de seguimiento.",
+    q: "¿Qué vais a hacer exactamente en mi empresa?",
+    a: "Lo que salga del diagnóstico, dentro de las cuatro etapas: ordenar el posicionamiento, construir la base digital, montar la captación y optimizar. Cada fase se entrega con objetivos y responsables claros.",
   },
-  {
-    q: "¿Puedo contratar únicamente una parte del sistema?",
-    a: "Sí, siempre que tenga sentido estratégico. Podemos trabajar servicios concretos, pero evitamos ejecutar acciones aisladas cuando falta una base imprescindible.",
-  },
-  {
-    q: "¿Cuánto tiempo tarda en ponerse en marcha?",
-    a: "Depende del punto de partida y del alcance. Después del diagnóstico definimos prioridades, fases y un calendario realista.",
-  },
-  {
-    q: "¿Cómo se determina la inversión?",
-    a: "Se calcula según las necesidades, los activos que debamos construir y el nivel de implementación. La propuesta será personalizada, no un paquete genérico.",
-  },
-  {
-    q: "¿Qué ocurre después de solicitar el diagnóstico?",
-    a: "Revisamos la información de tu empresa, identificamos los principales puntos de mejora y nos ponemos en contacto para compartir conclusiones y valorar el siguiente paso.",
-  },
-];
+] as const;
 
+/**
+ * Acordeón nativo (<details>/<summary>): se abre con Intro o Espacio y el
+ * lector de pantalla anuncia si está expandido. El + y el – son decorativos.
+ */
 function FAQ() {
   return (
-    <section id="faq" className="relative scroll-mt-28 py-16 md:py-24">
-      <div className={BLOQUE}>
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] lg:items-start lg:gap-14">
-          <div>
-            <p className="label-mono">FAQ</p>
-            <h2 className="mt-5 max-w-[9ch] text-h2 text-foreground">
-              Preguntas <span className="mark">frecuentes</span>.
-            </h2>
-          </div>
+    <section id="faq" className="seccion-clara alterna seccion scroll-mt-6">
+      <div className="contenedor">
+        <p className="etiqueta">
+          <span className="etiqueta-num">06</span>Preguntas frecuentes
+        </p>
+        <h2 className="mt-5 max-w-[14ch] text-h2 text-balance">
+          Lo que nos preguntan antes de empezar
+        </h2>
 
-          <Accordion type="single" collapsible className="w-full border-t-2 border-navy">
-            {FAQS.map((f, i) => (
-              <AccordionItem key={f.q} value={`item-${i}`} className="border-border">
-                <AccordionTrigger className="group gap-5 py-5 text-left hover:no-underline [&>svg]:hidden">
-                  <span className="font-sans text-lead font-semibold tracking-[-0.015em] text-foreground">
-                    {f.q}
-                  </span>
-                  <span aria-hidden className="ml-5 shrink-0 text-gold-text">
-                    <Plus className="h-5 w-5 group-data-[state=open]:hidden" />
-                    <Minus className="hidden h-5 w-5 group-data-[state=open]:block" />
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent className="pr-10 pb-5 leading-relaxed text-foreground/75">{f.a}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+        <div className="mt-[clamp(32px,3.6vw,46px)] border-t border-navy/12">
+          {FAQS.map((f, i) => (
+            <details key={f.q} open={i === 0} className="group border-b border-navy/12">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-[18px] py-[22px] font-display text-[clamp(17px,1.5vw,21px)] leading-[1.3] font-semibold tracking-[-0.015em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy [&::-webkit-details-marker]:hidden">
+                {f.q}
+                <span
+                  aria-hidden
+                  className="w-5 shrink-0 text-center font-sans text-[24px] leading-none font-normal text-gold-ink"
+                >
+                  <span className="group-open:hidden">+</span>
+                  <span className="hidden group-open:inline">–</span>
+                </span>
+              </summary>
+              <p className="max-w-[66ch] pb-6 text-[15.5px] leading-[1.7] text-navy/72">{f.a}</p>
+            </details>
+          ))}
         </div>
       </div>
     </section>
@@ -692,47 +709,27 @@ function FAQ() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 7 · CIERRE                                                           */
+/* 7 · CIERRE CON FORMULARIO                                            */
 /* ------------------------------------------------------------------ */
 
-function FinalCTA() {
+/** Tarjeta de cierre: degradado de azul de marca a ink, con el formulario corto. */
+function Cierre() {
   return (
-    <section id="contacto" className="relative scroll-mt-24 px-3 pb-7 md:px-5">
-      <div className="surface-navy relative overflow-hidden rounded-[34px] md:rounded-[40px]">
-        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="glow-gold absolute -bottom-[340px] left-1/2 h-[600px] w-[900px] -translate-x-1/2 rounded-full" />
-          <div className="hero-grain absolute inset-0 opacity-5" />
-        </div>
-
-        <div className="relative mx-auto max-w-wide px-6 py-20 sm:px-8 md:py-[104px]">
-          <div className="flex flex-wrap items-center justify-between gap-6">
-            <div className="relative w-32 overflow-hidden aspect-[761/220] sm:w-40">
-              <img src={logoWhite} alt="" className="h-auto w-full" />
+    <section id="contacto" className="seccion scroll-mt-6">
+      <div className="contenedor">
+        <div className="rounded-block border border-cream/13 bg-[linear-gradient(150deg,var(--navy)_0%,var(--ink)_60%)] p-[clamp(20px,4vw,58px)]">
+          <div className="grid gap-[34px] min-[940px]:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] min-[940px]:items-center min-[940px]:gap-14">
+            <div>
+              <Pildora>Diagnóstico gratuito</Pildora>
+              <h2 className="mt-[22px] max-w-[13ch] text-h2 text-balance">Cuéntanos tu proyecto</h2>
+              <p className="mt-[18px] max-w-[38ch] text-lead text-cream/72">
+                Analizamos tu situación y te entregamos un plan estratégico claro. Sin compromiso y
+                con respuesta en menos de 24 horas.
+              </p>
+              <Garantias items={["Sin compromiso", "Respuesta en 24 h"]} className="mt-[26px]" />
             </div>
-            <p className="label-mono">Plazas limitadas este mes</p>
-          </div>
 
-          <h2 className="mt-12 max-w-[13ch] text-[clamp(40px,6.7vw,104px)] leading-[0.98] tracking-[-0.035em] text-foreground">
-            Tu empresa ya tiene valor.
-          </h2>
-
-          <p className="mt-6 max-w-[24ch] text-[clamp(22px,2.4vw,34px)] leading-[1.15] font-bold tracking-[-0.03em] text-gold">
-            Ahora necesita un sistema que lo convierta en oportunidades.
-          </p>
-
-          <p className="mt-8 max-w-text text-lead leading-[1.6] text-foreground/75">
-            Solicita tu diagnóstico gratuito y descubre qué le está frenando a tu empresa para captar clientes de forma constante.
-          </p>
-
-          <div className="mt-16 flex flex-col gap-6 border-t border-cream/20 pt-7 md:flex-row md:items-center md:justify-between">
-            <p className="label-mono">Sin compromiso · Respuesta en 24 h · Plan estratégico gratuito</p>
-
-            <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-              <Link to="/contacto" className={cn(FANTASMA, "text-foreground")}>
-                Hablar con el equipo
-              </Link>
-              <GoldButton to="/diagnostico">Solicitar diagnóstico gratuito</GoldButton>
-            </div>
+            <FormularioCorto />
           </div>
         </div>
       </div>

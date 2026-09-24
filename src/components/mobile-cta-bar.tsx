@@ -11,15 +11,16 @@ const WHATSAPP = "https://wa.me/34672167758";
  * /diagnostico ni en /contacto: esas páginas ya tienen su formulario
  * y la barra taparía parte de él.
  *
- * En la home no sale mientras se ve el hero: el hero ya tiene su botón y
- * la barra se pondría encima de la banda de cifras. Aparece en cuanto
- * empieza el bloque siguiente. El hueco del final de página lo reserva
- * el footer (padding inferior en móvil).
+ * En la home no sale mientras se ve el hero (ya tiene su botón y la barra
+ * taparía la banda de cifras) ni en el cierre, que lleva su propio
+ * formulario: ahí taparía los campos y mandaría a otra página a mitad de
+ * rellenarlo. El hueco del final de página lo reserva el footer.
  */
 export function MobileCtaBar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const active = useActiveSection();
-  const oculta = pathname === "/" && (active === null || active === "hero");
+  const oculta =
+    pathname === "/" && (active === null || active === "hero" || active === "contacto");
 
   return (
     <div

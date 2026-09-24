@@ -77,6 +77,7 @@
   --color-gold-text: var(--gold-text);
   --color-cream-2: var(--cream-2);
   --color-paper: var(--paper);
+  --color-ink-2: var(--ink-2);
   --color-gold-ink: var(--gold-ink);
   --color-on-gold: var(--on-gold);
 
@@ -126,6 +127,7 @@
   --gold-deep: oklch(0.56 0.135 78);
   /* Rediseno v2: capa oscura derivada del azul de marca. */
   --ink: oklch(0.1594 0.0544 264.05);   /* #030B24, fondo de la home */
+  --ink-2: oklch(0.1895 0.0691 266.52); /* #061032, azul profundo del pie */
   --navy-soft: oklch(0.295 0.138 265);  /* #0A2170, superficie elevada */
   --gold-light: oklch(0.8684 0.0962 91.26); /* #EBD289, texto dorado sobre oscuro (13:1 sobre ink) */
   --gold-ink: oklch(0.5149 0.1005 89.83);   /* #7E640E, texto dorado sobre crema (5:1) */
@@ -320,32 +322,6 @@
     color: var(--foreground);
   }
 
-  /* Boton primario. Va SIEMPRE con el disco navy y la flecha a la derecha
-     (ver components/gold-button.tsx): ese disco es su sena de identidad. */
-  /* Pildora navy con disco dorado. Dentro de surface-navy se invierte:
-     pildora dorada y disco navy. El disco gira -45 grados al pasar. */
-  .btn-gold {
-    background: var(--navy);
-    color: var(--cream);
-  }
-  .btn-disc {
-    background: var(--gold);
-    color: var(--navy);
-    transition: transform 0.25s;
-  }
-  .btn-gold:hover .btn-disc { transform: rotate(-45deg); }
-  .surface-navy .btn-gold {
-    background: var(--gold);
-    color: var(--navy);
-  }
-  .surface-navy .btn-gold .btn-disc {
-    background: var(--navy);
-    color: var(--gold);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .btn-disc { transition: none; }
-    .btn-gold:hover .btn-disc { transform: none; }
-  }
   /* Boton fantasma: sin relleno, solo filete. Token, asi que tambien
      funciona dentro de surface-navy. */
   .btn-glass {
@@ -355,18 +331,6 @@
   }
   .btn-glass:hover {
     border-color: oklch(0.745 0.135 82 / 60%);
-  }
-
-  /* Resplandor dorado del hero. Por token, sin hex sueltos. */
-  .glow-gold {
-    background: radial-gradient(closest-side,
-      color-mix(in oklab, var(--gold) 16%, transparent) 0%,
-      color-mix(in oklab, var(--gold) 0%, transparent) 100%);
-  }
-
-  /* Grano del hero: ruido fractal sin color propio. */
-  .hero-grain {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
   }
 
   .bg-gradient-navy {
@@ -453,6 +417,17 @@
     background: var(--cream);
     color: var(--navy);
   }
+  /* Tokens semanticos en version oscura, sin tocar el fondo: para meter
+     componentes pensados para crema (el aviso de privacidad) dentro de
+     un bloque oscuro. Crema al 70% da 7:1 y el dorado de los enlaces 7:1. */
+  .tema-oscuro {
+    --foreground: var(--cream);
+    --muted-foreground: oklch(0.961 0.012 91 / 68%);
+    --border: oklch(0.961 0.012 91 / 13%);
+    --primary: var(--gold);
+    --accent: var(--gold-light);
+  }
+
   /* Variante crema apagado, para dos bloques claros seguidos. */
   .seccion-clara.alterna { background: var(--cream-2); }
   .seccion-clara .etiqueta { color: color-mix(in oklab, var(--navy) 68%, transparent); }

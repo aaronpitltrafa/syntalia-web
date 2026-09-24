@@ -10,8 +10,8 @@ export const HOME_SECTIONS = [
   { id: "problema", label: "Problema" },
   { id: "sistema", label: "Sistema" },
   { id: "servicios", label: "Servicios" },
-  { id: "para-ti", label: "Para quién" },
   { id: "caso", label: "Resultados" },
+  { id: "empezar", label: "Empezar" },
   { id: "faq", label: "FAQ" },
   { id: "contacto", label: "Contacto" },
 ] as const;

@@ -17,6 +17,8 @@ export type LeadPayload = {
   challenge?: string;
   areas?: string[];
   marketingConsent?: boolean;
+  /** Campo trampa: invisible para personas. Si llega relleno, es un bot. */
+  honeypot?: string;
 };
 
 // `vite dev` runs TanStack Start server functions in a plain Node module
@@ -70,6 +72,10 @@ function escapeHtml(value: string) {
 export const sendLead = createServerFn({ method: "POST" })
   .validator((data: LeadPayload) => data)
   .handler(async ({ data }) => {
+    // Un bot que rellena el campo trampa recibe un "ok" y no se envía nada:
+    // así no aprende que lo hemos descartado.
+    if (data.honeypot) return { ok: true as const };
+
     const apiKey = await getEnvVar("RESEND_API_KEY");
     if (!apiKey) {
       console.error("RESEND_API_KEY no está configurada.");

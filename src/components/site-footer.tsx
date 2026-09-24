@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, type LucideProps } from "lucide-react";
-import { GoldButton } from "@/components/gold-button";
+import logoHorizontal from "@/assets/logo-horizontal.png";
+import { GoldCta } from "@/components/gold-cta";
 
 /** lucide-react ships no TikTok glyph; this mirrors its icon conventions. */
 function TikTokIcon(props: LucideProps) {
@@ -47,33 +48,51 @@ const LEGAL = [
   { to: "/cookies", label: "Política de cookies" },
 ];
 
-const enlace = "text-[15px] font-medium text-foreground/70 transition-colors hover:text-gold-text";
+const enlace =
+  "rounded-sm text-[14.5px] leading-[1.5] text-cream/72 transition-colors hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
 const socialCircle =
-  "flex h-9 w-9 items-center justify-center rounded-full border border-foreground/14 text-foreground/70 transition-colors hover:border-gold hover:text-gold-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
+  "flex h-9 w-9 items-center justify-center rounded-full border border-cream/13 text-cream/72 transition-colors hover:border-gold hover:text-gold-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
 
-/** Una franja, no cuatro columnas: los mismos enlaces en mucha menos altura. */
+function Columna({ titulo, children }: { titulo: string; children: React.ReactNode }) {
+  return (
+    <nav aria-label={titulo}>
+      <p className="etiqueta">{titulo}</p>
+      <ul className="mt-4 grid gap-2">{children}</ul>
+    </nav>
+  );
+}
+
+/**
+ * Pie en azul profundo, igual en todas las páginas. Crema al 72% sobre
+ * #061032 da 8,9:1 y las etiquetas al 62%, 6,8:1.
+ */
 export function SiteFooter() {
   return (
-    <footer className="relative border-t border-foreground/10 text-foreground">
+    <footer className="relative border-t border-cream/13 bg-ink-2 text-cream">
       {/* el padding inferior extra en móvil deja hueco a la barra fija de CTA */}
-      <div className="mx-auto max-w-wide px-6 pt-8 pb-[calc(5.5rem+env(safe-area-inset-bottom))] sm:px-8 md:pb-8">
-        {/* fila 1 · marca, navegación y redes */}
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
-          <Link to="/" aria-label="Syntalia Vértice · inicio" className="shrink-0">
-            <span className="text-[24px] leading-none font-extrabold tracking-[-0.04em] text-foreground">
-              Syntalia
-            </span>
-          </Link>
+      <div className="contenedor pt-[clamp(48px,6vw,72px)] pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-10">
+        {/* fila 1 · marca, redes y botón */}
+        <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-6">
+          <div>
+            <Link
+              to="/"
+              aria-label="Syntalia Vértice · inicio"
+              className="inline-flex rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+            >
+              <img
+                src={logoHorizontal}
+                alt=""
+                width={607}
+                height={120}
+                className="h-[42px] w-auto"
+              />
+            </Link>
+            <p className="mt-3 text-[13.5px] text-cream/62">
+              Consultora estratégica de marketing digital · Murcia
+            </p>
+          </div>
 
-          <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            {NAV.map((n) => (
-              <Link key={n.label} to={n.to} hash={n.hash} hashScrollIntoView={{ behavior: "smooth" }} className={enlace}>
-                {n.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="ml-auto flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5">
             <a
               href="https://instagram.com/syntalia.vertice"
               target="_blank"
@@ -92,41 +111,66 @@ export function SiteFooter() {
             >
               <TikTokIcon className="h-4 w-4" />
             </a>
-            <GoldButton to="/diagnostico" size="compact" className="ml-1 hidden md:inline-flex">
+            <GoldCta to="/diagnostico" size="compact" className="ml-1 hidden md:inline-flex">
               Solicitar diagnóstico gratuito
-            </GoldButton>
+            </GoldCta>
           </div>
         </div>
 
-        {/* fila 2 · las nueve páginas de servicio */}
-        <div className="mt-5 flex flex-wrap items-baseline gap-x-5 gap-y-2">
-          <span className="label-mono">Servicios</span>
-          {SERVICIOS.map((s) => (
-            <Link key={s.to} to={s.to} className={enlace}>
-              {s.label}
-            </Link>
-          ))}
-        </div>
-
-        <div className="mt-6 h-px w-full bg-foreground/12" aria-hidden />
-
-        {/* fila 3 · contacto y legales */}
-        <div className="flex flex-col gap-3 pt-4 text-meta text-foreground/70 md:flex-row md:items-center md:justify-between">
-          <span>© {new Date().getFullYear()} Syntalia Vértice</span>
-
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <a href="mailto:vertice@syntalia.es" className={enlace}>
-              vertice@syntalia.es
-            </a>
-            <a href="tel:+34672167758" className={enlace}>
-              +34 672 167 758
-            </a>
-            {LEGAL.map((l) => (
-              <Link key={l.to} to={l.to} className={enlace}>
-                {l.label}
-              </Link>
+        {/* fila 2 · columnas de enlaces */}
+        <div className="mt-10 grid gap-x-8 gap-y-9 border-t border-cream/13 pt-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)]">
+          <Columna titulo="Navegación">
+            {NAV.map((n) => (
+              <li key={n.label}>
+                <Link
+                  to={n.to}
+                  hash={n.hash}
+                  hashScrollIntoView={{ behavior: "smooth" }}
+                  className={enlace}
+                >
+                  {n.label}
+                </Link>
+              </li>
             ))}
-          </div>
+          </Columna>
+
+          <Columna titulo="Servicios">
+            {SERVICIOS.map((s) => (
+              <li key={s.to}>
+                <Link to={s.to} className={enlace}>
+                  {s.label}
+                </Link>
+              </li>
+            ))}
+          </Columna>
+
+          <Columna titulo="Legal">
+            {LEGAL.map((l) => (
+              <li key={l.to}>
+                <Link to={l.to} className={enlace}>
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </Columna>
+
+          <Columna titulo="Contacto">
+            <li>
+              <a href="mailto:vertice@syntalia.es" className={enlace}>
+                vertice@syntalia.es
+              </a>
+            </li>
+            <li>
+              <a href="tel:+34672167758" className={enlace}>
+                +34 672 167 758
+              </a>
+            </li>
+          </Columna>
+        </div>
+
+        {/* fila 3 · copyright */}
+        <div className="mt-10 border-t border-cream/13 pt-6 text-[13px] text-cream/62">
+          © {new Date().getFullYear()} Syntalia Vértice. Todos los derechos reservados.
         </div>
       </div>
     </footer>
