@@ -605,7 +605,9 @@
     border-radius: 11px;
     color: var(--navy);
     background: rgb(2 21 87 / 6%);
-    transition: background-color 0.5s;
+    transition:
+      background-color 0.5s,
+      border-radius 0.6s;
   }
   /* Etiqueta de estado, pegada al pie de la ficha. Navy al 68% sobre
      blanco da 5,9:1 (el 45% de la referencia se quedaba en 2,9:1). */
@@ -631,9 +633,10 @@
     transition: background-color 0.5s;
   }
 
-  [data-modo="sistema"] .problema-ficha { border-color: rgb(2 21 87 / 9%); box-shadow: 0 26px 44px -30px rgb(2 21 87 / 42%); }
+  /* "Con sistema": fichas e icono rectos en todos los anchos. */
+  [data-modo="sistema"] .problema-ficha { border-color: rgb(2 21 87 / 9%); border-radius: 0; box-shadow: 0 26px 44px -30px rgb(2 21 87 / 42%); }
   [data-modo="sistema"] .problema-ficha::before { transform: scaleX(1); }
-  [data-modo="sistema"] .problema-icono { background: rgb(221 174 69 / 18%); }
+  [data-modo="sistema"] .problema-icono { background: rgb(221 174 69 / 18%); border-radius: 0; }
   [data-modo="sistema"] .problema-chip { color: var(--gold-ink); }
   [data-modo="sistema"] .problema-chip i { background: var(--gold); }
 
@@ -647,7 +650,15 @@
   }
 
   @media (min-width: 900px) {
+    /* Alto fijo, el del modo "Ahora": el tablero cambia de alto por
+       dentro, centrado, y lo que hay debajo no se mueve al alternar. */
+    .problema-escena {
+      display: flex;
+      align-items: center;
+      height: clamp(400px, 34vw, 470px);
+    }
     .problema-tablero {
+      width: 100%;
       height: clamp(400px, 34vw, 470px);
       transform: rotateX(16deg) rotateZ(-4deg);
     }
@@ -690,15 +701,14 @@
        hueco entre fichas. */
     [data-modo="sistema"] .problema-ficha {
       left: var(--sx);
-      top: 52%;
+      top: 50%;
       width: min(228px, calc(20% - 10px));
       aspect-ratio: 1;
       min-height: 0;
       padding: 22px 22px 24px;
-      border-radius: 0;
       transform: translate(-50%, -50%) translateZ(28px) rotate(0deg) scale(1);
     }
-    [data-modo="sistema"] .problema-icono { width: 40px; height: 40px; border-radius: 0; }
+    [data-modo="sistema"] .problema-icono { width: 40px; height: 40px; }
     [data-modo="sistema"] .problema-ficha h3 { margin-top: 14px; font-size: 17px; }
     [data-modo="sistema"] .problema-chip { padding-top: 12px; font-size: 13.5px; }
     /* Al acercarse (Z 108px) la perspectiva también la empuja hacia fuera
