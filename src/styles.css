@@ -763,6 +763,11 @@
      "espera", el punto de partida sin transición; "on", vuelve a lo
      dibujado con las transiciones. Solo se animan transform, opacity y
      color: nada mueve la maquetación (CLS 0). */
+  /* Fondo del bloque: navy con profundidad, más claro arriba al centro. */
+  .seccion-sistema {
+    color: var(--cream);
+    background: radial-gradient(120% 80% at 50% -10%, #0a1e62 0%, var(--navy) 46%, var(--ink) 100%);
+  }
   .sistema-ruta {
     --curva-sistema: cubic-bezier(0.3, 0.9, 0.25, 1);
     --linea-sistema: rgb(245 242 233 / 12%);
@@ -871,7 +876,7 @@
     gap: 9px;
     font-size: 13px;
     line-height: 1.45;
-    color: color-mix(in oklab, var(--cream) 52%, transparent);
+    color: color-mix(in oklab, var(--cream) 56%, transparent);
   }
   /* Rombo dorado de 5px. */
   .sistema-incluye i {
@@ -957,9 +962,10 @@
     transition: none;
   }
 
-  /* Móvil: el rail va vertical a la izquierda, con los chips encima, y
-     las etapas se apilan. */
-  @media (max-width: 899px) {
+  /* Hasta 1023px: el rail va vertical a la izquierda, con los chips
+     encima, y las etapas se apilan (a 900-1023 las cuatro columnas se
+     quedaban en 189-220px y el texto no cabía). */
+  @media (max-width: 1023px) {
     .sistema-etapas {
       position: relative;
       gap: 18px;
@@ -981,7 +987,7 @@
     }
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 1024px) {
     .sistema-rail {
       display: block;
       position: absolute;
