@@ -19,7 +19,6 @@ import { DISCIPLINAS } from "@/lib/equipo";
 import { useHomeSectionObserver } from "@/lib/home-sections";
 import { SYSTEM_STAGES } from "@/lib/sistema";
 import {
-  ESTADO_PROBLEMA,
   FICHAS_PROBLEMA,
   INTERVALO_PROBLEMA_MS,
   MODOS_PROBLEMA,
@@ -326,12 +325,12 @@ function useModoProblema() {
 /**
  * Fondo beige y escena 3D (styles.css, .problema-*): desde 900px las
  * fichas flotan desordenadas sobre un tablero inclinado y en "sistema" se
- * alinean en fila; por debajo son una rejilla de dos columnas. Etiquetas
- * y textos de estado en lib/problema.ts.
+ * alinean de frente en una fila de cuadrados; por debajo son una rejilla
+ * de dos columnas. La sección termina en la escena. Textos de fichas y
+ * conmutador en lib/problema.ts.
  */
 function Problema() {
   const [modo, elegir] = useModoProblema();
-  const estado = ESTADO_PROBLEMA[modo];
 
   return (
     <section id="problema" className="seccion-problema seccion scroll-mt-6">
@@ -415,40 +414,6 @@ function Problema() {
               ))}
             </div>
           </div>
-        </div>
-
-        <div className="mt-[clamp(20px,2.6vw,30px)] flex flex-wrap items-center justify-between gap-x-[18px] gap-y-2.5 border-t border-navy/10 pt-[18px] text-[14px] text-navy/72">
-          <span className="inline-flex items-center gap-[9px] text-[11px] leading-[1.3] font-semibold tracking-[0.16em] text-navy/68 uppercase">
-            <i
-              aria-hidden
-              className={cn(
-                "h-2 w-2 shrink-0 rounded-full transition-colors duration-500 motion-reduce:transition-none",
-                modo === "sistema" ? "bg-gold" : "bg-navy/45",
-              )}
-            />
-            {estado.etiqueta}
-          </span>
-          <span>{estado.texto}</span>
-        </div>
-
-        <div className="mt-[clamp(32px,4vw,52px)] grid gap-[18px] rounded-[22px] bg-navy p-[clamp(24px,3vw,38px)] text-cream shadow-[0_40px_70px_-50px_rgb(2_21_87/0.9)] min-[880px]:grid-cols-[minmax(0,1fr)_auto] min-[880px]:items-center min-[880px]:gap-[34px]">
-          <div>
-            <h3 className="max-w-[28ch] text-[clamp(19px,2.1vw,27px)] leading-[1.24] tracking-[-0.03em] text-balance">
-              Lo que multiplica no es hacer más, es conectar lo que ya tienes
-            </h3>
-            <p className="mt-[9px] max-w-[50ch] text-[15px] leading-[1.7] text-cream/72">
-              Por eso empezamos siempre por el diagnóstico: ver qué piezas existen, cuáles faltan y
-              en qué orden conectarlas.
-            </p>
-          </div>
-          <SectionLink id="sistema" className={goldCtaClasses("default", "justify-self-start")}>
-            Ver cómo lo conectamos
-            <ArrowRight
-              aria-hidden
-              strokeWidth={2.4}
-              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-[3px] motion-reduce:transition-none"
-            />
-          </SectionLink>
         </div>
       </div>
     </section>

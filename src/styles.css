@@ -544,7 +544,9 @@
   .problema-tablero {
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.9s var(--curva-problema);
+    transition:
+      transform 0.9s var(--curva-problema),
+      height 0.9s var(--curva-problema);
   }
   /* Bandeja de fondo, solo en escritorio. */
   .problema-suelo {
@@ -554,6 +556,7 @@
     border-radius: 28px;
     background: linear-gradient(180deg, rgb(255 255 255 / 55%), rgb(255 255 255 / 12%));
     transform: translateZ(-70px);
+    transition: opacity 0.6s;
   }
   .problema-fichas {
     display: grid;
@@ -574,7 +577,8 @@
     transition:
       transform 0.35s var(--curva-problema),
       box-shadow 0.5s,
-      border-color 0.5s;
+      border-color 0.5s,
+      border-radius 0.6s;
   }
   /* Blanco sobre beige: el foco en dorado oscuro (4,6:1 sobre beige). */
   .problema-ficha:focus-visible {
@@ -597,6 +601,7 @@
     place-content: center;
     width: 36px;
     height: 36px;
+    flex-shrink: 0;
     border-radius: 11px;
     color: var(--navy);
     background: rgb(2 21 87 / 6%);
@@ -646,8 +651,13 @@
       height: clamp(400px, 34vw, 470px);
       transform: rotateX(16deg) rotateZ(-4deg);
     }
-    [data-modo="sistema"] .problema-tablero { transform: rotateX(10deg) rotateZ(0deg); }
+    /* "Con sistema": de frente y más bajo, sin bandeja. */
+    [data-modo="sistema"] .problema-tablero {
+      height: clamp(300px, 25vw, 340px);
+      transform: rotateX(0deg) rotateZ(0deg);
+    }
     .problema-suelo { display: block; }
+    [data-modo="sistema"] .problema-suelo { opacity: 0; }
     /* preserve-3d también aquí: sin él las fichas se aplanan en el plano
        de este div y su translateZ no se ve. Como preserve-3d lo convierte
        en el bloque contenedor de las fichas, ocupa todo el tablero. */
@@ -671,40 +681,62 @@
         left 0.85s var(--curva-problema),
         top 0.85s var(--curva-problema),
         width 0.85s var(--curva-problema),
-        min-height 0.85s var(--curva-problema),
         box-shadow 0.5s,
-        border-color 0.5s;
+        border-color 0.5s,
+        border-radius 0.6s;
     }
-    /* "Con sistema": en fila, mismo ancho y alto. Las columnas van al 19%
-       de distancia; el ancho deja siempre 12px de hueco entre fichas (con
-       210px fijos se solapaban por debajo de ~1200px). */
+    /* "Con sistema": cuadrados rectos en fila, sin giro. Cinco columnas
+       del 20% (--sx, centro de cada una); el ancho deja siempre 10px de
+       hueco entre fichas. */
     [data-modo="sistema"] .problema-ficha {
       left: var(--sx);
       top: 52%;
-      width: min(210px, calc(19% - 12px));
-      min-height: 206px;
+      width: min(228px, calc(20% - 10px));
+      aspect-ratio: 1;
+      min-height: 0;
+      padding: 22px 22px 24px;
+      border-radius: 0;
       transform: translate(-50%, -50%) translateZ(28px) rotate(0deg) scale(1);
     }
+    [data-modo="sistema"] .problema-icono { width: 40px; height: 40px; border-radius: 0; }
+    [data-modo="sistema"] .problema-ficha h3 { margin-top: 14px; font-size: 17px; }
+    [data-modo="sistema"] .problema-chip { padding-top: 12px; font-size: 13.5px; }
+    /* Al acercarse (Z 108px) la perspectiva también la empuja hacia fuera
+       del centro, y a 1100-1200px la de los extremos se salía de la
+       pantalla. El left la acerca al centro lo justo (1400/1372 entre
+       1400/1292 = 0,9417 del desplazamiento) para que crezca en su sitio. */
     [data-modo="sistema"] .problema-ficha:hover,
     [data-modo="sistema"] .problema-ficha:focus-visible {
       z-index: 6;
+      left: calc(var(--sx) - (var(--sx) - 50%) * 0.0583);
       transform: translate(-50%, -50%) translateZ(108px) rotate(0deg) scale(1.04);
       border-color: rgb(221 174 69 / 60%);
       box-shadow: 0 44px 66px -34px rgb(2 21 87 / 50%);
       transition:
         transform 0.35s var(--curva-problema),
-        left 0.85s var(--curva-problema),
+        left 0.35s var(--curva-problema),
         top 0.85s var(--curva-problema),
         width 0.85s var(--curva-problema),
         box-shadow 0.35s,
-        border-color 0.35s;
+        border-color 0.35s,
+        border-radius 0.6s;
     }
+  }
+
+  /* Por debajo de 1000px el cuadrado baja de ~170px (154px a 900) y el
+     contenido a tamaño normal no cabe: menos aire y un icono de 34px. */
+  @media (min-width: 900px) and (max-width: 999px) {
+    [data-modo="sistema"] .problema-ficha { padding: 16px 16px 18px; }
+    [data-modo="sistema"] .problema-icono { width: 34px; height: 34px; }
+    [data-modo="sistema"] .problema-ficha h3 { margin-top: 10px; }
+    [data-modo="sistema"] .problema-chip { padding-top: 8px; }
   }
 
   /* Sin movimiento: nada se desplaza ni se anima (el hook deja el modo en
      "sistema"). El realce de la ficha se queda en el borde y la sombra. */
   @media (prefers-reduced-motion: reduce) {
     .problema-tablero,
+    .problema-suelo,
     .problema-ficha,
     .problema-ficha::before,
     .problema-icono,
@@ -721,6 +753,7 @@
   @media (prefers-reduced-motion: reduce) and (min-width: 900px) {
     [data-modo="sistema"] .problema-ficha:hover,
     [data-modo="sistema"] .problema-ficha:focus-visible {
+      left: var(--sx);
       transform: translate(-50%, -50%) translateZ(28px) rotate(0deg) scale(1);
     }
   }

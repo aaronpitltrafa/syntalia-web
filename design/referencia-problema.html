@@ -48,14 +48,16 @@
 
   /* ---------- escena 3D ---------- */
   .escena{margin-top:clamp(22px,3vw,34px);perspective:1400px;perspective-origin:50% 22%}
-  .tablero{position:relative;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.3,.9,.25,1)}
+  .tablero{position:relative;transform-style:preserve-3d;
+           transition:transform .9s cubic-bezier(.3,.9,.25,1),height .9s cubic-bezier(.3,.9,.25,1)}
   @media(min-width:900px){
     .tablero{height:clamp(400px,34vw,470px);transform:rotateX(16deg) rotateZ(-4deg)}
-    .escena[data-modo="sistema"] .tablero{transform:rotateX(10deg) rotateZ(0deg)}
+    .escena[data-modo="sistema"] .tablero{height:clamp(300px,25vw,340px);transform:rotateX(0deg) rotateZ(0deg)}
+    .escena[data-modo="sistema"] .suelo{opacity:0}
   }
   .suelo{position:absolute;left:6%;right:6%;top:26%;bottom:14%;border-radius:28px;
          background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.12));
-         transform:translateZ(-70px);display:none}
+         transform:translateZ(-70px);display:none;transition:opacity .6s}
   @media(min-width:900px){.suelo{display:block}}
 
 
@@ -65,7 +67,7 @@
   .ficha{position:relative;background:var(--card);border:1px solid rgba(2,21,87,.07);border-radius:20px;
          padding:20px 20px 22px;overflow:hidden;
          box-shadow:0 22px 38px -28px rgba(2,21,87,.45);
-         transition:transform .85s cubic-bezier(.3,.9,.25,1),box-shadow .5s,border-color .5s}
+         transition:transform .85s cubic-bezier(.3,.9,.25,1),box-shadow .5s,border-color .5s,border-radius .6s}
   .ficha::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--gold);
                  transform:scaleX(0);transform-origin:left;transition:transform .7s cubic-bezier(.4,0,.2,1)}
   .escena[data-modo="sistema"] .ficha::before{transform:scaleX(1)}
@@ -76,9 +78,9 @@
         color:var(--l3);transition:.5s}
   .chip i{width:6px;height:6px;border-radius:50%;background:rgba(2,21,87,.25);flex:none;margin-top:.5em;transition:.5s}
   .chip .ok{display:none}
-  .escena[data-modo="sistema"] .ficha{border-color:rgba(2,21,87,.09);
+  .escena[data-modo="sistema"] .ficha{border-color:rgba(2,21,87,.09);border-radius:0;
         box-shadow:0 26px 44px -30px rgba(2,21,87,.42)}
-  .escena[data-modo="sistema"] .ficha .ic{background:rgba(221,174,69,.18)}
+  .escena[data-modo="sistema"] .ficha .ic{background:rgba(221,174,69,.18);border-radius:0}
   .escena[data-modo="sistema"] .chip{color:var(--gold-ink)}
   .escena[data-modo="sistema"] .chip i{background:var(--gold)}
   .escena[data-modo="sistema"] .chip .mal{display:none}
@@ -87,10 +89,12 @@
   @media(min-width:900px){
     .ficha{position:absolute;width:min(208px,18.5vw);left:var(--x);top:var(--y);
            transform:translate(-50%,-50%) translateZ(var(--z)) rotate(var(--r))}
-    .escena[data-modo="sistema"] .ficha{left:var(--sx);top:var(--sy);width:min(210px,18.6vw);
-           min-height:206px;display:flex;flex-direction:column;
+    .escena[data-modo="sistema"] .ficha{left:var(--sx);top:var(--sy);width:min(228px,calc(20% - 10px));
+           aspect-ratio:1;min-height:0;padding:22px 22px 24px;display:flex;flex-direction:column;
            transform:translate(-50%,-50%) translateZ(28px) rotate(0deg)}
-    .escena[data-modo="sistema"] .ficha .chip{margin-top:auto;padding-top:10px}
+    .escena[data-modo="sistema"] .ficha .ic{width:40px;height:40px}
+    .escena[data-modo="sistema"] .ficha h3{margin-top:14px;font-size:17px}
+    .escena[data-modo="sistema"] .ficha .chip{margin-top:auto;padding-top:12px;font-size:13.5px}
     .escena[data-modo="sistema"] .ficha:hover,
     .escena[data-modo="sistema"] .ficha:focus-within{
            transform:translate(-50%,-50%) translateZ(108px) rotate(0deg) scale(1.04);
@@ -102,30 +106,12 @@
   @media(max-width:899px){
     .ficha:hover{transform:translateY(-4px);box-shadow:0 30px 46px -30px rgba(2,21,87,.5)}
   }
-  .f1{--x:15%;--y:26%;--z:70px;--r:-7deg;--sx:12%;--sy:52%;--sz:34px}
-  .f2{--x:64%;--y:14%;--z:18px;--r:6deg;--sx:31%;--sy:52%;--sz:30px}
+  .f1{--x:15%;--y:26%;--z:70px;--r:-7deg;--sx:10%;--sy:52%;--sz:34px}
+  .f2{--x:64%;--y:14%;--z:18px;--r:6deg;--sx:30%;--sy:52%;--sz:30px}
   .f3{--x:33%;--y:74%;--z:96px;--r:5deg;--sx:50%;--sy:52%;--sz:26px}
-  .f4{--x:87%;--y:58%;--z:10px;--r:-6deg;--sx:69%;--sy:52%;--sz:30px}
-  .f5{--x:53%;--y:44%;--z:54px;--r:3deg;--sx:88%;--sy:52%;--sz:34px}
+  .f4{--x:87%;--y:58%;--z:10px;--r:-6deg;--sx:70%;--sy:52%;--sz:30px}
+  .f5{--x:53%;--y:44%;--z:54px;--r:3deg;--sx:90%;--sy:52%;--sz:34px}
 
-  /* ---------- pie ---------- */
-  .estado{margin-top:clamp(20px,2.6vw,30px);display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;
-          justify-content:space-between;border-top:1px solid var(--line);padding-top:18px;font-size:14px;color:var(--l2)}
-  .estado .tag{display:inline-flex;align-items:center;gap:9px;font:600 11px/1 var(--body);letter-spacing:.16em;
-               text-transform:uppercase;color:var(--l3)}
-  .estado .tag i{width:8px;height:8px;border-radius:50%;background:var(--l3);transition:background .5s}
-  .escena-estado[data-modo="sistema"] .tag i{background:var(--gold)}
-
-  /* ---------- cierre ---------- */
-  .cierre{margin-top:clamp(32px,4vw,52px);background:var(--navy);color:var(--cream);border-radius:22px;
-          padding:clamp(24px,3vw,38px);display:grid;gap:18px;box-shadow:0 40px 70px -50px rgba(2,21,87,.9)}
-  @media(min-width:880px){.cierre{grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:34px}}
-  .cierre h3{font-size:clamp(19px,2.1vw,27px);line-height:1.24;max-width:28ch}
-  .cierre p{margin-top:9px;color:rgba(245,242,233,.72);font-size:15px;max-width:50ch}
-  .btn{display:inline-flex;align-items:center;gap:11px;border-radius:12px;padding:16px 24px;white-space:nowrap;
-       font-family:var(--body);font-weight:600;font-size:15px;background:var(--gold);color:#1E1704;text-decoration:none;
-       box-shadow:0 14px 34px -16px rgba(221,174,69,.9);transition:transform .2s}
-  .btn:hover{transform:translateY(-1px)}
   @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -182,37 +168,15 @@
     </div>
   </div>
 
-  <div class="estado escena-estado" data-modo="ahora">
-    <span class="tag"><i></i><span id="est">Piezas sueltas · sin conexión</span></span>
-    <span id="pie">Cinco piezas trabajando por su cuenta: el resultado depende de la suerte y del boca a boca.</span>
-  </div>
-
-  <div class="cierre">
-    <div>
-      <h3>Lo que multiplica no es hacer más, es conectar lo que ya tienes</h3>
-      <p>Por eso empezamos siempre por el diagnóstico: ver qué piezas existen, cuáles faltan y en qué orden conectarlas.</p>
-    </div>
-    <a class="btn" href="#">Ver cómo lo conectamos
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1E1704" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-    </a>
-  </div>
 </div></section>
 
 <script>
   (function(){
     var esc=document.querySelector('.escena'),
-        est2=document.querySelector('.escena-estado'),
         bts=document.querySelectorAll('.switch button'),
-        est=document.getElementById('est'),
-        pie=document.getElementById('pie'),
         auto=true;
-    var txt={
-      ahora:['Piezas sueltas · sin conexión','Cinco piezas trabajando por su cuenta: el resultado depende de la suerte y del boca a boca.'],
-      sistema:['Sistema conectado · flujo continuo','Cada pieza alimenta a la siguiente: la web capta, el contenido sostiene y el seguimiento cierra.']
-    };
     function set(m){
-      esc.setAttribute('data-modo',m); est2.setAttribute('data-modo',m);
-      est.textContent=txt[m][0]; pie.textContent=txt[m][1];
+      esc.setAttribute('data-modo',m);
       bts.forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.modo===m)); });
     }
     bts.forEach(function(b){ b.addEventListener('click',function(){ auto=false; set(b.dataset.modo); }); });
