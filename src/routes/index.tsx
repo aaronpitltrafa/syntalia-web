@@ -383,11 +383,11 @@ function Problema() {
                   className="problema-ficha"
                   style={
                     {
-                      "--x": f.desorden.x,
-                      "--y": f.desorden.y,
-                      "--z": f.desorden.z,
-                      "--r": f.desorden.r,
-                      "--sx": f.fila,
+                      "--col": String(f.columna),
+                      "--desorden-dx": f.desorden.dx,
+                      "--desorden-dy": f.desorden.dy,
+                      "--desorden-z": f.desorden.z,
+                      "--desorden-r": f.desorden.r,
                     } as React.CSSProperties
                   }
                 >

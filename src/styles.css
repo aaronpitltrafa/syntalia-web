@@ -544,9 +544,7 @@
   .problema-tablero {
     position: relative;
     transform-style: preserve-3d;
-    transition:
-      transform 0.9s var(--curva-problema),
-      height 0.9s var(--curva-problema);
+    transition: transform 0.9s var(--curva-problema);
   }
   /* Bandeja de fondo, solo en escritorio. */
   .problema-suelo {
@@ -650,83 +648,74 @@
   }
 
   @media (min-width: 900px) {
-    /* Alto fijo, el del modo "Ahora": el tablero cambia de alto por
-       dentro, centrado, y lo que hay debajo no se mueve al alternar. */
-    .problema-escena {
-      display: flex;
-      align-items: center;
-      height: clamp(400px, 34vw, 470px);
-    }
+    /* Un solo alto para la escena en los dos modos: el cambio de modo es
+       solo transform y pintado, así no desplaza nada (CLS 0). */
+    .problema-escena { height: clamp(380px, 31vw, 430px); }
     .problema-tablero {
-      width: 100%;
-      height: clamp(400px, 34vw, 470px);
+      height: 100%;
       transform: rotateX(16deg) rotateZ(-4deg);
     }
-    /* "Con sistema": de frente y más bajo, sin bandeja. */
-    [data-modo="sistema"] .problema-tablero {
-      height: clamp(300px, 25vw, 340px);
-      transform: rotateX(0deg) rotateZ(0deg);
-    }
+    /* "Con sistema": de frente, sin bandeja. */
+    [data-modo="sistema"] .problema-tablero { transform: rotateX(0deg) rotateZ(0deg); }
     .problema-suelo { display: block; }
     [data-modo="sistema"] .problema-suelo { opacity: 0; }
-    /* preserve-3d también aquí: sin él las fichas se aplanan en el plano
-       de este div y su translateZ no se ve. Como preserve-3d lo convierte
-       en el bloque contenedor de las fichas, ocupa todo el tablero. */
+    /* La base es la fila de "Con sistema": cinco columnas iguales del 20%
+       con la ficha centrada. preserve-3d también aquí: sin él las fichas
+       se aplanan en el plano de este div y su translateZ no se ve. */
     .problema-fichas {
-      display: block;
-      position: absolute;
-      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0;
+      align-items: center;
+      justify-items: center;
+      height: 100%;
       transform-style: preserve-3d;
     }
 
-    /* "Ahora": desordenadas, cada una a su profundidad y con su giro
-       (--x/--y/--z/--r, desde lib/problema.ts). */
+    /* La caja es la misma en los dos modos: un cuadrado que deja 10px de
+       hueco entre columnas. "Ahora" es solo un transform desde su columna
+       (--desorden-*, de lib/problema.ts; dx/dy en % del propio cuadrado,
+       así el desorden escala con la ficha). */
     .problema-ficha {
-      position: absolute;
-      left: var(--x);
-      top: var(--y);
-      width: min(208px, 18.5vw);
-      transform: translate(-50%, -50%) translateZ(var(--z)) rotate(var(--r)) scale(1);
+      --dx: var(--desorden-dx);
+      --dy: var(--desorden-dy);
+      --z: var(--desorden-z);
+      --r: var(--desorden-r);
+      grid-row: 1;
+      grid-column: var(--col);
+      width: min(228px, calc(100% - 10px));
+      aspect-ratio: 1;
+      min-height: 0;
+      padding: 22px 22px 24px;
+      transform: translate(var(--dx), var(--dy)) translateZ(var(--z)) rotate(var(--r)) scale(1);
       transition:
         transform 0.85s var(--curva-problema),
-        left 0.85s var(--curva-problema),
-        top 0.85s var(--curva-problema),
-        width 0.85s var(--curva-problema),
         box-shadow 0.5s,
         border-color 0.5s,
         border-radius 0.6s;
     }
-    /* "Con sistema": cuadrados rectos en fila, sin giro. Cinco columnas
-       del 20% (--sx, centro de cada una); el ancho deja siempre 10px de
-       hueco entre fichas. */
-    [data-modo="sistema"] .problema-ficha {
-      left: var(--sx);
-      top: 50%;
-      width: min(228px, calc(20% - 10px));
-      aspect-ratio: 1;
-      min-height: 0;
-      padding: 22px 22px 24px;
-      transform: translate(-50%, -50%) translateZ(28px) rotate(0deg) scale(1);
-    }
-    [data-modo="sistema"] .problema-icono { width: 40px; height: 40px; }
-    [data-modo="sistema"] .problema-ficha h3 { margin-top: 14px; font-size: 17px; }
-    [data-modo="sistema"] .problema-chip { padding-top: 12px; font-size: 13.5px; }
+    [data-modo="sistema"] .problema-ficha { --dx: 0%; --dy: 0%; --z: 28px; --r: 0deg; }
+    .problema-icono { width: 40px; height: 40px; }
+    .problema-ficha h3 { margin-top: 14px; font-size: 17px; }
+    /* Siempre dos líneas de alto (2 × 1,45em): el texto cambia de largo
+       con el modo y, pegado al pie, una línea de más o de menos movía la
+       etiqueta (era lo único que quedaba en el CLS). */
+    .problema-chip { min-height: calc(12px + 2.9em); padding-top: 12px; font-size: 13.5px; }
+
     /* Al acercarse (Z 108px) la perspectiva también la empuja hacia fuera
-       del centro, y a 1100-1200px la de los extremos se salía de la
-       pantalla. El left la acerca al centro lo justo (1400/1372 entre
-       1400/1292 = 0,9417 del desplazamiento) para que crezca en su sitio. */
+       del centro: 1400/1292 frente a 1400/1372 en reposo, un 5,83% más del
+       desplazamiento de su columna, que es (col - 3) · 20% del tablero. El
+       tablero mide ~5,27 cuadrados, así que en % del propio cuadrado son
+       0,2 · 5,27 · 5,83% = 6,15% por columna. --hx la devuelve a su sitio. */
     [data-modo="sistema"] .problema-ficha:hover,
     [data-modo="sistema"] .problema-ficha:focus-visible {
+      --hx: calc((3 - var(--col)) * 6.15%);
       z-index: 6;
-      left: calc(var(--sx) - (var(--sx) - 50%) * 0.0583);
-      transform: translate(-50%, -50%) translateZ(108px) rotate(0deg) scale(1.04);
+      transform: translate(var(--hx), 0%) translateZ(108px) rotate(0deg) scale(1.04);
       border-color: rgb(221 174 69 / 60%);
       box-shadow: 0 44px 66px -34px rgb(2 21 87 / 50%);
       transition:
         transform 0.35s var(--curva-problema),
-        left 0.35s var(--curva-problema),
-        top 0.85s var(--curva-problema),
-        width 0.85s var(--curva-problema),
         box-shadow 0.35s,
         border-color 0.35s,
         border-radius 0.6s;
@@ -736,10 +725,10 @@
   /* Por debajo de 1000px el cuadrado baja de ~170px (154px a 900) y el
      contenido a tamaño normal no cabe: menos aire y un icono de 34px. */
   @media (min-width: 900px) and (max-width: 999px) {
-    [data-modo="sistema"] .problema-ficha { padding: 16px 16px 18px; }
-    [data-modo="sistema"] .problema-icono { width: 34px; height: 34px; }
-    [data-modo="sistema"] .problema-ficha h3 { margin-top: 10px; }
-    [data-modo="sistema"] .problema-chip { padding-top: 8px; }
+    .problema-ficha { padding: 16px 16px 18px; }
+    .problema-icono { width: 34px; height: 34px; }
+    .problema-ficha h3 { margin-top: 10px; }
+    .problema-chip { min-height: calc(8px + 2.9em); padding-top: 8px; }
   }
 
   /* Sin movimiento: nada se desplaza ni se anima (el hook deja el modo en
@@ -763,8 +752,7 @@
   @media (prefers-reduced-motion: reduce) and (min-width: 900px) {
     [data-modo="sistema"] .problema-ficha:hover,
     [data-modo="sistema"] .problema-ficha:focus-visible {
-      left: var(--sx);
-      transform: translate(-50%, -50%) translateZ(28px) rotate(0deg) scale(1);
+      transform: translate(0%, 0%) translateZ(28px) rotate(0deg) scale(1);
     }
   }
 

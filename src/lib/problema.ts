@@ -19,12 +19,13 @@ export type FichaProblema = {
   /** Etiqueta de estado en cada modo. */
   estado: Record<ModoProblema, string>;
   /**
-   * Escena de escritorio. En "ahora", centro, profundidad y giro de la
-   * ficha desordenada; en "sistema", el centro de su columna en la fila,
-   * en % del tablero: cinco columnas iguales del 20%.
+   * Escena de escritorio. La base es la fila de "sistema": `columna` es su
+   * sitio en la rejilla de cinco columnas iguales. `desorden` es el
+   * transform de "ahora" desde esa columna: dx/dy en % del propio cuadrado
+   * (escalan con la ficha), profundidad y giro.
    */
-  desorden: { x: string; y: string; z: string; r: string };
-  fila: string;
+  columna: 1 | 2 | 3 | 4 | 5;
+  desorden: { dx: string; dy: string; z: string; r: string };
 };
 
 export const FICHAS_PROBLEMA: readonly FichaProblema[] = [
@@ -32,36 +33,36 @@ export const FICHAS_PROBLEMA: readonly FichaProblema[] = [
     id: "web",
     titulo: "Web",
     estado: { ahora: "Visitas que no piden nada", sistema: "Capta y cualifica" },
-    desorden: { x: "15%", y: "26%", z: "70px", r: "-7deg" },
-    fila: "10%",
+    columna: 1,
+    desorden: { dx: "26%", dy: "-35%", z: "70px", r: "-7deg" },
   },
   {
     id: "contenido",
     titulo: "Contenido",
     estado: { ahora: "Publicar por publicar", sistema: "Alimenta la demanda" },
-    desorden: { x: "64%", y: "14%", z: "18px", r: "6deg" },
-    fila: "30%",
+    columna: 2,
+    desorden: { dx: "178%", dy: "-40%", z: "18px", r: "6deg" },
   },
   {
     id: "campanas",
     titulo: "Campañas",
     estado: { ahora: "Gasto sin retorno claro", sistema: "Inversión medida" },
-    desorden: { x: "33%", y: "74%", z: "96px", r: "5deg" },
-    fila: "50%",
+    columna: 3,
+    desorden: { dx: "-89%", dy: "37%", z: "96px", r: "5deg" },
   },
   {
     id: "procesos",
     titulo: "Procesos",
     estado: { ahora: "Todo a mano", sistema: "Automatizado" },
-    desorden: { x: "87%", y: "58%", z: "10px", r: "-6deg" },
-    fila: "70%",
+    columna: 4,
+    desorden: { dx: "89%", dy: "18%", z: "10px", r: "-6deg" },
   },
   {
     id: "clientes",
     titulo: "Clientes",
     estado: { ahora: "Contactos que se enfrían", sistema: "Seguimiento real" },
-    desorden: { x: "53%", y: "44%", z: "54px", r: "3deg" },
-    fila: "90%",
+    columna: 5,
+    desorden: { dx: "-193%", dy: "-15%", z: "54px", r: "3deg" },
   },
 ];
 
