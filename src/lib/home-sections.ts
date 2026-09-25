@@ -11,6 +11,7 @@ export const HOME_SECTIONS = [
   { id: "sistema", label: "Sistema" },
   { id: "servicios", label: "Servicios" },
   { id: "caso", label: "Resultados" },
+  { id: "equipo", label: "Equipo" },
   { id: "empezar", label: "Empezar" },
   { id: "faq", label: "FAQ" },
   { id: "contacto", label: "Contacto" },
@@ -20,7 +21,7 @@ export type HomeSectionId = (typeof HOME_SECTIONS)[number]["id"];
 
 const IDS: readonly string[] = HOME_SECTIONS.map((s) => s.id);
 
-export function isHomeSection(id: string): id is HomeSectionId {
+function isHomeSection(id: string): id is HomeSectionId {
   return IDS.includes(id);
 }
 

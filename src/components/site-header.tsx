@@ -4,18 +4,15 @@ import { Menu, X } from "lucide-react";
 import logoHorizontal from "@/assets/logo-horizontal.png";
 import { GoldCta } from "@/components/gold-cta";
 import { SectionLink } from "@/components/section-link";
-import { isHomeSection, useActiveSection } from "@/lib/home-sections";
+import { useActiveSection, type HomeSectionId } from "@/lib/home-sections";
 import { cn } from "@/lib/utils";
 
-/**
- * Cada entrada apunta a su sección de la home. Mientras esa sección no
- * exista todavía en la home (no está en HOME_SECTIONS), enlaza a su página.
- */
-const nav: { label: string; section: string; page?: string }[] = [
+/** Cada entrada apunta a su sección de la home (ver HOME_SECTIONS). */
+const nav: { label: string; section: HomeSectionId }[] = [
   { label: "Sistema", section: "sistema" },
   { label: "Servicios", section: "servicios" },
   { label: "Resultados", section: "caso" },
-  { label: "Quiénes somos", section: "equipo", page: "/quienes-somos" },
+  { label: "Quiénes somos", section: "equipo" },
   { label: "FAQ", section: "faq" },
 ];
 
@@ -53,23 +50,16 @@ function NavLink({
     </>
   );
 
-  if (isHomeSection(item.section)) {
-    return (
-      <SectionLink
-        id={item.section}
-        onClick={onClick}
-        tabIndex={tabIndex}
-        aria-current={on ? "location" : undefined}
-        className={cls}
-      >
-        {content}
-      </SectionLink>
-    );
-  }
   return (
-    <Link to={item.page!} onClick={onClick} tabIndex={tabIndex} className={cls}>
+    <SectionLink
+      id={item.section}
+      onClick={onClick}
+      tabIndex={tabIndex}
+      aria-current={on ? "location" : undefined}
+      className={cls}
+    >
       {content}
-    </Link>
+    </SectionLink>
   );
 }
 
@@ -79,10 +69,7 @@ export function SiteHeader() {
   const isHome = pathname === "/";
   const active = useActiveSection();
 
-  const isOn = (item: (typeof nav)[number]) =>
-    isHomeSection(item.section)
-      ? isHome && active === item.section
-      : !!item.page && (pathname === item.page || pathname.startsWith(`${item.page}/`));
+  const isOn = (item: (typeof nav)[number]) => isHome && active === item.section;
 
   useEffect(() => {
     if (!open) return;

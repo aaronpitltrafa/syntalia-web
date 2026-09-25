@@ -14,6 +14,7 @@ import { GoldCta } from "@/components/gold-cta";
 import { SectionLink } from "@/components/section-link";
 import { SectionRail } from "@/components/section-rail";
 import { Subrayado } from "@/components/subrayado";
+import { DISCIPLINAS } from "@/lib/equipo";
 import { useHomeSectionObserver } from "@/lib/home-sections";
 import { SYSTEM_STAGES } from "@/lib/sistema";
 import { SITE_URL } from "@/lib/site";
@@ -58,6 +59,7 @@ function Index() {
         <CasoDeExito />
       </div>
 
+      <Equipo />
       <Empezar />
       <FAQ />
       <Cierre />
@@ -588,6 +590,57 @@ function CasoDeExito() {
 }
 
 /* ------------------------------------------------------------------ */
+/* 4b · QUIÉNES SOMOS                                                   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Las cuatro disciplinas (datos en lib/equipo.ts). Sin personas: ni
+ * nombres, ni fotos, ni cifras. Todas las filas miden lo mismo
+ * (auto-rows-fr), también en la rejilla de dos columnas.
+ */
+function Equipo() {
+  return (
+    <section id="equipo" className="seccion-clara seccion scroll-mt-6">
+      <div className="contenedor">
+        <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-start min-[900px]:gap-14">
+          <div>
+            <p className="etiqueta">
+              <span className="etiqueta-num">05</span>Quiénes somos
+            </p>
+            <h2 className="mt-5 max-w-[15ch] text-h2 text-balance">
+              Cuatro disciplinas bajo el mismo techo
+            </h2>
+          </div>
+          <p className="max-w-[34em] text-lead text-navy/72">
+            Estrategia, tecnología, contenido y audiovisual trabajan juntos en cada proyecto. No
+            subcontratamos: quien diseña el sistema es quien lo ejecuta, y por eso las piezas
+            encajan entre sí.
+          </p>
+        </div>
+
+        <ul className="mt-[clamp(36px,4vw,52px)] grid auto-rows-fr gap-4 min-[760px]:grid-cols-2 min-[1040px]:grid-cols-4">
+          {DISCIPLINAS.map((d) => (
+            <li
+              key={d.titulo}
+              className="flex flex-col rounded-card border border-navy/12 bg-paper p-[26px] shadow-[0_26px_48px_-40px_rgb(2_21_87/0.5)]"
+            >
+              <span
+                aria-hidden
+                className="grid h-11 w-11 place-content-center rounded-[13px] bg-navy text-gold-light"
+              >
+                <d.icono className="h-5 w-5" strokeWidth={2} />
+              </span>
+              <h3 className="mt-5 text-h3 font-semibold">{d.titulo}</h3>
+              <p className="mt-2.5 text-[15px] leading-[1.65] text-navy/72">{d.texto}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /* 5 · CÓMO EMPEZAMOS                                                   */
 /* ------------------------------------------------------------------ */
 
@@ -615,7 +668,7 @@ function Empezar() {
     <section id="empezar" className="seccion scroll-mt-6">
       <div className="contenedor">
         <p className="etiqueta">
-          <span className="etiqueta-num">05</span>Cómo empezamos
+          <span className="etiqueta-num">06</span>Cómo empezamos
         </p>
         <h2 className="mt-5 max-w-[15ch] text-h2 text-balance">
           Tres pasos y sabrás qué le falta a tu empresa
@@ -693,7 +746,7 @@ function FAQ() {
     <section id="faq" className="seccion-clara alterna seccion scroll-mt-6">
       <div className="contenedor">
         <p className="etiqueta">
-          <span className="etiqueta-num">06</span>Preguntas frecuentes
+          <span className="etiqueta-num">07</span>Preguntas frecuentes
         </p>
         <h2 className="mt-5 max-w-[14ch] text-h2 text-balance">
           Lo que nos preguntan antes de empezar
