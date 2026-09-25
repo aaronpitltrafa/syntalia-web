@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
@@ -435,8 +435,15 @@ const RESUMEN_ETAPA: Record<string, string> = {
   "04": "Analizamos el sistema para potenciar lo que de verdad genera negocio.",
 };
 
-/** Bloque azul de marca a sangre. Crema sobre #021557: 15:1, y al 72% 8:1. */
+/**
+ * Bloque azul de marca a sangre. Crema sobre #021557: 15:1, y al 72% 8:1.
+ * Las etapas son un recorrido (styles.css, .sistema-*): un rail dorado del
+ * que cuelga cada etapa por una bajante cada vez más corta, y en cada
+ * ficha sus entregables (`includes` de lib/sistema.ts).
+ */
 function Sistema() {
+  const { ref, fase } = useEntradaSistema();
+
   return (
     <section id="sistema" className="seccion scroll-mt-6 bg-navy text-cream">
       <div className="contenedor">
@@ -455,29 +462,90 @@ function Sistema() {
           </p>
         </div>
 
-        <ol className="mt-[clamp(40px,4.5vw,60px)] grid border-t border-cream/13 min-[960px]:grid-cols-4">
-          {SYSTEM_STAGES.map((s) => (
-            <li
-              key={s.number}
-              className="border-b border-cream/13 pt-[26px] pb-[30px] min-[960px]:border-b-0 min-[960px]:pt-7 min-[960px]:pr-[26px] min-[960px]:pb-[34px] min-[960px]:[&+&]:border-l min-[960px]:[&+&]:pl-[26px]"
-            >
-              <span
-                aria-hidden
-                className="block font-display text-[clamp(46px,4.6vw,64px)] leading-[0.85] font-bold tracking-[-0.05em] text-gold-light [font-variant-numeric:lining-nums]"
+        <div ref={ref} className={cn("sistema-ruta", fase)}>
+          <div className="sistema-rail" aria-hidden>
+            <span />
+          </div>
+          <ol className="sistema-etapas">
+            {SYSTEM_STAGES.map((s, i) => (
+              <li
+                key={s.number}
+                className="sistema-etapa"
+                style={{ "--paso": String(i) } as React.CSSProperties}
               >
-                {s.number}
-              </span>
-              <h3 className="mt-[18px] text-h3 font-semibold text-balance">{s.title}</h3>
-              <p className="mt-[9px] text-[14.5px] leading-[1.5] font-semibold">{s.tagline}</p>
-              <p className="mt-2.5 text-[14.5px] leading-[1.6] text-cream/72">
-                {RESUMEN_ETAPA[s.number]}
-              </p>
-            </li>
-          ))}
-        </ol>
+                <div className="sistema-bajante">
+                  <span className="sistema-paso" aria-hidden>
+                    {s.number}
+                  </span>
+                </div>
+                <div className="sistema-ficha">
+                  {/* Una sola pieza para la fila de arriba de la subrejilla:
+                      así las cuatro listas empiezan a la misma altura. */}
+                  <div className="sistema-cabeza">
+                    <h3>{s.title}</h3>
+                    <p className="sistema-lema">{s.tagline}</p>
+                    <p className="sistema-desc">{RESUMEN_ETAPA[s.number]}</p>
+                  </div>
+                  <ul className="sistema-incluye">
+                    {s.includes.map((item) => (
+                      <li key={item}>
+                        <i aria-hidden />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <div className="sistema-pie">
+            <p>
+              Empezamos siempre por la etapa 01. El orden no es una preferencia: es lo que evita
+              pagar dos veces por lo mismo.
+            </p>
+            <Link to="/servicios">
+              <span>Ver el sistema servicio a servicio</span>
+              <ArrowRight aria-hidden strokeWidth={2.2} className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
       </div>
     </section>
   );
+}
+
+/**
+ * Entrada del recorrido. En el HTML del servidor no hay clase y se ve todo
+ * dibujado (sin JS no queda nada oculto). Al montar pasa a "espera" (el
+ * estado de salida, sin transición) y a "on" al entrar un 20% en pantalla,
+ * una sola vez. Con movimiento reducido va directo a "on", sin observar.
+ */
+function useEntradaSistema() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [fase, setFase] = useState<"" | "espera" | "on">("");
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setFase("on");
+      return;
+    }
+    setFase("espera");
+    const io = new IntersectionObserver(
+      (entradas) => {
+        if (entradas.some((e) => e.isIntersecting)) {
+          setFase("on");
+          io.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return { ref, fase };
 }
 
 /* ------------------------------------------------------------------ */

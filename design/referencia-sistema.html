@@ -1,0 +1,223 @@
+<title>Sistema Vértice · recorrido</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Raleway:wght@600;700;800&display=swap">
+<style>
+  :root{
+    color-scheme: dark;
+    --navy:#021557; --ink:#030B24; --cream:#F5F2E9; --gold:#DDAE45; --gold-2:#E9C877;
+    --c1:var(--cream); --c2:rgba(245,242,233,.74); --c3:rgba(245,242,233,.52);
+    --line:rgba(245,242,233,.12);
+    --disp:'Raleway','Helvetica Neue',Arial,sans-serif;
+    --body:'Poppins','Helvetica Neue',Arial,sans-serif;
+    --curva:cubic-bezier(.3,.9,.25,1);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--c1);font-family:var(--body);font-weight:300;font-size:16px;line-height:1.7}
+  .wrap{max-width:1200px;margin:0 auto;padding-inline:16px;position:relative}
+  @media(min-width:900px){.wrap{padding-inline:40px}}
+  h2,h3{font-family:var(--disp);margin:0;font-weight:700;letter-spacing:-.03em;line-height:1.08;text-wrap:balance}
+  p{margin:0}
+
+  .nota{background:#0B1638;color:var(--c2)}
+  .nota .wrap{padding-block:12px;font-size:13.5px;display:flex;gap:8px 20px;flex-wrap:wrap}
+  .nota b{font:600 11px/1.6 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2)}
+
+  section{padding-block:clamp(64px,8vw,120px);position:relative;overflow:hidden;
+          background:radial-gradient(120% 80% at 50% -10%,#0A1E62 0%,var(--navy) 46%,var(--ink) 100%)}
+  section::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(rgba(245,242,233,.045) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(245,242,233,.045) 1px,transparent 1px);
+    background-size:76px 76px;
+    mask-image:radial-gradient(75% 60% at 50% 10%,#000 0%,transparent 78%)}
+
+  /* ---------- cabecera ---------- */
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font:600 11px/1 var(--body);letter-spacing:.2em;
+           text-transform:uppercase;color:var(--gold-2)}
+  .eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+  .cab{display:grid;gap:18px;margin-top:22px}
+  @media(min-width:960px){.cab{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:56px;align-items:end}}
+  h2{font-size:clamp(30px,4.2vw,56px);max-width:14ch}
+  .cab p{color:var(--c2);font-size:clamp(15.5px,1.2vw,17.5px);line-height:1.62;max-width:46ch}
+
+  /* ---------- recorrido ---------- */
+  .ruta{margin-top:clamp(40px,5vw,70px);position:relative}
+
+  /* rail horizontal (escritorio) */
+  .rail{display:none}
+  @media(min-width:900px){
+    .rail{display:block;position:absolute;left:0;right:0;top:0;height:1px;background:var(--line)}
+    .rail span{position:absolute;inset:0;transform-origin:left;transform:scaleX(0);
+               background:linear-gradient(90deg,rgba(221,174,69,.25),var(--gold));
+               transition:transform 1.5s var(--curva) .15s}
+    .ruta.on .rail span{transform:scaleX(1)}
+  }
+
+  .etapas{display:grid;gap:14px}
+  @media(min-width:900px){.etapas{grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;padding-top:0}}
+
+  .etapa{position:relative;display:flex;flex-direction:column;
+         opacity:0;transform:translateY(16px);
+         transition:opacity .7s var(--curva),transform .7s var(--curva)}
+  .ruta.on .etapa{opacity:1;transform:none}
+  .ruta.on .e1{transition-delay:.05s} .ruta.on .e2{transition-delay:.18s}
+  .ruta.on .e3{transition-delay:.31s} .ruta.on .e4{transition-delay:.44s}
+
+  /* paso + bajante: la longitud del tramo es la prueba visual de que se avanza */
+  .paso{display:grid;place-content:center;width:32px;height:32px;
+        font-family:var(--disp);font-weight:700;font-size:12.5px;letter-spacing:.04em;
+        color:var(--gold-2);background:var(--ink);border:1px solid rgba(221,174,69,.55);
+        transition:border-color .35s,color .35s,background .35s}
+  .e1 .paso{background:var(--gold);border-color:var(--gold);color:#1E1704}
+  @media(min-width:900px){
+    .bajante{position:relative;height:var(--baja)}
+    .paso{position:absolute;left:0;top:-16px;z-index:2}
+    .bajante::after{content:"";position:absolute;left:15.5px;top:18px;bottom:0;width:1px;
+                    background:linear-gradient(180deg,var(--gold),rgba(221,174,69,.18));
+                    transform:scaleY(0);transform-origin:top;transition:transform .8s var(--curva) .5s}
+    .ruta.on .bajante::after{transform:scaleY(1)}
+    .e1{--baja:92px} .e2{--baja:68px} .e3{--baja:46px} .e4{--baja:28px}
+    .etapa:hover .paso{border-color:var(--gold);color:var(--cream)}
+    .e1:hover .paso{color:#1E1704}
+    .etapa:hover .bajante::after{background:linear-gradient(180deg,var(--gold),rgba(221,174,69,.55))}
+  }
+
+  .ficha{position:relative;flex:1;display:flex;flex-direction:column;overflow:hidden;padding:24px 22px 26px;
+         background:linear-gradient(180deg,rgba(245,242,233,.06),rgba(245,242,233,.025));
+         border:1px solid var(--line);border-radius:0;
+         transition:transform .35s var(--curva),border-color .35s,background .35s}
+  .ficha::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--gold);
+                 transform:scaleX(0);transform-origin:left;transition:transform .9s var(--curva) .6s}
+  .ruta.on .ficha::before{transform:scaleX(1)}
+  .ficha:hover{transform:translateY(-6px);border-color:rgba(221,174,69,.45);
+               background:linear-gradient(180deg,rgba(245,242,233,.09),rgba(245,242,233,.035))}
+
+  .ficha h3{position:relative;font-size:19.5px}
+  .lema{margin-top:10px;font:600 13px/1.5 var(--body);color:var(--c1)}
+  .desc{margin-top:8px;color:var(--c2);font-size:14px;line-height:1.62}
+
+  .incluye{margin:20px 0 0;padding:16px 0 0;border-top:1px solid var(--line);list-style:none;display:grid;gap:8px}
+  .etapa .incluye{margin-top:auto}
+  .incluye li{display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.45;color:var(--c3)}
+  .incluye i{flex:none;width:5px;height:5px;margin-top:.55em;background:var(--gold);transform:rotate(45deg)}
+
+  /* ---------- rail vertical en móvil ---------- */
+  @media(max-width:899px){
+    .etapas{position:relative;padding-left:50px;gap:18px}
+    .etapas::before{content:"";position:absolute;left:15.5px;top:16px;bottom:16px;width:1px;
+                    background:linear-gradient(180deg,var(--gold),rgba(221,174,69,.15))}
+    .bajante{position:absolute;left:-50px;top:16px}
+  }
+
+  /* ---------- cierre ---------- */
+  .pie{margin-top:clamp(30px,3.6vw,46px);padding-top:20px;border-top:1px solid var(--line);
+       display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between}
+  .pie p{color:var(--c2);font-size:14.5px;max-width:52ch}
+  .pie a{display:inline-flex;align-items:center;gap:10px;color:var(--gold-2);text-decoration:none;
+         font-family:var(--body);font-weight:600;font-size:14.5px;white-space:nowrap}
+  .pie a span{position:relative;padding-bottom:3px}
+  .pie a span::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold);
+                     transform:scaleX(0);transform-origin:left;transition:transform .4s var(--curva)}
+  .pie a:hover span::after{transform:scaleX(1)}
+  .pie a svg{transition:transform .25s var(--curva)}
+  .pie a:hover svg{transform:translateX(4px)}
+
+  @media(prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important}
+    .etapa{opacity:1;transform:none}
+    .rail span,.bajante::after,.ficha::before{transform:none!important}
+  }
+</style>
+
+<div class="nota"><div class="wrap"><b>Boceto</b><span>Bloque 02 “Sistema Vértice” como recorrido. Recarga para ver la entrada.</span></div></div>
+
+<section><div class="wrap">
+  <span class="eyebrow"><i></i>02 · Sistema Vértice</span>
+  <div class="cab">
+    <h2>Cuatro etapas, un solo ecosistema</h2>
+    <p>Cada etapa se apoya en la anterior. No lanzamos campañas hasta que la base está construida, porque es lo que hace que el gasto se convierta en retorno.</p>
+  </div>
+
+  <div class="ruta">
+    <div class="rail" aria-hidden="true"><span></span></div>
+
+    <div class="etapas">
+      <article class="etapa e1">
+        <div class="bajante"><span class="paso">01</span></div>
+        <div class="ficha">
+          <h3>Diagnóstico estratégico</h3>
+          <p class="lema">Entendemos antes de construir.</p>
+          <p class="desc">Negocio, mercado, cliente ideal y presencia digital, para ver qué frena el crecimiento.</p>
+          <ul class="incluye">
+            <li><i></i>Posicionamiento y captación actual</li>
+            <li><i></i>Prioridades y objetivos</li>
+            <li><i></i>Hoja de ruta</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="etapa e2">
+        <div class="bajante"><span class="paso">02</span></div>
+        <div class="ficha">
+          <h3>Posicionamiento y base digital</h3>
+          <p class="lema">Ordenamos cómo debe percibirse tu empresa.</p>
+          <p class="desc">Mensaje, propuesta de valor, marca, web y contenidos que sostienen todo lo demás.</p>
+          <ul class="incluye">
+            <li><i></i>Branding e identidad visual</li>
+            <li><i></i>Web y landing pages</li>
+            <li><i></i>Contenidos y redes sociales</li>
+            <li><i></i>Copywriting y SEO</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="etapa e3">
+        <div class="bajante"><span class="paso">03</span></div>
+        <div class="ficha">
+          <h3>Captación y conversión</h3>
+          <p class="lema">Convertimos atención en oportunidades.</p>
+          <p class="desc">Campañas, landings, formularios, CRM y automatizaciones conectados entre sí.</p>
+          <ul class="incluye">
+            <li><i></i>Social Ads y campañas</li>
+            <li><i></i>Formularios y landing de captación</li>
+            <li><i></i>CRM y automatizaciones</li>
+            <li><i></i>Email marketing y seguimiento</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="etapa e4">
+        <div class="bajante"><span class="paso">04</span></div>
+        <div class="ficha">
+          <h3>Optimización y escalado</h3>
+          <p class="lema">Medimos, corregimos y reforzamos.</p>
+          <p class="desc">Analizamos el sistema para potenciar lo que de verdad genera negocio.</p>
+          <ul class="incluye">
+            <li><i></i>Conversión y rendimiento</li>
+            <li><i></i>Automatización</li>
+            <li><i></i>Escalado</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+
+    <div class="pie">
+      <p>Empezamos siempre por la etapa 01. El orden no es una preferencia: es lo que evita pagar dos veces por lo mismo.</p>
+      <a href="#"><span>Ver el sistema servicio a servicio</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </div>
+</div></section>
+
+<script>
+  (function(){
+    var ruta = document.querySelector('.ruta');
+    if(!ruta) return;
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches){ ruta.classList.add('on'); return; }
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ ruta.classList.add('on'); io.disconnect(); } });
+    },{threshold:.2});
+    io.observe(ruta);
+  })();
+</script>

@@ -756,6 +756,325 @@
     }
   }
 
+  /* 3 · Sistema Vértice: un recorrido. Un rail dorado cruza el bloque y de
+     él cuelga cada etapa por una bajante cada vez más corta; en cada ficha,
+     sus entregables. Estados de la entrada (lo pone useEntradaSistema en
+     .sistema-ruta): sin clase, todo dibujado (HTML del servidor, sin JS);
+     "espera", el punto de partida sin transición; "on", vuelve a lo
+     dibujado con las transiciones. Solo se animan transform, opacity y
+     color: nada mueve la maquetación (CLS 0). */
+  .sistema-ruta {
+    --curva-sistema: cubic-bezier(0.3, 0.9, 0.25, 1);
+    --linea-sistema: rgb(245 242 233 / 12%);
+    position: relative;
+    margin-top: clamp(40px, 5vw, 70px);
+  }
+  .sistema-rail { display: none; }
+  .sistema-etapas {
+    display: grid;
+    gap: 14px;
+  }
+  .sistema-etapa {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition:
+      opacity 0.7s var(--curva-sistema),
+      transform 0.7s var(--curva-sistema);
+    transition-delay: calc(0.05s + var(--paso, 0) * 0.13s);
+  }
+
+  /* Chip del paso: el número es decorativo, el orden lo da la <ol>. El de
+     la 01 va relleno: es el punto de partida. */
+  .sistema-paso {
+    display: grid;
+    place-content: center;
+    width: 32px;
+    height: 32px;
+    font-family: var(--font-display);
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    font-variant-numeric: lining-nums;
+    color: var(--gold-light);
+    background: var(--ink);
+    border: 1px solid rgb(221 174 69 / 55%);
+    transition:
+      border-color 0.35s,
+      color 0.35s,
+      background-color 0.35s;
+  }
+  .sistema-etapa:first-child .sistema-paso {
+    color: var(--on-gold);
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+
+  /* Ficha recta, como las del bloque del problema, con filete dorado. */
+  .sistema-ficha {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 24px 22px 26px;
+    background: linear-gradient(180deg, rgb(245 242 233 / 6%), rgb(245 242 233 / 2.5%));
+    border: 1px solid var(--linea-sistema);
+    border-radius: 0;
+    transition:
+      transform 0.35s var(--curva-sistema),
+      border-color 0.35s;
+  }
+  .sistema-ficha::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 2px;
+    background: var(--gold);
+    transform-origin: left;
+    transition: transform 0.9s var(--curva-sistema) 0.6s;
+  }
+  .sistema-ficha h3 {
+    font-size: 19.5px;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  /* El lema en crema: el dorado se queda para rail, chips y rombos. */
+  .sistema-lema {
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--cream);
+  }
+  .sistema-desc {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.62;
+    color: color-mix(in oklab, var(--cream) 74%, transparent);
+  }
+  /* align-content: start: en escritorio la fila de la lista mide lo que la
+     más larga, y sin él las de tres entregables se estiraban. */
+  .sistema-incluye {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--linea-sistema);
+  }
+  .sistema-incluye li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: color-mix(in oklab, var(--cream) 52%, transparent);
+  }
+  /* Rombo dorado de 5px. */
+  .sistema-incluye i {
+    flex: none;
+    width: 5px;
+    height: 5px;
+    margin-top: 0.55em;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+
+  .sistema-etapa:hover .sistema-ficha {
+    transform: translateY(-6px);
+    border-color: rgb(221 174 69 / 45%);
+    background: linear-gradient(180deg, rgb(245 242 233 / 9%), rgb(245 242 233 / 3.5%));
+  }
+
+  /* Pie: la frase y el enlace a /servicios, con el subrayado dorado que se
+     dibuja de izquierda a derecha (la misma técnica que .mark-v3). */
+  .sistema-pie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    margin-top: clamp(30px, 3.6vw, 46px);
+    padding-top: 20px;
+    border-top: 1px solid var(--linea-sistema);
+  }
+  .sistema-pie p {
+    max-width: 52ch;
+    font-size: 14.5px;
+    color: color-mix(in oklab, var(--cream) 74%, transparent);
+  }
+  .sistema-pie a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--gold-light);
+  }
+  .sistema-pie a:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 4px;
+  }
+  .sistema-pie a span {
+    position: relative;
+    padding-bottom: 3px;
+  }
+  .sistema-pie a span::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 1px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--curva-sistema);
+  }
+  .sistema-pie a:hover span::after,
+  .sistema-pie a:focus-visible span::after { transform: scaleX(1); }
+  .sistema-pie a svg { transition: transform 0.25s var(--curva-sistema); }
+  .sistema-pie a:hover svg { transform: translateX(4px); }
+
+  /* Punto de partida de la entrada. */
+  .sistema-ruta.espera .sistema-etapa {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: none;
+  }
+  .sistema-ruta.espera .sistema-rail span {
+    transform: scaleX(0);
+    transition: none;
+  }
+  .sistema-ruta.espera .sistema-bajante::after {
+    transform: scaleY(0);
+    transition: none;
+  }
+  .sistema-ruta.espera .sistema-ficha::before {
+    transform: scaleX(0);
+    transition: none;
+  }
+
+  /* Móvil: el rail va vertical a la izquierda, con los chips encima, y
+     las etapas se apilan. */
+  @media (max-width: 899px) {
+    .sistema-etapas {
+      position: relative;
+      gap: 18px;
+      padding-left: 50px;
+    }
+    .sistema-etapas::before {
+      content: "";
+      position: absolute;
+      top: 16px;
+      bottom: 16px;
+      left: 15.5px;
+      width: 1px;
+      background: linear-gradient(180deg, var(--gold), rgb(221 174 69 / 15%));
+    }
+    .sistema-bajante {
+      position: absolute;
+      top: 16px;
+      left: -50px;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .sistema-rail {
+      display: block;
+      position: absolute;
+      inset: 0 0 auto;
+      height: 1px;
+      background: var(--linea-sistema);
+    }
+    .sistema-rail span {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgb(221 174 69 / 25%), var(--gold));
+      transform-origin: left;
+      transition: transform 1.5s var(--curva-sistema) 0.15s;
+    }
+
+    /* Subrejilla de dos filas compartidas por las cuatro etapas: arriba
+       bajante y cabecera de la ficha, abajo la lista. La ficha empieza
+       tras su bajante (margin-top) y ocupa las dos filas, así las cuatro
+       terminan a la misma altura y las cuatro listas empiezan a la misma
+       altura, tengan tres entregables o cuatro. */
+    .sistema-etapas {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-rows: auto auto;
+      gap: 0 22px;
+    }
+    .sistema-etapa {
+      display: grid;
+      grid-row: span 2;
+      grid-template-rows: subgrid;
+    }
+    /* El escalón: cada tramo más corto que el anterior. */
+    .sistema-etapa:nth-child(1) { --baja: 92px; }
+    .sistema-etapa:nth-child(2) { --baja: 68px; }
+    .sistema-etapa:nth-child(3) { --baja: 46px; }
+    .sistema-etapa:nth-child(4) { --baja: 28px; }
+    .sistema-bajante {
+      position: relative;
+      grid-row: 1;
+      align-self: start;
+      height: var(--baja);
+    }
+    .sistema-paso {
+      position: absolute;
+      top: -16px;
+      left: 0;
+      z-index: 2;
+    }
+    .sistema-bajante::after {
+      content: "";
+      position: absolute;
+      top: 18px;
+      bottom: 0;
+      left: 15.5px;
+      width: 1px;
+      background: linear-gradient(180deg, var(--gold), rgb(221 174 69 / 18%));
+      transform-origin: top;
+      transition: transform 0.8s var(--curva-sistema) 0.5s;
+    }
+    .sistema-ficha {
+      display: grid;
+      grid-row: 1 / span 2;
+      grid-template-rows: subgrid;
+      margin-top: var(--baja);
+    }
+    .sistema-incluye { grid-row: 2; }
+
+    .sistema-etapa:hover .sistema-paso {
+      color: var(--cream);
+      border-color: var(--gold);
+    }
+    .sistema-etapa:first-child:hover .sistema-paso { color: var(--on-gold); }
+    .sistema-etapa:hover .sistema-bajante::after {
+      background: linear-gradient(180deg, var(--gold), rgb(221 174 69 / 55%));
+    }
+  }
+
+  /* Sin movimiento: todo visible desde el principio (el hook pone "on" sin
+     observar), sin transiciones, y el realce se queda en el color. */
+  @media (prefers-reduced-motion: reduce) {
+    .sistema-etapa,
+    .sistema-rail span,
+    .sistema-bajante::after,
+    .sistema-ficha,
+    .sistema-ficha::before,
+    .sistema-paso,
+    .sistema-pie a svg,
+    .sistema-pie a span::after {
+      transition: none !important;
+    }
+    .sistema-etapa:hover .sistema-ficha,
+    .sistema-pie a:hover svg { transform: none; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .mark-v3::after { animation: none; }
     /* Quieta: una sola tanda de logos, centrada y en varias lineas. */
