@@ -143,22 +143,25 @@ function Hero() {
         <div className="hero-veil absolute inset-0" />
       </div>
 
-      <div className="relative z-[2] pt-[clamp(120px,15vw,190px)] pb-[clamp(28px,3vw,44px)]">
+      {/* hero-contenido pone el halo oscuro detrás del texto (styles.css). */}
+      <div className="hero-contenido">
         <div className="contenedor text-center">
           <Pildora>Consultora estratégica de marketing digital</Pildora>
 
-          {/* 21ch: en escritorio cae en tres líneas, "Construimos el sistema /
-              digital que hace crecer / tu empresa". Sin text-balance, que
-              reparte las líneas de otra manera, y con "tu empresa" unido por un
-              espacio duro para que "empresa" no se quede sola en la última. */}
-          <h1 className="mx-auto mt-6 max-w-[21ch] text-hero text-cream">
-            Construimos el <Subrayado>sistema digital</Subrayado> que hace crecer tu&nbsp;empresa
+          {/* Tres líneas fijas desde 760px ("Construimos el / sistema digital
+              que / hace crecer tu empresa"): cada .ln pasa a bloque. Por
+              debajo son inline y el texto fluye solo. */}
+          <h1 className="mx-auto mt-6 max-w-[22ch] text-hero text-cream [text-shadow:0_2px_26px_rgba(1,6,20,.55)]">
+            <span className="inline min-[760px]:block">Construimos el </span>
+            <span className="inline min-[760px]:block">
+              <Subrayado>sistema digital</Subrayado> que{" "}
+            </span>
+            <span className="inline min-[760px]:block">hace crecer tu&nbsp;empresa</span>
           </h1>
 
-          <p className="mx-auto mt-6 max-w-[64ch] text-lead text-cream/72">
-            No hacemos acciones aisladas. Analizamos qué necesita tu empresa y montamos un
-            ecosistema donde estrategia, marca, captación, tecnología y automatización trabajan
-            juntas.
+          <p className="mx-auto mt-6 max-w-[58ch] text-lead text-cream/72 [text-shadow:0_1px_16px_rgba(1,6,20,.5)]">
+            Analizamos qué necesita tu empresa y conectamos estrategia, marca, captación y
+            automatización para hacerla crecer.
           </p>
 
           {/* Dos botones del mismo alto (52px). En móvil, apilados a todo el ancho. */}

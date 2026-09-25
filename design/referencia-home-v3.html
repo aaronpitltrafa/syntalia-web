@@ -104,12 +104,21 @@
              font:600 10.5px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--gold-l);
              border:1px dashed rgba(221,174,69,.55);border-radius:999px;padding:8px 13px;background:rgba(221,174,69,.1)}
   .hero-in{position:relative;z-index:2;padding-block:clamp(120px,15vw,190px) clamp(28px,3vw,44px);text-align:center}
-  .hero h1{margin:24px auto 0;max-width:21ch;font-size:clamp(38px,5.4vw,86px);line-height:1.02;letter-spacing:-.035em}
+  .hero-in::before{content:"";position:absolute;left:50%;top:44%;width:min(1100px,112%);height:min(760px,116%);
+    transform:translate(-50%,-50%);pointer-events:none;z-index:-1;
+    background:radial-gradient(60% 55% at 50% 48%,rgba(1,6,20,.86) 0%,rgba(1,6,20,.62) 42%,rgba(1,6,20,0) 74%);
+    filter:blur(6px)}
+  .hero-in > .wrap{position:relative}
+  .hero h1 .ln{display:inline}
+  @media(min-width:760px){.hero h1 .ln{display:block}}
+
+  .hero h1{margin:24px auto 0;max-width:22ch;font-size:clamp(38px,5.4vw,86px);line-height:1.06;letter-spacing:-.035em;
+           text-shadow:0 2px 26px rgba(1,6,20,.55)}
   .hero h1 .mk{position:relative;white-space:nowrap}
   .hero h1 .mk::after{content:"";position:absolute;left:0;right:0;bottom:.1em;height:.14em;background:var(--gold);z-index:-1;
                       transform-origin:left;animation:sweep 1s .35s cubic-bezier(.2,.8,.2,1) both}
   @keyframes sweep{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-  .hero .lead{margin:24px auto 0;max-width:64ch}
+  .hero .lead{margin:24px auto 0;max-width:58ch;text-shadow:0 1px 16px rgba(1,6,20,.5)}
   .hero-acts{display:flex;flex-wrap:wrap;gap:13px;margin-top:34px;justify-content:center}
   .hero-trust{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:26px;justify-content:center;font:400 13px/1.5 var(--body);color:var(--t3)}
   .hero-trust span{display:flex;align-items:center;gap:8px}
@@ -286,8 +295,8 @@
   <span class="tag">Aquí va vuestro vídeo, a pantalla completa</span>
   <div class="hero-in"><div class="wrap">
     <span class="pill"><i></i>Consultora estratégica de marketing digital</span>
-    <h1>Construimos el <span class="mk">sistema digital</span> que hace crecer tu empresa</h1>
-    <p class="lead">No hacemos acciones aisladas. Analizamos qué necesita tu empresa y montamos un ecosistema donde estrategia, marca, captación, tecnología y automatización trabajan juntas.</p>
+    <h1><span class="ln">Construimos el </span><span class="ln"><span class="mk">sistema digital</span> que </span><span class="ln">hace crecer tu empresa</span></h1>
+    <p class="lead">Analizamos qué necesita tu empresa y conectamos estrategia, marca, captación y automatización para hacerla crecer.</p>
     <div class="hero-acts">
       <a class="btn" href="#contacto">Solicitar diagnóstico <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1E1704" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a class="btn sec" href="#sistema">Ver cómo trabajamos</a>

@@ -104,7 +104,7 @@
   --text-h2--line-height: 1.06;
   --text-h2--letter-spacing: -0.025em;
   --text-hero: clamp(38px, 5.4vw, 86px);   /* SOLO el H1 del hero */
-  --text-hero--line-height: 1.02;
+  --text-hero--line-height: 1.06;
   --text-hero--letter-spacing: -0.035em;
 
   /* Dos anchos de contenido y ninguno mas. Ojo con el nombre: Tailwind
@@ -450,6 +450,35 @@
       rgb(1 6 15 / 45%) 38%,
       rgb(3 11 36 / 86%) 82%,
       var(--ink) 100%);
+  }
+
+  /* Bloque de texto del hero. El halo es una sombra radial detrás del
+     texto que lo despega de la rejilla; va en z-index -1 dentro del
+     contexto de apilamiento del bloque, así queda encima del fondo y
+     debajo del texto. top compensa el padding desigual para que el
+     centro del halo caiga en el centro del texto, no del bloque. */
+  .hero-contenido {
+    --hero-pt: clamp(120px, 15vw, 190px);
+    --hero-pb: clamp(28px, 3vw, 44px);
+    position: relative;
+    z-index: 2;
+    padding-block: var(--hero-pt) var(--hero-pb);
+  }
+  .hero-contenido::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    top: calc(50% + (var(--hero-pt) - var(--hero-pb)) / 2);
+    width: min(1100px, 112%);
+    height: min(760px, 116%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    background: radial-gradient(60% 55% at 50% 48%,
+      rgb(1 6 20 / 86%) 0%,
+      rgb(1 6 20 / 62%) 42%,
+      rgb(1 6 20 / 0%) 74%);
+    filter: blur(6px);
   }
 
   /* Subrayado dorado del H1: una raya por debajo de la palabra, nunca
