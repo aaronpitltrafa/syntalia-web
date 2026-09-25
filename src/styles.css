@@ -525,6 +525,206 @@
     to   { transform: translateX(-50%); }
   }
 
+  /* 2 · El problema. Beige con un degradado radial suave; el texto va en
+     navy y el dorado de texto es --gold-ink. */
+  .seccion-problema {
+    color: var(--navy);
+    background: radial-gradient(90% 70% at 50% 8%, #f7f3e9 0%, var(--cream-2) 58%, #e9e3d4 100%);
+    overflow: hidden;
+  }
+
+  /* Escena "Ahora" / "Con sistema". El modo lo pone data-modo en
+     .problema-escena. Por debajo de 900px es una rejilla plana de dos
+     columnas; desde 900px, un tablero inclinado con las fichas en 3D. */
+  .problema-escena {
+    --curva-problema: cubic-bezier(0.3, 0.9, 0.25, 1);
+    perspective: 1400px;
+    perspective-origin: 50% 22%;
+  }
+  .problema-tablero {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.9s var(--curva-problema);
+  }
+  /* Bandeja de fondo, solo en escritorio. */
+  .problema-suelo {
+    display: none;
+    position: absolute;
+    inset: 26% 6% 14%;
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgb(255 255 255 / 55%), rgb(255 255 255 / 12%));
+    transform: translateZ(-70px);
+  }
+  .problema-fichas {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .problema-ficha {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 22px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid rgb(2 21 87 / 7%);
+    border-radius: 20px;
+    box-shadow: 0 22px 38px -28px rgb(2 21 87 / 45%);
+    transition:
+      transform 0.35s var(--curva-problema),
+      box-shadow 0.5s,
+      border-color 0.5s;
+  }
+  /* Blanco sobre beige: el foco en dorado oscuro (4,6:1 sobre beige). */
+  .problema-ficha:focus-visible {
+    outline: 2px solid var(--gold-ink);
+    outline-offset: 3px;
+  }
+  /* Filete dorado de arriba: se dibuja de izquierda a derecha en "sistema". */
+  .problema-ficha::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .problema-icono {
+    display: grid;
+    place-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    color: var(--navy);
+    background: rgb(2 21 87 / 6%);
+    transition: background-color 0.5s;
+  }
+  /* Etiqueta de estado, pegada al pie de la ficha. Navy al 68% sobre
+     blanco da 5,9:1 (el 45% de la referencia se quedaba en 2,9:1). */
+  .problema-chip {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 10px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: color-mix(in oklab, var(--navy) 68%, transparent);
+    transition: color 0.5s;
+  }
+  .problema-chip i {
+    flex: none;
+    width: 6px;
+    height: 6px;
+    margin-top: 0.5em;
+    border-radius: 50%;
+    background: rgb(2 21 87 / 25%);
+    transition: background-color 0.5s;
+  }
+
+  [data-modo="sistema"] .problema-ficha { border-color: rgb(2 21 87 / 9%); box-shadow: 0 26px 44px -30px rgb(2 21 87 / 42%); }
+  [data-modo="sistema"] .problema-ficha::before { transform: scaleX(1); }
+  [data-modo="sistema"] .problema-icono { background: rgb(221 174 69 / 18%); }
+  [data-modo="sistema"] .problema-chip { color: var(--gold-ink); }
+  [data-modo="sistema"] .problema-chip i { background: var(--gold); }
+
+  @media (max-width: 899px) {
+    .problema-ficha:hover,
+    .problema-ficha:active,
+    .problema-ficha:focus-visible {
+      transform: translateY(-4px);
+      box-shadow: 0 30px 46px -30px rgb(2 21 87 / 50%);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .problema-tablero {
+      height: clamp(400px, 34vw, 470px);
+      transform: rotateX(16deg) rotateZ(-4deg);
+    }
+    [data-modo="sistema"] .problema-tablero { transform: rotateX(10deg) rotateZ(0deg); }
+    .problema-suelo { display: block; }
+    /* preserve-3d también aquí: sin él las fichas se aplanan en el plano
+       de este div y su translateZ no se ve. Como preserve-3d lo convierte
+       en el bloque contenedor de las fichas, ocupa todo el tablero. */
+    .problema-fichas {
+      display: block;
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+    }
+
+    /* "Ahora": desordenadas, cada una a su profundidad y con su giro
+       (--x/--y/--z/--r, desde lib/problema.ts). */
+    .problema-ficha {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: min(208px, 18.5vw);
+      transform: translate(-50%, -50%) translateZ(var(--z)) rotate(var(--r)) scale(1);
+      transition:
+        transform 0.85s var(--curva-problema),
+        left 0.85s var(--curva-problema),
+        top 0.85s var(--curva-problema),
+        width 0.85s var(--curva-problema),
+        min-height 0.85s var(--curva-problema),
+        box-shadow 0.5s,
+        border-color 0.5s;
+    }
+    /* "Con sistema": en fila, mismo ancho y alto. Las columnas van al 19%
+       de distancia; el ancho deja siempre 12px de hueco entre fichas (con
+       210px fijos se solapaban por debajo de ~1200px). */
+    [data-modo="sistema"] .problema-ficha {
+      left: var(--sx);
+      top: 52%;
+      width: min(210px, calc(19% - 12px));
+      min-height: 206px;
+      transform: translate(-50%, -50%) translateZ(28px) rotate(0deg) scale(1);
+    }
+    [data-modo="sistema"] .problema-ficha:hover,
+    [data-modo="sistema"] .problema-ficha:focus-visible {
+      z-index: 6;
+      transform: translate(-50%, -50%) translateZ(108px) rotate(0deg) scale(1.04);
+      border-color: rgb(221 174 69 / 60%);
+      box-shadow: 0 44px 66px -34px rgb(2 21 87 / 50%);
+      transition:
+        transform 0.35s var(--curva-problema),
+        left 0.85s var(--curva-problema),
+        top 0.85s var(--curva-problema),
+        width 0.85s var(--curva-problema),
+        box-shadow 0.35s,
+        border-color 0.35s;
+    }
+  }
+
+  /* Sin movimiento: nada se desplaza ni se anima (el hook deja el modo en
+     "sistema"). El realce de la ficha se queda en el borde y la sombra. */
+  @media (prefers-reduced-motion: reduce) {
+    .problema-tablero,
+    .problema-ficha,
+    .problema-ficha::before,
+    .problema-icono,
+    .problema-chip,
+    .problema-chip i {
+      transition: none !important;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) and (max-width: 899px) {
+    .problema-ficha:hover,
+    .problema-ficha:active,
+    .problema-ficha:focus-visible { transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) and (min-width: 900px) {
+    [data-modo="sistema"] .problema-ficha:hover,
+    [data-modo="sistema"] .problema-ficha:focus-visible {
+      transform: translate(-50%, -50%) translateZ(28px) rotate(0deg) scale(1);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .mark-v3::after { animation: none; }
     /* Quieta: una sola tanda de logos, centrada y en varias lineas. */

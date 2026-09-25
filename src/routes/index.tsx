@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
@@ -17,6 +18,14 @@ import { goldCtaClasses } from "@/lib/gold-cta-classes";
 import { DISCIPLINAS } from "@/lib/equipo";
 import { useHomeSectionObserver } from "@/lib/home-sections";
 import { SYSTEM_STAGES } from "@/lib/sistema";
+import {
+  ESTADO_PROBLEMA,
+  FICHAS_PROBLEMA,
+  INTERVALO_PROBLEMA_MS,
+  MODOS_PROBLEMA,
+  type FichaProblemaId,
+  type ModoProblema,
+} from "@/lib/problema";
 import { SITE_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -252,75 +261,195 @@ function Logos() {
 /* 2 · EL PROBLEMA                                                      */
 /* ------------------------------------------------------------------ */
 
-/** Los iconos son los trazos de la referencia (24x24, trazo 2). */
-const PROBLEMAS = [
-  {
-    titulo: "No se entiende qué te diferencia",
-    texto:
-      "Tu mensaje se parece al de cualquier otra empresa y el cliente no encuentra una razón clara para elegirte.",
-    icono: "M3 12h4l3 8 4-16 3 8h4",
-  },
-  {
-    titulo: "Tu presencia no genera confianza",
-    texto:
-      "Tu web, tus redes y tu mensaje no reflejan el nivel real, la experiencia ni la solidez de tu negocio.",
-    icono: "M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z",
-  },
-  {
-    titulo: "El marketing no genera contactos",
-    texto:
-      "Hay acciones, publicaciones o campañas, pero no un sistema claro para convertir el interés en oportunidades comerciales.",
-    icono: "M4 6h16M4 12h10M4 18h6M20 14l-4 4 4 4",
-  },
-] as const;
+/** Iconos de trazo de las fichas (24x24, trazo 1.7), en navy. */
+const ICONOS_PROBLEMA: Record<FichaProblemaId, React.ReactNode> = {
+  web: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18" />
+    </>
+  ),
+  contenido: (
+    <>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.2" cy="6.8" r="1" />
+    </>
+  ),
+  campanas: <path d="M4 20V13M10 20V8M16 20v-5M22 20V4" />,
+  procesos: (
+    <>
+      <circle cx="12" cy="12" r="3.2" />
+      <path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.2 5.2l2.1 2.1M16.7 16.7l2.1 2.1M18.8 5.2l-2.1 2.1M7.3 16.7l-2.1 2.1" />
+    </>
+  ),
+  clientes: (
+    <>
+      <circle cx="9" cy="8" r="3" />
+      <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+      <circle cx="17.5" cy="9.5" r="2.4" />
+      <path d="M15.5 20c0-2.6 1.6-4.5 4-4.5 1.6 0 2.5.8 2.5.8" />
+    </>
+  ),
+};
 
+/**
+ * "Ahora" y "Con sistema": alterna solo cada 4,5 s hasta que el visitante
+ * pulsa un botón. Con movimiento reducido no alterna y se queda en
+ * "sistema", que es el estado que cuenta la historia completa.
+ */
+function useModoProblema() {
+  const [modo, setModo] = useState<ModoProblema>("ahora");
+  const [auto, setAuto] = useState(true);
+
+  useEffect(() => {
+    if (!auto) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setModo("sistema");
+      return;
+    }
+    const id = window.setInterval(
+      () => setModo((m) => (m === "ahora" ? "sistema" : "ahora")),
+      INTERVALO_PROBLEMA_MS,
+    );
+    return () => window.clearInterval(id);
+  }, [auto]);
+
+  const elegir = (m: ModoProblema) => {
+    setAuto(false);
+    setModo(m);
+  };
+
+  return [modo, elegir] as const;
+}
+
+/**
+ * Fondo beige y escena 3D (styles.css, .problema-*): desde 900px las
+ * fichas flotan desordenadas sobre un tablero inclinado y en "sistema" se
+ * alinean en fila; por debajo son una rejilla de dos columnas. Etiquetas
+ * y textos de estado en lib/problema.ts.
+ */
 function Problema() {
+  const [modo, elegir] = useModoProblema();
+  const estado = ESTADO_PROBLEMA[modo];
+
   return (
-    <section id="problema" className="seccion-clara seccion scroll-mt-6">
+    <section id="problema" className="seccion-problema seccion scroll-mt-6">
       <div className="contenedor">
-        <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-start min-[900px]:gap-14">
-          <div>
-            <p className="etiqueta">
-              <span className="etiqueta-num">01</span>El problema
-            </p>
-            <h2 className="mt-5 max-w-[15ch] text-h2 text-balance">
-              Tu empresa tiene valor. Su presencia digital no lo demuestra.
-            </h2>
-          </div>
-          <p className="max-w-[34em] text-lead text-navy/72">
-            Empresas con experiencia y una oferta sólida que, sin embargo, no generan confianza ni
-            oportunidades en el canal donde hoy decide el cliente.
+        {/* Texto un punto más oscuro que --gold-ink: sobre el dorado al 14%
+            el #7E640E se quedaba en 4,4:1; #6E580B da 5,3:1. */}
+        <span className="inline-flex items-center gap-2.5 rounded-full border border-gold/40 bg-gold/14 px-4 py-[9px] text-[11px] leading-none font-semibold tracking-[0.2em] text-[#6e580b] uppercase">
+          <i aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" />
+          01 · El problema
+        </span>
+
+        <div className="mt-6 grid gap-[18px] min-[960px]:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] min-[960px]:items-end min-[960px]:gap-14">
+          <h2 className="max-w-[16ch] text-[clamp(30px,4.2vw,58px)] leading-[1.08] tracking-[-0.03em] text-balance">
+            Tu empresa no necesita hacer más. Necesita que todo{" "}
+            <span className="text-gold-ink">trabaje conectado</span>
+          </h2>
+          <p className="max-w-[44ch] text-[clamp(15.5px,1.2vw,18px)] leading-[1.6] text-navy/72">
+            La web por un lado, las redes por otro, campañas que captan pero no convierten y
+            procesos manuales que se comen la semana. Cada pieza funciona a medias porque ninguna
+            sostiene a la siguiente.
           </p>
         </div>
 
-        <ul className="mt-[clamp(36px,4vw,54px)] grid gap-[18px] min-[860px]:grid-cols-3">
-          {PROBLEMAS.map((p) => (
-            <li
-              key={p.titulo}
-              className="rounded-card border border-navy/12 bg-paper p-[26px] shadow-[0_26px_48px_-40px_rgb(2_21_87/0.5)] transition-[border-color,translate] duration-200 hover:-translate-y-0.5 hover:border-gold/60 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+        <div
+          role="group"
+          aria-label="Comparar situación"
+          className="mt-[clamp(28px,3.4vw,42px)] inline-flex gap-1 rounded-full border border-navy/10 bg-navy/6 p-[5px]"
+        >
+          {MODOS_PROBLEMA.map((m) => (
+            <button
+              key={m.id}
+              type="button"
+              aria-pressed={modo === m.id}
+              onClick={() => elegir(m.id)}
+              className="cursor-pointer rounded-full px-[22px] py-[11px] text-[14px] leading-[1.2] font-medium text-navy/72 transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-gold-ink aria-pressed:bg-navy aria-pressed:font-semibold aria-pressed:text-cream aria-pressed:shadow-[0_10px_22px_-12px_rgb(2_21_87/0.8)] motion-reduce:transition-none"
             >
-              <span
-                aria-hidden
-                className="grid h-11 w-11 place-content-center rounded-[13px] bg-navy text-gold-light"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d={p.icono} />
-                </svg>
-              </span>
-              <h3 className="mt-5 text-h3 font-semibold text-balance">{p.titulo}</h3>
-              <p className="mt-2.5 text-[15px] leading-[1.65] text-navy/72">{p.texto}</p>
-            </li>
+              {m.label}
+            </button>
           ))}
-        </ul>
+        </div>
+
+        <div className="problema-escena mt-[clamp(22px,3vw,34px)]" data-modo={modo}>
+          <div className="problema-tablero">
+            <div aria-hidden className="problema-suelo" />
+            <div className="problema-fichas">
+              {FICHAS_PROBLEMA.map((f) => (
+                <article
+                  key={f.id}
+                  tabIndex={0}
+                  className="problema-ficha"
+                  style={
+                    {
+                      "--x": f.desorden.x,
+                      "--y": f.desorden.y,
+                      "--z": f.desorden.z,
+                      "--r": f.desorden.r,
+                      "--sx": f.fila,
+                    } as React.CSSProperties
+                  }
+                >
+                  <span aria-hidden className="problema-icono">
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={1.7}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      {ICONOS_PROBLEMA[f.id]}
+                    </svg>
+                  </span>
+                  <h3 className="mt-3 text-[16px] leading-[1.08] tracking-[-0.01em]">{f.titulo}</h3>
+                  <p className="problema-chip">
+                    <i aria-hidden />
+                    {f.estado[modo]}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-[clamp(20px,2.6vw,30px)] flex flex-wrap items-center justify-between gap-x-[18px] gap-y-2.5 border-t border-navy/10 pt-[18px] text-[14px] text-navy/72">
+          <span className="inline-flex items-center gap-[9px] text-[11px] leading-[1.3] font-semibold tracking-[0.16em] text-navy/68 uppercase">
+            <i
+              aria-hidden
+              className={cn(
+                "h-2 w-2 shrink-0 rounded-full transition-colors duration-500 motion-reduce:transition-none",
+                modo === "sistema" ? "bg-gold" : "bg-navy/45",
+              )}
+            />
+            {estado.etiqueta}
+          </span>
+          <span>{estado.texto}</span>
+        </div>
+
+        <div className="mt-[clamp(32px,4vw,52px)] grid gap-[18px] rounded-[22px] bg-navy p-[clamp(24px,3vw,38px)] text-cream shadow-[0_40px_70px_-50px_rgb(2_21_87/0.9)] min-[880px]:grid-cols-[minmax(0,1fr)_auto] min-[880px]:items-center min-[880px]:gap-[34px]">
+          <div>
+            <h3 className="max-w-[28ch] text-[clamp(19px,2.1vw,27px)] leading-[1.24] tracking-[-0.03em] text-balance">
+              Lo que multiplica no es hacer más, es conectar lo que ya tienes
+            </h3>
+            <p className="mt-[9px] max-w-[50ch] text-[15px] leading-[1.7] text-cream/72">
+              Por eso empezamos siempre por el diagnóstico: ver qué piezas existen, cuáles faltan y
+              en qué orden conectarlas.
+            </p>
+          </div>
+          <SectionLink id="sistema" className={goldCtaClasses("default", "justify-self-start")}>
+            Ver cómo lo conectamos
+            <ArrowRight
+              aria-hidden
+              strokeWidth={2.4}
+              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-[3px] motion-reduce:transition-none"
+            />
+          </SectionLink>
+        </div>
       </div>
     </section>
   );
