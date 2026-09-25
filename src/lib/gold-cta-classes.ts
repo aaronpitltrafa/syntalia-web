@@ -14,8 +14,8 @@ const shell: Record<GoldCtaSize, string> = {
 
 const base =
   "group inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-btn bg-gold leading-none font-semibold text-on-gold " +
-  "shadow-[0_14px_34px_-16px_rgb(212_175_55/0.85)] transition-[translate,box-shadow] duration-200 " +
-  "hover:-translate-y-px hover:shadow-[0_18px_40px_-16px_rgb(212_175_55/0.95)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 " +
+  "shadow-[0_14px_34px_-16px_rgb(221_174_69/0.85)] transition-[translate,box-shadow] duration-200 " +
+  "hover:-translate-y-px hover:shadow-[0_18px_40px_-16px_rgb(221_174_69/0.95)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 " +
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light";
 
 export function goldCtaClasses(size: GoldCtaSize = "default", className?: string) {

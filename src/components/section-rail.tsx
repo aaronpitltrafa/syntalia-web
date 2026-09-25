@@ -43,7 +43,7 @@ export function SectionRail() {
               className={cn(
                 "block h-[7px] w-[7px] shrink-0 rounded-full transition-all duration-250 motion-reduce:transition-none",
                 on
-                  ? "scale-125 bg-gold shadow-[0_0_0_4px_rgb(212_175_55/0.18)]"
+                  ? "scale-125 bg-gold shadow-[0_0_0_4px_rgb(221_174_69/0.18)]"
                   : "bg-cream/30 shadow-[0_0_0_1px_rgb(3_11_36/0.35)]",
               )}
             />

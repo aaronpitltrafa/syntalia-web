@@ -27,7 +27,7 @@ export function LegalPage({
           <p className="label-mono">Legal</p>
           <h1 className="mt-6 text-h2 text-balance">{title}</h1>
           {description && <p className="mt-5 max-w-2xl text-foreground/75">{description}</p>}
-          <p className="mt-5 text-sm text-foreground/60">Última actualización: {updated}</p>
+          <p className="mt-5 text-sm text-foreground/70">Última actualización: {updated}</p>
         </div>
       </section>
 
@@ -41,7 +41,7 @@ export function LegalPage({
                   <li key={s.id}>
                     <a
                       href={`#${s.id}`}
-                      className="block border-l-2 border-transparent py-1.5 pl-4 -ml-px text-foreground/60 transition-colors hover:border-gold hover:text-primary"
+                      className="block border-l-2 border-transparent py-1.5 pl-4 -ml-px text-foreground/70 transition-colors hover:border-gold hover:text-primary"
                     >
                       {s.title}
                     </a>

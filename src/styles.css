@@ -103,8 +103,8 @@
   --text-h2: clamp(28px, 3.6vw, 52px);
   --text-h2--line-height: 1.06;
   --text-h2--letter-spacing: -0.025em;
-  --text-hero: clamp(42px, 6.4vw, 104px);  /* SOLO el H1 del hero */
-  --text-hero--line-height: 0.98;
+  --text-hero: clamp(38px, 5.4vw, 86px);   /* SOLO el H1 del hero */
+  --text-hero--line-height: 1.02;
   --text-hero--letter-spacing: -0.035em;
 
   /* Dos anchos de contenido y ninguno mas. Ojo con el nombre: Tailwind
@@ -120,19 +120,19 @@
   --cream: oklch(0.9610 0.0124 91.52);    /* #F5F2E9 */
   --cream-2: oklch(0.9339 0.0166 91.56);  /* #EDE9DD, crema alterno */
   --paper: oklch(0.9942 0.0069 88.64);    /* #FFFDF8, blanco roto de tarjeta */
-  --gold: oklch(0.7665 0.1387 91.06);     /* #D4AF37 */
-  --gold-soft: oklch(0.86 0.08 86);
+  --gold: oklch(0.7748 0.1318 84.26);     /* #DDAE45 */
+  --gold-soft: oklch(0.86 0.08 84.26);    /* tinte claro del dorado */
   /* Richer, deeper gold for text sitting directly on the cream background
      — the light --gold reads fine on navy cards but loses contrast on cream. */
-  --gold-deep: oklch(0.56 0.135 78);
+  --gold-deep: oklch(0.56 0.135 84.26);
   /* Rediseno v2: capa oscura derivada del azul de marca. */
   --ink: oklch(0.1594 0.0544 264.05);   /* #030B24, fondo de la home */
   --ink-2: oklch(0.1895 0.0691 266.52); /* #061032, azul profundo del pie */
   --navy-soft: oklch(0.295 0.138 265);  /* #0A2170, superficie elevada */
-  --gold-light: oklch(0.8684 0.0962 91.26); /* #EBD289, texto dorado sobre oscuro (13:1 sobre ink) */
+  --gold-light: oklch(0.8439 0.1071 87.92); /* #E9C877, texto dorado sobre oscuro (12:1 sobre ink, 10,4:1 sobre navy) */
   --gold-ink: oklch(0.5149 0.1005 89.83);   /* #7E640E, texto dorado sobre crema (5:1) */
   --on-gold: oklch(0.2083 0.0348 89.05);    /* #1E1704, texto del boton dorado (8,5:1) */
-  --gold-grad: oklch(0.701 0.131 90);   /* #BF9A28, final del degradado */
+  --gold-grad: oklch(0.701 0.131 84.26); /* final del degradado */
   /* Dorado para TEXTO sobre la superficie actual. En claro es el dorado
      oscuro (#7E640E, 5.05:1 sobre crema); surface-navy lo repunta a
      --gold-light para su subarbol. */
@@ -330,7 +330,7 @@
     color: var(--foreground);
   }
   .btn-glass:hover {
-    border-color: oklch(0.745 0.135 82 / 60%);
+    border-color: color-mix(in oklab, var(--gold) 60%, transparent);
   }
 
   .bg-gradient-navy {
@@ -471,7 +471,9 @@
     border-radius: 2px;
     background: var(--gold);
     transform-origin: left;
-    animation: subrayado-v3 1s 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    /* duración, retraso y curva los pone <Subrayado> por palabra */
+    animation: subrayado-v3 var(--sub-dur, 1s) var(--sub-delay, 0.35s)
+      var(--sub-ease, cubic-bezier(0.2, 0.8, 0.2, 1)) both;
   }
   @keyframes subrayado-v3 {
     from { transform: scaleX(0); }

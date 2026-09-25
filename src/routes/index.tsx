@@ -10,14 +10,15 @@ import logoRevivalia from "@/assets/logos-clientes/revivalia.png";
 import logoTradyn from "@/assets/logos-clientes/tradyn-ai.png";
 import { Reveal } from "@/components/motion";
 import { FormularioCorto } from "@/components/formulario-corto";
-import { GoldCta } from "@/components/gold-cta";
 import { SectionLink } from "@/components/section-link";
 import { SectionRail } from "@/components/section-rail";
 import { Subrayado } from "@/components/subrayado";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { goldCtaClasses } from "@/lib/gold-cta-classes";
 import { DISCIPLINAS } from "@/lib/equipo";
 import { useHomeSectionObserver } from "@/lib/home-sections";
 import { SYSTEM_STAGES } from "@/lib/sistema";
-import { SITE_URL } from "@/lib/site";
+import { SITE_URL, WHATSAPP_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -100,7 +101,7 @@ function Pildora({ children }: { children: React.ReactNode }) {
     <span className="inline-flex items-center gap-[9px] rounded-full border border-cream/13 bg-cream/4 px-[17px] py-[9px] text-[11px] leading-none font-semibold tracking-[0.16em] text-cream/72 uppercase">
       <i
         aria-hidden
-        className="h-[7px] w-[7px] shrink-0 rounded-full bg-gold shadow-[0_0_0_4px_rgb(212_175_55/0.16)]"
+        className="h-[7px] w-[7px] shrink-0 rounded-full bg-gold shadow-[0_0_0_4px_rgb(221_174_69/0.16)]"
       />
       {children}
     </span>
@@ -154,36 +155,60 @@ function Hero() {
       </div>
 
       <div className="relative z-[2] pt-[clamp(120px,15vw,190px)] pb-[clamp(28px,3vw,44px)]">
-        <div className="contenedor">
+        <div className="contenedor text-center">
           <Pildora>Consultora estratégica de marketing digital</Pildora>
 
-          <h1 className="mt-6 max-w-[15ch] text-hero text-balance text-cream">
-            Construimos el <Subrayado>sistema digital</Subrayado> que hace crecer tu empresa
+          {/* 21ch: en escritorio cae en tres líneas, "Construimos el sistema /
+              digital que hace crecer / tu empresa". Sin text-balance, que
+              reparte las líneas de otra manera, y con "tu empresa" unido por un
+              espacio duro para que "empresa" no se quede sola en la última. */}
+          <h1 className="mx-auto mt-6 max-w-[21ch] text-hero text-cream">
+            Construimos el <Subrayado>sistema digital</Subrayado> que hace crecer tu{" "}
+            empresa
           </h1>
 
-          <p className="mt-6 max-w-[46ch] text-lead text-cream/72">
+          <p className="mx-auto mt-6 max-w-[64ch] text-lead text-cream/72">
             No hacemos acciones aisladas. Analizamos qué necesita tu empresa y montamos un
             ecosistema donde estrategia, marca, captación, tecnología y automatización trabajan
             juntas.
           </p>
 
-          <div className="mt-[34px] flex flex-wrap items-center gap-[13px]">
-            <GoldCta to="/diagnostico">Solicitar diagnóstico</GoldCta>
-            <SectionLink
-              id="caso"
-              className="group inline-flex items-center gap-3 rounded-full pr-2 text-[14px] text-cream/72 transition-colors hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
-            >
-              <span
+          {/* Dos botones del mismo alto (52px). En móvil, apilados a todo el ancho. */}
+          <div className="mt-[34px] flex flex-col gap-[13px] sm:flex-row sm:justify-center">
+            <SectionLink id="contacto" className={goldCtaClasses("default", "h-[52px] py-0")}>
+              Solicitar diagnóstico
+              <ArrowRight
                 aria-hidden
-                className="grid h-[46px] w-[46px] place-content-center rounded-full border border-cream/28 bg-cream/9 backdrop-blur-[6px] transition-colors group-hover:border-gold group-hover:bg-gold/20"
-              >
-                <Play className="h-4 w-4 fill-cream text-cream" strokeWidth={0} />
-              </span>
-              Ver el caso Frulonsa
+                strokeWidth={2.4}
+                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-[3px] motion-reduce:transition-none"
+              />
             </SectionLink>
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-[52px] items-center justify-center gap-[11px] rounded-btn border border-cream/13 bg-cream/7 px-6 text-[15px] leading-none font-semibold whitespace-nowrap text-cream transition-colors duration-200 hover:border-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light motion-reduce:transition-none"
+            >
+              <WhatsAppIcon className="h-[18px] w-[18px] shrink-0" />
+              Escríbenos por WhatsApp
+              <span className="sr-only"> (se abre en una pestaña nueva)</span>
+            </a>
           </div>
 
-          <Garantias items={GARANTIAS} className="mt-[26px]" />
+          <SectionLink
+            id="caso"
+            className="group mt-6 inline-flex items-center gap-2.5 rounded-full pr-2 text-[14px] text-cream/72 transition-colors hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+          >
+            <span
+              aria-hidden
+              className="grid h-[38px] w-[38px] place-content-center rounded-full border border-cream/28 bg-cream/9 backdrop-blur-[6px] transition-colors group-hover:border-gold group-hover:bg-gold/20"
+            >
+              <Play className="h-3.5 w-3.5 fill-cream text-cream" strokeWidth={0} />
+            </span>
+            Ver el caso Frulonsa
+          </SectionLink>
+
+          <Garantias items={GARANTIAS} className="mt-[22px] justify-center" />
         </div>
       </div>
 

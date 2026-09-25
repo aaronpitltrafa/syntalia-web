@@ -1,10 +1,9 @@
 import { useRouterState } from "@tanstack/react-router";
-import { MessageCircle } from "lucide-react";
 import { GoldCta } from "@/components/gold-cta";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { useActiveSection } from "@/lib/home-sections";
+import { WHATSAPP_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
-
-const WHATSAPP = "https://wa.me/34672167758";
 
 /**
  * Barra fija de conversión, solo por debajo de md. No se monta en
@@ -37,13 +36,13 @@ export function MobileCtaBar() {
         </GoldCta>
 
         <a
-          href={WHATSAPP}
+          href={WHATSAPP_URL}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Escribir por WhatsApp"
           className="grid h-12 w-12 shrink-0 place-content-center rounded-full border border-cream/13 bg-cream/7 text-cream transition-colors hover:border-gold/55 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
         >
-          <MessageCircle className="h-5 w-5" />
+          <WhatsAppIcon className="h-5 w-5" />
         </a>
       </div>
     </div>

@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { HeroReunionBackground } from "@/components/HeroReunionBackground";
 
-const ACCENT = "#d4af37";
+const ACCENT = "#ddae45";
 
 export default function SyntaliaMotionHero() {
   return (

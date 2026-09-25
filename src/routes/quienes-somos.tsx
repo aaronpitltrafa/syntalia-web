@@ -183,7 +183,7 @@ function QuienesSomos() {
               <div key={v.t} className="flex min-w-0 flex-1 flex-col items-start gap-3 py-8 md:items-center md:px-4 md:py-2 md:text-center lg:px-8">
                 <v.icon className="h-6 w-6 text-gold" strokeWidth={1.5} aria-hidden />
                 <h3 className="font-raleway text-base font-bold text-foreground">{v.t}</h3>
-                <p className="font-sans text-sm leading-relaxed text-foreground/60">{v.d}</p>
+                <p className="font-sans text-sm leading-relaxed text-foreground/70">{v.d}</p>
               </div>
             ))}
           </div>

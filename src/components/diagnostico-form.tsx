@@ -311,7 +311,7 @@ export function DiagnosticoForm() {
         <button
           type="submit"
           disabled={status === "sending"}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-7 py-4 text-sm font-bold uppercase tracking-wide text-navy transition-all hover:-translate-y-0.5 hover:shadow-[0_20px_50px_-10px_oklch(0.745_0.135_82/0.55)] disabled:opacity-70"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-7 py-4 text-sm font-bold uppercase tracking-wide text-navy transition-all hover:-translate-y-0.5 hover:shadow-[0_20px_50px_-10px_rgb(221_174_69/0.55)] disabled:opacity-70"
         >
           {status === "sending" ? (
             <>
