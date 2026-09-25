@@ -114,29 +114,11 @@
   .hero-trust{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:26px;justify-content:center;font:400 13px/1.5 var(--body);color:var(--t3)}
   .hero-trust span{display:flex;align-items:center;gap:8px}
   .hero-trust span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold)}
-  .wa-link{display:inline-flex;align-items:center;gap:9px;margin-top:20px;font-size:14.5px;color:var(--t2);
-           border-bottom:1px solid rgba(245,242,233,.25);padding-bottom:3px;transition:color .2s,border-color .2s}
-  .wa-link:hover{color:var(--t1);border-color:var(--gold)}
   .play{display:inline-flex;align-items:center;gap:12px;color:var(--t2);font-size:14px}
   .play i{width:46px;height:46px;border-radius:50%;background:rgba(245,242,233,.09);border:1px solid rgba(245,242,233,.28);
           display:grid;place-content:center;backdrop-filter:blur(6px);transition:background .2s,border-color .2s}
   .play:hover i{background:rgba(221,174,69,.2);border-color:var(--gold)}
 
-  /* banda de cifras pegada al borde inferior del hero */
-  .stats-band{position:relative;z-index:2;border-top:1px solid var(--line-d);background:rgba(3,11,36,.5);
-              backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-  .stats-band .in{display:grid;grid-template-columns:repeat(2,1fr)}
-  @media(min-width:860px){.stats-band .in{grid-template-columns:repeat(4,1fr)}}
-  .stats-band .in > div{padding:20px 22px;border-left:1px solid var(--line-d)}
-  .stats-band .in > div:first-child{border-left:0}
-  @media(max-width:859px){.stats-band .in > div:nth-child(2n+1){border-left:0}
-    .stats-band .in > div:nth-child(n+3){border-top:1px solid var(--line-d)}}
-  .stats-band .k{font:400 11px/1.3 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--t3)}
-  .stats-band .v{font-family:var(--disp);font-weight:700;font-size:clamp(26px,2.9vw,38px);line-height:1;letter-spacing:-.035em;
-                 margin-top:9px;font-variant-numeric:tabular-nums}
-  .stats-band .v small{font-size:.5em;margin-left:.05em;color:var(--gold-l)}
-  .stats-band .src{padding:12px 22px 16px;border-top:1px solid var(--line-d);font-size:12.5px;color:var(--t3);
-                   display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
   .src{font-size:12.5px;color:var(--t3)}
 
   /* ---------- logos ---------- */
@@ -145,8 +127,7 @@
   .marquee{position:relative;
     mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
-  .track{display:flex;width:max-content;align-items:center;gap:clamp(56px,7vw,110px);animation:slide 34s linear infinite}
-  .marquee:hover .track{animation-play-state:paused}
+  .track{display:flex;width:max-content;align-items:center;gap:clamp(56px,7vw,110px);animation:slide 26s linear infinite}
   @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   @media(prefers-reduced-motion:reduce){.track{animation:none;flex-wrap:wrap;justify-content:center;width:100%}}
   .logos-in{gap:26px 48px}
@@ -311,19 +292,10 @@
       <a class="btn" href="#contacto">Solicitar diagnóstico <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1E1704" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a class="btn sec" href="#sistema">Ver cómo trabajamos</a>
     </div>
-    <a class="wa-link" href="https://wa.me/34672167758" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="#E9C877" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 004.79 1.22c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.04c-.24.68-1.4 1.3-1.93 1.35-.53.05-1.02.24-3.44-.72-2.9-1.15-4.74-4.12-4.88-4.31-.14-.19-1.16-1.55-1.16-2.96s.73-2.1.99-2.38c.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.42-.07.65.5.24.58.82 2 .89 2.15.07.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.37-.43.5-.14.14-.29.29-.12.57.17.29.75 1.24 1.62 2.01 1.11.99 2.05 1.3 2.34 1.44.29.14.46.12.63-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.65-.14.26.1 1.67.79 1.96.93.29.14.48.22.55.34.07.12.07.69-.17 1.37z"/></svg>Escríbenos por WhatsApp</a>
     <div class="hero-trust"><span>Sin compromiso</span><span>Respuesta en 24 h</span><span>Plan estratégico gratuito</span></div>
   </div></div>
 
-  <div class="stats-band"><div class="wrap">
-    <div class="in">
-      <div><p class="k">Reproducciones</p><p class="v">5,6<small>M</small></p></div>
-      <div><p class="k">Usuarios únicos</p><p class="v">1,4<small>M</small></p></div>
-      <div><p class="k">Interacciones</p><p class="v">157<small>K</small></p></div>
-      <div><p class="k">Nuevos seguidores</p><p class="v">+7.301</p></div>
-    </div>
-    <p class="src">Caso Frulonsa · 90 días · datos de las analíticas de sus canales</p>
-  </div></div>
+
 </section>
 
 <div class="logos"><div class="wrap">
@@ -503,7 +475,7 @@
 </div></div></footer>
 </main>
 
-<a class="wa" href="#contacto" aria-label="Escribir por WhatsApp">
+<a class="wa" href="https://wa.me/34672167758" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp (se abre en una pestaña nueva)">
   <svg width="26" height="26" viewBox="0 0 24 24" fill="#021557"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 004.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0012.04 2zm5.8 14.04c-.24.68-1.4 1.3-1.93 1.35-.53.05-1.02.24-3.44-.72-2.9-1.15-4.74-4.12-4.88-4.31-.14-.19-1.16-1.55-1.16-2.96s.73-2.1.99-2.38c.26-.29.57-.36.76-.36.19 0 .38 0 .55.01.18.01.42-.07.65.5.24.58.82 2 .89 2.15.07.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.37-.43.5-.14.14-.29.29-.12.57.17.29.75 1.24 1.62 2.01 1.11.99 2.05 1.3 2.34 1.44.29.14.46.12.63-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.65-.14.26.1 1.67.79 1.96.93.29.14.48.22.55.34.07.12.07.69-.17 1.37z"/></svg>
 </a>
 

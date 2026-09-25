@@ -69,8 +69,10 @@ function Columna({ titulo, children }: { titulo: string; children: React.ReactNo
 export function SiteFooter() {
   return (
     <footer className="relative border-t border-cream/13 bg-ink-2 text-cream">
-      {/* el padding inferior extra en móvil deja hueco a la barra fija de CTA */}
-      <div className="contenedor pt-[clamp(48px,6vw,72px)] pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-10">
+      {/* padding inferior: en móvil deja hueco a la barra fija (69px) y al
+          WhatsApp flotante que va encima (54px + márgenes); en escritorio,
+          al flotante solo. Así lo último del pie nunca queda debajo. */}
+      <div className="contenedor pt-[clamp(48px,6vw,72px)] pb-[calc(150px+env(safe-area-inset-bottom))] md:pb-[88px]">
         {/* fila 1 · marca, redes y botón */}
         <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-6">
           <div>

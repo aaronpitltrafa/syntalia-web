@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import logoAlmaValdes from "@/assets/logos-clientes/alma-valdes.png";
 import logoBruma from "@/assets/logos-clientes/bruma-tropical.png";
 import logoCnc from "@/assets/logos-clientes/cnc.png";
@@ -13,12 +13,11 @@ import { FormularioCorto } from "@/components/formulario-corto";
 import { SectionLink } from "@/components/section-link";
 import { SectionRail } from "@/components/section-rail";
 import { Subrayado } from "@/components/subrayado";
-import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { goldCtaClasses } from "@/lib/gold-cta-classes";
 import { DISCIPLINAS } from "@/lib/equipo";
 import { useHomeSectionObserver } from "@/lib/home-sections";
 import { SYSTEM_STAGES } from "@/lib/sistema";
-import { SITE_URL, WHATSAPP_URL } from "@/lib/site";
+import { SITE_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -82,16 +81,6 @@ const FANTASMA =
 /* ------------------------------------------------------------------ */
 /* 1 · HERO                                                             */
 /* ------------------------------------------------------------------ */
-
-/** Cifras del caso Frulonsa en 90 días. La unidad se pinta aparte, más pequeña y en dorado. */
-const CIFRAS_FRULONSA = [
-  { label: "Reproducciones", value: "5,6", unit: "M" },
-  { label: "Usuarios únicos", value: "1,4", unit: "M" },
-  { label: "Interacciones", value: "157", unit: "K" },
-  { label: "Nuevos seguidores", value: "+7.301" },
-] as const;
-
-const FUENTE_CIFRAS = "Caso Frulonsa · 90 días · datos de las analíticas de sus canales";
 
 const GARANTIAS = ["Sin compromiso", "Respuesta en 24 h", "Plan estratégico gratuito"] as const;
 
@@ -163,8 +152,7 @@ function Hero() {
               reparte las líneas de otra manera, y con "tu empresa" unido por un
               espacio duro para que "empresa" no se quede sola en la última. */}
           <h1 className="mx-auto mt-6 max-w-[21ch] text-hero text-cream">
-            Construimos el <Subrayado>sistema digital</Subrayado> que hace crecer tu{" "}
-            empresa
+            Construimos el <Subrayado>sistema digital</Subrayado> que hace crecer tu&nbsp;empresa
           </h1>
 
           <p className="mx-auto mt-6 max-w-[64ch] text-lead text-cream/72">
@@ -183,64 +171,15 @@ function Hero() {
                 className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-[3px] motion-reduce:transition-none"
               />
             </SectionLink>
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-[52px] items-center justify-center gap-[11px] rounded-btn border border-cream/13 bg-cream/7 px-6 text-[15px] leading-none font-semibold whitespace-nowrap text-cream transition-colors duration-200 hover:border-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light motion-reduce:transition-none"
+            <SectionLink
+              id="sistema"
+              className="inline-flex h-[52px] items-center justify-center rounded-btn border border-cream/13 bg-cream/7 px-6 text-[15px] leading-none font-semibold whitespace-nowrap text-cream transition-colors duration-200 hover:border-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light motion-reduce:transition-none"
             >
-              <WhatsAppIcon className="h-[18px] w-[18px] shrink-0" />
-              Escríbenos por WhatsApp
-              <span className="sr-only"> (se abre en una pestaña nueva)</span>
-            </a>
+              Ver cómo trabajamos
+            </SectionLink>
           </div>
 
-          <SectionLink
-            id="caso"
-            className="group mt-6 inline-flex items-center gap-2.5 rounded-full pr-2 text-[14px] text-cream/72 transition-colors hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
-          >
-            <span
-              aria-hidden
-              className="grid h-[38px] w-[38px] place-content-center rounded-full border border-cream/28 bg-cream/9 backdrop-blur-[6px] transition-colors group-hover:border-gold group-hover:bg-gold/20"
-            >
-              <Play className="h-3.5 w-3.5 fill-cream text-cream" strokeWidth={0} />
-            </span>
-            Ver el caso Frulonsa
-          </SectionLink>
-
-          <Garantias items={GARANTIAS} className="mt-[22px] justify-center" />
-        </div>
-      </div>
-
-      {/* Banda de cifras sobre cristal, pegada al borde inferior */}
-      <div className="relative z-[2] border-t border-cream/13 bg-[rgb(3_11_36/0.5)] backdrop-blur-[10px]">
-        <div className="contenedor">
-          <dl className="grid grid-cols-2 min-[860px]:grid-cols-4">
-            {CIFRAS_FRULONSA.map((c, i) => (
-              <div
-                key={c.label}
-                className={cn(
-                  "px-[22px] py-5",
-                  i % 2 === 1 && "border-l border-cream/13",
-                  i >= 2 && "border-t border-cream/13 min-[860px]:border-t-0",
-                  i === 2 && "min-[860px]:border-l",
-                )}
-              >
-                <dt className="text-[11px] leading-[1.3] font-normal tracking-[0.14em] text-cream/62 uppercase">
-                  {c.label}
-                </dt>
-                <dd className="mt-[9px] font-display text-[clamp(26px,2.9vw,38px)] leading-none font-bold tracking-[-0.035em] text-cream [font-variant-numeric:lining-nums_tabular-nums]">
-                  {c.value}
-                  {"unit" in c && (
-                    <small className="ml-[0.05em] text-[0.5em] text-gold-light">{c.unit}</small>
-                  )}
-                </dd>
-              </div>
-            ))}
-          </dl>
-          <p className="border-t border-cream/13 px-[22px] pt-3 pb-4 text-[12.5px] leading-[1.5] text-cream/62">
-            {FUENTE_CIFRAS}
-          </p>
+          <Garantias items={GARANTIAS} className="mt-[26px] justify-center" />
         </div>
       </div>
     </section>

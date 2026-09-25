@@ -14,6 +14,8 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ParallaxBackground } from "@/components/parallax-background";
 import { MobileCtaBar } from "@/components/mobile-cta-bar";
+import { WhatsAppFlotante } from "@/components/whatsapp-flotante";
+import { SIN_BARRA_CTA } from "@/lib/barra-cta";
 import { SITE_URL } from "@/lib/site";
 
 function NotFoundComponent() {
@@ -187,9 +189,6 @@ function RootShell({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** Paginas que ya tienen formulario propio: alli la barra estorba. */
-const SIN_BARRA_CTA = ["/diagnostico", "/contacto"];
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -206,6 +205,7 @@ function RootComponent() {
         <SiteFooter />
       </div>
       {conBarra && <MobileCtaBar />}
+      <WhatsAppFlotante />
     </QueryClientProvider>
   );
 }

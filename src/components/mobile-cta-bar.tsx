@@ -1,25 +1,15 @@
-import { useRouterState } from "@tanstack/react-router";
 import { GoldCta } from "@/components/gold-cta";
-import { WhatsAppIcon } from "@/components/whatsapp-icon";
-import { useActiveSection } from "@/lib/home-sections";
-import { WHATSAPP_URL } from "@/lib/site";
+import { useBarraCtaVisible } from "@/lib/barra-cta";
 import { cn } from "@/lib/utils";
 
 /**
  * Barra fija de conversión, solo por debajo de md. No se monta en
- * /diagnostico ni en /contacto: esas páginas ya tienen su formulario
- * y la barra taparía parte de él.
- *
- * En la home no sale mientras se ve el hero (ya tiene su botón y la barra
- * taparía la banda de cifras) ni en el cierre, que lleva su propio
- * formulario: ahí taparía los campos y mandaría a otra página a mitad de
- * rellenarlo. El hueco del final de página lo reserva el footer.
+ * /diagnostico ni en /contacto (ver lib/barra-cta.ts), y en la home se
+ * esconde sobre el hero y el cierre. WhatsApp ya no va aquí: lo lleva el
+ * botón flotante, que se coloca justo encima de esta barra.
  */
 export function MobileCtaBar() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const active = useActiveSection();
-  const oculta =
-    pathname === "/" && (active === null || active === "hero" || active === "contacto");
+  const oculta = !useBarraCtaVisible();
 
   return (
     <div
@@ -30,20 +20,10 @@ export function MobileCtaBar() {
         oculta ? "translate-y-full" : "translate-y-0",
       )}
     >
-      <div className="flex items-center gap-2.5 px-4 py-2.5">
-        <GoldCta to="/diagnostico" className="h-12 flex-1 justify-between py-0">
+      <div className="px-4 py-2.5">
+        <GoldCta to="/diagnostico" className="h-12 w-full justify-between py-0">
           Solicitar diagnóstico
         </GoldCta>
-
-        <a
-          href={WHATSAPP_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Escribir por WhatsApp"
-          className="grid h-12 w-12 shrink-0 place-content-center rounded-full border border-cream/13 bg-cream/7 text-cream transition-colors hover:border-gold/55 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
-        >
-          <WhatsAppIcon className="h-5 w-5" />
-        </a>
       </div>
     </div>
   );
