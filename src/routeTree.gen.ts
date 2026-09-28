@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as QuienesSomosRouteImport } from './routes/quienes-somos'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as DiagnosticoRouteImport } from './routes/diagnostico'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContactoRouteImport } from './routes/contacto'
@@ -42,6 +43,11 @@ const QuienesSomosRoute = QuienesSomosRouteImport.update({
 const PrivacidadRoute = PrivacidadRouteImport.update({
   id: '/privacidad',
   path: '/privacidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DiagnosticoRoute = DiagnosticoRouteImport.update({
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/privacidad': typeof PrivacidadRoute
   '/quienes-somos': typeof QuienesSomosRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -154,6 +161,7 @@ export interface FileRoutesByTo {
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/privacidad': typeof PrivacidadRoute
   '/quienes-somos': typeof QuienesSomosRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -176,6 +184,7 @@ export interface FileRoutesById {
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/diagnostico': typeof DiagnosticoRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/privacidad': typeof PrivacidadRoute
   '/quienes-somos': typeof QuienesSomosRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/cookies'
     | '/diagnostico'
+    | '/llms.txt'
     | '/privacidad'
     | '/quienes-somos'
     | '/sitemap.xml'
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/cookies'
     | '/diagnostico'
+    | '/llms.txt'
     | '/privacidad'
     | '/quienes-somos'
     | '/sitemap.xml'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/cookies'
     | '/diagnostico'
+    | '/llms.txt'
     | '/privacidad'
     | '/quienes-somos'
     | '/sitemap.xml'
@@ -263,6 +275,7 @@ export interface RootRouteChildren {
   ContactoRoute: typeof ContactoRoute
   CookiesRoute: typeof CookiesRoute
   DiagnosticoRoute: typeof DiagnosticoRoute
+  LlmsDottxtRoute: typeof LlmsDottxtRoute
   PrivacidadRoute: typeof PrivacidadRoute
   QuienesSomosRoute: typeof QuienesSomosRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -300,6 +313,13 @@ declare module '@tanstack/react-router' {
       path: '/privacidad'
       fullPath: '/privacidad'
       preLoaderRoute: typeof PrivacidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/diagnostico': {
@@ -423,6 +443,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactoRoute: ContactoRoute,
   CookiesRoute: CookiesRoute,
   DiagnosticoRoute: DiagnosticoRoute,
+  LlmsDottxtRoute: LlmsDottxtRoute,
   PrivacidadRoute: PrivacidadRoute,
   QuienesSomosRoute: QuienesSomosRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

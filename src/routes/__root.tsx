@@ -16,7 +16,10 @@ import { ParallaxBackground } from "@/components/parallax-background";
 import { MobileCtaBar } from "@/components/mobile-cta-bar";
 import { WhatsAppFlotante } from "@/components/whatsapp-flotante";
 import { SIN_BARRA_CTA } from "@/lib/barra-cta";
+import { legalData } from "@/lib/legal-data";
 import { ORG_ID, ORG_LOGO_URL, SITE_URL } from "@/lib/site";
+
+const { direccion } = legalData;
 
 function NotFoundComponent() {
   return (
@@ -114,8 +117,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         // La organización, una sola vez y con @id: /contacto y las páginas
         // de servicio la referencian en vez de redeclararla. Solo datos
-        // publicados en la web: ni precios, ni horarios, ni calle. La
-        // ubicación es la pública (Murcia, España).
+        // publicados en la web: ni precios ni horarios. La dirección sale de
+        // lib/legal-data.ts. Sin "geo": ni CartoCiudad ni el Catastro tienen
+        // ese portal, y unas coordenadas aproximadas serían inventadas.
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
@@ -130,8 +134,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           telephone: "+34-672-167-758",
           address: {
             "@type": "PostalAddress",
-            addressLocality: "Murcia",
-            addressCountry: "ES",
+            streetAddress: `${direccion.calle}, ${direccion.barrio}`,
+            addressLocality: direccion.localidad,
+            addressRegion: direccion.provincia,
+            postalCode: direccion.codigoPostal,
+            addressCountry: direccion.codigoPais,
           },
           areaServed: [
             { "@type": "City", name: "Murcia" },

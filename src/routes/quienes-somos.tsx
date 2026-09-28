@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Reveal } from "@/components/motion";
 import { Subrayado } from "@/components/subrayado";
+import { legalData } from "@/lib/legal-data";
 import { SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/quienes-somos")({
@@ -117,7 +118,7 @@ function QuienesSomos() {
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy/70 via-navy/5 to-transparent" aria-hidden />
                 <div className="absolute bottom-5 left-5 inline-flex items-center gap-2 rounded-full bg-navy/70 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.25em] text-cream backdrop-blur-sm">
                   <MapPin className="h-3.5 w-3.5 text-gold" aria-hidden />
-                  Murcia · España
+                  {legalData.ubicacion}
                 </div>
               </div>
             </Reveal>

@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
 import { Subrayado } from "@/components/subrayado";
+import { legalData } from "@/lib/legal-data";
 import { SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/contacto")({
@@ -14,7 +15,10 @@ export const Route = createFileRoute("/contacto")({
       { property: "og:url", content: `${SITE_URL}/contacto` },
       { property: "og:type", content: "website" },
       { name: "twitter:title", content: "Contacto — Syntalia Vértice" },
-      { name: "twitter:description", content: "Habla con nuestro equipo. Atención presencial y online en Murcia, España." },
+      {
+        name: "twitter:description",
+        content: `Habla con nuestro equipo. Atención presencial y online en ${legalData.ubicacion}.`,
+      },
     ],
     links: [{ rel: "canonical", href: `${SITE_URL}/contacto` }],
     // Sin datos estructurados propios: la organización ya la declara
@@ -47,7 +51,9 @@ const CONTACT_ITEMS = [
     label: "Dirección",
     content: (
       <>
-        <p className="mt-1 text-lg font-semibold text-primary">Murcia, España</p>
+        <address className="mt-1 text-lg font-semibold text-primary not-italic">
+          {legalData.domicilioSocial}
+        </address>
         <p className="text-foreground/70">Atención presencial y online</p>
       </>
     ),

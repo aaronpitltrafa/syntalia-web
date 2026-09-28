@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Instagram, type LucideProps } from "lucide-react";
 import logoHorizontal from "@/assets/logo-horizontal.png";
 import { GoldCta } from "@/components/gold-cta";
+import { legalData } from "@/lib/legal-data";
 
 /** lucide-react ships no TikTok glyph; this mirrors its icon conventions. */
 function TikTokIcon(props: LucideProps) {
@@ -90,7 +91,7 @@ export function SiteFooter() {
               />
             </Link>
             <p className="mt-3 text-[13.5px] text-cream/62">
-              Consultora estratégica de marketing digital · Murcia
+              Consultora estratégica de marketing digital · {legalData.ubicacion}
             </p>
           </div>
 
@@ -166,6 +167,11 @@ export function SiteFooter() {
               <a href="tel:+34672167758" className={enlace}>
                 +34 672 167 758
               </a>
+            </li>
+            <li>
+              <address className="text-[14.5px] leading-[1.5] text-cream/72 not-italic">
+                {legalData.domicilioSocial}
+              </address>
             </li>
           </Columna>
         </div>
