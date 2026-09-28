@@ -14,6 +14,10 @@ export const Route = createFileRoute("/servicios/grabacion-contenido")({
     <ServicePage
       eyebrow="Servicio"
       title="Grabación de Contenido"
+      /* Con Raleway parte en "Grabación de / Contenido" (6,1 em la primera);
+         con la de respaldo cabía entero en la caja de 11 em. A 8,6 em parte
+         igual con las dos y no cambia de líneas al cargar la fuente. */
+      titleClassName="max-w-[calc(14*var(--ch-raleway))]"
       intro="Producimos y editamos vídeos profesionales adaptados a cada formato y red social, para que tu marca comunique con impacto y aproveche al máximo el potencial del contenido audiovisual."
       whyTitle="¿Tu marca está aprovechando el poder del vídeo?"
       whyContent={

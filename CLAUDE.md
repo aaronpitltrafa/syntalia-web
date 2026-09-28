@@ -9,6 +9,7 @@ Reglas obligatorias:
 - Antes de hacer cambios grandes, explica qué archivos vas a tocar.
 - Esta carpeta es una landing independiente orientada a conversión.
 - Prioriza claridad, captación de leads, CTA visible, formulario y estructura comercial simple.
+- Todo titular nuevo o rehecho se comprueba con la fuente real (Raleway/Poppins) Y con la de respaldo (bloqueando los .woff2) antes de darlo por bueno: mismo número de líneas con las dos en todo el rango de 320 a 1920 px. Si cambia, el titular salta al cargar la fuente (CLS).
 
 Comandos habituales:
 - npm install
