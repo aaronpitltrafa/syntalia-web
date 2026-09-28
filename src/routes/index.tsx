@@ -436,8 +436,8 @@ const RESUMEN_ETAPA: Record<string, string> = {
 };
 
 /**
- * Bloque azul de marca a sangre, con un degradado radial más claro arriba
- * (#0A1E62) que se funde en navy e ink (styles.css, .seccion-sistema).
+ * Bloque azul de marca a sangre, con el fondo del hero (.seccion-azul en
+ * styles.css).
  * Las etapas son un recorrido (styles.css, .sistema-*): un rail dorado del
  * que cuelga cada etapa por una bajante cada vez más corta, y en cada
  * ficha sus entregables (`includes` de lib/sistema.ts).
@@ -446,7 +446,7 @@ function Sistema() {
   const { ref, fase } = useEntradaSistema();
 
   return (
-    <section id="sistema" className="seccion-sistema seccion scroll-mt-6">
+    <section id="sistema" className="seccion-azul seccion scroll-mt-6">
       <div className="contenedor">
         <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-start min-[900px]:gap-14">
           <div>
