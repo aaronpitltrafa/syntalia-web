@@ -121,9 +121,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           description: "Consultora estratégica de marketing digital, sistemas y tecnología para empresas con ambición real.",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "Avenida de la Libertad 301",
             addressLocality: "Murcia",
-            postalCode: "30710",
             addressCountry: "ES",
           },
           contactPoint: {
@@ -146,8 +144,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         }),
       },
       {
-        // SEO local. Mismos datos que el bloque Organization: ni precios ni
-        // horarios, que no los tenemos.
+        // SEO local. Mismos datos que el bloque Organization: ni precios, ni
+        // horarios, ni calle, que no son datos publicados. La ubicación es la
+        // pública de la web (Murcia, España).
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
@@ -159,16 +158,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           telephone: "+34-672-167-758",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "Avenida de la Libertad 301",
             addressLocality: "Murcia",
-            postalCode: "30710",
             addressCountry: "ES",
           },
           areaServed: [
             { "@type": "City", name: "Murcia" },
             { "@type": "Country", name: "España" },
           ],
-          availableLanguage: ["Spanish"],
         }),
       },
     ],

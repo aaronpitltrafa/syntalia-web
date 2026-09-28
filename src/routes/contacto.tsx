@@ -22,7 +22,7 @@ export const Route = createFileRoute("/contacto")({
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "LocalBusiness",
+          "@type": "ProfessionalService",
           name: "Syntalia Vértice",
           url: SITE_URL,
           telephone: "+34-672-167-758",
@@ -33,7 +33,6 @@ export const Route = createFileRoute("/contacto")({
             addressCountry: "ES",
           },
           areaServed: "ES",
-          priceRange: "$$",
         }),
       },
     ],
