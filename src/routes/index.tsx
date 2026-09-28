@@ -149,15 +149,16 @@ function Hero() {
         <div className="contenedor text-center">
           <Pildora>Consultora estratégica de marketing digital</Pildora>
 
-          {/* Tres líneas fijas desde 760px ("Construimos el / sistema digital
-              que / hace crecer tu empresa"): cada .ln pasa a bloque. Por
-              debajo son inline y el texto fluye solo. */}
+          {/* Tres líneas fijas en todos los anchos ("Construimos el / sistema
+              digital que / hace crecer tu empresa"): cada una es un bloque, y
+              el tamaño (--text-hero) se ajusta para que la más larga quepa
+              con las dos fuentes, así no cambia de líneas al llegar Raleway. */}
           <h1 className="mx-auto mt-6 max-w-[calc(22*var(--ch-raleway))] text-hero text-cream [text-shadow:0_2px_26px_rgba(1,6,20,.55)]">
-            <span className="inline min-[760px]:block">Construimos el </span>
-            <span className="inline min-[760px]:block">
-              <Subrayado>sistema digital</Subrayado> que{" "}
+            <span className="block">Construimos el</span>
+            <span className="block">
+              <Subrayado>sistema digital</Subrayado> que
             </span>
-            <span className="inline min-[760px]:block">hace crecer tu&nbsp;empresa</span>
+            <span className="block">hace crecer tu&nbsp;empresa</span>
           </h1>
 
           <p className="mx-auto mt-6 max-w-[58ch] text-lead text-cream/72 [text-shadow:0_1px_16px_rgba(1,6,20,.5)]">

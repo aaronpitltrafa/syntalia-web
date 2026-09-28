@@ -104,7 +104,12 @@
   --text-h2: clamp(28px, 3.6vw, 52px);
   --text-h2--line-height: 1.06;
   --text-h2--letter-spacing: -0.025em;
-  --text-hero: clamp(38px, 5.4vw, 86px);   /* SOLO el H1 del hero */
+  /* SOLO el H1 del hero, siempre en tres líneas fijas. La más larga,
+     "hace crecer tu empresa", mide 10,57em con Raleway (10,38em con la de
+     respaldo): por debajo de 455 px el tamaño va proporcional a la caja
+     (ancho - 32 px de márgenes) para que quepa con un 5 % de aire con las
+     dos fuentes; desde ahí, el de siempre (38 px, 5,4vw, 86 px). */
+  --text-hero: clamp(24px, calc(0.0899 * (100vw - 32px)), clamp(38px, 5.4vw, 86px));
   --text-hero--line-height: 1.06;
   --text-hero--letter-spacing: -0.035em;
 

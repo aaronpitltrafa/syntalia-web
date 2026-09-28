@@ -113,7 +113,9 @@ function EtapaBloque({ etapa, alterna }: { etapa: EtapaSistema; alterna: boolean
           >
             {etapa.number}
           </span>
-          <h2 className="mt-6 max-w-[calc(16*var(--ch-raleway))] text-h2 text-balance">{etapa.title}</h2>
+          <h2 className="mt-6 max-w-[calc(16*var(--ch-raleway))] text-h2 text-balance">
+            {etapa.title}
+          </h2>
           <p className="mt-3 text-lead font-semibold">{etapa.tagline}</p>
           <p className="mt-4 max-w-[38em] text-navy/72">{etapa.description}</p>
         </div>
