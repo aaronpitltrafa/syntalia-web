@@ -78,7 +78,7 @@ function Contacto() {
       <section className="relative">
         <div className="relative mx-auto max-w-7xl px-6 py-24 md:py-32">
           <p className="label-mono">Contacto</p>
-          <h1 className="mt-6 max-w-3xl text-5xl font-semibold leading-[1.05] md:text-7xl text-balance">
+          <h1 className="mt-6 max-w-3xl text-[clamp(38px,12.2vw,48px)] font-semibold leading-[1.05] md:text-7xl text-balance">
             ¿Hablamos con nuestro equipo de <Subrayado>comunicación</Subrayado>?
           </h1>
           <p className="mt-8 max-w-2xl text-lg text-foreground/75 leading-relaxed">
