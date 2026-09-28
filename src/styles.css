@@ -293,9 +293,9 @@
 
   /* Bloque azul: lo contrario de la pagina. Repunta los tokens semanticos
      de su subarbol, asi que todo lo que use text-foreground, border-border
-     o surface-card funciona dentro sin tocar un solo componente. */
+     o surface-card funciona dentro sin tocar un solo componente. El fondo
+     no va aqui: lo pone la regla de .seccion-azul, que es la fuente unica. */
   .surface-navy {
-    background: var(--navy);
     color: var(--cream);
     --background: var(--navy);
     --foreground: var(--cream);
@@ -457,8 +457,11 @@
      sola declaración de dos capas. Quien necesite una superficie azul a
      ancho completo usa esta clase en vez de inventarse un degradado. Sin
      las líneas verticales del hero (.hero-lines), que competirían con el
-     contenido. */
-  .seccion-azul {
+     contenido. Las paradas van en %, así que también vale para tarjetas
+     (.rounded-block con seccion-azul). .surface-navy toma de aquí el mismo
+     fondo y conserva en su regla la redefinición de tokens. */
+  .seccion-azul,
+  .surface-navy {
     color: var(--cream);
     background:
       linear-gradient(180deg,

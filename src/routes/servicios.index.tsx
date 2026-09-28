@@ -155,7 +155,7 @@ function ServiciosCTA() {
   return (
     <section className="seccion-clara seccion">
       <div className="contenedor">
-        <div className="rounded-block bg-navy px-6 py-14 text-center text-cream md:px-16 md:py-16">
+        <div className="seccion-azul rounded-block px-6 py-14 text-center md:px-16 md:py-16">
           <h2 className="mx-auto max-w-[22ch] text-h2 text-balance">
             ¿Listo para crecer con un sistema estratégico y medible?
           </h2>
