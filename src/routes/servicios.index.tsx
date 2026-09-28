@@ -163,7 +163,14 @@ function ServiciosCTA() {
             Solicita tu diagnóstico y descubre oportunidades de crecimiento personalizadas para tu
             negocio.
           </p>
-          <GoldCta to="/diagnostico" className="mt-9">
+          {/* Hasta 377 px el texto no cabe en una línea: puede
+              partirse, y ahí el interlineado baja a 1,3 para que las dos
+              líneas no queden separadas. Donde cabe, el botón es el de
+              siempre. */}
+          <GoldCta
+            to="/diagnostico"
+            className="mt-9 max-w-full whitespace-normal text-center max-[377px]:leading-[1.3]"
+          >
             Solicitar diagnóstico gratuito
           </GoldCta>
         </div>

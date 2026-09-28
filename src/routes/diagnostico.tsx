@@ -52,7 +52,13 @@ function Diagnostico() {
 
           <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-navy/5 px-4 py-1.5">
             <span className="h-2 w-2 rounded-full bg-gold animate-pulse" aria-hidden />
-            <span className="label-mono">Diagnóstico estratégico gratuito</span>
+            {/* Por debajo de 414 px se reserva el alto de dos líneas: con la
+                fuente de respaldo la etiqueta mide 316 px y parte en dos hasta
+                413 px, y con Poppins (274 px) cabe en una desde 372, así que
+                al llegar la fuente movía todo lo de debajo. */}
+            <span className="label-mono max-[414px]:flex max-[414px]:min-h-[2.6em] max-[414px]:items-center">
+              Diagnóstico estratégico gratuito
+            </span>
           </div>
 
           <h1 className="mt-6 font-raleway text-[clamp(26px,7.6vw,30px)] leading-[1.15] font-bold tracking-tight text-foreground md:text-5xl">
