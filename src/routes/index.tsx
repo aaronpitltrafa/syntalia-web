@@ -913,7 +913,7 @@ function Cierre() {
   return (
     <section id="contacto" className="seccion scroll-mt-6">
       <div className="contenedor">
-        <div className="seccion-azul rounded-block border border-cream/13 p-[clamp(20px,4vw,58px)]">
+        <div className="seccion-azul filete-dorado rounded-block border border-cream/13 p-[clamp(20px,4vw,58px)]">
           <div className="grid gap-[34px] min-[940px]:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] min-[940px]:items-center min-[940px]:gap-14">
             <div>
               <Pildora>Diagnóstico gratuito</Pildora>

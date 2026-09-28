@@ -307,6 +307,11 @@
     --border: oklch(0.961 0.012 91 / 12%);
     --input: oklch(0.961 0.012 91 / 18%);
     --gold-text: var(--gold-light);
+    /* Borde de los campos de formulario (ContactForm): crema al 45 %. El
+       borde se pinta sobre el relleno navy del campo, así que al 40 % se
+       quedaba en 2,85:1 frente a la tarjeta navy-soft; al 45 % pasa de
+       3:1. Fuera de aquí los campos usan --border. */
+    --campo-borde: color-mix(in oklab, var(--cream) 45%, transparent);
     --primary: var(--gold);
     --primary-foreground: var(--navy);
     --accent: var(--gold);
@@ -460,6 +465,22 @@
      contenido. Las paradas van en %, así que también vale para tarjetas
      (.rounded-block con seccion-azul). .surface-navy toma de aquí el mismo
      fondo y conserva en su regla la redefinición de tokens. */
+  /* Filete dorado de 2 px arriba, como las fichas del problema y del
+     sistema: separa una tarjeta con fondo .seccion-azul del ink de
+     alrededor (sobre ink las sombras no se ven). */
+  .filete-dorado {
+    position: relative;
+    overflow: hidden;
+  }
+  .filete-dorado::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 2px;
+    background: var(--gold);
+    pointer-events: none;
+  }
+
   .seccion-azul,
   .surface-navy {
     color: var(--cream);

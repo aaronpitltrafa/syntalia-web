@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 const labelClass = "text-[13px] leading-[1.4] font-normal text-cream/68";
 const inputClass =
-  "mt-[7px] w-full rounded-btn border border-cream/13 bg-[rgb(3_11_36/0.5)] px-[15px] py-[13px] text-[15px] leading-[1.4] font-light text-cream placeholder:text-cream/50 focus:border-transparent focus:outline-2 focus:outline-offset-1 focus:outline-gold";
+  "mt-[7px] w-full rounded-btn border border-cream/40 bg-[rgb(3_11_36/0.5)] px-[15px] py-[13px] text-[15px] leading-[1.4] font-light text-cream placeholder:text-cream/50 focus:border-transparent focus:outline-2 focus:outline-offset-1 focus:outline-gold";
 
 /**
  * Formulario corto del cierre de la home. Usa el mismo `sendLead` que
