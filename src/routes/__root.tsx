@@ -16,7 +16,7 @@ import { ParallaxBackground } from "@/components/parallax-background";
 import { MobileCtaBar } from "@/components/mobile-cta-bar";
 import { WhatsAppFlotante } from "@/components/whatsapp-flotante";
 import { SIN_BARRA_CTA } from "@/lib/barra-cta";
-import { SITE_URL } from "@/lib/site";
+import { ORG_ID, ORG_LOGO_URL, SITE_URL } from "@/lib/site";
 
 function NotFoundComponent() {
   return (
@@ -112,18 +112,31 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     scripts: [
       {
+        // La organización, una sola vez y con @id: /contacto y las páginas
+        // de servicio la referencian en vez de redeclararla. Solo datos
+        // publicados en la web: ni precios, ni horarios, ni calle. La
+        // ubicación es la pública (Murcia, España).
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "Organization",
+          "@type": "ProfessionalService",
+          "@id": ORG_ID,
           name: "Syntalia Vértice",
           url: SITE_URL,
-          description: "Consultora estratégica de marketing digital, sistemas y tecnología para empresas con ambición real.",
+          logo: ORG_LOGO_URL,
+          description:
+            "Consultora estratégica de marketing digital, sistemas y tecnología para empresas con ambición real.",
+          email: "vertice@syntalia.es",
+          telephone: "+34-672-167-758",
           address: {
             "@type": "PostalAddress",
             addressLocality: "Murcia",
             addressCountry: "ES",
           },
+          areaServed: [
+            { "@type": "City", name: "Murcia" },
+            { "@type": "Country", name: "España" },
+          ],
           contactPoint: {
             "@type": "ContactPoint",
             telephone: "+34-672-167-758",
@@ -141,30 +154,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": "WebSite",
           name: "Syntalia Vértice",
           url: SITE_URL,
-        }),
-      },
-      {
-        // SEO local. Mismos datos que el bloque Organization: ni precios, ni
-        // horarios, ni calle, que no son datos publicados. La ubicación es la
-        // pública de la web (Murcia, España).
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "ProfessionalService",
-          name: "Syntalia Vértice",
-          url: SITE_URL,
-          description: "Consultora estratégica de marketing digital, sistemas y tecnología para empresas con ambición real.",
-          email: "vertice@syntalia.es",
-          telephone: "+34-672-167-758",
-          address: {
-            "@type": "PostalAddress",
-            addressLocality: "Murcia",
-            addressCountry: "ES",
-          },
-          areaServed: [
-            { "@type": "City", name: "Murcia" },
-            { "@type": "Country", name: "España" },
-          ],
+          publisher: { "@id": ORG_ID },
         }),
       },
     ],

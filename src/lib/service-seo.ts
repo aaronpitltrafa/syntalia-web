@@ -1,4 +1,4 @@
-import { SITE_URL } from "@/lib/site";
+import { ORG_ID, SITE_URL } from "@/lib/site";
 
 const BASE = SITE_URL;
 
@@ -30,11 +30,8 @@ export function serviceHead(opts: {
           name: opts.serviceType,
           description: opts.description,
           url,
-          provider: {
-            "@type": "Organization",
-            name: "Syntalia Vértice",
-            url: BASE,
-          },
+          // La organización se declara en __root.tsx; aquí solo se referencia.
+          provider: { "@id": ORG_ID },
           areaServed: "ES",
         }),
       },

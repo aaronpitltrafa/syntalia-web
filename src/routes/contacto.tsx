@@ -17,25 +17,8 @@ export const Route = createFileRoute("/contacto")({
       { name: "twitter:description", content: "Habla con nuestro equipo. Atención presencial y online en Murcia, España." },
     ],
     links: [{ rel: "canonical", href: `${SITE_URL}/contacto` }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "ProfessionalService",
-          name: "Syntalia Vértice",
-          url: SITE_URL,
-          telephone: "+34-672-167-758",
-          email: "vertice@syntalia.es",
-          address: {
-            "@type": "PostalAddress",
-            addressLocality: "Murcia",
-            addressCountry: "ES",
-          },
-          areaServed: "ES",
-        }),
-      },
-    ],
+    // Sin datos estructurados propios: la organización ya la declara
+    // __root.tsx en todas las páginas, también en esta.
   }),
   component: Contacto,
 });
