@@ -27,7 +27,7 @@ const AREA_OPTIONS = [
 
 const labelClass = "text-xs font-bold uppercase tracking-widest text-muted-foreground";
 const inputClass =
-  "mt-2 w-full rounded-2xl border border-border bg-background px-5 py-3.5 text-sm focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/30";
+  "mt-2 w-full rounded-2xl border border-[color:var(--campo-borde)] bg-background px-5 py-3.5 text-sm focus:border-[color:var(--campo-foco)] focus:outline-none focus:ring-2 focus:ring-[color-mix(in_oklab,var(--campo-foco)_30%,transparent)]";
 
 /**
  * Full diagnostic-request form for /diagnostico. Reuses the same `sendLead`

@@ -156,6 +156,13 @@
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(0.240 0.121 264 / 12%);
   --input: oklch(0.240 0.121 264 / 18%);
+  /* Campos de formulario sobre superficie clara (ContactForm y
+     DiagnosticoForm). Borde en navy al 50 %: se pinta sobre el relleno
+     crema del campo y pasa de 3:1 frente a la tarjeta blanca y frente al
+     relleno. Foco en dorado oscuro (#7E640E): el dorado sobre blanco se
+     queda en 2:1. .surface-navy redefine los dos para fondo oscuro. */
+  --campo-borde: color-mix(in oklab, var(--navy) 50%, transparent);
+  --campo-foco: var(--gold-ink);
   --ring: var(--gold);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -310,8 +317,9 @@
     /* Borde de los campos de formulario (ContactForm): crema al 45 %. El
        borde se pinta sobre el relleno navy del campo, así que al 40 % se
        quedaba en 2,85:1 frente a la tarjeta navy-soft; al 45 % pasa de
-       3:1. Fuera de aquí los campos usan --border. */
+       3:1. El foco, en dorado (7:1 sobre la tarjeta navy-soft). */
     --campo-borde: color-mix(in oklab, var(--cream) 45%, transparent);
+    --campo-foco: var(--gold);
     --primary: var(--gold);
     --primary-foreground: var(--navy);
     --accent: var(--gold);
@@ -465,22 +473,6 @@
      contenido. Las paradas van en %, así que también vale para tarjetas
      (.rounded-block con seccion-azul). .surface-navy toma de aquí el mismo
      fondo y conserva en su regla la redefinición de tokens. */
-  /* Filete dorado de 2 px arriba, como las fichas del problema y del
-     sistema: separa una tarjeta con fondo .seccion-azul del ink de
-     alrededor (sobre ink las sombras no se ven). */
-  .filete-dorado {
-    position: relative;
-    overflow: hidden;
-  }
-  .filete-dorado::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto;
-    height: 2px;
-    background: var(--gold);
-    pointer-events: none;
-  }
-
   .seccion-azul,
   .surface-navy {
     color: var(--cream);

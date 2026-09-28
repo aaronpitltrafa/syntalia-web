@@ -66,7 +66,7 @@ export function ContactForm({
           name="message"
           required
           rows={5}
-          className="mt-2 w-full rounded-2xl border border-[color:var(--campo-borde,var(--border))] bg-background px-5 py-4 text-sm focus:border-accent focus:outline-none"
+          className="mt-2 w-full rounded-2xl border border-[color:var(--campo-borde)] bg-background px-5 py-4 text-sm focus:border-[color:var(--campo-foco)] focus:outline-none"
         />
       </div>
 
@@ -128,7 +128,7 @@ function Field({
         name={name}
         type={type}
         required={required}
-        className="mt-2 w-full rounded-full border border-[color:var(--campo-borde,var(--border))] bg-background px-5 py-3.5 text-sm focus:border-accent focus:outline-none"
+        className="mt-2 w-full rounded-full border border-[color:var(--campo-borde)] bg-background px-5 py-3.5 text-sm focus:border-[color:var(--campo-foco)] focus:outline-none"
       />
     </div>
   );
