@@ -62,7 +62,7 @@ function ServiciosHero() {
     <section className="seccion-clara">
       <div className="contenedor pt-[clamp(48px,6vw,88px)] pb-[clamp(48px,6vw,80px)]">
         <p className="etiqueta">Servicios</p>
-        <h1 className="mt-5 max-w-[22ch] text-h2 text-balance">
+        <h1 className="mt-5 max-w-[calc(22*var(--ch-raleway))] text-h2 text-balance">
           <Subrayado>Cuatro etapas</Subrayado> para convertir tu presencia digital en un sistema
           preparado para crecer
         </h1>
@@ -113,7 +113,7 @@ function EtapaBloque({ etapa, alterna }: { etapa: EtapaSistema; alterna: boolean
           >
             {etapa.number}
           </span>
-          <h2 className="mt-6 max-w-[16ch] text-h2 text-balance">{etapa.title}</h2>
+          <h2 className="mt-6 max-w-[calc(16*var(--ch-raleway))] text-h2 text-balance">{etapa.title}</h2>
           <p className="mt-3 text-lead font-semibold">{etapa.tagline}</p>
           <p className="mt-4 max-w-[38em] text-navy/72">{etapa.description}</p>
         </div>
@@ -156,7 +156,7 @@ function ServiciosCTA() {
     <section className="seccion-clara seccion">
       <div className="contenedor">
         <div className="seccion-azul rounded-block px-6 py-14 text-center md:px-16 md:py-16">
-          <h2 className="mx-auto max-w-[22ch] text-h2 text-balance">
+          <h2 className="mx-auto max-w-[calc(22*var(--ch-raleway))] text-h2 text-balance">
             ¿Listo para crecer con un sistema estratégico y medible?
           </h2>
           <p className="mx-auto mt-5 max-w-[38em] text-lead text-cream/72">

@@ -1,5 +1,6 @@
 @import "tailwindcss" source(none);
 @import "tw-animate-css";
+@import "./fuentes.css";
 @source "../src";
 
 @custom-variant dark (&:is(.dark *));
@@ -61,11 +62,11 @@
   --color-sidebar-ring: var(--sidebar-ring);
   /* Home v3: Raleway para titulares, Poppins para texto. La mono ya no
      se carga: font-mono cae en la del sistema (solo tablas y graficas). */
-  --font-sans: "Poppins", "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Raleway", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Poppins", "Poppins fallback", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Raleway", "Raleway fallback", "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-poppins: "Poppins", "Helvetica Neue", Arial, sans-serif;
-  --font-raleway: "Raleway", "Helvetica Neue", Arial, sans-serif;
+  --font-poppins: "Poppins", "Poppins fallback", "Helvetica Neue", Arial, sans-serif;
+  --font-raleway: "Raleway", "Raleway fallback", "Helvetica Neue", Arial, sans-serif;
   --color-navy: var(--navy);
   --color-cream: var(--cream);
   --color-gold: var(--gold);
@@ -115,6 +116,12 @@
 
 :root {
   --radius: 0.625rem;
+  /* Un "ch" de Raleway (el ancho de su 0), fijo. Los titulares miden su
+     ancho máximo en caracteres de Raleway con calc(N * var(--ch-raleway))
+     en vez de Nch: el ch depende de la fuente que se esté usando y, con la
+     de respaldo (Arial), es un 10-14 % más estrecho, así que el titular
+     cambiaba de ancho al llegar Raleway. Con la fuente real mide lo mismo. */
+  --ch-raleway: 0.614em;
   /* Marca, valores exactos de los hex. */
   --navy: oklch(0.2402 0.1206 264.06);    /* #021557 */
   --cream: oklch(0.9610 0.0124 91.52);    /* #F5F2E9 */

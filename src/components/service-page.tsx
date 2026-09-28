@@ -30,7 +30,7 @@ export function ServicePage(props: ServicePageProps) {
             ← Servicios
           </Link>
           <p className="mt-6 label-mono">{props.eyebrow}</p>
-          <h1 className="mt-4 max-w-[18ch] text-h2 text-balance">
+          <h1 className="mt-4 max-w-[calc(18*var(--ch-raleway))] text-h2 text-balance">
             {props.title}
           </h1>
           <p className="mt-8 max-w-2xl text-lg text-foreground/75 leading-relaxed">{props.intro}</p>

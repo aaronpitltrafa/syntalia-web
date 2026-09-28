@@ -152,7 +152,7 @@ function Hero() {
           {/* Tres líneas fijas desde 760px ("Construimos el / sistema digital
               que / hace crecer tu empresa"): cada .ln pasa a bloque. Por
               debajo son inline y el texto fluye solo. */}
-          <h1 className="mx-auto mt-6 max-w-[22ch] text-hero text-cream [text-shadow:0_2px_26px_rgba(1,6,20,.55)]">
+          <h1 className="mx-auto mt-6 max-w-[calc(22*var(--ch-raleway))] text-hero text-cream [text-shadow:0_2px_26px_rgba(1,6,20,.55)]">
             <span className="inline min-[760px]:block">Construimos el </span>
             <span className="inline min-[760px]:block">
               <Subrayado>sistema digital</Subrayado> que{" "}
@@ -336,7 +336,7 @@ function Problema() {
         </span>
 
         <div className="mt-6 grid gap-[18px] min-[960px]:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] min-[960px]:items-end min-[960px]:gap-14">
-          <h2 className="max-w-[16ch] text-[clamp(30px,4.2vw,58px)] leading-[1.08] tracking-[-0.03em] text-balance">
+          <h2 className="max-w-[calc(16*var(--ch-raleway))] text-[clamp(30px,4.2vw,58px)] leading-[1.08] tracking-[-0.03em] text-balance">
             Tu empresa no necesita hacer más. Necesita que todo{" "}
             <span className="text-gold-ink">trabaje conectado</span>
           </h2>
@@ -446,7 +446,7 @@ function Sistema() {
             <p className="etiqueta">
               <span className="etiqueta-num">02</span>Sistema Vértice
             </p>
-            <h2 className="mt-5 max-w-[15ch] text-h2 text-balance">
+            <h2 className="mt-5 max-w-[calc(15*var(--ch-raleway))] text-h2 text-balance">
               Cuatro etapas, un solo ecosistema
             </h2>
           </div>
@@ -618,7 +618,7 @@ function Servicios() {
             <p className="etiqueta">
               <span className="etiqueta-num">03</span>Servicios
             </p>
-            <h2 className="mt-5 max-w-[14ch] text-h2 text-balance">
+            <h2 className="mt-5 max-w-[calc(14*var(--ch-raleway))] text-h2 text-balance">
               Las piezas que montamos dentro del sistema
             </h2>
           </div>
@@ -720,7 +720,7 @@ function CasoDeExito() {
             <p className="etiqueta">
               <span className="etiqueta-num">04</span>Caso de éxito
             </p>
-            <h2 className="mt-5 max-w-[18ch] text-h2 text-balance">
+            <h2 className="mt-5 max-w-[calc(18*var(--ch-raleway))] text-h2 text-balance">
               Esto es lo que pasa cuando el contenido deja de ser <Subrayado>improvisado</Subrayado>
             </h2>
           </div>
@@ -770,7 +770,7 @@ function Equipo() {
             <p className="etiqueta">
               <span className="etiqueta-num">05</span>Quiénes somos
             </p>
-            <h2 className="mt-5 max-w-[15ch] text-h2 text-balance">
+            <h2 className="mt-5 max-w-[calc(15*var(--ch-raleway))] text-h2 text-balance">
               Cuatro disciplinas bajo el mismo techo
             </h2>
           </div>
@@ -833,7 +833,7 @@ function Empezar() {
         <p className="etiqueta">
           <span className="etiqueta-num">06</span>Cómo empezamos
         </p>
-        <h2 className="mt-5 max-w-[15ch] text-h2 text-balance">
+        <h2 className="mt-5 max-w-[calc(15*var(--ch-raleway))] text-h2 text-balance">
           Tres pasos y sabrás qué le falta a tu empresa
         </h2>
 
@@ -911,7 +911,7 @@ function FAQ() {
         <p className="etiqueta">
           <span className="etiqueta-num">07</span>Preguntas frecuentes
         </p>
-        <h2 className="mt-5 max-w-[14ch] text-h2 text-balance">
+        <h2 className="mt-5 max-w-[calc(14*var(--ch-raleway))] text-h2 text-balance">
           Lo que nos preguntan antes de empezar
         </h2>
 
@@ -952,7 +952,7 @@ function Cierre() {
           <div className="grid gap-[34px] min-[940px]:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] min-[940px]:items-center min-[940px]:gap-14">
             <div>
               <Pildora>Diagnóstico gratuito</Pildora>
-              <h2 className="mt-[22px] max-w-[13ch] text-h2 text-balance">Cuéntanos tu proyecto</h2>
+              <h2 className="mt-[22px] max-w-[calc(13*var(--ch-raleway))] text-h2 text-balance">Cuéntanos tu proyecto</h2>
               <p className="mt-[18px] max-w-[38ch] text-lead text-cream/72">
                 Analizamos tu situación y te entregamos un plan estratégico claro. Sin compromiso y
                 con respuesta en menos de 24 horas.

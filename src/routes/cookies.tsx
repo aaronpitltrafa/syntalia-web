@@ -138,11 +138,9 @@ function Cookies() {
                 herramienta publicitaria o analítica.
               </p>
               <p>
-                Las tipografías web se cargan desde servidores externos de Google Fonts
-                (fonts.googleapis.com y fonts.gstatic.com); no están alojadas localmente en este
-                sitio. Esta carga de recursos estáticos no instala cookies en el navegador, pero sí
-                genera una conexión técnica con los servidores de Google para descargar los archivos
-                de fuente.
+                Las tipografías web están alojadas en este mismo sitio: no se cargan desde servidores
+                externos (como Google Fonts), así que su descarga no genera ninguna conexión con
+                terceros ni instala cookies en el navegador.
               </p>
               <p>
                 Los enlaces a Instagram y TikTok disponibles en el pie de página son simples enlaces

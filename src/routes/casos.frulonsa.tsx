@@ -46,7 +46,7 @@ function CasoFrulonsaPage() {
 
           {/* a) Cabecera */}
           <p className="etiqueta mt-8">Caso de éxito</p>
-          <h1 className="mt-5 max-w-[20ch] text-h2 text-balance">
+          <h1 className="mt-5 max-w-[calc(20*var(--ch-raleway))] text-h2 text-balance">
             {caso.nombre} · {caso.periodo}
           </h1>
           <p className="mt-6 max-w-[40em] text-lead text-navy/72">{caso.contexto}</p>
@@ -127,7 +127,7 @@ function CasoFrulonsaPage() {
       {/* h) Cierre: el mismo texto del panel de servicios de la home. */}
       <section className="seccion-azul seccion">
         <div className="contenedor">
-          <h2 className="max-w-[20ch] text-h2 text-balance">
+          <h2 className="max-w-[calc(20*var(--ch-raleway))] text-h2 text-balance">
             Si no sabes qué pieza te falta, empieza por el diagnóstico
           </h2>
           <p className="mt-5 max-w-[40em] text-lead text-cream/72">
