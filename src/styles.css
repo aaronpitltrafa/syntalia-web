@@ -908,37 +908,12 @@
     font-size: 14.5px;
     color: color-mix(in oklab, var(--cream) 74%, transparent);
   }
-  .sistema-pie a {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14.5px;
-    font-weight: 600;
-    white-space: nowrap;
-    color: var(--gold-light);
-  }
+  /* El enlace es un .enlace-dibujado; aquí solo su color sobre azul. */
+  .sistema-pie a { color: var(--gold-light); }
   .sistema-pie a:focus-visible {
     outline: 2px solid var(--gold-light);
     outline-offset: 4px;
   }
-  .sistema-pie a span {
-    position: relative;
-    padding-bottom: 3px;
-  }
-  .sistema-pie a span::after {
-    content: "";
-    position: absolute;
-    inset: auto 0 0;
-    height: 1px;
-    background: var(--gold);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s var(--curva-sistema);
-  }
-  .sistema-pie a:hover span::after,
-  .sistema-pie a:focus-visible span::after { transform: scaleX(1); }
-  .sistema-pie a svg { transition: transform 0.25s var(--curva-sistema); }
-  .sistema-pie a:hover svg { transform: translateX(4px); }
 
   /* Punto de partida de la entrada. */
   .sistema-ruta.espera .sistema-etapa {
@@ -1069,13 +1044,10 @@
     .sistema-bajante::after,
     .sistema-ficha,
     .sistema-ficha::before,
-    .sistema-paso,
-    .sistema-pie a svg,
-    .sistema-pie a span::after {
+    .sistema-paso {
       transition: none !important;
     }
-    .sistema-etapa:hover .sistema-ficha,
-    .sistema-pie a:hover svg { transform: none; }
+    .sistema-etapa:hover .sistema-ficha { transform: none; }
   }
 
   /* 3b · Servicios: índice de filas con su etapa y, a la derecha, un panel
@@ -1385,11 +1357,11 @@
       align-items: start;
     }
   }
-  .caso-testimonio blockquote {
+  .caso-cita blockquote {
     position: relative;
     padding-left: 26px;
   }
-  .caso-testimonio blockquote::before {
+  .caso-cita blockquote::before {
     content: "";
     position: absolute;
     top: 0.35em;
@@ -1398,20 +1370,20 @@
     width: 2px;
     background: var(--gold);
   }
-  .caso-testimonio blockquote p {
+  .caso-cita blockquote p {
     font-family: var(--font-display);
     font-size: clamp(18px, 1.9vw, 24px);
     font-weight: 600;
     line-height: 1.34;
     letter-spacing: -0.02em;
   }
-  .caso-testimonio figcaption {
+  .caso-cita figcaption {
     margin-top: 14px;
     padding-left: 26px;
     font-size: 13.5px;
     color: color-mix(in oklab, var(--navy) 68%, transparent);
   }
-  .caso-testimonio figcaption b {
+  .caso-cita figcaption b {
     display: block;
     font-size: 14.5px;
     font-weight: 600;
@@ -1429,11 +1401,133 @@
   }
 
   .caso-pie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
     margin-top: 24px;
     padding-top: 20px;
     border-top: 1px solid rgb(2 21 87 / 12%);
+  }
+  .caso-pie p {
+    max-width: 52ch;
     font-size: 12.5px;
     color: color-mix(in oklab, var(--navy) 68%, transparent);
+  }
+  .caso-pie a {
+    --enlace-grosor: 2px;
+    font-size: 15px;
+    color: var(--navy);
+  }
+  .caso-pie a:focus-visible {
+    outline: 2px solid var(--navy);
+    outline-offset: 4px;
+  }
+
+  /* Enlace con subrayado dorado que se dibuja y flecha que se desplaza
+     (pie del sistema, tarjeta del caso). El color y el foco los pone el
+     contexto; --enlace-grosor cambia el grueso de la raya. */
+  .enlace-dibujado {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14.5px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .enlace-dibujado span {
+    position: relative;
+    padding-bottom: 3px;
+  }
+  .enlace-dibujado span::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: var(--enlace-grosor, 1px);
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.3, 0.9, 0.25, 1);
+  }
+  .enlace-dibujado:hover span::after,
+  .enlace-dibujado:focus-visible span::after { transform: scaleX(1); }
+  .enlace-dibujado svg { transition: transform 0.25s cubic-bezier(0.3, 0.9, 0.25, 1); }
+  .enlace-dibujado:hover svg { transform: translateX(4px); }
+  @media (prefers-reduced-motion: reduce) {
+    .enlace-dibujado span::after,
+    .enlace-dibujado svg { transition: none; }
+    .enlace-dibujado:hover svg { transform: none; }
+  }
+
+  /* Página de un caso (/casos/frulonsa): crema, tarjetas blancas rectas
+     con filete dorado y las mismas piezas .caso-* del bloque de la home. */
+  .caso-pagina {
+    padding-top: clamp(32px, 4vw, 56px);
+    padding-bottom: clamp(56px, 7vw, 104px);
+  }
+  .caso-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: color-mix(in oklab, var(--navy) 72%, transparent);
+    transition: color 0.2s;
+  }
+  .caso-volver:hover { color: var(--navy); }
+  .caso-volver:focus-visible {
+    outline: 2px solid var(--navy);
+    outline-offset: 4px;
+  }
+  .caso-ficha .caso-marca {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+  .caso-seccion { margin-top: clamp(44px, 5vw, 72px); }
+  .caso-seccion-titulo {
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
+    letter-spacing: var(--text-h3--letter-spacing);
+  }
+  .caso-seccion-texto {
+    max-width: 62ch;
+    margin-top: 14px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: color-mix(in oklab, var(--navy) 72%, transparent);
+  }
+  .caso-seccion .caso-tarjeta { margin-top: 18px; }
+  .caso-trabajo {
+    display: grid;
+    gap: 14px;
+    margin-top: 18px;
+  }
+  @media (min-width: 760px) {
+    .caso-trabajo { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  .caso-trabajo li {
+    padding: 20px 22px 22px;
+    background: #fff;
+    border: 1px solid rgb(2 21 87 / 12%);
+    border-top: 2px solid var(--gold);
+  }
+  .caso-trabajo h3 {
+    font-size: 18px;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+  .caso-trabajo p {
+    margin-top: 8px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: color-mix(in oklab, var(--navy) 72%, transparent);
+  }
+  .caso-galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 18px;
   }
 
   @media (prefers-reduced-motion: reduce) {

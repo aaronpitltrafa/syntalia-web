@@ -13,9 +13,17 @@ import { FormularioCorto } from "@/components/formulario-corto";
 import { SectionLink } from "@/components/section-link";
 import { SectionRail } from "@/components/section-rail";
 import { Subrayado } from "@/components/subrayado";
+import {
+  CasoCifras,
+  CasoMarca,
+  CasoPieza,
+  CasoQueMide,
+  CasoTestimonio,
+} from "@/components/caso";
 import { goldCtaClasses } from "@/lib/gold-cta-classes";
 import { DISCIPLINAS } from "@/lib/equipo";
 import { useHomeSectionObserver } from "@/lib/home-sections";
+import { CASO_FRULONSA } from "@/lib/casos";
 import { SYSTEM_STAGES } from "@/lib/sistema";
 import {
   FICHAS_PROBLEMA,
@@ -489,7 +497,7 @@ function Sistema() {
               Empezamos siempre por la etapa 01. El orden no es una preferencia: es lo que evita
               pagar dos veces por lo mismo.
             </p>
-            <Link to="/servicios">
+            <Link to="/servicios" className="enlace-dibujado">
               <span>Ver el sistema servicio a servicio</span>
               <ArrowRight aria-hidden strokeWidth={2.2} className="h-4 w-4" />
             </Link>
@@ -695,41 +703,14 @@ function Servicios() {
 /* ------------------------------------------------------------------ */
 
 /**
- * Cifras fijas, sin contador: una captura a medias mostraba un dato falso.
- * La unidad se pinta más pequeña, por eso va aparte. La primera es la
- * destacada.
- */
-const FRULONSA_CIFRAS = [
-  { cifra: "5,6", unidad: "M", label: "Reproducciones", destacada: true },
-  { cifra: "1,4", unidad: "M", label: "Usuarios únicos", destacada: false },
-  { cifra: "157", unidad: "K", label: "Interacciones", destacada: false },
-  { cifra: "+7.301", unidad: "", label: "Nuevos seguidores", destacada: false },
-] as const;
-
-/*
- * Material que aún no existe. Cada pieza solo se pinta cuando tiene
- * contenido real: nada de huecos vacíos ni textos de relleno.
- */
-type TestimonioCaso = { cita: string; nombre: string; cargo: string };
-type PiezaCaso =
-  | { tipo: "imagen"; src: string; alt: string }
-  | { tipo: "video"; src: string; poster?: string; titulo: string };
-
-/** Testimonio de Frulonsa: cita, y nombre y cargo de quien la firma. */
-const TESTIMONIO_FRULONSA = null as TestimonioCaso | null;
-/** Una pieza del contenido producido (imagen o vídeo vertical). */
-const PIEZA_FRULONSA = null as PiezaCaso | null;
-/** Sector de Frulonsa en una línea; vacío no se pinta. */
-const SECTOR_FRULONSA: string = "";
-
-/**
  * Una tarjeta con el lenguaje del resto de la home (recta, filete dorado):
- * la marca, las cuatro cifras, qué miden y la fuente. Estilos en
- * styles.css (.caso-*).
+ * la marca, las cifras, qué miden, la fuente y el enlace al caso. Los
+ * datos salen de lib/casos.ts, los mismos que usa /casos/frulonsa; el
+ * testimonio y la primera pieza solo se pintan cuando existen.
  */
 function CasoDeExito() {
-  const testimonio = TESTIMONIO_FRULONSA;
-  const pieza = PIEZA_FRULONSA;
+  const caso = CASO_FRULONSA;
+  const pieza = caso.piezas[0] ?? null;
 
   return (
     <section id="caso" className="seccion-clara seccion scroll-mt-6">
@@ -743,86 +724,27 @@ function CasoDeExito() {
               Esto es lo que pasa cuando el contenido deja de ser <Subrayado>improvisado</Subrayado>
             </h2>
           </div>
-          <p className="max-w-[34em] text-lead text-navy/72">
-            Noventa días trabajando la estrategia, la planificación y la producción de contenido de
-            Frulonsa.
-          </p>
+          <p className="max-w-[34em] text-lead text-navy/72">{caso.contexto}</p>
         </div>
 
         <article className="caso-tarjeta" aria-labelledby="caso-marca">
-          <header className="caso-marca">
-            {/* El logo identifica la marca (ya lleva la palabra FRULONSA). El
-                PNG es blanco sobre transparente (para la marquesina oscura):
-                aquí se usa como máscara y se pinta en navy, así que el texto
-                alternativo va en role="img" + aria-label, que es lo que haría
-                alt en un <img>. */}
-            <span
-              id="caso-marca"
-              role="img"
-              aria-label="Frulonsa"
-              className="caso-logo"
-              style={{
-                WebkitMaskImage: `url(${logoFrulonsa})`,
-                maskImage: `url(${logoFrulonsa})`,
-              }}
-            />
-            {SECTOR_FRULONSA && <p className="caso-sector">{SECTOR_FRULONSA}</p>}
-            <span className="caso-plazo">90 días</span>
-          </header>
+          <CasoMarca caso={caso} id="caso-marca" />
+          <CasoCifras caso={caso} />
+          <CasoQueMide caso={caso} />
 
-          <dl className="caso-cifras">
-            {FRULONSA_CIFRAS.map((c) => (
-              <div key={c.label} className={cn("caso-cifra", c.destacada && "caso-cifra-destacada")}>
-                <dt>{c.label}</dt>
-                <dd>
-                  {c.cifra}
-                  {c.unidad && <span className="caso-unidad">{c.unidad}</span>}
-                </dd>
-              </div>
-            ))}
-          </dl>
-
-          <div className="caso-mide">
-            <p>
-              <b>Qué mide esto:</b> el alcance del contenido en sus canales durante los 90 días. Es
-              la primera mitad del trabajo: que la marca deje de ser invisible para su mercado.
-            </p>
-          </div>
-
-          {(testimonio || pieza) && (
+          {(caso.testimonio || pieza) && (
             <div className="caso-testimonio">
-              {testimonio && (
-                <figure>
-                  <blockquote>
-                    <p>{testimonio.cita}</p>
-                  </blockquote>
-                  <figcaption>
-                    <b>{testimonio.nombre}</b>
-                    {testimonio.cargo}
-                  </figcaption>
-                </figure>
-              )}
-              {pieza &&
-                (pieza.tipo === "imagen" ? (
-                  <img className="caso-pieza" src={pieza.src} alt={pieza.alt} loading="lazy" />
-                ) : (
-                  <video
-                    className="caso-pieza"
-                    src={pieza.src}
-                    poster={pieza.poster}
-                    title={pieza.titulo}
-                    controls
-                    playsInline
-                    preload="metadata"
-                  />
-                ))}
+              {caso.testimonio && <CasoTestimonio testimonio={caso.testimonio} />}
+              {pieza && <CasoPieza pieza={pieza} />}
             </div>
           )}
 
           <footer className="caso-pie">
-            <p>Datos de las analíticas de los canales de Frulonsa durante 90 días.</p>
-            {/* "Ver el caso completo" vuelve cuando exista /casos/frulonsa:
-                hoy no hay página de caso y llevaba a /contacto. */}
+            <p>{caso.fuente}</p>
+            <Link to="/casos/frulonsa" className="enlace-dibujado">
+              <span>Ver el caso completo</span>
+              <ArrowRight aria-hidden strokeWidth={2.4} className="h-4 w-4" />
+            </Link>
           </footer>
         </article>
       </div>

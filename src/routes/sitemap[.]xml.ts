@@ -28,6 +28,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/servicios/social-ads", changefreq: "monthly", priority: "0.7" },
           { path: "/servicios/email-marketing", changefreq: "monthly", priority: "0.7" },
           { path: "/servicios/captacion", changefreq: "monthly", priority: "0.7" },
+          { path: "/casos/frulonsa", changefreq: "monthly", priority: "0.7" },
           { path: "/contacto", changefreq: "monthly", priority: "0.8" },
           { path: "/diagnostico", changefreq: "monthly", priority: "0.8" },
         ];

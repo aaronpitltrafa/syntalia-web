@@ -27,6 +27,7 @@ import { Route as ServiciosDesarrolloWebRouteImport } from './routes/servicios.d
 import { Route as ServiciosContenidoRouteImport } from './routes/servicios.contenido'
 import { Route as ServiciosCaptacionRouteImport } from './routes/servicios.captacion'
 import { Route as ServiciosBrandingCompletoRouteImport } from './routes/servicios.branding-completo'
+import { Route as CasosFrulonsaRouteImport } from './routes/casos.frulonsa'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -120,6 +121,11 @@ const ServiciosBrandingCompletoRoute =
     path: '/servicios/branding-completo',
     getParentRoute: () => rootRouteImport,
   } as any)
+const CasosFrulonsaRoute = CasosFrulonsaRouteImport.update({
+  id: '/casos/frulonsa',
+  path: '/casos/frulonsa',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/privacidad': typeof PrivacidadRoute
   '/quienes-somos': typeof QuienesSomosRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/casos/frulonsa': typeof CasosFrulonsaRoute
   '/servicios/branding-completo': typeof ServiciosBrandingCompletoRoute
   '/servicios/captacion': typeof ServiciosCaptacionRoute
   '/servicios/contenido': typeof ServiciosContenidoRoute
@@ -150,6 +157,7 @@ export interface FileRoutesByTo {
   '/privacidad': typeof PrivacidadRoute
   '/quienes-somos': typeof QuienesSomosRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/casos/frulonsa': typeof CasosFrulonsaRoute
   '/servicios/branding-completo': typeof ServiciosBrandingCompletoRoute
   '/servicios/captacion': typeof ServiciosCaptacionRoute
   '/servicios/contenido': typeof ServiciosContenidoRoute
@@ -171,6 +179,7 @@ export interface FileRoutesById {
   '/privacidad': typeof PrivacidadRoute
   '/quienes-somos': typeof QuienesSomosRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/casos/frulonsa': typeof CasosFrulonsaRoute
   '/servicios/branding-completo': typeof ServiciosBrandingCompletoRoute
   '/servicios/captacion': typeof ServiciosCaptacionRoute
   '/servicios/contenido': typeof ServiciosContenidoRoute
@@ -193,6 +202,7 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/quienes-somos'
     | '/sitemap.xml'
+    | '/casos/frulonsa'
     | '/servicios/branding-completo'
     | '/servicios/captacion'
     | '/servicios/contenido'
@@ -213,6 +223,7 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/quienes-somos'
     | '/sitemap.xml'
+    | '/casos/frulonsa'
     | '/servicios/branding-completo'
     | '/servicios/captacion'
     | '/servicios/contenido'
@@ -233,6 +244,7 @@ export interface FileRouteTypes {
     | '/privacidad'
     | '/quienes-somos'
     | '/sitemap.xml'
+    | '/casos/frulonsa'
     | '/servicios/branding-completo'
     | '/servicios/captacion'
     | '/servicios/contenido'
@@ -254,6 +266,7 @@ export interface RootRouteChildren {
   PrivacidadRoute: typeof PrivacidadRoute
   QuienesSomosRoute: typeof QuienesSomosRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  CasosFrulonsaRoute: typeof CasosFrulonsaRoute
   ServiciosBrandingCompletoRoute: typeof ServiciosBrandingCompletoRoute
   ServiciosCaptacionRoute: typeof ServiciosCaptacionRoute
   ServiciosContenidoRoute: typeof ServiciosContenidoRoute
@@ -394,6 +407,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServiciosBrandingCompletoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/casos/frulonsa': {
+      id: '/casos/frulonsa'
+      path: '/casos/frulonsa'
+      fullPath: '/casos/frulonsa'
+      preLoaderRoute: typeof CasosFrulonsaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -406,6 +426,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacidadRoute: PrivacidadRoute,
   QuienesSomosRoute: QuienesSomosRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  CasosFrulonsaRoute: CasosFrulonsaRoute,
   ServiciosBrandingCompletoRoute: ServiciosBrandingCompletoRoute,
   ServiciosCaptacionRoute: ServiciosCaptacionRoute,
   ServiciosContenidoRoute: ServiciosContenidoRoute,
