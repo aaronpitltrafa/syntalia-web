@@ -13,6 +13,7 @@ import {
   Workflow,
 } from "lucide-react";
 import { Reveal } from "@/components/motion";
+import { Subrayado } from "@/components/subrayado";
 import { SITE_URL } from "@/lib/site";
 
 export const Route = createFileRoute("/quienes-somos")({
@@ -76,7 +77,7 @@ function QuienesSomos() {
           <div>
             <p className="label-mono">Quiénes Somos</p>
             <h1 className="mt-6 font-raleway text-5xl font-semibold leading-[1.05] md:text-6xl text-balance">
-              Estrategia digital con enfoque en <span className="mark">resultados reales</span>.
+              Estrategia digital con enfoque en <Subrayado>resultados reales</Subrayado>.
             </h1>
             <p className="mt-8 max-w-xl font-sans text-lg text-foreground/75 leading-relaxed">
               En Syntalia Vértice ayudamos a empresas con actividad real a crecer con más estructura. Combinamos estrategia, creatividad y ejecución para ordenar su presencia digital, generar oportunidades y construir sistemas conectados con el negocio.

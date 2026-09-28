@@ -751,22 +751,22 @@ function CasoDeExito() {
 
         <article className="caso-tarjeta" aria-labelledby="caso-marca">
           <header className="caso-marca">
-            {/* El PNG es blanco sobre transparente (para la marquesina oscura):
-                aquí se usa como máscara y se pinta en navy. */}
+            {/* El logo identifica la marca (ya lleva la palabra FRULONSA). El
+                PNG es blanco sobre transparente (para la marquesina oscura):
+                aquí se usa como máscara y se pinta en navy, así que el texto
+                alternativo va en role="img" + aria-label, que es lo que haría
+                alt en un <img>. */}
             <span
-              aria-hidden
+              id="caso-marca"
+              role="img"
+              aria-label="Frulonsa"
               className="caso-logo"
               style={{
                 WebkitMaskImage: `url(${logoFrulonsa})`,
                 maskImage: `url(${logoFrulonsa})`,
               }}
             />
-            <p className="caso-quien">
-              <span id="caso-marca" className="caso-nombre">
-                Frulonsa
-              </span>
-              {SECTOR_FRULONSA && <span className="caso-sector"> · {SECTOR_FRULONSA}</span>}
-            </p>
+            {SECTOR_FRULONSA && <p className="caso-sector">{SECTOR_FRULONSA}</p>}
             <span className="caso-plazo">90 días</span>
           </header>
 
