@@ -9,7 +9,6 @@ import logoFrulonsa from "@/assets/logos-clientes/frulonsa.png";
 import logoMn from "@/assets/logos-clientes/mn.png";
 import logoRevivalia from "@/assets/logos-clientes/revivalia.png";
 import logoTradyn from "@/assets/logos-clientes/tradyn-ai.png";
-import { Reveal } from "@/components/motion";
 import { FormularioCorto } from "@/components/formulario-corto";
 import { SectionLink } from "@/components/section-link";
 import { SectionRail } from "@/components/section-rail";
@@ -62,10 +61,7 @@ function Index() {
       <Sistema />
       <Servicios />
 
-      {/* Caso de éxito antiguo, pendiente de rehacer */}
-      <div className="bg-background text-foreground">
-        <CasoDeExito />
-      </div>
+      <CasoDeExito />
 
       <Equipo />
       <Empezar />
@@ -74,17 +70,6 @@ function Index() {
     </div>
   );
 }
-
-/* ------------------------------------------------------------------ */
-/* Piezas compartidas                                                   */
-/* ------------------------------------------------------------------ */
-
-/** Los dos anchos del sistema: bloque y columna de texto. */
-const BLOQUE = "mx-auto max-w-wide px-6 sm:px-8";
-
-/** Enlace subrayado: la alternativa discreta al botón principal. */
-const FANTASMA =
-  "inline-flex items-center gap-2 border-b-2 border-current pb-1 text-body font-semibold tracking-[-0.01em] transition-opacity hover:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold";
 
 /* ------------------------------------------------------------------ */
 /* 1 · HERO                                                             */
@@ -706,73 +691,140 @@ function Servicios() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 4 · CASO DE ÉXITO (antiguo)                                          */
+/* 4 · CASO DE ÉXITO                                                    */
 /* ------------------------------------------------------------------ */
 
-/** Cifras fijas, sin contador: una captura a medias mostraba un dato falso. */
-const FRULONSA_DESTACADO = "5,6 M";
-
-/** La unidad se pinta más pequeña, así que la separamos de la cifra. */
-const [FRULONSA_CIFRA, FRULONSA_UNIDAD] = FRULONSA_DESTACADO.split(" ");
-
-const FRULONSA_METRICS = [
-  { value: "1,4 M", label: "Usuarios únicos" },
-  { value: "157 K", label: "Interacciones" },
-  { value: "+7.301", label: "Nuevos seguidores" },
+/**
+ * Cifras fijas, sin contador: una captura a medias mostraba un dato falso.
+ * La unidad se pinta más pequeña, por eso va aparte. La primera es la
+ * destacada.
+ */
+const FRULONSA_CIFRAS = [
+  { cifra: "5,6", unidad: "M", label: "Reproducciones", destacada: true },
+  { cifra: "1,4", unidad: "M", label: "Usuarios únicos", destacada: false },
+  { cifra: "157", unidad: "K", label: "Interacciones", destacada: false },
+  { cifra: "+7.301", unidad: "", label: "Nuevos seguidores", destacada: false },
 ] as const;
 
+/*
+ * Material que aún no existe. Cada pieza solo se pinta cuando tiene
+ * contenido real: nada de huecos vacíos ni textos de relleno.
+ */
+type TestimonioCaso = { cita: string; nombre: string; cargo: string };
+type PiezaCaso =
+  | { tipo: "imagen"; src: string; alt: string }
+  | { tipo: "video"; src: string; poster?: string; titulo: string };
+
+/** Testimonio de Frulonsa: cita, y nombre y cargo de quien la firma. */
+const TESTIMONIO_FRULONSA = null as TestimonioCaso | null;
+/** Una pieza del contenido producido (imagen o vídeo vertical). */
+const PIEZA_FRULONSA = null as PiezaCaso | null;
+/** Sector de Frulonsa en una línea; vacío no se pinta. */
+const SECTOR_FRULONSA: string = "";
+
+/**
+ * Una tarjeta con el lenguaje del resto de la home (recta, filete dorado):
+ * la marca, las cuatro cifras, qué miden y la fuente. Estilos en
+ * styles.css (.caso-*).
+ */
 function CasoDeExito() {
+  const testimonio = TESTIMONIO_FRULONSA;
+  const pieza = PIEZA_FRULONSA;
+
   return (
-    <section id="caso" className="relative scroll-mt-24 py-16 md:py-24">
-      <div className={BLOQUE}>
-        <p className="label-mono">Caso de éxito · Frulonsa</p>
-
-        <h2 className="mt-5 max-w-[18ch] text-h2 text-foreground">
-          Resultados que demuestran lo que pasa cuando el sistema está{" "}
-          <span className="mark">bien construido</span>.
-        </h2>
-
-        <div className="mt-14 grid gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:gap-16">
-          {/* izquierda: la cifra estrella, a tamaño de titular */}
+    <section id="caso" className="seccion-clara seccion scroll-mt-6">
+      <div className="contenedor">
+        <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-end min-[900px]:gap-14">
           <div>
-            <Reveal>
-              <span className="block text-[clamp(84px,13vw,200px)] leading-[0.92] font-bold tracking-[-0.04em] text-foreground">
-                {FRULONSA_CIFRA}
-                <span className="text-[0.34em] tracking-[-0.03em]">{FRULONSA_UNIDAD}</span>
-              </span>
-            </Reveal>
-
-            <p className="mt-6 max-w-[34ch] text-lead leading-[1.55] text-foreground/75">
-              Reproducciones del contenido durante los 90 días en los que trabajamos la estrategia,
-              la planificación y la producción de contenido de Frulonsa.
+            <p className="etiqueta">
+              <span className="etiqueta-num">04</span>Caso de éxito
             </p>
-
-            <Link to="/contacto" className={cn(FANTASMA, "mt-7 text-foreground")}>
-              Ver el caso completo
-              <ArrowRight className="h-3.5 w-3.5" aria-hidden />
-            </Link>
+            <h2 className="mt-5 max-w-[18ch] text-h2 text-balance">
+              Esto es lo que pasa cuando el contenido deja de ser <Subrayado>improvisado</Subrayado>
+            </h2>
           </div>
-
-          {/* derecha: el resto de métricas, en lista con filetes */}
-          <div>
-            <dl className="border-t-2 border-navy">
-              {FRULONSA_METRICS.map((m, i) => (
-                <Reveal key={m.label} delay={100 + i * 80}>
-                  <div className="flex items-baseline justify-between gap-5 border-b border-border py-[18px]">
-                    <dt className="label-mono">{m.label}</dt>
-                    <dd className="text-[40px] leading-none font-bold tracking-[-0.035em] text-foreground">
-                      {m.value}
-                    </dd>
-                  </div>
-                </Reveal>
-              ))}
-            </dl>
-
-            <p className="mt-4 text-meta text-foreground/75">
-              Datos de las analíticas de los canales de Frulonsa durante 90 días.
-            </p>
-          </div>
+          <p className="max-w-[34em] text-lead text-navy/72">
+            Noventa días trabajando la estrategia, la planificación y la producción de contenido de
+            Frulonsa.
+          </p>
         </div>
+
+        <article className="caso-tarjeta" aria-labelledby="caso-marca">
+          <header className="caso-marca">
+            {/* El PNG es blanco sobre transparente (para la marquesina oscura):
+                aquí se usa como máscara y se pinta en navy. */}
+            <span
+              aria-hidden
+              className="caso-logo"
+              style={{
+                WebkitMaskImage: `url(${logoFrulonsa})`,
+                maskImage: `url(${logoFrulonsa})`,
+              }}
+            />
+            <p className="caso-quien">
+              <span id="caso-marca" className="caso-nombre">
+                Frulonsa
+              </span>
+              {SECTOR_FRULONSA && <span className="caso-sector"> · {SECTOR_FRULONSA}</span>}
+            </p>
+            <span className="caso-plazo">90 días</span>
+          </header>
+
+          <dl className="caso-cifras">
+            {FRULONSA_CIFRAS.map((c) => (
+              <div key={c.label} className={cn("caso-cifra", c.destacada && "caso-cifra-destacada")}>
+                <dt>{c.label}</dt>
+                <dd>
+                  {c.cifra}
+                  {c.unidad && <span className="caso-unidad">{c.unidad}</span>}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          <div className="caso-mide">
+            <p>
+              <b>Qué mide esto:</b> el alcance del contenido en sus canales durante los 90 días. Es
+              la primera mitad del trabajo: que la marca deje de ser invisible para su mercado.
+            </p>
+          </div>
+
+          {(testimonio || pieza) && (
+            <div className="caso-testimonio">
+              {testimonio && (
+                <figure>
+                  <blockquote>
+                    <p>{testimonio.cita}</p>
+                  </blockquote>
+                  <figcaption>
+                    <b>{testimonio.nombre}</b>
+                    {testimonio.cargo}
+                  </figcaption>
+                </figure>
+              )}
+              {pieza &&
+                (pieza.tipo === "imagen" ? (
+                  <img className="caso-pieza" src={pieza.src} alt={pieza.alt} loading="lazy" />
+                ) : (
+                  <video
+                    className="caso-pieza"
+                    src={pieza.src}
+                    poster={pieza.poster}
+                    title={pieza.titulo}
+                    controls
+                    playsInline
+                    preload="metadata"
+                  />
+                ))}
+            </div>
+          )}
+
+          <footer className="caso-pie">
+            <p>Datos de las analíticas de los canales de Frulonsa durante 90 días.</p>
+            {/* "Ver el caso completo" vuelve cuando exista /casos/frulonsa:
+                hoy no hay página de caso y llevaba a /contacto. */}
+          </footer>
+        </article>
       </div>
     </section>
   );
