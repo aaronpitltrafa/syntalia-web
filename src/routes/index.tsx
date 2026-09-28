@@ -554,43 +554,62 @@ function useEntradaSistema() {
 /* ------------------------------------------------------------------ */
 
 /**
- * La etapa del Sistema Vértice de cada servicio sale de lib/sistema.ts:
- * la etapa cuya lista `services` enlaza a la misma página. Si un servicio
- * no aparece en ninguna, falla al cargar en vez de inventarse una etapa.
+ * Servicios de la home. `etapa` es la etapa del Sistema Vértice a la que
+ * pertenece cada uno, escrita a mano: así un enlace que no esté en
+ * lib/sistema.ts (p. ej. el índice /servicios) no rompe nada.
+ *
+ * "Automatización y sistemas" va al índice porque aún no hay página de
+ * CRM y automatizaciones (pendiente de crear); cuando exista, cambiar su `to`.
  */
-function etapaDeServicio(to: string) {
-  const etapa = SYSTEM_STAGES.find((e) => e.services?.some((s) => s.to === to));
-  if (!etapa) throw new Error(`El servicio ${to} no está en ninguna etapa de lib/sistema.ts`);
-  return etapa.number;
-}
-
 const SERVICIOS_HOME = [
   {
     nombre: "Diseño y desarrollo web",
     texto: "Webs, landings y aplicaciones a medida, pensadas para captar.",
     to: "/servicios/desarrollo-web",
+    etapa: "02",
   },
   {
     nombre: "Branding y posicionamiento",
     texto: "Identidad, mensaje y propuesta de valor con criterio.",
     to: "/servicios/branding-completo",
+    etapa: "02",
   },
   {
     nombre: "Contenido y redes sociales",
     texto: "Estrategia, producción audiovisual y publicación constante.",
     to: "/servicios/contenido",
+    etapa: "02",
   },
   {
     nombre: "Publicidad y captación",
     texto: "Campañas, landings y seguimiento de cada contacto.",
-    to: "/servicios/social-ads",
+    to: "/servicios/captacion",
+    etapa: "03",
   },
   {
     nombre: "Automatización y sistemas",
     texto: "CRM, flujos y herramientas internas que quitan trabajo manual.",
-    to: "/servicios/captacion",
+    to: "/servicios",
+    etapa: "03",
   },
-].map((s) => ({ ...s, etapa: etapaDeServicio(s.to) }));
+] as const;
+
+/*
+ * Solo en desarrollo: si el `to` de un servicio sí aparece en alguna lista
+ * `services` de lib/sistema.ts, su etapa tiene que ser esa. Si no coincide,
+ * avisa en la consola; en producción este bloque no existe (Vite lo quita
+ * al compilar) y la página se pinta igual.
+ */
+if (import.meta.env.DEV) {
+  for (const s of SERVICIOS_HOME) {
+    const enSistema = SYSTEM_STAGES.find((e) => e.services?.some((x) => x.to === s.to));
+    if (enSistema && enSistema.number !== s.etapa) {
+      console.warn(
+        `[servicios] "${s.nombre}" dice etapa ${s.etapa}, pero ${s.to} está en la etapa ${enSistema.number} de lib/sistema.ts`,
+      );
+    }
+  }
+}
 
 /**
  * Índice de servicios sobre crema apagado: una fila enlazable por
