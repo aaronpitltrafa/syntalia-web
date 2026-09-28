@@ -1109,6 +1109,204 @@
     .sistema-pie a:hover svg { transform: none; }
   }
 
+  /* 3b · Servicios: índice de filas con su etapa y, a la derecha, un panel
+     fijo hacia el diagnóstico. El realce de la fila es solo transform y
+     color (CLS 0). */
+  .servicios-cuerpo {
+    --curva-servicios: cubic-bezier(0.3, 0.9, 0.25, 1);
+    display: grid;
+    gap: 34px;
+    margin-top: clamp(36px, 4vw, 54px);
+  }
+  /* Desde 1024px, la misma plantilla que la cabecera del bloque. */
+  @media (min-width: 1024px) {
+    .servicios-cuerpo {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 56px;
+      align-items: start;
+    }
+  }
+
+  .servicios-lista { border-top: 1px solid rgb(2 21 87 / 12%); }
+  .servicios-lista > li { border-bottom: 1px solid rgb(2 21 87 / 12%); }
+  .servicios-fila {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px 22px;
+    padding: 22px 10px 24px;
+    transition: background-color 0.25s var(--curva-servicios);
+  }
+  /* Línea dorada de 2px sobre el filete inferior, de izquierda a derecha. */
+  .servicios-fila::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 -1px;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--curva-servicios);
+  }
+  .servicios-fila:focus-visible {
+    outline: 2px solid var(--navy);
+    outline-offset: -2px;
+  }
+  .servicios-texto {
+    display: block;
+    min-width: 0;
+    transition: transform 0.3s var(--curva-servicios);
+  }
+  .servicios-nombre {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(18px, 1.7vw, 22px);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+  .servicios-desc {
+    display: block;
+    margin-top: 5px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: color-mix(in oklab, var(--navy) 72%, transparent);
+  }
+  .servicios-der {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  /* Etapa: texto real (entra en el nombre del enlace). Un punto más oscuro
+     que --gold-ink, como la píldora del problema: #7E640E sobre el dorado
+     al 12 % se quedaba en 4,4:1. */
+  .servicios-etapa {
+    padding: 7px 11px;
+    font-size: 10.5px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #6e580b;
+    background: rgb(221 174 69 / 12%);
+    border: 1px solid rgb(221 174 69 / 50%);
+    transition:
+      background-color 0.25s,
+      border-color 0.25s;
+  }
+  .servicios-flecha {
+    display: grid;
+    flex: none;
+    place-content: center;
+    width: 38px;
+    height: 38px;
+    color: var(--navy);
+    border: 1px solid rgb(2 21 87 / 18%);
+    transition:
+      background-color 0.25s,
+      border-color 0.25s,
+      transform 0.25s var(--curva-servicios);
+  }
+  @media (max-width: 679px) {
+    .servicios-etapa { display: none; }
+  }
+
+  .servicios-fila:hover,
+  .servicios-fila:focus-visible { background: rgb(2 21 87 / 3.5%); }
+  .servicios-fila:hover::after,
+  .servicios-fila:focus-visible::after { transform: scaleX(1); }
+  .servicios-fila:hover .servicios-texto,
+  .servicios-fila:focus-visible .servicios-texto { transform: translateX(5px); }
+  .servicios-fila:hover .servicios-etapa,
+  .servicios-fila:focus-visible .servicios-etapa {
+    background: rgb(221 174 69 / 22%);
+    border-color: rgb(221 174 69 / 80%);
+  }
+  .servicios-fila:hover .servicios-flecha,
+  .servicios-fila:focus-visible .servicios-flecha {
+    background: var(--gold);
+    border-color: transparent;
+    transform: translateX(3px);
+  }
+
+  /* Panel: blanco, recto, con el borde de las fichas del resto de la home.
+     Desde 1024px se queda pegado bajo la cabecera fija (que mide 76px). */
+  .servicios-panel {
+    padding: 26px 24px 28px;
+    background: #fff;
+    border: 1px solid rgb(2 21 87 / 10%);
+    box-shadow: 0 26px 50px -40px rgb(2 21 87 / 55%);
+  }
+  @media (min-width: 1024px) {
+    .servicios-panel {
+      position: sticky;
+      top: 100px;
+    }
+  }
+  .servicios-panel-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-ink);
+  }
+  .servicios-panel-tag i,
+  .servicios-panel-lista i {
+    flex: none;
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+  .servicios-panel h3 {
+    margin-top: 14px;
+    font-size: 21px;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .servicios-panel-texto {
+    margin-top: 10px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: color-mix(in oklab, var(--navy) 72%, transparent);
+  }
+  /* Navy al 68 %: el 50 % de la referencia se quedaba en 3,4:1 sobre blanco. */
+  .servicios-panel-lista {
+    display: grid;
+    gap: 7px;
+    margin-top: 16px;
+  }
+  .servicios-panel-lista li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: color-mix(in oklab, var(--navy) 68%, transparent);
+  }
+  .servicios-panel-lista i { margin-top: 0.55em; }
+
+  /* Sin movimiento: ni desplazamiento del texto ni línea dibujada; el
+     realce se queda en el fondo y el color de la flecha. */
+  @media (prefers-reduced-motion: reduce) {
+    .servicios-fila,
+    .servicios-texto,
+    .servicios-etapa,
+    .servicios-flecha { transition: none; }
+    .servicios-fila::after { display: none; }
+    .servicios-fila:hover .servicios-texto,
+    .servicios-fila:focus-visible .servicios-texto,
+    .servicios-fila:hover .servicios-flecha,
+    .servicios-fila:focus-visible .servicios-flecha { transform: none; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .mark-v3::after { animation: none; }
     /* Quieta: una sola tanda de logos, centrada y en varias lineas. */

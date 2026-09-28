@@ -553,6 +553,17 @@ function useEntradaSistema() {
 /* 3b · SERVICIOS                                                       */
 /* ------------------------------------------------------------------ */
 
+/**
+ * La etapa del Sistema Vértice de cada servicio sale de lib/sistema.ts:
+ * la etapa cuya lista `services` enlaza a la misma página. Si un servicio
+ * no aparece en ninguna, falla al cargar en vez de inventarse una etapa.
+ */
+function etapaDeServicio(to: string) {
+  const etapa = SYSTEM_STAGES.find((e) => e.services?.some((s) => s.to === to));
+  if (!etapa) throw new Error(`El servicio ${to} no está en ninguna etapa de lib/sistema.ts`);
+  return etapa.number;
+}
+
 const SERVICIOS_HOME = [
   {
     nombre: "Diseño y desarrollo web",
@@ -579,12 +590,12 @@ const SERVICIOS_HOME = [
     texto: "CRM, flujos y herramientas internas que quitan trabajo manual.",
     to: "/servicios/captacion",
   },
-] as const;
+].map((s) => ({ ...s, etapa: etapaDeServicio(s.to) }));
 
 /**
  * Índice de servicios sobre crema apagado: una fila enlazable por
- * servicio, sin tarjetas. El número en dorado oscuro (4,7:1) pasa a navy
- * al pasar el ratón, porque sobre el fondo del hover se quedaría en 4,3:1.
+ * servicio con la etapa del sistema a la que pertenece, y a la derecha un
+ * panel fijo que lleva al diagnóstico. Estilos en styles.css (.servicios-*).
  */
 function Servicios() {
   return (
@@ -605,42 +616,71 @@ function Servicios() {
           </p>
         </div>
 
-        <ol className="mt-[clamp(36px,4vw,52px)] border-t border-navy/12">
-          {SERVICIOS_HOME.map((s, i) => (
-            <li key={s.to} className="border-b border-navy/12">
-              <Link
-                to={s.to}
-                className="group grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-5 px-1.5 py-[22px] transition-[background-color,padding] duration-200 hover:bg-navy/4 hover:pr-3 hover:pl-3.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy motion-reduce:transition-none"
-              >
-                <span className="text-[11px] leading-none font-semibold tracking-[0.16em] text-gold-ink group-hover:text-navy [font-variant-numeric:lining-nums_tabular-nums]">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="min-w-0">
-                  <span className="block font-display text-[clamp(18px,1.7vw,22px)] leading-[1.25] font-semibold tracking-[-0.015em]">
-                    {s.nombre}
-                  </span>
-                  <span className="mt-1 block text-[14.5px] leading-[1.5] text-navy/72">
-                    {s.texto}
-                  </span>
-                </span>
-                <span
-                  aria-hidden
-                  className="grid h-[38px] w-[38px] shrink-0 place-content-center rounded-full border border-navy/18 transition-colors duration-200 group-hover:border-transparent group-hover:bg-gold motion-reduce:transition-none"
-                >
-                  <ArrowRight className="h-[15px] w-[15px]" strokeWidth={2.4} />
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ol>
+        {/* Misma plantilla que la cabecera: el panel queda bajo el párrafo. */}
+        <div className="servicios-cuerpo">
+          <div>
+            <ol className="servicios-lista">
+              {SERVICIOS_HOME.map((s) => (
+                <li key={s.to}>
+                  <Link to={s.to} className="servicios-fila">
+                    <span className="servicios-texto">
+                      <span className="servicios-nombre">{s.nombre}</span>
+                      <span className="servicios-desc">{s.texto}</span>
+                    </span>
+                    <span className="servicios-der">
+                      <span className="servicios-etapa">Etapa {s.etapa}</span>
+                      <span aria-hidden className="servicios-flecha">
+                        <ArrowRight className="h-[15px] w-[15px]" strokeWidth={2.4} />
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
 
-        <Link
-          to="/servicios"
-          className="mt-8 inline-flex items-center gap-2 border-b-2 border-current pb-1 text-[15px] font-semibold text-navy transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-navy"
-        >
-          Ver todos los servicios
-          <ArrowRight aria-hidden className="h-3.5 w-3.5" />
-        </Link>
+            <Link
+              to="/servicios"
+              className="mt-8 inline-flex items-center gap-2 border-b-2 border-current pb-1 text-[15px] font-semibold text-navy transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-navy"
+            >
+              Ver todos los servicios
+              <ArrowRight aria-hidden className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+
+          <aside className="servicios-panel" aria-labelledby="servicios-panel-titulo">
+            <p className="servicios-panel-tag">
+              <i aria-hidden />
+              Por dónde empezar
+            </p>
+            <h3 id="servicios-panel-titulo">
+              Si no sabes qué pieza te falta, empieza por el diagnóstico
+            </h3>
+            <p className="servicios-panel-texto">
+              Es la etapa 01 del sistema: miramos qué tienes montado, qué falta y en qué orden
+              conviene construirlo.
+            </p>
+            {/* Sobre blanco el contorno de foco dorado claro no se ve: navy. */}
+            <Link
+              to="/diagnostico"
+              className={goldCtaClasses("default", "mt-5 w-full rounded-none focus-visible:outline-navy")}
+            >
+              Solicitar diagnóstico
+              <ArrowRight
+                aria-hidden
+                strokeWidth={2.4}
+                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-[3px] motion-reduce:transition-none"
+              />
+            </Link>
+            <ul className="servicios-panel-lista">
+              {GARANTIAS.map((g) => (
+                <li key={g}>
+                  <i aria-hidden />
+                  {g}
+                </li>
+              ))}
+            </ul>
+          </aside>
+        </div>
       </div>
     </section>
   );

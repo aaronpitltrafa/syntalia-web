@@ -1,0 +1,178 @@
+<title>Servicios · índice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Raleway:wght@600;700;800&display=swap">
+<style>
+  :root{
+    color-scheme: light;
+    --navy:#021557; --ink:#030B24; --cream:#F5F2E9; --cream-2:#EDE9DD;
+    --gold:#DDAE45; --gold-ink:#7E640E;
+    --l1:#021557; --l2:rgba(2,21,87,.72); --l3:rgba(2,21,87,.5);
+    --line:rgba(2,21,87,.12);
+    --disp:'Raleway','Helvetica Neue',Arial,sans-serif;
+    --body:'Poppins','Helvetica Neue',Arial,sans-serif;
+    --curva:cubic-bezier(.3,.9,.25,1);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream-2);color:var(--l1);font-family:var(--body);font-weight:300;font-size:16px;line-height:1.7}
+  .wrap{max-width:1200px;margin:0 auto;padding-inline:16px;position:relative}
+  @media(min-width:900px){.wrap{padding-inline:40px}}
+  h2,h3{font-family:var(--disp);margin:0;font-weight:700;letter-spacing:-.03em;line-height:1.08;text-wrap:balance}
+  p{margin:0}
+
+  .nota{background:var(--navy);color:var(--cream)}
+  .nota .wrap{padding-block:12px;font-size:13.5px;display:flex;gap:8px 20px;flex-wrap:wrap}
+  .nota b{font:600 11px/1.6 var(--body);letter-spacing:.14em;text-transform:uppercase;color:#E9C877}
+
+  section{padding-block:clamp(64px,8vw,116px)}
+
+  .etiqueta{font:600 11px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--l3)}
+  .etiqueta b{color:var(--gold-ink);margin-right:10px}
+  .cab{display:grid;gap:18px;margin-top:20px}
+  @media(min-width:960px){.cab{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:56px;align-items:start}}
+  h2{font-size:clamp(30px,4.2vw,54px);max-width:14ch}
+  .cab p{color:var(--l2);font-size:clamp(15.5px,1.2vw,17.5px);line-height:1.6;max-width:40ch}
+
+  /* ---------- cuerpo a dos columnas ---------- */
+  .cuerpo{margin-top:clamp(36px,4vw,54px);display:grid;gap:34px}
+  @media(min-width:1024px){.cuerpo{grid-template-columns:minmax(0,1fr) 320px;gap:56px;align-items:start}}
+
+  .lista{margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
+  .lista li{border-bottom:1px solid var(--line)}
+  .fila{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
+        gap:10px 22px;padding:22px 10px 24px;text-decoration:none;color:inherit;overflow:hidden;
+        transition:background .25s var(--curva)}
+  .fila::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--gold);
+               transform:scaleX(0);transform-origin:left;transition:transform .5s var(--curva)}
+  .fila:hover,.fila:focus-visible{background:rgba(2,21,87,.035);outline:none}
+  .fila:hover::after,.fila:focus-visible::after{transform:scaleX(1)}
+  .fila:focus-visible{outline:2px solid var(--navy);outline-offset:-2px}
+
+  .txt{min-width:0;transition:transform .3s var(--curva)}
+  .fila:hover .txt{transform:translateX(5px)}
+  .txt h3{font-size:clamp(18px,1.7vw,22px);line-height:1.25;font-weight:700;letter-spacing:-.015em}
+  .txt p{margin-top:5px;color:var(--l2);font-size:14.5px;line-height:1.5}
+
+  .der{display:flex;align-items:center;gap:16px}
+  .etapa{font:600 10.5px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink);
+         white-space:nowrap;border:1px solid rgba(221,174,69,.5);background:rgba(221,174,69,.12);
+         padding:7px 11px;transition:background .25s,border-color .25s}
+  .fila:hover .etapa{background:rgba(221,174,69,.22);border-color:rgba(221,174,69,.8)}
+  .flecha{display:grid;place-content:center;width:38px;height:38px;flex:none;
+          border:1px solid rgba(2,21,87,.18);color:var(--navy);
+          transition:background .25s,border-color .25s,transform .25s var(--curva)}
+  .fila:hover .flecha{background:var(--gold);border-color:transparent;transform:translateX(3px)}
+  @media(max-width:679px){.etapa{display:none}}
+
+  .todos{margin-top:26px;display:inline-flex;align-items:center;gap:9px;color:var(--navy);text-decoration:none;
+         font-weight:600;font-size:15px;border-bottom:2px solid currentColor;padding-bottom:3px}
+  .todos:hover{opacity:.72}
+
+  /* ---------- panel de la derecha ---------- */
+  .panel{background:#FFFFFF;border:1px solid rgba(2,21,87,.1);padding:26px 24px 28px;
+         box-shadow:0 26px 50px -40px rgba(2,21,87,.55)}
+  @media(min-width:1024px){.panel{position:sticky;top:96px}}
+  .panel .tag{display:inline-flex;align-items:center;gap:8px;font:600 10.5px/1 var(--body);letter-spacing:.16em;
+              text-transform:uppercase;color:var(--gold-ink)}
+  .panel .tag i{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+  .panel h3{margin-top:14px;font-size:21px;line-height:1.2}
+  .panel p{margin-top:10px;color:var(--l2);font-size:14.5px;line-height:1.6}
+  .panel .btn{margin-top:20px;display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;
+              background:var(--gold);color:#1E1704;text-decoration:none;font-weight:600;font-size:15px;
+              padding:15px 18px;box-shadow:0 14px 30px -16px rgba(221,174,69,.9);transition:transform .2s}
+  .panel .btn:hover{transform:translateY(-1px)}
+  .panel ul{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:7px}
+  .panel li{display:flex;gap:9px;align-items:flex-start;font-size:13px;line-height:1.45;color:var(--l3)}
+  .panel li i{flex:none;width:5px;height:5px;margin-top:.55em;background:var(--gold);transform:rotate(45deg)}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="nota"><div class="wrap"><b>Boceto</b><span>Bloque 03 “Servicios”: sin numeración propia, con etapa y panel a la derecha.</span></div></div>
+
+<section><div class="wrap">
+  <p class="etiqueta"><b>03</b>Servicios</p>
+  <div class="cab">
+    <h2>Las piezas que montamos dentro del sistema</h2>
+    <p>Se pueden contratar por separado, pero cobran sentido cuando forman parte del ecosistema completo.</p>
+  </div>
+
+  <div class="cuerpo">
+    <div>
+      <ul class="lista">
+        <li><a class="fila" href="#">
+          <span class="txt">
+            <h3>Diseño y desarrollo web</h3>
+            <p>Webs, landings y aplicaciones a medida, pensadas para captar.</p>
+          </span>
+          <span class="der">
+            <span class="etapa">Etapa 02</span>
+            <span class="flecha" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </span>
+        </a></li>
+
+        <li><a class="fila" href="#">
+          <span class="txt">
+            <h3>Branding y posicionamiento</h3>
+            <p>Identidad, mensaje y propuesta de valor con criterio.</p>
+          </span>
+          <span class="der">
+            <span class="etapa">Etapa 02</span>
+            <span class="flecha" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </span>
+        </a></li>
+
+        <li><a class="fila" href="#">
+          <span class="txt">
+            <h3>Contenido y redes sociales</h3>
+            <p>Estrategia, producción audiovisual y publicación constante.</p>
+          </span>
+          <span class="der">
+            <span class="etapa">Etapa 02</span>
+            <span class="flecha" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </span>
+        </a></li>
+
+        <li><a class="fila" href="#">
+          <span class="txt">
+            <h3>Publicidad y captación</h3>
+            <p>Campañas, landings y seguimiento de cada contacto.</p>
+          </span>
+          <span class="der">
+            <span class="etapa">Etapa 03</span>
+            <span class="flecha" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </span>
+        </a></li>
+
+        <li><a class="fila" href="#">
+          <span class="txt">
+            <h3>Automatización y sistemas</h3>
+            <p>CRM, flujos y herramientas internas que quitan trabajo manual.</p>
+          </span>
+          <span class="der">
+            <span class="etapa">Etapa 03</span>
+            <span class="flecha" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </span>
+        </a></li>
+      </ul>
+
+      <a class="todos" href="#">Ver todos los servicios
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+
+    <aside class="panel">
+      <span class="tag"><i></i>Por dónde empezar</span>
+      <h3>Si no sabes qué pieza te falta, empieza por el diagnóstico</h3>
+      <p>Es la etapa 01 del sistema: miramos qué tienes montado, qué falta y en qué orden conviene construirlo.</p>
+      <a class="btn" href="#">Solicitar diagnóstico
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E1704" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <ul>
+        <li><i></i>Sin compromiso</li>
+        <li><i></i>Respuesta en 24 h</li>
+        <li><i></i>Plan estratégico gratuito</li>
+      </ul>
+    </aside>
+  </div>
+</div></section>
