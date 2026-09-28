@@ -118,7 +118,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": "Organization",
           name: "Syntalia Vértice",
           url: SITE_URL,
-          description: "Agencia de marketing digital con enfoque estratégico para empresas con ambición real.",
+          description: "Consultora estratégica de marketing digital, sistemas y tecnología para empresas con ambición real.",
           address: {
             "@type": "PostalAddress",
             streetAddress: "Avenida de la Libertad 301",
@@ -154,7 +154,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@type": "ProfessionalService",
           name: "Syntalia Vértice",
           url: SITE_URL,
-          description: "Agencia de marketing digital con enfoque estratégico para empresas con ambición real.",
+          description: "Consultora estratégica de marketing digital, sistemas y tecnología para empresas con ambición real.",
           email: "vertice@syntalia.es",
           telephone: "+34-672-167-758",
           address: {

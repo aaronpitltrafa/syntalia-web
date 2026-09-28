@@ -1472,6 +1472,97 @@
     .enlace-dibujado:hover svg { transform: none; }
   }
 
+  /* Bloque 05, cómo trabajamos: solo tipografía, sin tarjetas ni iconos.
+     Cada regla es una fila entre filetes; al pasar el ratón se dibuja una
+     raya dorada de 2 px sobre el filete de abajo, sin mover nada. */
+  .reglas {
+    margin-top: clamp(40px, 4.6vw, 64px);
+    border-top: 1px solid color-mix(in oklab, var(--navy) 12%, transparent);
+  }
+  .regla {
+    position: relative;
+    display: grid;
+    gap: 10px;
+    padding-block: clamp(24px, 2.8vw, 34px);
+    border-bottom: 1px solid color-mix(in oklab, var(--navy) 12%, transparent);
+  }
+  @media (min-width: 900px) {
+    .regla {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: clamp(32px, 4vw, 64px);
+      align-items: start;
+    }
+  }
+  .regla::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 -1px;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.55s cubic-bezier(0.3, 0.9, 0.25, 1);
+  }
+  .regla:hover::after { transform: scaleX(1); }
+  .regla h3 {
+    display: flex;
+    gap: 14px;
+    /* 24 ch y 20 px de mínimo: así "software, lo programamos" y "mínimo de
+       tres a seis meses" caben con un 7 % de aire con Raleway y con la de
+       respaldo, y cada enunciado tiene las mismas líneas con las dos. */
+    max-width: calc(24 * var(--ch-raleway));
+    font-size: clamp(20px, 2.5vw, 31px);
+    line-height: 1.16;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  /* El rombo: un cuadrado dorado girado 45°, a la altura de la primera línea. */
+  .regla h3::before {
+    content: "";
+    flex: none;
+    width: 8px;
+    height: 8px;
+    margin-top: 0.62em;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+  /* Anchos en em y no en ch: el ch cambia con la fuente. 32em son unos
+     52 caracteres de Poppins; 34,5em, unos 56. */
+  .regla p {
+    max-width: 32em;
+    font-size: clamp(14.5px, 1.05vw, 15.5px);
+    line-height: 1.62;
+    color: color-mix(in oklab, var(--navy) 72%, transparent);
+  }
+  @media (min-width: 900px) {
+    .regla p { padding-top: 0.35em; }
+  }
+  .reglas-pie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px 28px;
+    margin-top: clamp(28px, 3vw, 40px);
+  }
+  .reglas-pie p {
+    max-width: 34.5em;
+    font-size: 14.5px;
+    color: color-mix(in oklab, var(--navy) 72%, transparent);
+  }
+  .reglas-pie a {
+    --enlace-grosor: 2px;
+    font-size: 15px;
+    color: var(--navy);
+  }
+  .reglas-pie a:focus-visible {
+    outline: 2px solid var(--navy);
+    outline-offset: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .regla::after { transition: none; }
+  }
+
   /* Página de un caso (/casos/frulonsa): crema, tarjetas blancas rectas
      con filete dorado y las mismas piezas .caso-* del bloque de la home. */
   .caso-pagina {

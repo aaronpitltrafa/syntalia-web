@@ -4,17 +4,17 @@ import { Menu, X } from "lucide-react";
 import logoHorizontal from "@/assets/logo-horizontal.png";
 import { GoldCta } from "@/components/gold-cta";
 import { SectionLink } from "@/components/section-link";
-import { useActiveSection, type HomeSectionId } from "@/lib/home-sections";
+import { HOME_SECTIONS, useActiveSection, type HomeSectionId } from "@/lib/home-sections";
 import { cn } from "@/lib/utils";
 
-/** Cada entrada apunta a su sección de la home (ver HOME_SECTIONS). */
-const nav: { label: string; section: HomeSectionId }[] = [
-  { label: "Sistema", section: "sistema" },
-  { label: "Servicios", section: "servicios" },
-  { label: "Resultados", section: "caso" },
-  { label: "Quiénes somos", section: "equipo" },
-  { label: "FAQ", section: "faq" },
-];
+/** Cada entrada apunta a su sección de la home; el texto sale de
+    HOME_SECTIONS, el mismo que usa el raíl lateral. */
+const nav: { label: string; section: HomeSectionId }[] = (
+  ["sistema", "servicios", "caso", "equipo", "faq"] as const
+).map((section) => ({
+  section,
+  label: HOME_SECTIONS.find((s) => s.id === section)?.label ?? section,
+}));
 
 /** Píldora azul translúcida: se lee igual sobre la home oscura y sobre las páginas crema. */
 const glass =

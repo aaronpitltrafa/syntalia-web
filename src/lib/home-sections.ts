@@ -11,7 +11,7 @@ export const HOME_SECTIONS = [
   { id: "sistema", label: "Sistema" },
   { id: "servicios", label: "Servicios" },
   { id: "caso", label: "Resultados" },
-  { id: "equipo", label: "Equipo" },
+  { id: "equipo", label: "Cómo trabajamos" },
   { id: "empezar", label: "Empezar" },
   { id: "faq", label: "FAQ" },
   { id: "contacto", label: "Contacto" },

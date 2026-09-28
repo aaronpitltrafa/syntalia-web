@@ -1,0 +1,118 @@
+<title>Cómo trabajamos · bloque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Raleway:wght@600;700;800&display=swap">
+<style>
+  :root{
+    color-scheme: light;
+    --navy:#021557; --ink:#030B24; --cream:#F5F2E9; --cream-2:#EDE9DD;
+    --gold:#DDAE45; --gold-ink:#6E580B;
+    --l1:#021557; --l2:rgba(2,21,87,.72); --l3:rgba(2,21,87,.68);
+    --line:rgba(2,21,87,.12);
+    --disp:'Raleway','Helvetica Neue',Arial,sans-serif;
+    --body:'Poppins','Helvetica Neue',Arial,sans-serif;
+    --curva:cubic-bezier(.3,.9,.25,1);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--l1);font-family:var(--body);font-weight:300;font-size:16px;line-height:1.7}
+  .wrap{max-width:1200px;margin:0 auto;padding-inline:16px;position:relative}
+  @media(min-width:900px){.wrap{padding-inline:40px}}
+  h2,h3{font-family:var(--disp);margin:0;font-weight:700;letter-spacing:-.03em;line-height:1.08;text-wrap:balance}
+  p{margin:0}
+
+  .nota{background:var(--navy);color:var(--cream)}
+  .nota .wrap{padding-block:12px;font-size:13.5px;display:flex;gap:8px 20px;flex-wrap:wrap}
+  .nota b{font:600 11px/1.6 var(--body);letter-spacing:.14em;text-transform:uppercase;color:#E9C877}
+
+  section{padding-block:clamp(64px,8vw,116px)}
+
+  .etiqueta{font:600 11px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--l3)}
+  .etiqueta b{color:var(--gold-ink);margin-right:10px}
+  .cab{display:grid;gap:18px;margin-top:20px}
+  @media(min-width:960px){.cab{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:56px;align-items:end}}
+  h2{font-size:clamp(30px,4.2vw,52px);max-width:16ch}
+  .sub{position:relative;display:inline-block;padding-bottom:.22em}
+  .sub::after{content:"";position:absolute;left:0;right:0;bottom:0;height:.1em;background:var(--gold);border-radius:2px}
+  .cab p{color:var(--l2);font-size:clamp(15.5px,1.2vw,17.5px);line-height:1.6;max-width:42ch}
+
+  /* ---------- las reglas ---------- */
+  .reglas{margin-top:clamp(40px,4.6vw,64px);border-top:1px solid var(--line)}
+  .regla{border-bottom:1px solid var(--line);display:grid;gap:10px;padding:clamp(24px,2.8vw,34px) 0;position:relative}
+  @media(min-width:900px){
+    .regla{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(32px,4vw,64px);align-items:start}
+  }
+  .regla::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--gold);
+                transform:scaleX(0);transform-origin:left;transition:transform .55s var(--curva)}
+  .regla:hover::after{transform:scaleX(1)}
+
+  .regla h3{font-size:clamp(21px,2.5vw,31px);line-height:1.16;max-width:21ch;display:flex;gap:14px}
+  .regla h3 i{flex:none;width:8px;height:8px;margin-top:.62em;background:var(--gold);transform:rotate(45deg)}
+  .regla p{color:var(--l2);font-size:clamp(14.5px,1.05vw,15.5px);line-height:1.62;max-width:52ch}
+  @media(min-width:900px){.regla p{padding-top:.35em}}
+  .regla.duda h3 i{background:transparent;border:2px solid var(--gold);transform:rotate(45deg)}
+
+  /* ---------- cierre ---------- */
+  .pie{margin-top:clamp(28px,3vw,40px);display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center;justify-content:space-between}
+  .pie p{color:var(--l2);font-size:14.5px;max-width:56ch}
+  .enlace{display:inline-flex;align-items:center;gap:10px;color:var(--navy);text-decoration:none;
+          font-weight:600;font-size:15px;white-space:nowrap}
+  .enlace span{position:relative;padding-bottom:3px}
+  .enlace span::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--gold);
+                      transform:scaleX(0);transform-origin:left;transition:transform .4s var(--curva)}
+  .enlace:hover span::after{transform:scaleX(1)}
+  .enlace svg{transition:transform .25s var(--curva)}
+  .enlace:hover svg{transform:translateX(4px)}
+
+  .porHacer{margin-top:30px;border:1px solid rgba(221,174,69,.55);background:rgba(221,174,69,.1);padding:18px 20px}
+  .porHacer b{display:block;font:600 10.5px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--gold-ink);margin-bottom:10px}
+  .porHacer ul{margin:0;padding-left:18px;font-size:14px;color:var(--l2);line-height:1.7}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="nota"><div class="wrap"><b>Boceto</b><span>Bloque 05 sin personas. Las reglas salen de lo que hacéis de verdad, no de un manual de agencia.</span></div></div>
+
+<section><div class="wrap">
+  <p class="etiqueta"><b>05</b>Cómo trabajamos</p>
+  <div class="cab">
+    <h2>Lo que proponemos lo <span class="sub">construimos</span> nosotros</h2>
+    <p>No somos una agencia de marketing: somos una consultora con equipo de desarrollo y producción propios. Eso cambia cómo se trabaja, y estas son las cuatro reglas que salen de ahí.</p>
+  </div>
+
+  <div class="reglas">
+    <article class="regla">
+      <h3><i></i>Quien diseña el sistema es quien lo ejecuta</h3>
+      <p>No subcontratamos. Estrategia, desarrollo, contenido y audiovisual trabajan juntos en cada proyecto, y por eso las piezas encajan entre sí en lugar de ir cada una por su lado.</p>
+    </article>
+
+    <article class="regla">
+      <h3><i></i>Si el sistema necesita software, lo programamos</h3>
+      <p>Webs, aplicaciones, CRM, integraciones, automatizaciones e IA aplicada, desarrolladas a medida. No encadenamos herramientas de terceros hasta que el sistema se sostiene con cinta adhesiva: se construye lo que tu operativa necesita.</p>
+    </article>
+
+    <article class="regla">
+      <h3><i></i>El audiovisual también es nuestro</h3>
+      <p>Guion, rodaje, montaje y publicación con equipo propio. Ni banco de imágenes ni productora externa que no conoce el negocio, que es lo que hace que el contenido se note prestado.</p>
+    </article>
+
+    <article class="regla">
+      <h3><i></i>Por bloques, y con un mínimo de tres a seis meses</h3>
+      <p>No vendemos acciones sueltas ni campañas de un mes. Un sistema necesita ese tiempo para sostenerse solo, y antes de eso los números no dicen nada. Si buscas algo puntual, no somos tu opción.</p>
+    </article>
+  </div>
+
+  <div class="pie">
+    <p>Si alguna de estas cuatro no encaja con lo que buscas, mejor decirlo en la primera llamada.</p>
+    <a class="enlace" href="#"><span>Conocer Syntalia Vértice</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+
+  <div class="porHacer">
+    <b>Antes de publicarlo</b>
+    <ul>
+      <li>Las cuatro reglas salen de lo que hacéis de verdad: no subcontratar, desarrollo propio (webs, apps, CRM, automatizaciones, IA), producción audiovisual propia y el mínimo de tres a seis meses. <b>Son compromisos públicos</b>: si alguna no se cumple siempre, se quita o se matiza.</li>
+      <li>El bloque pasa a llamarse "Cómo trabajamos" también en el menú y en el raíl lateral, donde hoy pone "Equipo".</li>
+    </ul>
+  </div>
+</div></section>

@@ -21,7 +21,6 @@ import {
   CasoTestimonio,
 } from "@/components/caso";
 import { goldCtaClasses } from "@/lib/gold-cta-classes";
-import { DISCIPLINAS } from "@/lib/equipo";
 import { useHomeSectionObserver } from "@/lib/home-sections";
 import { CASO_FRULONSA } from "@/lib/casos";
 import { SYSTEM_STAGES } from "@/lib/sistema";
@@ -71,7 +70,7 @@ function Index() {
 
       <CasoDeExito />
 
-      <Equipo />
+      <ComoTrabajamos />
       <Empezar />
       <FAQ />
       <Cierre />
@@ -754,51 +753,81 @@ function CasoDeExito() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 4b · QUIÉNES SOMOS                                                   */
+/* 4b · CÓMO TRABAJAMOS                                                 */
 /* ------------------------------------------------------------------ */
 
 /**
- * Las cuatro disciplinas (datos en lib/equipo.ts). Sin personas: ni
- * nombres, ni fotos, ni cifras. Todas las filas miden lo mismo
- * (auto-rows-fr), también en la rejilla de dos columnas.
+ * Las cuatro reglas de trabajo. Son compromisos públicos: si alguna deja
+ * de cumplirse siempre, se quita o se matiza aquí.
  */
-function Equipo() {
+const REGLAS = [
+  {
+    titulo: "Quien diseña el sistema es quien lo ejecuta",
+    texto:
+      "No subcontratamos. Estrategia, desarrollo, contenido y audiovisual trabajan juntos en cada proyecto, y por eso las piezas encajan entre sí en lugar de ir cada una por su lado.",
+  },
+  {
+    titulo: "Si el sistema necesita software, lo programamos",
+    texto:
+      "Webs, aplicaciones, CRM, integraciones, automatizaciones e IA aplicada, desarrolladas a medida. No encadenamos herramientas de terceros hasta que el sistema se sostiene con cinta adhesiva: se construye lo que tu operativa necesita.",
+  },
+  {
+    titulo: "El audiovisual también es nuestro",
+    texto:
+      "Guion, rodaje, montaje y publicación con equipo propio. Ni banco de imágenes ni productora externa que no conoce el negocio, que es lo que hace que el contenido se note prestado.",
+  },
+  {
+    titulo: "Por bloques, y con un mínimo de tres a seis meses",
+    texto:
+      "No vendemos acciones sueltas ni campañas de un mes. Un sistema necesita ese tiempo para sostenerse solo, y antes de eso los números no dicen nada. Si buscas algo puntual, no somos tu opción.",
+  },
+] as const;
+
+/**
+ * Cómo se trabaja, en cuatro reglas. Solo tipografía (ni tarjetas ni
+ * iconos) porque el resto de la home ya las tiene. Sin personas: ni
+ * nombres, ni fotos, ni cifras. El id sigue siendo "equipo" para no
+ * romper anclas.
+ */
+function ComoTrabajamos() {
   return (
     <section id="equipo" className="seccion-clara seccion scroll-mt-6">
       <div className="contenedor">
-        <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-start min-[900px]:gap-14">
+        <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-end min-[900px]:gap-14">
           <div>
             <p className="etiqueta">
-              <span className="etiqueta-num">05</span>Quiénes somos
+              <span className="etiqueta-num">05</span>Cómo trabajamos
             </p>
-            <h2 className="mt-5 max-w-[calc(15*var(--ch-raleway))] text-h2 text-balance">
-              Cuatro disciplinas bajo el mismo techo
+            <h2 className="mt-5 max-w-[calc(16*var(--ch-raleway))] text-h2 text-balance">
+              Lo que proponemos lo <Subrayado>construimos</Subrayado> nosotros
             </h2>
           </div>
           <p className="max-w-[34em] text-lead text-navy/72">
-            Estrategia, tecnología, contenido y audiovisual trabajan juntos en cada proyecto. No
-            subcontratamos: quien diseña el sistema es quien lo ejecuta, y por eso las piezas
-            encajan entre sí.
+            No somos una agencia de marketing: somos una consultora con equipo de desarrollo y
+            producción propios. Eso cambia cómo se trabaja, y estas son las cuatro reglas que salen
+            de ahí.
           </p>
         </div>
 
-        <ul className="mt-[clamp(36px,4vw,52px)] grid auto-rows-fr gap-4 min-[760px]:grid-cols-2 min-[1040px]:grid-cols-4">
-          {DISCIPLINAS.map((d) => (
-            <li
-              key={d.titulo}
-              className="flex flex-col rounded-card border border-navy/12 bg-paper p-[26px] shadow-[0_26px_48px_-40px_rgb(2_21_87/0.5)]"
-            >
-              <span
-                aria-hidden
-                className="grid h-11 w-11 place-content-center rounded-[13px] bg-navy text-gold-light"
-              >
-                <d.icono className="h-5 w-5" strokeWidth={2} />
-              </span>
-              <h3 className="mt-5 text-h3 font-semibold">{d.titulo}</h3>
-              <p className="mt-2.5 text-[15px] leading-[1.65] text-navy/72">{d.texto}</p>
+        <ul className="reglas">
+          {REGLAS.map((r) => (
+            <li key={r.titulo} className="regla">
+              <h3>{r.titulo}</h3>
+              <p>{r.texto}</p>
             </li>
           ))}
         </ul>
+
+        <div className="reglas-pie">
+          <p>
+            Si alguna de estas cuatro no encaja con lo que buscas, mejor decirlo en la primera
+            llamada.
+          </p>
+          <Link to="/quienes-somos" className="enlace-dibujado">
+            <span>Conocer Syntalia Vértice</span>
+            <ArrowRight aria-hidden strokeWidth={2.4} className="h-4 w-4" />
+          </Link>
+        </div>
       </div>
     </section>
   );
