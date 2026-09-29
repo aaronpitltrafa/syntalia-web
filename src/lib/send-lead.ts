@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { asunto, sanear, texto } from "@/lib/lead-saneado";
 
 export type LeadPayload = {
   name: string;
@@ -29,9 +30,9 @@ export type LeadPayload = {
  * página a la que se redirige después, porque quien envía sin JS tiene que
  * ver una página y no una respuesta JSON.
  */
-type EnvioSinJs = LeadPayload & { volverA: string };
+type Entrada = Record<string, unknown> & { volverA?: string };
 
-function desdeFormulario(f: FormData): EnvioSinJs {
+function desdeFormulario(f: FormData): Entrada {
   const campo = (k: string) => {
     const v = f.get(k);
     return typeof v === "string" ? v : "";
@@ -44,11 +45,14 @@ function desdeFormulario(f: FormData): EnvioSinJs {
     email: campo("email"),
     message: campo("message"),
     honeypot: campo("url"),
-    source: campo("source") || "Formulario sin JavaScript",
+    source: campo("source"),
     // Solo rutas de esta web, nunca una URL de fuera.
     volverA: volverA.startsWith("/") && !volverA.startsWith("//") ? volverA : "/",
   };
 }
+
+/** El mismo mensaje que ya da el formulario cuando falla, sin más detalle. */
+const ERROR_ENVIO = "No se pudo enviar el formulario.";
 
 /** Redirección 303: el navegador vuelve a la página con un GET. */
 function volver(destino: string, envio: "ok" | "error") {
@@ -108,25 +112,33 @@ function escapeHtml(value: string) {
 // strict.input en false: el tipo de entrada es LeadPayload | FormData, y
 // Start solo acepta FormData en la validación si es el único tipo.
 export const sendLead = createServerFn({ method: "POST", strict: { input: false } })
-  .validator((data: LeadPayload | FormData): LeadPayload | EnvioSinJs =>
-    data instanceof FormData ? desdeFormulario(data) : data,
+  .validator((data: LeadPayload | FormData): Entrada =>
+    data instanceof FormData
+      ? desdeFormulario(data)
+      : typeof data === "object" && data !== null
+        ? { ...(data as Record<string, unknown>), volverA: undefined }
+        : {},
   )
   .handler(async ({ data }) => {
-    // Llamada con JS (la de siempre): tal cual. Sin JS: el mismo envío, y
-    // luego de vuelta a la página con ?envio=ok o ?envio=error.
-    if (!("volverA" in data)) return enviar(data);
+    // Con JS (la de siempre): un error se lanza y el formulario enseña su
+    // mensaje. Sin JS: de vuelta a la página con ?envio=ok o ?envio=error.
+    const { volverA } = data;
+    if (!volverA) return enviar(data);
     try {
       await enviar(data);
-      return volver(data.volverA, "ok");
+      return volver(volverA, "ok");
     } catch {
-      return volver(data.volverA, "error");
+      return volver(volverA, "error");
     }
   });
 
-async function enviar(data: LeadPayload) {
+async function enviar(entrada: Record<string, unknown>) {
   // Un bot que rellena el campo trampa recibe un "ok" y no se envía nada:
   // así no aprende que lo hemos descartado.
-  if (data.honeypot) return { ok: true as const };
+  if (texto(entrada.honeypot)) return { ok: true as const };
+
+  const data = sanear(entrada);
+  if (!data) throw new Error(ERROR_ENVIO);
 
   const apiKey = await getEnvVar("RESEND_API_KEY");
   if (!apiKey) {
@@ -147,7 +159,7 @@ async function enviar(data: LeadPayload) {
       from,
       to: [to],
       reply_to: data.email,
-      subject: `Nuevo lead — ${data.source} — ${data.name}`,
+      subject: asunto(data),
       html: `
           <h2>Nuevo contacto desde: ${escapeHtml(data.source)}</h2>
           <p><strong>Nombre:</strong> ${escapeHtml(data.name)}</p>

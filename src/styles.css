@@ -2125,6 +2125,17 @@
     color: #f4a79c;
   }
 
+  .cierre-aviso a {
+    font-weight: 600;
+    color: var(--cream);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .cierre-aviso a:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 3px;
+  }
+
   /* La confirmación. */
   .cierre-tick {
     display: grid;

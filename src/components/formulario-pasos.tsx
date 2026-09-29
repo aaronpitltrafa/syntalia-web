@@ -1,7 +1,9 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { goldCtaClasses } from "@/lib/gold-cta-classes";
+import { legalData } from "@/lib/legal-data";
 import { sendLead } from "@/lib/send-lead";
+import { WHATSAPP_URL } from "@/lib/site";
 
 /** Id fijo del primer campo: el botón del bloque 06 lo enfoca al llegar con teclado. */
 export const ID_PRIMER_CAMPO = "cierre-nombre";
@@ -401,10 +403,20 @@ export function FormularioPasos({
           </button>
         </div>
 
-        {/* Error del envío, con su hueco reservado para no mover la página. */}
+        {/* Error del envío, con su hueco reservado para no mover la página.
+            Da una salida que no depende del formulario: el correo y el
+            WhatsApp (sin JS, lo escrito se ha perdido al volver). */}
         <p role="alert" className="cierre-aviso">
-          {estado === "error" &&
-            "No hemos podido enviarlo. Vuelve a intentarlo o escríbenos por WhatsApp."}
+          {estado === "error" && (
+            <>
+              No hemos podido enviarlo. Escríbenos a{" "}
+              <a href={`mailto:${legalData.email}`}>{legalData.email}</a> o{" "}
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                por WhatsApp
+              </a>
+              .
+            </>
+          )}
         </p>
 
         {/* Campo trampa: fuera de pantalla y fuera del orden de tabulación. */}
