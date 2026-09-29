@@ -58,7 +58,7 @@ export function LegalPage({
               }
             >
               {sections.map((s) => (
-                <section key={s.id} id={s.id} className="scroll-mt-28">
+                <section key={s.id} id={s.id} className="ancla">
                   <h2 className="text-title font-bold leading-[1.15] tracking-[-0.03em] text-foreground">{s.title}</h2>
                   <div className="mt-4 space-y-4 text-[15px] leading-relaxed text-foreground/75">
                     {s.content}

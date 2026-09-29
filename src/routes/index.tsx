@@ -358,7 +358,7 @@ function Problema() {
   const [modo, elegir] = useModoProblema();
 
   return (
-    <section id="problema" className="seccion-problema seccion scroll-mt-6">
+    <section id="problema" className="seccion-problema seccion ancla">
       <div className="contenedor">
         {/* Texto un punto más oscuro que --gold-ink: sobre el dorado al 14%
             el #7E640E se quedaba en 4,4:1; #6E580B da 5,3:1. */}
@@ -471,7 +471,7 @@ function Sistema() {
   const { ref, fase } = useEntrada<HTMLDivElement>(0.2);
 
   return (
-    <section id="sistema" className="seccion-azul seccion scroll-mt-6">
+    <section id="sistema" className="seccion-azul seccion ancla">
       <div className="contenedor">
         <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-start min-[900px]:gap-14">
           <div>
@@ -644,7 +644,7 @@ if (import.meta.env.DEV) {
  */
 function Servicios() {
   return (
-    <section id="servicios" className="seccion-clara alterna seccion scroll-mt-6">
+    <section id="servicios" className="seccion-clara alterna seccion ancla">
       <div className="contenedor">
         <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-start min-[900px]:gap-14">
           <div>
@@ -749,7 +749,7 @@ function CasoDeExito() {
   const pieza = caso.piezas[0] ?? null;
 
   return (
-    <section id="caso" className="seccion-clara seccion scroll-mt-6">
+    <section id="caso" className="seccion-clara seccion ancla">
       <div className="contenedor">
         <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-end min-[900px]:gap-14">
           <div>
@@ -824,7 +824,7 @@ const REGLAS = [
  */
 function ComoTrabajamos() {
   return (
-    <section id="equipo" className="seccion-clara seccion scroll-mt-6">
+    <section id="equipo" className="seccion-clara seccion ancla">
       <div className="contenedor">
         <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-end min-[900px]:gap-14">
           <div>
@@ -915,7 +915,7 @@ function Empezar() {
   const { ref, fase } = useEntrada<HTMLOListElement>(0.25);
 
   return (
-    <section id="empezar" className="seccion-azul seccion scroll-mt-6">
+    <section id="empezar" className="seccion-azul seccion ancla">
       <div className="contenedor">
         <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-end min-[900px]:gap-14">
           <div>
@@ -997,7 +997,7 @@ function FAQ() {
   const alternar = (i: number) => setAbiertas((a) => a.map((v, j) => (j === i ? !v : v)));
 
   return (
-    <section id="faq" className="seccion-clara alterna seccion scroll-mt-6">
+    <section id="faq" className="seccion-clara alterna seccion ancla">
       <div className="contenedor">
         <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-end min-[900px]:gap-14">
           <div>
@@ -1098,7 +1098,7 @@ function Cierre() {
   const { envio } = Route.useSearch();
 
   return (
-    <section id="contacto" className="seccion-azul seccion cierre scroll-mt-6">
+    <section id="contacto" className="seccion-azul seccion cierre ancla">
       <div className="contenedor">
         <FormularioPasos
           source="Home · Cuéntanos tu proyecto"

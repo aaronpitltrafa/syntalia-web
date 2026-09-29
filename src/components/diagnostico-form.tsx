@@ -54,7 +54,7 @@ export function DiagnosticoForm() {
 
   if (status === "sent") {
     return (
-      <div className="flex scroll-mt-28 flex-col items-center justify-center gap-3 rounded-3xl border border-gold/30 bg-gold/10 px-6 py-16 text-center">
+      <div className="ancla flex flex-col items-center justify-center gap-3 rounded-3xl border border-gold/30 bg-gold/10 px-6 py-16 text-center">
         <CheckCircle2 className="h-10 w-10 text-gold" />
         <p className="text-lg font-semibold text-foreground">Hemos recibido tu solicitud.</p>
         <p className="max-w-sm text-sm text-foreground/70">

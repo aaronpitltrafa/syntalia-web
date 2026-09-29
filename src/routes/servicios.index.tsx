@@ -103,7 +103,7 @@ function EtapaBloque({ etapa, alterna }: { etapa: EtapaSistema; alterna: boolean
   return (
     <section
       id={ancla(etapa)}
-      className={cn("seccion-clara seccion scroll-mt-24", alterna && "alterna")}
+      className={cn("seccion-clara seccion ancla", alterna && "alterna")}
     >
       <div className="contenedor grid gap-10 min-[900px]:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] min-[900px]:gap-14">
         <div>

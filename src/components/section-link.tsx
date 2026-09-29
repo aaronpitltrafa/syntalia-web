@@ -33,6 +33,14 @@ export function SectionLink({
           return;
         e.preventDefault();
         const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        // Si la URL ya lleva este ancla, el router no navega (es la misma
+        // dirección) y no se movería nada: se desplaza aquí directamente.
+        // scrollIntoView respeta el scroll-margin-top de .ancla.
+        const destino = document.getElementById(id);
+        if (window.location.pathname === "/" && window.location.hash === `#${id}` && destino) {
+          destino.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
+          return;
+        }
         navigate({ to: "/", hash: id, hashScrollIntoView: smooth ? { behavior: "smooth" } : true });
       }}
     >

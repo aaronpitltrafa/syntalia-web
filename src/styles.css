@@ -127,6 +127,11 @@
      de respaldo (Arial), es un 10-14 % más estrecho, así que el titular
      cambiaba de ancho al llegar Raleway. Con la fuente real mide lo mismo. */
   --ch-raleway: 0.614em;
+  /* Alto real de la cabecera (fija en la home, pegajosa en el resto):
+     79,8 px medidos en todos los anchos de 320 a 1920, igual arriba del
+     todo que con scroll, más la zona segura de los móviles con muesca. Si
+     cambia la cabecera, se cambia aquí. Lo usa .ancla. */
+  --alto-cabecera: calc(80px + env(safe-area-inset-top, 0px));
   /* Marca, valores exactos de los hex. */
   --navy: oklch(0.2402 0.1206 264.06);    /* #021557 */
   --cream: oklch(0.9610 0.0124 91.52);    /* #F5F2E9 */
@@ -386,6 +391,10 @@
 
   /* Aire de seccion: 72px en movil, 120px en escritorio. */
   .seccion { padding-block: clamp(72px, 8vw, 120px); }
+
+  /* Destino de un ancla: al llegar por un enlace (#sistema, #etapa-01…)
+     la sección queda 16 px por debajo de la cabecera, no debajo de ella. */
+  .ancla { scroll-margin-top: calc(var(--alto-cabecera) + 16px); }
 
   /* Etiqueta. Crema al 62% sobre ink da 6,6:1 (el 44% de la referencia
      se quedaba en 4:1 y no llegaba a AA). */
