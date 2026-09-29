@@ -1507,14 +1507,20 @@
   .regla h3 {
     display: flex;
     gap: 14px;
-    /* 24 ch y 20 px de mínimo: así "software, lo programamos" y "mínimo de
-       tres a seis meses" caben con un 7 % de aire con Raleway y con la de
-       respaldo, y cada enunciado tiene las mismas líneas con las dos. */
-    max-width: calc(24 * var(--ch-raleway));
-    font-size: clamp(20px, 2.5vw, 31px);
+    /* Enunciados cortos, sin límite de ancho: desde 900 px caben en una
+       línea; si no caben, balance reparte las dos líneas. */
+    font-size: clamp(22px, 2.6vw, 33px);
     line-height: 1.16;
     letter-spacing: -0.03em;
     text-wrap: balance;
+  }
+  /* En una columna el ancho de la caja cruzaría el de cada enunciado en
+     un punto distinto con Raleway y con la de respaldo. 11,9em de texto
+     (más los 22 px del rombo) deja "El audiovisual es nuestro" (11,3em) en
+     una línea y "Mínimo de tres a seis meses" (12,5em) y "Programamos lo
+     que haga falta" (14em) en dos, con las dos fuentes. */
+  @media (max-width: 899px) {
+    .regla h3 { max-width: calc(11.9em + 22px); }
   }
   /* El rombo: un cuadrado dorado girado 45°, a la altura de la primera línea. */
   .regla h3::before {
@@ -1526,8 +1532,8 @@
     background: var(--gold);
     transform: rotate(45deg);
   }
-  /* Anchos en em y no en ch: el ch cambia con la fuente. 32em son unos
-     52 caracteres de Poppins; 34,5em, unos 56. */
+  /* Ancho en em y no en ch: el ch cambia con la fuente. 32em son unos
+     52 caracteres de Poppins. */
   .regla p {
     max-width: 32em;
     font-size: clamp(14.5px, 1.05vw, 15.5px);
@@ -1537,18 +1543,11 @@
   @media (min-width: 900px) {
     .regla p { padding-top: 0.35em; }
   }
+  /* El pie es solo el enlace, a la derecha. */
   .reglas-pie {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px 28px;
+    justify-content: flex-end;
     margin-top: clamp(28px, 3vw, 40px);
-  }
-  .reglas-pie p {
-    max-width: 34.5em;
-    font-size: 14.5px;
-    color: color-mix(in oklab, var(--navy) 72%, transparent);
   }
   .reglas-pie a {
     --enlace-grosor: 2px;

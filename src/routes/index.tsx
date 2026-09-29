@@ -762,24 +762,21 @@ function CasoDeExito() {
  */
 const REGLAS = [
   {
-    titulo: "Quien diseña el sistema es quien lo ejecuta",
-    texto:
-      "No subcontratamos. Estrategia, desarrollo, contenido y audiovisual trabajan juntos en cada proyecto, y por eso las piezas encajan entre sí en lugar de ir cada una por su lado.",
+    titulo: "No subcontratamos",
+    texto: "Estrategia, desarrollo, contenido y audiovisual, en el mismo equipo.",
   },
   {
-    titulo: "Si el sistema necesita software, lo programamos",
+    titulo: "Programamos lo que haga falta",
     texto:
-      "Webs, aplicaciones, CRM, integraciones, automatizaciones e IA aplicada, desarrolladas a medida. No encadenamos herramientas de terceros hasta que el sistema se sostiene con cinta adhesiva: se construye lo que tu operativa necesita.",
+      "Webs, apps, CRM, automatizaciones e IA a medida. No herramientas de terceros pegadas entre sí.",
   },
   {
-    titulo: "El audiovisual también es nuestro",
-    texto:
-      "Guion, rodaje, montaje y publicación con equipo propio. Ni banco de imágenes ni productora externa que no conoce el negocio, que es lo que hace que el contenido se note prestado.",
+    titulo: "El audiovisual es nuestro",
+    texto: "Guion, rodaje, montaje y publicación con equipo propio.",
   },
   {
-    titulo: "Por bloques, y con un mínimo de tres a seis meses",
-    texto:
-      "No vendemos acciones sueltas ni campañas de un mes. Un sistema necesita ese tiempo para sostenerse solo, y antes de eso los números no dicen nada. Si buscas algo puntual, no somos tu opción.",
+    titulo: "Mínimo de tres a seis meses",
+    texto: "Es lo que tarda un sistema en sostenerse solo. Campañas sueltas, no.",
   },
 ] as const;
 
@@ -804,8 +801,7 @@ function ComoTrabajamos() {
           </div>
           <p className="max-w-[34em] text-lead text-navy/72">
             No somos una agencia de marketing: somos una consultora con equipo de desarrollo y
-            producción propios. Eso cambia cómo se trabaja, y estas son las cuatro reglas que salen
-            de ahí.
+            producción propios.
           </p>
         </div>
 
@@ -819,10 +815,6 @@ function ComoTrabajamos() {
         </ul>
 
         <div className="reglas-pie">
-          <p>
-            Si alguna de estas cuatro no encaja con lo que buscas, mejor decirlo en la primera
-            llamada.
-          </p>
           <Link to="/quienes-somos" className="enlace-dibujado">
             <span>Conocer Syntalia Vértice</span>
             <ArrowRight aria-hidden strokeWidth={2.4} className="h-4 w-4" />
