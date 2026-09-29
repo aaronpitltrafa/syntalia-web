@@ -1,0 +1,20 @@
+# Todo el texto con LF, en el repositorio y en la copia de trabajo, en
+# cualquier sistema. Así Windows no marca como modificados archivos que
+# solo difieren en los finales de línea.
+* text=auto eol=lf
+
+# Binarios: ni se convierten ni se comparan como texto.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.mp4 binary
+*.webm binary
