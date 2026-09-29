@@ -33,3 +33,6 @@ dist-ssr
 
 # Carpeta donde la app de escritorio de Claude deja archivos
 Claude outputs/
+
+# Ajustes locales de Claude Code (preferencias de cada uno, no del proyecto)
+.claude/
