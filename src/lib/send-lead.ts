@@ -21,6 +21,42 @@ export type LeadPayload = {
   honeypot?: string;
 };
 
+/**
+ * Sin JavaScript, el formulario del cierre de la home se envía como un
+ * formulario HTML normal a la URL de esta misma función (sin endpoint
+ * nuevo) y llega como FormData. Se traduce a los mismos campos que manda
+ * la versión con JS, con el campo trampa incluido (`url`). `volverA` es la
+ * página a la que se redirige después, porque quien envía sin JS tiene que
+ * ver una página y no una respuesta JSON.
+ */
+type EnvioSinJs = LeadPayload & { volverA: string };
+
+function desdeFormulario(f: FormData): EnvioSinJs {
+  const campo = (k: string) => {
+    const v = f.get(k);
+    return typeof v === "string" ? v : "";
+  };
+  const volverA = campo("volverA");
+  return {
+    name: campo("name"),
+    company: campo("company"),
+    phone: campo("phone"),
+    email: campo("email"),
+    message: campo("message"),
+    honeypot: campo("url"),
+    source: campo("source") || "Formulario sin JavaScript",
+    // Solo rutas de esta web, nunca una URL de fuera.
+    volverA: volverA.startsWith("/") && !volverA.startsWith("//") ? volverA : "/",
+  };
+}
+
+/** Redirección 303: el navegador vuelve a la página con un GET. */
+function volver(destino: string, envio: "ok" | "error") {
+  const [ruta, ancla] = destino.split("#");
+  const url = `${ruta}${ruta.includes("?") ? "&" : "?"}envio=${envio}${ancla ? `#${ancla}` : ""}`;
+  return new Response(null, { status: 303, headers: { Location: url } });
+}
+
 // `vite dev` runs TanStack Start server functions in a plain Node module
 // runner, not inside the Cloudflare Worker simulation — so `.dev.vars` is
 // never loaded into `process.env` automatically. We parse it ourselves as a
@@ -69,34 +105,50 @@ function escapeHtml(value: string) {
   );
 }
 
-export const sendLead = createServerFn({ method: "POST" })
-  .validator((data: LeadPayload) => data)
+// strict.input en false: el tipo de entrada es LeadPayload | FormData, y
+// Start solo acepta FormData en la validación si es el único tipo.
+export const sendLead = createServerFn({ method: "POST", strict: { input: false } })
+  .validator((data: LeadPayload | FormData): LeadPayload | EnvioSinJs =>
+    data instanceof FormData ? desdeFormulario(data) : data,
+  )
   .handler(async ({ data }) => {
-    // Un bot que rellena el campo trampa recibe un "ok" y no se envía nada:
-    // así no aprende que lo hemos descartado.
-    if (data.honeypot) return { ok: true as const };
-
-    const apiKey = await getEnvVar("RESEND_API_KEY");
-    if (!apiKey) {
-      console.error("RESEND_API_KEY no está configurada.");
-      throw new Error("El envío no está disponible ahora mismo.");
+    // Llamada con JS (la de siempre): tal cual. Sin JS: el mismo envío, y
+    // luego de vuelta a la página con ?envio=ok o ?envio=error.
+    if (!("volverA" in data)) return enviar(data);
+    try {
+      await enviar(data);
+      return volver(data.volverA, "ok");
+    } catch {
+      return volver(data.volverA, "error");
     }
+  });
 
-    const to = (await getEnvVar("LEAD_NOTIFICATION_EMAIL")) || "vertice@syntalia.es";
-    const from = (await getEnvVar("LEAD_FROM_EMAIL")) || "Syntalia Vértice <onboarding@resend.dev>";
+async function enviar(data: LeadPayload) {
+  // Un bot que rellena el campo trampa recibe un "ok" y no se envía nada:
+  // así no aprende que lo hemos descartado.
+  if (data.honeypot) return { ok: true as const };
 
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from,
-        to: [to],
-        reply_to: data.email,
-        subject: `Nuevo lead — ${data.source} — ${data.name}`,
-        html: `
+  const apiKey = await getEnvVar("RESEND_API_KEY");
+  if (!apiKey) {
+    console.error("RESEND_API_KEY no está configurada.");
+    throw new Error("El envío no está disponible ahora mismo.");
+  }
+
+  const to = (await getEnvVar("LEAD_NOTIFICATION_EMAIL")) || "vertice@syntalia.es";
+  const from = (await getEnvVar("LEAD_FROM_EMAIL")) || "Syntalia Vértice <onboarding@resend.dev>";
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from,
+      to: [to],
+      reply_to: data.email,
+      subject: `Nuevo lead — ${data.source} — ${data.name}`,
+      html: `
           <h2>Nuevo contacto desde: ${escapeHtml(data.source)}</h2>
           <p><strong>Nombre:</strong> ${escapeHtml(data.name)}</p>
           ${data.role ? `<p><strong>Cargo:</strong> ${escapeHtml(data.role)}</p>` : ""}
@@ -112,14 +164,14 @@ export const sendLead = createServerFn({ method: "POST" })
           ${data.message ? `<p><strong>Mensaje:</strong><br>${escapeHtml(data.message).replace(/\n/g, "<br>")}</p>` : ""}
           <p><strong>Comunicaciones comerciales:</strong> ${data.marketingConsent ? "Sí, ha dado su consentimiento" : "No"}</p>
         `,
-      }),
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Resend error:", response.status, errorText);
-      throw new Error("No se pudo enviar el formulario.");
-    }
-
-    return { ok: true as const };
+    }),
   });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("Resend error:", response.status, errorText);
+    throw new Error("No se pudo enviar el formulario.");
+  }
+
+  return { ok: true as const };
+}

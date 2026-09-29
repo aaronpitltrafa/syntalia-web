@@ -9,22 +9,17 @@ import logoFrulonsa from "@/assets/logos-clientes/frulonsa.png";
 import logoMn from "@/assets/logos-clientes/mn.png";
 import logoRevivalia from "@/assets/logos-clientes/revivalia.png";
 import logoTradyn from "@/assets/logos-clientes/tradyn-ai.png";
-import { FormularioCorto } from "@/components/formulario-corto";
-import { GoldCta } from "@/components/gold-cta";
+import { FormularioPasos, ID_PRIMER_CAMPO } from "@/components/formulario-pasos";
 import { SectionLink } from "@/components/section-link";
 import { SectionRail } from "@/components/section-rail";
 import { Subrayado } from "@/components/subrayado";
-import {
-  CasoCifras,
-  CasoMarca,
-  CasoPieza,
-  CasoQueMide,
-  CasoTestimonio,
-} from "@/components/caso";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
+import { CasoCifras, CasoMarca, CasoPieza, CasoQueMide, CasoTestimonio } from "@/components/caso";
 import { goldCtaClasses } from "@/lib/gold-cta-classes";
 import { useHomeSectionObserver } from "@/lib/home-sections";
 import { CASO_FRULONSA } from "@/lib/casos";
 import { FAQ_HOME } from "@/lib/faq";
+import { legalData } from "@/lib/legal-data";
 import { SYSTEM_STAGES } from "@/lib/sistema";
 import {
   FICHAS_PROBLEMA,
@@ -37,15 +32,31 @@ import { ORG_ID, SITE_URL, WHATSAPP_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
+  // ?envio=ok|error: vuelta del formulario del cierre cuando se envía sin
+  // JavaScript (ver FormularioPasos y sendLead).
+  validateSearch: (s: Record<string, unknown>): { envio?: "ok" | "error" } =>
+    s.envio === "ok" || s.envio === "error" ? { envio: s.envio } : {},
   head: () => ({
     meta: [
       { title: "Diagnóstico estratégico gratuito — Syntalia Vértice" },
-      { name: "description", content: "Solicita tu diagnóstico estratégico gratuito y descubre qué le está frenando a tu empresa para captar clientes de forma constante." },
+      {
+        name: "description",
+        content:
+          "Solicita tu diagnóstico estratégico gratuito y descubre qué le está frenando a tu empresa para captar clientes de forma constante.",
+      },
       { property: "og:title", content: "Diagnóstico estratégico gratuito — Syntalia Vértice" },
-      { property: "og:description", content: "Consultoría de marketing digital estratégico. Solicita tu diagnóstico gratuito, sin compromiso." },
+      {
+        property: "og:description",
+        content:
+          "Consultoría de marketing digital estratégico. Solicita tu diagnóstico gratuito, sin compromiso.",
+      },
       { property: "og:url", content: `${SITE_URL}/` },
       { name: "twitter:title", content: "Diagnóstico estratégico gratuito — Syntalia Vértice" },
-      { name: "twitter:description", content: "Consultoría de marketing digital estratégico. Solicita tu diagnóstico gratuito, sin compromiso." },
+      {
+        name: "twitter:description",
+        content:
+          "Consultoría de marketing digital estratégico. Solicita tu diagnóstico gratuito, sin compromiso.",
+      },
     ],
     links: [{ rel: "canonical", href: `${SITE_URL}/` }],
     scripts: [
@@ -696,7 +707,10 @@ function Servicios() {
             {/* Sobre blanco el contorno de foco dorado claro no se ve: navy. */}
             <Link
               to="/diagnostico"
-              className={goldCtaClasses("default", "mt-5 w-full rounded-none focus-visible:outline-navy")}
+              className={goldCtaClasses(
+                "default",
+                "mt-5 w-full rounded-none focus-visible:outline-navy",
+              )}
             >
               Solicitar diagnóstico
               <ArrowRight
@@ -913,8 +927,7 @@ function Empezar() {
             </h2>
           </div>
           <p className="max-w-[26em] text-lead text-cream/74">
-            Sin reuniones de una hora para contarte lo que ya sabes. El primer paso son dos
-            minutos.
+            Sin reuniones de una hora para contarte lo que ya sabes. El primer paso son dos minutos.
           </p>
         </div>
 
@@ -943,9 +956,21 @@ function Empezar() {
               ))}
             </ul>
           </div>
-          <GoldCta to="/diagnostico" className="rounded-none px-[30px] py-[18px]">
+          {/* Lleva al formulario del cierre, en esta misma página. Con
+              teclado (clic sin puntero, detail 0), al terminar el
+              desplazamiento el foco pasa al campo del paso en que esté. */}
+          <SectionLink
+            id="contacto"
+            onClick={(e) => e.detail === 0 && enfocarFormularioAlLlegar()}
+            className={goldCtaClasses("default", "rounded-none px-[30px] py-[18px]")}
+          >
             Solicitar diagnóstico
-          </GoldCta>
+            <ArrowRight
+              aria-hidden
+              strokeWidth={2.4}
+              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-[3px] motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+            />
+          </SectionLink>
         </div>
       </div>
     </section>
@@ -1026,7 +1051,12 @@ function FAQ() {
 
         <div className="faq-pie">
           <p>¿Tu duda no está aquí?</p>
-          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="enlace-dibujado">
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="enlace-dibujado"
+          >
             <span>Pregúntanos por WhatsApp</span>
             <ArrowRight aria-hidden strokeWidth={2.4} className="h-4 w-4" />
           </a>
@@ -1040,27 +1070,53 @@ function FAQ() {
 /* 7 · CIERRE CON FORMULARIO                                            */
 /* ------------------------------------------------------------------ */
 
-/** Tarjeta de cierre: degradado de azul de marca a ink, con el formulario corto. */
-function Cierre() {
-  return (
-    <section id="contacto" className="seccion scroll-mt-6">
-      <div className="contenedor">
-        {/* Borde superior dorado de 2 px (sigue el radio) y crema/13 en el
-            resto; el px de más se descuenta del padding de arriba. */}
-        <div className="seccion-azul rounded-block border border-t-2 border-cream/13 border-t-gold px-[clamp(20px,4vw,58px)] pt-[calc(clamp(20px,4vw,58px)-1px)] pb-[clamp(20px,4vw,58px)]">
-          <div className="grid gap-[34px] min-[940px]:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] min-[940px]:items-center min-[940px]:gap-14">
-            <div>
-              <Pildora>Diagnóstico gratuito</Pildora>
-              <h2 className="mt-[22px] max-w-[calc(13*var(--ch-raleway))] text-h2 text-balance">Cuéntanos tu proyecto</h2>
-              <p className="mt-[18px] max-w-[38ch] text-lead text-cream/72">
-                Analizamos tu situación y te entregamos un plan estratégico claro. Sin compromiso y
-                con respuesta en menos de 24 horas.
-              </p>
-              <Garantias items={["Sin compromiso", "Respuesta en 24 h"]} className="mt-[26px]" />
-            </div>
+/**
+ * Tras el desplazamiento hasta el cierre, enfoca el campo del paso activo
+ * (sin volver a desplazar). Espera al final del scroll suave, con un tope
+ * por si el navegador no avisa.
+ */
+function enfocarFormularioAlLlegar() {
+  let hecho = false;
+  const enfocar = () => {
+    if (hecho) return;
+    hecho = true;
+    const campo =
+      document.querySelector<HTMLElement>(
+        ".cierre-paso[data-activo] input, .cierre-paso[data-activo] textarea",
+      ) ?? document.getElementById(ID_PRIMER_CAMPO);
+    campo?.focus({ preventScroll: true });
+  };
+  window.addEventListener("scrollend", enfocar, { once: true });
+  window.setTimeout(enfocar, 1200);
+}
 
-            <FormularioCorto />
-          </div>
+/**
+ * El cierre: formulario de cuatro pasos sin caja, sobre el azul, con la
+ * barra de progreso a sangre arriba y el aviso legal y WhatsApp al pie.
+ */
+function Cierre() {
+  const { envio } = Route.useSearch();
+
+  return (
+    <section id="contacto" className="seccion-azul seccion cierre scroll-mt-6">
+      <div className="contenedor">
+        <FormularioPasos
+          source="Home · Cuéntanos tu proyecto"
+          volverA="/#contacto"
+          envioInicial={envio}
+          pildora={<Pildora>Diagnóstico gratuito</Pildora>}
+        />
+
+        <div className="cierre-pie">
+          <p className="cierre-legal">
+            Responsable: {legalData.razonSocial} Tratamos tus datos para atender tu solicitud. Más
+            información y ejercicio de derechos en la{" "}
+            <Link to="/privacidad">Política de Privacidad</Link>.
+          </p>
+          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="cierre-wa">
+            <WhatsAppIcon className="h-[18px] w-[18px]" />
+            <span>O escríbenos por WhatsApp</span>
+          </a>
         </div>
       </div>
     </section>

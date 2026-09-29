@@ -1918,6 +1918,324 @@
     .faq-item[data-abierta] .faq-respuesta { transition: none; }
   }
 
+  /* Cierre de la home: formulario de cuatro pasos, sin caja. Estos estilos
+     son los de con JavaScript (un paso a la vista); sin JS, el <noscript>
+     de FormularioPasos los cambia para enseñar los cinco campos a la vez.
+     Los pasos y la confirmación comparten la misma celda de rejilla: la
+     celda mide lo que el más alto, así la página no cambia de alto al
+     pasar de paso ni al enviar. */
+  .cierre {
+    --curva-cierre: cubic-bezier(0.3, 0.9, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .cierre [data-oculto] { visibility: hidden; }
+
+  /* Barra de progreso a sangre, pegada al borde de arriba de la sección. */
+  .cierre-progreso {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 2px;
+    background: color-mix(in oklab, var(--cream) 12%, transparent);
+  }
+  .cierre-progreso span {
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform-origin: left;
+    transition: transform 0.6s var(--curva-cierre);
+  }
+
+  .cierre-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px 24px;
+  }
+  .cierre-contador {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: color-mix(in oklab, var(--cream) 62%, transparent);
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .cierre-contador b { color: var(--gold-light); }
+
+  .cierre-form { margin-top: clamp(40px, 6vw, 86px); }
+  .cierre-escena { display: grid; }
+  .cierre-paso,
+  .cierre-enviado {
+    grid-area: 1 / 1;
+    visibility: hidden;
+  }
+  .cierre-paso[data-activo],
+  .cierre-enviado[data-activo] {
+    visibility: visible;
+    animation: cierre-entra 0.4s var(--curva-cierre) both;
+  }
+  @keyframes cierre-entra {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  }
+
+  .cierre-pregunta {
+    max-width: calc(15 * var(--ch-raleway));
+    font-size: clamp(30px, 5.2vw, 64px);
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  .cierre-ayuda {
+    max-width: 25em;
+    margin-top: 16px;
+    font-size: clamp(14px, 1.1vw, 15.5px);
+    color: color-mix(in oklab, var(--cream) 66%, transparent);
+  }
+
+  /* El campo: sin caja, solo una línea de 2 px que se vuelve dorada al
+     enfocar. Lo escrito va en Raleway grande; el objetivo, en Poppins. */
+  .cierre-linea {
+    max-width: 32rem;
+    margin-top: clamp(28px, 3.4vw, 44px);
+  }
+  .cierre-linea[data-ancha] { max-width: 40rem; }
+  .cierre-linea + .cierre-linea { margin-top: 12px; }
+  /* Email y teléfono, uno al lado del otro desde 900 px: así el paso 4 no
+     es mucho más alto que los demás y el hueco reservado es menor. */
+  @media (min-width: 900px) {
+    .cierre-campos[data-dos] {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 28rem));
+      column-gap: 40px;
+    }
+    .cierre-campos[data-dos] .cierre-linea + .cierre-linea { margin-top: clamp(28px, 3.4vw, 44px); }
+  }
+  .cierre-linea label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 10.5px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--cream) 62%, transparent);
+  }
+  .cierre-linea input,
+  .cierre-linea textarea {
+    display: block;
+    width: 100%;
+    padding: 0 2px 12px;
+    border: 0;
+    border-bottom: 2px solid color-mix(in oklab, var(--cream) 45%, transparent);
+    border-radius: 0;
+    background: transparent;
+    color: var(--cream);
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.6vw, 32px);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    outline: none;
+    transition: border-color 0.25s;
+  }
+  .cierre-linea textarea {
+    resize: none;
+    font-family: var(--font-sans);
+    font-size: clamp(16px, 1.5vw, 19px);
+    font-weight: 300;
+    line-height: 1.5;
+    letter-spacing: 0;
+  }
+  .cierre-linea input::placeholder,
+  .cierre-linea textarea::placeholder {
+    color: color-mix(in oklab, var(--cream) 58%, transparent);
+    font-weight: 400;
+    opacity: 1;
+  }
+  .cierre-linea input:focus,
+  .cierre-linea textarea:focus { border-bottom-color: var(--gold); }
+  .cierre-linea [aria-invalid] { border-bottom-color: #f4a79c; }
+  /* Autorrelleno del navegador: que no pinte un fondo claro. */
+  .cierre-linea input:-webkit-autofill {
+    -webkit-text-fill-color: var(--cream);
+    caret-color: var(--cream);
+    transition: background-color 600000s 0s;
+  }
+  /* Hueco del error, reservado aunque esté vacío. */
+  .cierre-error {
+    min-height: 1.5em;
+    margin-top: 10px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: #f4a79c;
+  }
+
+  .cierre-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px 22px;
+    margin-top: clamp(20px, 2.6vw, 34px);
+  }
+  .cierre-sinjs { display: none; }
+  .cierre-intro {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: color-mix(in oklab, var(--cream) 62%, transparent);
+  }
+  .cierre-intro kbd {
+    display: inline-grid;
+    place-content: center;
+    min-width: 24px;
+    height: 22px;
+    padding: 0 6px;
+    border: 1px solid color-mix(in oklab, var(--cream) 22%, transparent);
+    font-family: inherit;
+    font-size: 11px;
+    color: color-mix(in oklab, var(--cream) 76%, transparent);
+  }
+  /* En pantallas táctiles no hay tecla Intro que pulsar. */
+  @media (hover: none), (max-width: 639px) {
+    .cierre-intro { display: none; }
+  }
+  .cierre-atras {
+    padding: 8px 0;
+    font-size: 14.5px;
+    color: color-mix(in oklab, var(--cream) 66%, transparent);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .cierre-atras:hover { color: var(--cream); }
+  .cierre-atras:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 4px;
+  }
+  /* Error del envío: dos líneas reservadas. */
+  .cierre-aviso {
+    min-height: 3em;
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #f4a79c;
+  }
+
+  /* La confirmación. */
+  .cierre-tick {
+    display: grid;
+    place-content: center;
+    width: 52px;
+    height: 52px;
+    background: var(--gold);
+    color: var(--on-gold);
+  }
+  .cierre-recibido {
+    margin-top: 24px;
+    font-size: clamp(30px, 4.6vw, 56px);
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+    outline: none;
+  }
+  .cierre-plazos {
+    display: grid;
+    gap: 12px;
+    max-width: 32em;
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid color-mix(in oklab, var(--cream) 14%, transparent);
+  }
+  .cierre-plazos li {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    font-size: 15px;
+    color: color-mix(in oklab, var(--cream) 76%, transparent);
+  }
+  .cierre-plazos b {
+    flex: none;
+    font-family: var(--font-display);
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--gold-light);
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .cierre-plazos em {
+    margin-left: auto;
+    font-size: 10.5px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--gold-light);
+  }
+
+  .cierre-pie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px 30px;
+    margin-top: clamp(20px, 2.4vw, 32px);
+    padding-top: 22px;
+    border-top: 1px solid color-mix(in oklab, var(--cream) 14%, transparent);
+  }
+  .cierre-legal {
+    max-width: 40em;
+    font-size: 12px;
+    line-height: 1.55;
+    color: color-mix(in oklab, var(--cream) 62%, transparent);
+  }
+  .cierre-legal a {
+    color: var(--gold-light);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .cierre-legal a:focus-visible,
+  .cierre-wa:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 4px;
+  }
+  .cierre-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14.5px;
+    white-space: nowrap;
+    color: var(--cream);
+  }
+  .cierre-wa span {
+    position: relative;
+    padding-bottom: 3px;
+  }
+  .cierre-wa span::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 1px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--curva-cierre);
+  }
+  .cierre-wa:hover span::after { transform: scaleX(1); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cierre-progreso span,
+    .cierre-linea input,
+    .cierre-linea textarea,
+    .cierre-atras,
+    .cierre-wa span::after { transition: none; }
+    .cierre-paso[data-activo],
+    .cierre-enviado[data-activo] { animation: none; }
+  }
+
   /* Página de un caso (/casos/frulonsa): crema, tarjetas blancas rectas
      con filete dorado y las mismas piezas .caso-* del bloque de la home. */
   .caso-pagina {

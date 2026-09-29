@@ -1,0 +1,217 @@
+<title>Cierre · pasos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Raleway:wght@600;700;800&display=swap">
+<style>
+  :root{
+    color-scheme: dark;
+    --navy:#021557; --ink:#030B24; --cream:#F5F2E9; --gold:#DDAE45; --gold-2:#E9C877;
+    --c1:var(--cream); --c2:rgba(245,242,233,.76); --c3:rgba(245,242,233,.58);
+    --line:rgba(245,242,233,.14);
+    --disp:'Raleway','Helvetica Neue',Arial,sans-serif;
+    --body:'Poppins','Helvetica Neue',Arial,sans-serif;
+    --curva:cubic-bezier(.3,.9,.25,1);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--c1);font-family:var(--body);font-weight:300;font-size:16px;line-height:1.7}
+  .wrap{max-width:1200px;margin:0 auto;padding-inline:16px;position:relative}
+  @media(min-width:900px){.wrap{padding-inline:40px}}
+  p{margin:0}
+
+  .nota{background:#0B1638;color:var(--c2)}
+  .nota .wrap{padding-block:12px;font-size:13.5px;display:flex;gap:8px 20px;flex-wrap:wrap}
+  .nota b{font:600 11px/1.6 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2)}
+
+  section{position:relative;padding-block:clamp(64px,8vw,116px);overflow:hidden;
+    background:
+      linear-gradient(180deg,rgba(1,6,15,.72) 0%,rgba(1,6,15,.45) 38%,rgba(3,11,36,.86) 82%,var(--ink) 100%),
+      radial-gradient(130% 120% at 22% 8%,#0e317c 0%,#061032 52%,#01060f 100%)}
+
+  /* barra de progreso a sangre, arriba del todo */
+  .progreso{position:absolute;left:0;right:0;top:0;height:2px;background:rgba(245,242,233,.12)}
+  .progreso span{position:absolute;inset:0;transform-origin:left;background:var(--gold);
+                 transition:transform .6s var(--curva)}
+
+  .top{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between}
+  .pill{display:inline-flex;align-items:center;gap:9px;font:600 10.5px/1 var(--body);letter-spacing:.16em;
+        text-transform:uppercase;color:var(--gold-2);border:1px solid rgba(221,174,69,.42);
+        background:rgba(221,174,69,.1);padding:8px 13px}
+  .pill i{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+  .contador{font-family:var(--disp);font-weight:700;font-size:13px;letter-spacing:.14em;color:var(--c3);
+            font-variant-numeric:lining-nums tabular-nums}
+  .contador b{color:var(--gold-2)}
+
+  /* ---------- la pregunta ---------- */
+  .escena{margin-top:clamp(40px,6vw,86px);min-height:clamp(300px,34vw,380px);position:relative}
+  .paso{display:none}
+  .paso[data-activo="si"]{display:block;animation:entra .4s var(--curva)}
+  @keyframes entra{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  .paso h3{font-family:var(--disp);font-weight:700;letter-spacing:-.035em;line-height:1.06;margin:0;
+           font-size:clamp(30px,5.2vw,64px);max-width:15ch;text-wrap:balance}
+  .ayuda{margin-top:16px;color:var(--c3);font-size:clamp(14px,1.1vw,15.5px);max-width:40ch}
+
+  .linea{margin-top:clamp(28px,3.4vw,44px);max-width:22ch}
+  .linea.ancha{max-width:30ch}
+  .linea + .linea{margin-top:22px}
+  .linea label{display:block;font:600 10.5px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;
+               color:var(--c3);margin-bottom:12px}
+  .linea input,.linea textarea{width:100%;background:transparent;color:var(--c1);
+        font-family:var(--disp);font-weight:700;letter-spacing:-.02em;
+        font-size:clamp(20px,2.6vw,32px);line-height:1.3;
+        border:0;border-bottom:2px solid rgba(245,242,233,.3);padding:0 2px 12px;outline:none;
+        transition:border-color .25s}
+  .linea textarea{font-family:var(--body);font-weight:300;font-size:clamp(16px,1.5vw,19px);line-height:1.5;
+                  resize:none;min-height:86px}
+  .linea input::placeholder,.linea textarea::placeholder{color:rgba(245,242,233,.3);font-weight:400}
+  .linea input:focus,.linea textarea:focus{border-bottom-color:var(--gold)}
+
+  /* ---------- acciones ---------- */
+  .acciones{margin-top:clamp(30px,3.6vw,46px);display:flex;flex-wrap:wrap;gap:18px 22px;align-items:center}
+  .avanzar{display:inline-flex;align-items:center;justify-content:center;gap:11px;border:0;cursor:pointer;
+           background:var(--gold);color:#1E1704;font-family:var(--body);font-weight:600;font-size:15.5px;
+           padding:17px 30px;box-shadow:0 18px 40px -18px rgba(221,174,69,.95);transition:transform .2s}
+  .avanzar:hover{transform:translateY(-2px)}
+  .avanzar:focus-visible,.atras:focus-visible{outline:2px solid var(--gold-2);outline-offset:4px}
+  .atras{background:transparent;border:0;cursor:pointer;color:var(--c3);font-family:var(--body);font-size:14.5px;padding:8px 0}
+  .atras:hover{color:var(--c1)}
+  .intro{font-size:13px;color:var(--c3);display:inline-flex;align-items:center;gap:8px}
+  .tecla{display:inline-grid;place-content:center;min-width:24px;height:22px;padding:0 6px;
+         border:1px solid var(--line);font-size:11px;color:var(--c2)}
+
+  /* ---------- enviado ---------- */
+  .enviado{display:none}
+  .enviado[data-activo="si"]{display:block;animation:entra .45s var(--curva)}
+  .tick{width:52px;height:52px;display:grid;place-content:center;background:var(--gold);color:#1E1704}
+  .enviado h3{font-family:var(--disp);font-weight:700;letter-spacing:-.035em;margin:24px 0 0;
+              font-size:clamp(30px,4.6vw,56px)}
+  .pasos-final{margin-top:30px;padding-top:24px;border-top:1px solid var(--line);display:grid;gap:12px;max-width:52ch}
+  .pasos-final li{display:flex;align-items:baseline;gap:12px;font-size:15px;color:var(--c2);list-style:none}
+  .pasos-final b{font-family:var(--disp);font-weight:700;font-size:12.5px;color:var(--gold-2);flex:none}
+  .pasos-final em{font-style:normal;margin-left:auto;font:600 10.5px/1 var(--body);letter-spacing:.12em;
+                  text-transform:uppercase;color:var(--gold-2);white-space:nowrap}
+  .pasos-final{margin-block:30px 0;padding-left:0}
+
+  /* ---------- pie ---------- */
+  .pie{margin-top:clamp(36px,4vw,56px);padding-top:22px;border-top:1px solid var(--line);
+       display:flex;flex-wrap:wrap;gap:14px 30px;align-items:center;justify-content:space-between}
+  .legal{font-size:12px;line-height:1.55;color:var(--c3);max-width:64ch}
+  .legal a{color:var(--gold-2)}
+  .wa{display:inline-flex;align-items:center;gap:10px;color:var(--c1);text-decoration:none;font-size:14.5px;white-space:nowrap}
+  .wa span{position:relative;padding-bottom:3px}
+  .wa span::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold);
+                  transform:scaleX(0);transform-origin:left;transition:transform .4s var(--curva)}
+  .wa:hover span::after{transform:scaleX(1)}
+
+  .porHacer{margin-top:28px;border:1px solid rgba(221,174,69,.55);background:rgba(221,174,69,.12);padding:18px 20px}
+  .porHacer b{display:block;font:600 10.5px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--gold-2);margin-bottom:10px}
+  .porHacer ul{margin:0;padding-left:18px;font-size:14px;color:var(--c2);line-height:1.7}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="nota"><div class="wrap"><b>Boceto</b><span>Cierre por pasos, sin caja. Escribe y pulsa Intro hasta el final.</span></div></div>
+
+<section>
+  <div class="progreso"><span id="barra" style="transform:scaleX(.25)"></span></div>
+  <div class="wrap">
+
+    <div class="top">
+      <span class="pill"><i></i>Diagnóstico gratuito</span>
+      <span class="contador" id="contador"><b>01</b> / 04</span>
+    </div>
+
+    <form id="f" class="escena" onsubmit="return false">
+      <div class="paso" data-paso="1" data-activo="si">
+        <h3>¿Cómo te llamas?</h3>
+        <p class="ayuda">Para no empezar el correo con un "Hola".</p>
+        <div class="linea"><label for="n">Nombre</label><input id="n" placeholder="Escribe aquí" autocomplete="name"></div>
+      </div>
+
+      <div class="paso" data-paso="2">
+        <h3>¿Qué empresa diriges?</h3>
+        <p class="ayuda">La miramos antes de contestarte.</p>
+        <div class="linea"><label for="e">Empresa</label><input id="e" placeholder="Escribe aquí" autocomplete="organization"></div>
+      </div>
+
+      <div class="paso" data-paso="3">
+        <h3>¿Qué quieres conseguir?</h3>
+        <p class="ayuda">Dos líneas bastan: dónde estás y a dónde quieres llegar.</p>
+        <div class="linea ancha"><label for="q">Tu objetivo</label><textarea id="q" placeholder="Captar más clientes, ordenar el marketing, lanzar una web…"></textarea></div>
+      </div>
+
+      <div class="paso" data-paso="4">
+        <h3>¿Dónde te respondemos?</h3>
+        <p class="ayuda">Con el correo basta. El teléfono, solo si prefieres que te llamemos.</p>
+        <div class="linea"><label for="m">Email</label><input id="m" type="email" placeholder="tu@empresa.com" autocomplete="email"></div>
+        <div class="linea"><label for="t">Teléfono (opcional)</label><input id="t" type="tel" placeholder="600 000 000" autocomplete="tel"></div>
+      </div>
+
+      <div class="acciones">
+        <button class="avanzar" type="button" id="siguiente"><span id="txtAvanzar">Siguiente</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1E1704" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+        <span class="intro">o pulsa <span class="tecla">Intro ↵</span></span>
+        <button class="atras" type="button" id="atras" hidden>← Atrás</button>
+      </div>
+    </form>
+
+    <div class="escena enviado" id="enviado">
+      <span class="tick"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l6 6L20 6"/></svg></span>
+      <h3>Recibido</h3>
+      <ul class="pasos-final">
+        <li><b>01</b><span>Te confirmamos por correo</span><em>ahora mismo</em></li>
+        <li><b>02</b><span>Analizamos tu situación</span><em>24 h</em></li>
+        <li><b>03</b><span>Te entregamos el plan</span><em>3-5 días</em></li>
+      </ul>
+    </div>
+
+    <div class="pie">
+      <p class="legal">Responsable: SYNTALIA GROUP, S.L. Tratamos tus datos para atender tu solicitud. Más información y ejercicio de derechos en la <a href="#">Política de Privacidad</a>.</p>
+      <a class="wa" href="#">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-5.8c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.1-.2 0-.4.1-.5l.4-.5.2-.4v-.4l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1.1 2.7a10 10 0 0 0 3.9 3.4c1.8.7 1.8.5 2.2.5.3 0 1.2-.5 1.4-1 .2-.5.2-.9.1-1z"/></svg>
+        <span>O escríbenos por WhatsApp</span>
+      </a>
+    </div>
+
+    <div class="porHacer">
+      <b>Qué tiene de distinto</b>
+      <ul>
+        <li>No hay caja ni formulario a la vista: solo la pregunta, a tamaño de titular, y una línea donde escribir.</li>
+        <li>La barra de progreso va a sangre, pegada al borde superior de la sección.</li>
+        <li>El contador es <b>01 / 04</b>, en dorado, arriba a la derecha.</li>
+        <li>Se responde con Intro sin tocar el ratón. El alto de la zona está reservado, así que la página no se mueve al cambiar de pregunta.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  (function(){
+    var total=4, actual=1;
+    var pasos=document.querySelectorAll('.paso'), barra=document.getElementById('barra'),
+        contador=document.getElementById('contador'), atras=document.getElementById('atras'),
+        siguiente=document.getElementById('siguiente'), txt=document.getElementById('txtAvanzar'),
+        enviado=document.getElementById('enviado'), f=document.getElementById('f');
+    function pinta(){
+      pasos.forEach(function(p){ p.dataset.activo = (+p.dataset.paso===actual)?'si':'no'; });
+      barra.style.transform='scaleX('+(actual/total)+')';
+      contador.innerHTML='<b>0'+actual+'</b> / 04';
+      atras.hidden = actual===1;
+      txt.textContent = actual===total ? 'Solicitar diagnóstico' : 'Siguiente';
+      var c=document.querySelector('.paso[data-activo="si"] input, .paso[data-activo="si"] textarea');
+      if(c) c.focus();
+    }
+    siguiente.addEventListener('click',function(){
+      if(actual<total){actual++;pinta();}
+      else{ f.style.display='none'; document.querySelector('.top').style.display='none';
+            barra.style.transform='scaleX(1)'; enviado.dataset.activo='si'; }
+    });
+    atras.addEventListener('click',function(){ if(actual>1){actual--;pinta();} });
+    f.addEventListener('keydown',function(ev){
+      if(ev.key==='Enter' && ev.target.tagName!=='TEXTAREA'){ ev.preventDefault(); siguiente.click(); }
+    });
+    pinta();
+  })();
+</script>
