@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useId, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
@@ -24,6 +24,7 @@ import {
 import { goldCtaClasses } from "@/lib/gold-cta-classes";
 import { useHomeSectionObserver } from "@/lib/home-sections";
 import { CASO_FRULONSA } from "@/lib/casos";
+import { FAQ_HOME } from "@/lib/faq";
 import { SYSTEM_STAGES } from "@/lib/sistema";
 import {
   FICHAS_PROBLEMA,
@@ -32,7 +33,7 @@ import {
   type FichaProblemaId,
   type ModoProblema,
 } from "@/lib/problema";
-import { SITE_URL } from "@/lib/site";
+import { ORG_ID, SITE_URL, WHATSAPP_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -47,6 +48,25 @@ export const Route = createFileRoute("/")({
       { name: "twitter:description", content: "Consultoría de marketing digital estratégico. Solicita tu diagnóstico gratuito, sin compromiso." },
     ],
     links: [{ rel: "canonical", href: `${SITE_URL}/` }],
+    scripts: [
+      {
+        // Las preguntas del bloque FAQ, leídas de lib/faq.ts. Google ya no
+        // saca resultados enriquecidos de FAQ para webs como esta: se pone
+        // para que los asistentes de IA entiendan y citen las respuestas.
+        // La organización se referencia por su @id (se declara en __root).
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          publisher: { "@id": ORG_ID },
+          mainEntity: FAQ_HOME.map((f) => ({
+            "@type": "Question",
+            name: f.pregunta,
+            acceptedAnswer: { "@type": "Answer", text: f.respuesta },
+          })),
+        }),
+      },
+    ],
   }),
   component: Index,
 });
@@ -936,56 +956,80 @@ function Empezar() {
 /* 6 · PREGUNTAS FRECUENTES                                             */
 /* ------------------------------------------------------------------ */
 
-const FAQS = [
-  {
-    q: "Ya he trabajado con agencias y no funcionó",
-    a: "Suele pasar cuando se ejecutan acciones sueltas sin una base detrás: campañas sin posicionamiento, contenido sin estrategia o una web que no está pensada para captar. Nosotros empezamos siempre por el diagnóstico, y si algo no tiene sentido para tu negocio, te lo decimos.",
-  },
-  {
-    q: "¿Cuánto cuesta?",
-    a: "Depende de qué necesite tu empresa, y eso se ve en el diagnóstico. Salimos de ahí con un alcance y una inversión concretos, no con una tarifa cerrada que no encaja con nadie.",
-  },
-  {
-    q: "¿Cuánto tarda en verse resultados?",
-    a: "Las primeras mejoras de posicionamiento y presencia se notan pronto. Los resultados comerciales sostenidos llegan cuando el sistema completo lleva un tiempo funcionando y optimizándose.",
-  },
-  {
-    q: "¿Qué vais a hacer exactamente en mi empresa?",
-    a: "Lo que salga del diagnóstico, dentro de las cuatro etapas: ordenar el posicionamiento, construir la base digital, montar la captación y optimizar. Cada fase se entrega con objetivos y responsables claros.",
-  },
-] as const;
-
 /**
- * Acordeón nativo (<details>/<summary>): se abre con Intro o Espacio y el
- * lector de pantalla anuncia si está expandido. El + y el – son decorativos.
+ * Acordeón de preguntas (textos en lib/faq.ts). Cada pregunta es un
+ * <button> real dentro de un h3, que ocupa la fila entera: aria-expanded
+ * dice si está abierta y aria-controls apunta a su respuesta, que es una
+ * región con nombre (aria-labelledby, la propia pregunta). Cerrada, la
+ * respuesta queda con visibility: hidden, así el lector de pantalla no la
+ * lee. La primera empieza abierta; se abren y cierran por separado.
  */
 function FAQ() {
+  const id = useId();
+  const [abiertas, setAbiertas] = useState<readonly boolean[]>(() =>
+    FAQ_HOME.map((_, i) => i === 0),
+  );
+  const alternar = (i: number) => setAbiertas((a) => a.map((v, j) => (j === i ? !v : v)));
+
   return (
     <section id="faq" className="seccion-clara alterna seccion scroll-mt-6">
       <div className="contenedor">
-        <p className="etiqueta">
-          <span className="etiqueta-num">07</span>Preguntas frecuentes
-        </p>
-        <h2 className="mt-5 max-w-[calc(14*var(--ch-raleway))] text-h2 text-balance">
-          Lo que nos preguntan antes de empezar
-        </h2>
+        <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-end min-[900px]:gap-14">
+          <div>
+            <p className="etiqueta">
+              <span className="etiqueta-num">07</span>Preguntas frecuentes
+            </p>
+            <h2 className="mt-5 max-w-[calc(14*var(--ch-raleway))] text-h2 text-balance">
+              Lo que nos preguntan antes de empezar
+            </h2>
+          </div>
+          <p className="max-w-[26em] text-lead text-navy/72">
+            Si tienes una duda que no está aquí, es mejor preguntarla antes de la llamada que
+            después de firmar.
+          </p>
+        </div>
 
-        <div className="mt-[clamp(32px,3.6vw,46px)] border-t border-navy/12">
-          {FAQS.map((f, i) => (
-            <details key={f.q} open={i === 0} className="group border-b border-navy/12">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-[18px] py-[22px] font-display text-[clamp(17px,1.5vw,21px)] leading-[1.3] font-semibold tracking-[-0.015em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy [&::-webkit-details-marker]:hidden">
-                {f.q}
-                <span
-                  aria-hidden
-                  className="w-5 shrink-0 text-center font-sans text-[24px] leading-none font-normal text-gold-ink"
+        <div className="faq">
+          {FAQ_HOME.map((f, i) => {
+            const abierta = abiertas[i];
+            const idPregunta = `${id}-pregunta-${i}`;
+            const idRespuesta = `${id}-respuesta-${i}`;
+            return (
+              <div key={f.pregunta} className="faq-item" data-abierta={abierta || undefined}>
+                <h3>
+                  <button
+                    type="button"
+                    id={idPregunta}
+                    className="faq-pregunta"
+                    aria-expanded={abierta}
+                    aria-controls={idRespuesta}
+                    onClick={() => alternar(i)}
+                  >
+                    <span className="faq-texto">{f.pregunta}</span>
+                    <span aria-hidden className="faq-signo" />
+                  </button>
+                </h3>
+                <div
+                  id={idRespuesta}
+                  role="region"
+                  aria-labelledby={idPregunta}
+                  className="faq-respuesta"
                 >
-                  <span className="group-open:hidden">+</span>
-                  <span className="hidden group-open:inline">–</span>
-                </span>
-              </summary>
-              <p className="max-w-[66ch] pb-6 text-[15.5px] leading-[1.7] text-navy/72">{f.a}</p>
-            </details>
-          ))}
+                  <div>
+                    <p>{f.respuesta}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="faq-pie">
+          <p>¿Tu duda no está aquí?</p>
+          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="enlace-dibujado">
+            <span>Pregúntanos por WhatsApp</span>
+            <ArrowRight aria-hidden strokeWidth={2.4} className="h-4 w-4" />
+          </a>
         </div>
       </div>
     </section>

@@ -1772,6 +1772,152 @@
     .camino-parada:hover { transform: none; }
   }
 
+  /* Bloque 07, preguntas frecuentes: acordeón de filas enteras pulsables.
+     Al pasar el ratón, enfocar o abrir, la fila toma el navy al 3,5 % y
+     pregunta y signo se meten 6 px hacia dentro. Se hace con transform y
+     no con padding: con padding cambiaría el ancho del texto, una pregunta
+     podría cambiar de líneas al pasar el ratón y eso movería la página. */
+  .faq {
+    --curva-faq: cubic-bezier(0.3, 0.9, 0.25, 1);
+    /* Dorado oscuro del signo. El --gold-ink del proyecto (#7E640E) se
+       queda en 4,36:1 sobre la fila abierta; este (el de la referencia)
+       pasa de 4,5:1 en todos los estados. */
+    --faq-signo: #6e580b;
+    margin-top: clamp(36px, 4vw, 54px);
+    border-top: 1px solid color-mix(in oklab, var(--navy) 12%, transparent);
+  }
+  .faq-item { border-bottom: 1px solid color-mix(in oklab, var(--navy) 12%, transparent); }
+  .faq-pregunta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    width: 100%;
+    padding: 22px 10px;
+    text-align: left;
+    font-family: var(--font-display);
+    font-size: clamp(16.5px, 1.5vw, 19px);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    text-wrap: balance;
+    cursor: pointer;
+    transition: background-color 0.25s var(--curva-faq);
+  }
+  .faq-pregunta:focus-visible {
+    outline: 2px solid var(--navy);
+    outline-offset: -2px;
+  }
+  /* En móvil estrecho, la fila cruzaría la longitud de cada pregunta en
+     un punto distinto con Raleway y con la de respaldo (entre 320 y 467 px
+     casi en cada ancho). Por debajo de 480: 16 px y el texto hasta 14,8em.
+     Así "¿Cuánto cuesta?" (7,8em) va siempre en una línea y las demás
+     (16,2-21,9em) siempre en dos, con las dos fuentes; la más larga cabe
+     en dos incluso a 320. Desde 480 caben todas en una. */
+  @media (max-width: 479px) {
+    .faq-pregunta { font-size: 16px; }
+    .faq-texto { max-width: 14.8em; }
+  }
+  .faq-texto,
+  .faq-signo { transition: transform 0.25s var(--curva-faq); }
+  .faq-pregunta:hover,
+  .faq-pregunta:focus-visible,
+  .faq-item[data-abierta] .faq-pregunta {
+    background: color-mix(in oklab, var(--navy) 3.5%, transparent);
+  }
+  .faq-pregunta:hover .faq-texto,
+  .faq-pregunta:focus-visible .faq-texto,
+  .faq-item[data-abierta] .faq-texto { transform: translateX(6px); }
+  .faq-pregunta:hover .faq-signo,
+  .faq-pregunta:focus-visible .faq-signo,
+  .faq-item[data-abierta] .faq-signo { transform: translateX(-6px); }
+
+  /* El signo: una cruz de dos barras; al abrir, la vertical se recoge y
+     queda la raya. */
+  .faq-signo {
+    position: relative;
+    flex: none;
+    width: 20px;
+    height: 20px;
+  }
+  .faq-signo::before,
+  .faq-signo::after {
+    content: "";
+    position: absolute;
+    background: var(--faq-signo);
+  }
+  .faq-signo::before {
+    inset: 9px 0 auto;
+    height: 2px;
+  }
+  .faq-signo::after {
+    inset: 0 auto 0 9px;
+    width: 2px;
+    transition: transform 0.3s var(--curva-faq);
+  }
+  .faq-item[data-abierta] .faq-signo::after { transform: scaleY(0); }
+
+  /* La respuesta se despliega de 0fr a 1fr (sin saltos). Cerrada, además,
+     visibility: hidden, que se aplica al terminar de plegarse. Ocupa el
+     ancho de la fila hasta 44em, unos 72 caracteres de Poppins, alineada
+     con la pregunta abierta (10 + 6 px). */
+  .faq-respuesta {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition:
+      grid-template-rows 0.4s var(--curva-faq),
+      visibility 0s linear 0.4s;
+  }
+  .faq-item[data-abierta] .faq-respuesta {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition: grid-template-rows 0.4s var(--curva-faq);
+  }
+  .faq-respuesta > div {
+    min-height: 0;
+    overflow: hidden;
+  }
+  .faq-respuesta p {
+    max-width: calc(44em + 32px);
+    padding: 0 16px 26px;
+    font-size: 15px;
+    line-height: 1.66;
+    color: color-mix(in oklab, var(--navy) 72%, transparent);
+  }
+
+  .faq-pie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    margin-top: clamp(28px, 3vw, 40px);
+  }
+  .faq-pie p {
+    font-size: 14.5px;
+    color: color-mix(in oklab, var(--navy) 72%, transparent);
+  }
+  .faq-pie a {
+    --enlace-grosor: 2px;
+    font-size: 15px;
+    color: var(--navy);
+  }
+  .faq-pie a:focus-visible {
+    outline: 2px solid var(--navy);
+    outline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq-pregunta,
+    .faq-texto,
+    .faq-signo,
+    .faq-signo::after,
+    .faq-respuesta,
+    .faq-item[data-abierta] .faq-respuesta { transition: none; }
+  }
+
   /* Página de un caso (/casos/frulonsa): crema, tarjetas blancas rectas
      con filete dorado y las mismas piezas .caso-* del bloque de la home. */
   .caso-pagina {

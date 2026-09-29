@@ -1,0 +1,143 @@
+<title>FAQ · bloque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Raleway:wght@600;700;800&display=swap">
+<style>
+  :root{
+    color-scheme: light;
+    --navy:#021557; --ink:#030B24; --cream:#F5F2E9; --cream-2:#EDE9DD;
+    --gold:#DDAE45; --gold-ink:#6E580B;
+    --l1:#021557; --l2:rgba(2,21,87,.72); --l3:rgba(2,21,87,.68);
+    --line:rgba(2,21,87,.12);
+    --disp:'Raleway','Helvetica Neue',Arial,sans-serif;
+    --body:'Poppins','Helvetica Neue',Arial,sans-serif;
+    --curva:cubic-bezier(.3,.9,.25,1);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--cream);color:var(--l1);font-family:var(--body);font-weight:300;font-size:16px;line-height:1.7}
+  .wrap{max-width:1200px;margin:0 auto;padding-inline:16px;position:relative}
+  @media(min-width:900px){.wrap{padding-inline:40px}}
+  h2,h3{font-family:var(--disp);margin:0;font-weight:700;letter-spacing:-.03em;line-height:1.08;text-wrap:balance}
+  p{margin:0}
+
+  .nota{background:var(--navy);color:var(--cream)}
+  .nota .wrap{padding-block:12px;font-size:13.5px;display:flex;gap:8px 20px;flex-wrap:wrap}
+  .nota b{font:600 11px/1.6 var(--body);letter-spacing:.14em;text-transform:uppercase;color:#E9C877}
+
+  section{padding-block:clamp(64px,8vw,116px)}
+
+  .etiqueta{font:600 11px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--l3)}
+  .etiqueta b{color:var(--gold-ink);margin-right:10px}
+  .cab{display:grid;gap:18px;margin-top:20px}
+  @media(min-width:960px){.cab{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:56px;align-items:end}}
+  h2{font-size:clamp(30px,4.2vw,52px);max-width:17ch}
+  .cab p{color:var(--l2);font-size:clamp(15.5px,1.2vw,17.5px);line-height:1.6;max-width:40ch}
+
+  /* ---------- acordeón ---------- */
+  .faq{margin-top:clamp(36px,4vw,54px);border-top:1px solid var(--line)}
+  .item{border-bottom:1px solid var(--line)}
+  .pregunta{width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;
+            background:transparent;border:0;cursor:pointer;text-align:left;font-family:var(--disp);
+            font-weight:700;letter-spacing:-.02em;color:var(--l1);
+            font-size:clamp(16.5px,1.5vw,19px);line-height:1.3;padding:22px 10px;
+            transition:background .25s var(--curva),padding .25s var(--curva)}
+  .pregunta:hover{background:rgba(2,21,87,.035);padding-inline:16px}
+  .pregunta:focus-visible{outline:2px solid var(--navy);outline-offset:-2px}
+  .signo{flex:none;position:relative;width:20px;height:20px}
+  .signo::before,.signo::after{content:"";position:absolute;background:var(--gold-ink);
+            transition:transform .3s var(--curva),opacity .3s}
+  .signo::before{left:0;right:0;top:9px;height:2px}
+  .signo::after{top:0;bottom:0;left:9px;width:2px}
+  .item[data-abierto="si"] .signo::after{transform:scaleY(0)}
+  .item[data-abierto="si"] .pregunta{background:rgba(2,21,87,.035)}
+
+  .respuesta{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s var(--curva)}
+  .item[data-abierto="si"] .respuesta{grid-template-rows:1fr}
+  .respuesta > div{overflow:hidden}
+  .respuesta p{padding:0 10px 26px;color:var(--l2);font-size:15px;line-height:1.66;max-width:72ch}
+  .item[data-abierto="si"] .respuesta p{padding-inline:16px}
+
+  .nueva{border-left:3px solid var(--gold);padding-left:10px;margin-left:-13px}
+
+  /* ---------- pie ---------- */
+  .pie{margin-top:clamp(28px,3vw,40px);display:flex;flex-wrap:wrap;gap:12px 24px;
+       align-items:center;justify-content:space-between}
+  .pie p{color:var(--l2);font-size:14.5px}
+  .enlace{display:inline-flex;align-items:center;gap:10px;color:var(--navy);text-decoration:none;
+          font-weight:600;font-size:15px;white-space:nowrap}
+  .enlace span{position:relative;padding-bottom:3px}
+  .enlace span::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--gold);
+                      transform:scaleX(0);transform-origin:left;transition:transform .4s var(--curva)}
+  .enlace:hover span::after{transform:scaleX(1)}
+
+  .porHacer{margin-top:30px;border:1px solid rgba(221,174,69,.55);background:rgba(221,174,69,.1);padding:18px 20px}
+  .porHacer b{display:block;font:600 10.5px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--gold-ink);margin-bottom:10px}
+  .porHacer ul{margin:0;padding-left:18px;font-size:14px;color:var(--l2);line-height:1.7}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="nota"><div class="wrap"><b>Boceto</b><span>Bloque 07. Las dos preguntas con filete dorado son nuevas, ya contestadas.</span></div></div>
+
+<section><div class="wrap">
+  <p class="etiqueta"><b>07</b>Preguntas frecuentes</p>
+  <div class="cab">
+    <h2>Lo que nos preguntan antes de empezar</h2>
+    <p>Si tienes una duda que no está aquí, es mejor preguntarla antes de la llamada que después de firmar.</p>
+  </div>
+
+  <div class="faq">
+    <div class="item" data-abierto="si">
+      <button class="pregunta" type="button">Ya he trabajado con agencias y no funcionó<span class="signo" aria-hidden="true"></span></button>
+      <div class="respuesta"><div><p>Suele pasar cuando se ejecutan acciones sueltas sin una base detrás: campañas sin posicionamiento, contenido sin estrategia o una web que no está pensada para captar. Nosotros empezamos siempre por el diagnóstico, y si algo no tiene sentido para tu negocio, te lo decimos.</p></div></div>
+    </div>
+
+    <div class="item nueva" data-abierto="no">
+      <button class="pregunta" type="button">¿Tengo que firmar una permanencia?<span class="signo" aria-hidden="true"></span></button>
+      <div class="respuesta"><div><p>Durante el sistema, sí: eliges el bloque de tres o de seis meses y ese recorrido se completa entero. No es una cláusula para atarte, es que un sistema a medio construir no funciona, y salir a mitad significa pagar por algo que nunca va a dar resultado. Cuando el bloque termina, se acaba el compromiso: a partir de ahí es una cuota mensual por el mantenimiento y las gestiones, y se cancela cuando quieras.</p></div></div>
+    </div>
+
+    <div class="item" data-abierto="no">
+      <button class="pregunta" type="button">¿Cuánto cuesta?<span class="signo" aria-hidden="true"></span></button>
+      <div class="respuesta"><div><p>(La respuesta actual de la web se mantiene.)</p></div></div>
+    </div>
+
+    <div class="item" data-abierto="no">
+      <button class="pregunta" type="button">¿Cuánto tarda en verse resultados?<span class="signo" aria-hidden="true"></span></button>
+      <div class="respuesta"><div><p>(La respuesta actual de la web se mantiene.)</p></div></div>
+    </div>
+
+    <div class="item nueva" data-abierto="no">
+      <button class="pregunta" type="button">¿Trabajáis con empresas como la mía?<span class="signo" aria-hidden="true"></span></button>
+      <div class="respuesta"><div><p>No filtramos por sector ni por tamaño: da igual que lleves veinte años facturando o que empieces desde cero. Lo que no hacemos son campañas sueltas. Montamos la estrategia completa y el sistema que la sostiene, y eso necesita un recorrido de tres meses como mínimo. Donde más experiencia tenemos es en agroalimentario, servicios locales y B2B, pero el sistema es el mismo en cualquier sector.</p></div></div>
+    </div>
+
+    <div class="item" data-abierto="no">
+      <button class="pregunta" type="button">¿Qué vais a hacer exactamente en mi empresa?<span class="signo" aria-hidden="true"></span></button>
+      <div class="respuesta"><div><p>(La respuesta actual de la web se mantiene.)</p></div></div>
+    </div>
+  </div>
+
+  <div class="pie">
+    <p>¿Tu duda no está aquí?</p>
+    <a class="enlace" href="#"><span>Pregúntanos por WhatsApp</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+
+  <div class="porHacer">
+    <b>Confírmame solo una cosa</b>
+    <ul>
+      <li>He puesto <b>agroalimentario, servicios locales y B2B</b> como los sectores donde más experiencia tenéis, porque es donde veo trabajo hecho. Si prefieres otros tres, o ninguno, dímelo.</li>
+    </ul>
+  </div>
+</div></section>
+
+<script>
+  document.querySelectorAll('.pregunta').forEach(function(b){
+    b.addEventListener('click', function(){
+      var it = b.closest('.item');
+      it.dataset.abierto = it.dataset.abierto === 'si' ? 'no' : 'si';
+    });
+  });
+</script>
