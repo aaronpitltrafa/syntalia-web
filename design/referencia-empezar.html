@@ -1,0 +1,179 @@
+<title>Cómo empezamos · bloque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Raleway:wght@600;700;800&display=swap">
+<style>
+  :root{
+    color-scheme: dark;
+    --navy:#021557; --ink:#030B24; --cream:#F5F2E9; --gold:#DDAE45; --gold-2:#E9C877; --gold-ink:#6E580B;
+    --c1:var(--cream); --c2:rgba(245,242,233,.74); --c3:rgba(245,242,233,.56);
+    --line:rgba(245,242,233,.13);
+    --t1:#021557; --t2:rgba(2,21,87,.72); --t3:rgba(2,21,87,.68);
+    --disp:'Raleway','Helvetica Neue',Arial,sans-serif;
+    --body:'Poppins','Helvetica Neue',Arial,sans-serif;
+    --curva:cubic-bezier(.3,.9,.25,1);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--c1);font-family:var(--body);font-weight:300;font-size:16px;line-height:1.7}
+  .wrap{max-width:1200px;margin:0 auto;padding-inline:16px;position:relative}
+  @media(min-width:900px){.wrap{padding-inline:40px}}
+  h2,h3{font-family:var(--disp);margin:0;font-weight:700;letter-spacing:-.03em;line-height:1.08;text-wrap:balance}
+  p{margin:0}
+
+  .nota{background:#0B1638;color:var(--c2)}
+  .nota .wrap{padding-block:12px;font-size:13.5px;display:flex;gap:8px 20px;flex-wrap:wrap}
+  .nota b{font:600 11px/1.6 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2)}
+
+  section{padding-block:clamp(64px,8vw,116px);
+    background:
+      linear-gradient(180deg,rgba(1,6,15,.72) 0%,rgba(1,6,15,.45) 38%,rgba(3,11,36,.86) 82%,var(--ink) 100%),
+      radial-gradient(130% 120% at 22% 8%,#0e317c 0%,#061032 52%,#01060f 100%)}
+
+  .etiqueta{font:600 11px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--c3)}
+  .etiqueta b{color:var(--gold-2);margin-right:10px}
+  .cab{display:grid;gap:18px;margin-top:20px}
+  @media(min-width:960px){.cab{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:56px;align-items:end}}
+  h2{font-size:clamp(30px,4.2vw,52px);max-width:16ch}
+  .cab p{color:var(--c2);font-size:clamp(15.5px,1.2vw,17.5px);line-height:1.6;max-width:36ch}
+
+  /* ---------- el camino ---------- */
+  .camino{margin-top:clamp(40px,4.6vw,64px);display:grid;gap:0}
+  @media(min-width:900px){
+    .camino{grid-template-columns:minmax(0,1fr) 54px minmax(0,1fr) 54px minmax(0,1fr);align-items:stretch}
+  }
+
+  .parada{position:relative;background:#FFFFFF;color:var(--t1);padding:26px 24px 28px;
+          display:flex;flex-direction:column;
+          box-shadow:0 30px 60px -44px rgba(1,6,15,.9);
+          transition:transform .3s var(--curva),box-shadow .3s}
+  .parada:hover{transform:translateY(-6px);box-shadow:0 44px 70px -44px rgba(1,6,15,1)}
+  .parada::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--gold);
+                  transform:scaleX(0);transform-origin:left;transition:transform .8s var(--curva)}
+  .camino.on .parada::before{transform:scaleX(1)}
+  .camino.on .p2::before{transition-delay:.25s}
+  .camino.on .p3::before{transition-delay:.5s}
+
+  .num{display:grid;place-content:center;width:36px;height:36px;background:var(--navy);color:var(--gold-2);
+       font-family:var(--disp);font-weight:700;font-size:13px;letter-spacing:.04em;
+       font-variant-numeric:lining-nums tabular-nums}
+  .parada h3{margin-top:18px;font-size:clamp(18px,1.8vw,21px);letter-spacing:-.02em}
+  .parada p{margin-top:9px;color:var(--t2);font-size:14.5px;line-height:1.55}
+  .tiempo{margin-top:auto;padding-top:18px;display:inline-flex;align-items:center;gap:8px;
+          font:600 10.5px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink)}
+  .tiempo i{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);flex:none}
+
+  /* tramo entre paradas */
+  .tramo{position:relative;display:grid;place-content:center;padding-block:16px}
+  .tramo::before{content:"";position:absolute;left:0;right:0;top:50%;height:2px;
+                 background:linear-gradient(90deg,rgba(221,174,69,.35),var(--gold));
+                 transform:scaleX(0);transform-origin:left;transition:transform .55s var(--curva)}
+  .camino.on .t1::before{transform:scaleX(1);transition-delay:.15s}
+  .camino.on .t2::before{transform:scaleX(1);transition-delay:.4s}
+  .tramo svg{position:relative;z-index:2;color:var(--gold);opacity:0;transition:opacity .3s}
+  .camino.on .t1 svg{opacity:1;transition-delay:.55s}
+  .camino.on .t2 svg{opacity:1;transition-delay:.8s}
+  @media(max-width:899px){
+    .tramo{padding-block:14px}
+    .tramo::before{left:50%;right:auto;top:0;bottom:0;height:auto;width:2px;transform:scaleY(0);transform-origin:top}
+    .camino.on .t1::before,.camino.on .t2::before{transform:scaleY(1)}
+    .tramo svg{transform:rotate(90deg)}
+  }
+
+  /* ---------- final del camino: la acción ---------- */
+  .destino{margin-top:clamp(30px,3.4vw,44px);display:grid;gap:20px}
+  @media(min-width:860px){.destino{grid-template-columns:minmax(0,1fr) auto;gap:40px;align-items:center}}
+  .destino h3{font-size:clamp(19px,2vw,25px);line-height:1.2;max-width:26ch}
+  .promesas{margin:14px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px 22px}
+  .promesas li{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--c2)}
+  .promesas i{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);flex:none}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:11px;white-space:nowrap;
+       background:var(--gold);color:#1E1704;text-decoration:none;font-weight:600;font-size:15.5px;
+       padding:18px 30px;box-shadow:0 18px 40px -18px rgba(221,174,69,.95);transition:transform .2s}
+  .btn:hover{transform:translateY(-2px)}
+
+  .porHacer{margin-top:30px;border:1px solid rgba(221,174,69,.55);background:rgba(221,174,69,.12);padding:18px 20px}
+  .porHacer b{display:block;font:600 10.5px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--gold-2);margin-bottom:10px}
+  .porHacer ul{margin:0;padding-left:18px;font-size:14px;color:var(--c2);line-height:1.7}
+
+  @media(prefers-reduced-motion:reduce){
+    *{transition:none!important}
+    .parada::before,.tramo::before{transform:none!important}
+    .tramo svg{opacity:1!important}
+    .parada:hover{transform:none}
+  }
+</style>
+
+<div class="nota"><div class="wrap"><b>Boceto</b><span>Bloque 06: camino de bloques blancos con los tiempos reales. Recarga para ver el recorrido.</span></div></div>
+
+<section><div class="wrap">
+  <p class="etiqueta"><b>06</b>Cómo empezamos</p>
+  <div class="cab">
+    <h2>Tres pasos y sabrás qué le falta a tu empresa</h2>
+    <p>Sin reuniones de una hora para contarte lo que ya sabes. El primer paso son dos minutos.</p>
+  </div>
+
+  <div class="camino">
+    <article class="parada p1">
+      <span class="num">01</span>
+      <h3>Cuéntanos tu proyecto</h3>
+      <p>Rellenas el formulario. Sin compromiso ni letra pequeña.</p>
+      <span class="tiempo"><i></i>2 minutos</span>
+    </article>
+
+    <div class="tramo t1" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 6l6 6-6 6"/></svg>
+    </div>
+
+    <article class="parada p2">
+      <span class="num">02</span>
+      <h3>Analizamos tu situación</h3>
+      <p>Tu posicionamiento, tu presencia digital y tu captación actual.</p>
+      <span class="tiempo"><i></i>24 horas</span>
+    </article>
+
+    <div class="tramo t2" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 6l6 6-6 6"/></svg>
+    </div>
+
+    <article class="parada p3">
+      <span class="num">03</span>
+      <h3>Te entregamos el plan</h3>
+      <p>Una hoja de ruta con prioridades y qué haríamos primero. Gratis.</p>
+      <span class="tiempo"><i></i>3-5 días</span>
+    </article>
+  </div>
+
+  <div class="destino">
+    <div>
+      <h3>El paso 01 se hace desde aquí</h3>
+      <ul class="promesas">
+        <li><i></i>Sin compromiso</li>
+        <li><i></i>Respuesta en 24 h</li>
+        <li><i></i>Plan estratégico gratuito</li>
+      </ul>
+    </div>
+    <a class="btn" href="#">Solicitar diagnóstico
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1E1704" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+
+  <div class="porHacer">
+    <b>Lo que necesito de ti</b>
+    <ul>
+      <li><b>Los dos tiempos que faltan</b> (rombo hueco): cuánto tardáis en analizar y en cuánto tiene el plan en la mano. El hero promete "respuesta en 24 h", pero responder no es entregar el plan: no quiero mezclarlo.</li>
+      <li>Si el plan tarda una semana, se dice "en una semana". Un plazo claro y largo da más confianza que uno vago y corto.</li>
+    </ul>
+  </div>
+</div></section>
+
+<script>
+  (function(){
+    var c = document.querySelector('.camino');
+    if(!c) return;
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches){ c.classList.add('on'); return; }
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ c.classList.add('on'); io.disconnect(); } });
+    },{threshold:.25});
+    io.observe(c);
+  })();
+</script>

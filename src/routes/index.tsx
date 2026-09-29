@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
@@ -10,6 +10,7 @@ import logoMn from "@/assets/logos-clientes/mn.png";
 import logoRevivalia from "@/assets/logos-clientes/revivalia.png";
 import logoTradyn from "@/assets/logos-clientes/tradyn-ai.png";
 import { FormularioCorto } from "@/components/formulario-corto";
+import { GoldCta } from "@/components/gold-cta";
 import { SectionLink } from "@/components/section-link";
 import { SectionRail } from "@/components/section-rail";
 import { Subrayado } from "@/components/subrayado";
@@ -436,7 +437,7 @@ const RESUMEN_ETAPA: Record<string, string> = {
  * ficha sus entregables (`includes` de lib/sistema.ts).
  */
 function Sistema() {
-  const { ref, fase } = useEntradaSistema();
+  const { ref, fase } = useEntrada<HTMLDivElement>(0.2);
 
   return (
     <section id="sistema" className="seccion-azul seccion scroll-mt-6">
@@ -509,13 +510,14 @@ function Sistema() {
 }
 
 /**
- * Entrada del recorrido. En el HTML del servidor no hay clase y se ve todo
- * dibujado (sin JS no queda nada oculto). Al montar pasa a "espera" (el
- * estado de salida, sin transición) y a "on" al entrar un 20% en pantalla,
- * una sola vez. Con movimiento reducido va directo a "on", sin observar.
+ * Entrada de un bloque (el recorrido del sistema, el camino de "Cómo
+ * empezamos"). En el HTML del servidor no hay clase y se ve todo dibujado
+ * (sin JS no queda nada oculto). Al montar pasa a "espera" (el estado de
+ * salida, sin transición) y a "on" al entrar `umbral` en pantalla, una sola
+ * vez. Con movimiento reducido va directo a "on", sin observar.
  */
-function useEntradaSistema() {
-  const ref = useRef<HTMLDivElement>(null);
+function useEntrada<T extends HTMLElement>(umbral: number) {
+  const ref = useRef<T>(null);
   const [fase, setFase] = useState<"" | "espera" | "on">("");
 
   useEffect(() => {
@@ -533,11 +535,11 @@ function useEntradaSistema() {
           io.disconnect();
         }
       },
-      { threshold: 0.2 },
+      { threshold: umbral },
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [umbral]);
 
   return { ref, fase };
 }
@@ -832,68 +834,99 @@ function ComoTrabajamos() {
 const PASOS = [
   {
     titulo: "Cuéntanos tu proyecto",
-    texto: "Rellenas el formulario en dos minutos. Sin compromiso ni letra pequeña.",
+    texto: "Rellenas el formulario. Sin compromiso ni letra pequeña.",
+    tiempo: "2 minutos",
   },
   {
     titulo: "Analizamos tu situación",
-    texto: "Revisamos tu posicionamiento, tu presencia digital y tu captación actual.",
+    texto: "Tu posicionamiento, tu presencia digital y tu captación actual.",
+    tiempo: "24 horas",
   },
   {
     titulo: "Te entregamos el plan",
-    texto: "Una hoja de ruta clara con prioridades y qué haríamos primero. Gratis.",
+    texto: "Una hoja de ruta con prioridades y qué haríamos primero. Gratis.",
+    tiempo: "3-5 días",
   },
 ] as const;
 
+const PROMESAS = ["Sin compromiso", "Respuesta en 24 h", "Plan estratégico gratuito"] as const;
+
+/** Tramo entre dos paradas: raya dorada y flecha (girada en vertical en móvil). */
+function Tramo() {
+  return (
+    <li aria-hidden className="camino-tramo">
+      <svg
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M13 6l6 6-6 6" />
+      </svg>
+    </li>
+  );
+}
+
 /**
- * Tres pasos sobre fondo oscuro. El último, el que entrega valor, va en
- * dorado con texto casi negro (8,5:1).
+ * Cómo empezar, como un camino: tres paradas blancas sobre el azul, unidas
+ * por tramos dorados, que acaba en el botón de diagnóstico. El botón es lo
+ * único dorado macizo de la sección. La entrada (filetes y tramos que se
+ * dibujan en orden) está en .camino-* de styles.css.
  */
 function Empezar() {
+  const { ref, fase } = useEntrada<HTMLOListElement>(0.25);
+
   return (
     <section id="empezar" className="seccion-azul seccion scroll-mt-6">
       <div className="contenedor">
-        <p className="etiqueta">
-          <span className="etiqueta-num">06</span>Cómo empezamos
-        </p>
-        <h2 className="mt-5 max-w-[calc(15*var(--ch-raleway))] text-h2 text-balance">
-          Tres pasos y sabrás qué le falta a tu empresa
-        </h2>
+        <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-end min-[900px]:gap-14">
+          <div>
+            <p className="etiqueta">
+              <span className="etiqueta-num">06</span>Cómo empezamos
+            </p>
+            <h2 className="mt-5 max-w-[calc(15*var(--ch-raleway))] text-h2 text-balance">
+              Tres pasos y sabrás qué le falta a tu empresa
+            </h2>
+          </div>
+          <p className="max-w-[26em] text-lead text-cream/74">
+            Sin reuniones de una hora para contarte lo que ya sabes. El primer paso son dos
+            minutos.
+          </p>
+        </div>
 
-        <ol className="mt-[clamp(36px,4vw,52px)] grid gap-[18px] min-[860px]:grid-cols-3">
-          {PASOS.map((p, i) => {
-            const ultimo = i === PASOS.length - 1;
-            return (
-              <li
-                key={p.titulo}
-                className={cn(
-                  "rounded-card border p-[26px]",
-                  ultimo
-                    ? "border-transparent bg-gold text-on-gold"
-                    : "border-cream/13 bg-[rgb(245_242_233/0.035)]",
-                )}
-              >
-                <span
-                  aria-hidden
-                  className={cn(
-                    "grid h-[42px] w-[42px] place-content-center rounded-btn font-display text-[15px] font-bold [font-variant-numeric:lining-nums]",
-                    ultimo ? "bg-navy/14 text-navy" : "bg-gold/16 text-gold-light",
-                  )}
-                >
+        <ol ref={ref} className={cn("camino", fase)}>
+          {PASOS.map((p, i) => (
+            <Fragment key={p.titulo}>
+              {i > 0 && <Tramo />}
+              <li className="camino-parada">
+                <span aria-hidden className="camino-num">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="mt-[18px] text-h3 font-semibold text-balance">{p.titulo}</h3>
-                <p
-                  className={cn(
-                    "mt-[9px] text-[14.5px] leading-[1.6]",
-                    ultimo ? "text-on-gold/80" : "text-cream/72",
-                  )}
-                >
-                  {p.texto}
-                </p>
+                <h3>{p.titulo}</h3>
+                <p>{p.texto}</p>
+                <span className="camino-tiempo">{p.tiempo}</span>
               </li>
-            );
-          })}
+            </Fragment>
+          ))}
         </ol>
+
+        <div className="camino-destino">
+          <div>
+            <h3>El paso 01 se hace desde aquí</h3>
+            <ul className="camino-promesas">
+              {PROMESAS.map((t) => (
+                <li key={t}>{t}</li>
+              ))}
+            </ul>
+          </div>
+          <GoldCta to="/diagnostico" className="rounded-none px-[30px] py-[18px]">
+            Solicitar diagnóstico
+          </GoldCta>
+        </div>
       </div>
     </section>
   );

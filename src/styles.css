@@ -1562,6 +1562,216 @@
     .regla::after { transition: none; }
   }
 
+  /* Bloque 06, cómo empezamos: un camino de tres paradas blancas sobre el
+     azul, unidas por tramos dorados, que acaba en el botón de diagnóstico.
+     Hijos del <ol>: parada (1) · tramo (2) · parada (3) · tramo (4) ·
+     parada (5). La entrada la marca useEntrada: sin clase (HTML del
+     servidor, sin JS) todo se ve dibujado; con .espera, filetes y tramos
+     esperan recogidos; con .on se dibujan en orden. Solo transform y
+     opacity: no se mueve nada de sitio. */
+  .camino {
+    --curva-camino: cubic-bezier(0.3, 0.9, 0.25, 1);
+    display: grid;
+    margin-top: clamp(40px, 4.6vw, 64px);
+  }
+  @media (min-width: 900px) {
+    .camino {
+      grid-template-columns: minmax(0, 1fr) 54px minmax(0, 1fr) 54px minmax(0, 1fr);
+      align-items: stretch;
+    }
+  }
+
+  .camino-parada {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 26px 24px 28px;
+    background: #ffffff;
+    color: var(--navy);
+    box-shadow: 0 30px 60px -44px rgb(1 6 15 / 0.9);
+    transition:
+      transform 0.3s var(--curva-camino),
+      box-shadow 0.3s;
+  }
+  .camino-parada:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 44px 70px -44px rgb(1 6 15 / 1);
+  }
+  /* Filete dorado de arriba. */
+  .camino-parada::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: var(--gold);
+    transform-origin: left;
+    transition: transform 0.8s var(--curva-camino);
+  }
+  .camino-num {
+    display: grid;
+    place-content: center;
+    width: 36px;
+    height: 36px;
+    background: var(--navy);
+    color: var(--gold-light);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .camino-parada h3 {
+    margin-top: 18px;
+    font-size: 18px;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  /* En tres columnas el tamaño va con el ancho (1,8vw, entre 16 y 21 px),
+     así la caja mide siempre al menos 11,7em y "Analizamos tu situación"
+     (10,9em con Raleway, 11em con la de respaldo) cabe en una línea con las
+     dos fuentes. Con 18 px fijos, a 900-923 px cabía con una y no con la
+     otra. Desde 1000 px es el mismo clamp(18px, 1.8vw, 21px) de siempre. */
+  @media (min-width: 900px) {
+    .camino-parada h3 { font-size: clamp(16px, 1.8vw, 21px); }
+  }
+  .camino-parada p {
+    margin-top: 9px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: color-mix(in oklab, var(--navy) 72%, transparent);
+  }
+  /* El tiempo va abajo del todo (margin-top: auto), así queda a la misma
+     altura en las tres paradas. */
+  .camino-tiempo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 18px;
+    font-size: 10.5px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-ink);
+  }
+  .camino-tiempo::before {
+    content: "";
+    flex: none;
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+
+  /* Tramo entre paradas: raya de 2 px con degradado y flecha delante. */
+  .camino-tramo {
+    position: relative;
+    display: grid;
+    place-content: center;
+    padding-block: 16px;
+    color: var(--gold);
+  }
+  .camino-tramo::before {
+    content: "";
+    position: absolute;
+    inset: calc(50% - 1px) 0 auto;
+    height: 2px;
+    background: linear-gradient(90deg, rgb(221 174 69 / 0.35), var(--gold));
+    transform-origin: left;
+    transition: transform 0.55s var(--curva-camino);
+  }
+  .camino-tramo svg {
+    position: relative;
+    z-index: 1;
+    transition: opacity 0.3s;
+  }
+  @media (max-width: 899px) {
+    .camino-tramo { padding-block: 14px; }
+    .camino-tramo::before {
+      inset: 0 auto 0 calc(50% - 1px);
+      width: 2px;
+      height: auto;
+      background: linear-gradient(180deg, rgb(221 174 69 / 0.35), var(--gold));
+      transform-origin: top;
+    }
+    .camino-tramo svg { transform: rotate(90deg); }
+  }
+
+  /* Estado de salida (solo con JS). */
+  .camino.espera .camino-parada::before,
+  .camino.espera .camino-tramo::before {
+    transform: scaleX(0);
+    transition: none;
+  }
+  .camino.espera .camino-tramo svg {
+    opacity: 0;
+    transition: none;
+  }
+  @media (max-width: 899px) {
+    .camino.espera .camino-tramo::before { transform: scaleY(0); }
+  }
+  /* El orden: parada 1 → tramo 1 → parada 2 → tramo 2 → parada 3, y cada
+     flecha aparece cuando su tramo ya está dibujado. */
+  .camino.on .camino-parada:nth-child(3)::before { transition-delay: 0.25s; }
+  .camino.on .camino-parada:nth-child(5)::before { transition-delay: 0.5s; }
+  .camino.on .camino-tramo:nth-child(2)::before { transition-delay: 0.15s; }
+  .camino.on .camino-tramo:nth-child(4)::before { transition-delay: 0.4s; }
+  .camino.on .camino-tramo:nth-child(2) svg { transition-delay: 0.55s; }
+  .camino.on .camino-tramo:nth-child(4) svg { transition-delay: 0.8s; }
+
+  /* El final del camino: la acción. */
+  .camino-destino {
+    display: grid;
+    gap: 20px;
+    margin-top: clamp(30px, 3.4vw, 44px);
+    padding-top: clamp(26px, 3vw, 36px);
+    border-top: 1px solid color-mix(in oklab, var(--cream) 13%, transparent);
+  }
+  @media (min-width: 860px) {
+    .camino-destino {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 40px;
+      align-items: center;
+    }
+  }
+  .camino-destino h3 {
+    max-width: calc(26 * var(--ch-raleway));
+    font-size: clamp(19px, 2vw, 25px);
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  .camino-promesas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    margin-top: 14px;
+  }
+  .camino-promesas li {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 13.5px;
+    color: color-mix(in oklab, var(--cream) 74%, transparent);
+  }
+  .camino-promesas li::before {
+    content: "";
+    flex: none;
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .camino-parada,
+    .camino-parada::before,
+    .camino-tramo::before,
+    .camino-tramo svg { transition: none; }
+    .camino-parada:hover { transform: none; }
+  }
+
   /* Página de un caso (/casos/frulonsa): crema, tarjetas blancas rectas
      con filete dorado y las mismas piezas .caso-* del bloque de la home. */
   .caso-pagina {
