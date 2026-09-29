@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useId, useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import logoAlmaValdes from "@/assets/logos-clientes/alma-valdes.png";
 import logoBruma from "@/assets/logos-clientes/bruma-tropical.png";
 import logoCnc from "@/assets/logos-clientes/cnc.png";
@@ -16,11 +16,11 @@ import { Subrayado } from "@/components/subrayado";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { CasoCifras, CasoMarca, CasoPieza, CasoQueMide, CasoTestimonio } from "@/components/caso";
 import { goldCtaClasses } from "@/lib/gold-cta-classes";
-import { useHomeSectionObserver } from "@/lib/home-sections";
+import { numeroDeSeccion, useHomeSectionObserver } from "@/lib/home-sections";
 import { CASO_FRULONSA } from "@/lib/casos";
 import { FAQ_HOME } from "@/lib/faq";
 import { legalData } from "@/lib/legal-data";
-import { SYSTEM_STAGES } from "@/lib/sistema";
+import { SYSTEM_STAGES, type EtapaSistema } from "@/lib/sistema";
 import {
   FICHAS_PROBLEMA,
   INTERVALO_PROBLEMA_MS,
@@ -98,7 +98,6 @@ function Index() {
       <Logos />
       <Problema />
       <Sistema />
-      <Servicios />
 
       <CasoDeExito />
 
@@ -364,7 +363,7 @@ function Problema() {
             el #7E640E se quedaba en 4,4:1; #6E580B da 5,3:1. */}
         <span className="inline-flex items-center gap-2.5 rounded-full border border-gold/40 bg-gold/14 px-4 py-[9px] text-[11px] leading-none font-semibold tracking-[0.2em] text-[#6e580b] uppercase">
           <i aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" />
-          01 · El problema
+          {numeroDeSeccion("problema")} · El problema
         </span>
 
         <div className="mt-6 grid gap-[18px] min-[960px]:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] min-[960px]:items-end min-[960px]:gap-14">
@@ -446,12 +445,12 @@ function Problema() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 3 · EL SISTEMA                                                       */
+/* 2 · EL SISTEMA, EN CARRUSEL                                          */
 /* ------------------------------------------------------------------ */
 
 /**
- * La home resume cada etapa en una frase. El título, el lema y las listas
- * de servicios salen de lib/sistema.ts, que comparte con /servicios.
+ * La home resume cada etapa en una frase. El título, la lista y su rótulo
+ * salen de lib/sistema.ts, que comparte con /servicios.
  */
 const RESUMEN_ETAPA: Record<string, string> = {
   "01": "Negocio, mercado, cliente ideal y presencia digital, para ver qué frena el crecimiento.",
@@ -460,79 +459,245 @@ const RESUMEN_ETAPA: Record<string, string> = {
   "04": "Analizamos el sistema para potenciar lo que de verdad genera negocio.",
 };
 
+/** Lo que enseña la tarjeta: cada `include`, con su página si `services` la tiene. */
+function listaDeEtapa(e: EtapaSistema) {
+  return e.includes.map((label) => ({
+    label,
+    to: e.services?.find((s) => s.label === label)?.to,
+  }));
+}
+
+/*
+ * Solo en desarrollo: cada elemento de `includes` tiene que estar también en
+ * `services` con el mismo nombre; si no, la home no puede saber si tiene
+ * página y lo pintaría sin enlace. En producción este bloque no existe
+ * (Vite lo quita al compilar) y la página se pinta igual.
+ */
+if (import.meta.env.DEV) {
+  for (const e of SYSTEM_STAGES) {
+    for (const label of e.includes) {
+      if (!e.services?.some((s) => s.label === label)) {
+        console.warn(
+          `[sistema] "${label}" está en includes de la etapa ${e.number} pero no en sus services de lib/sistema.ts: en la home saldrá sin enlace.`,
+        );
+      }
+    }
+  }
+}
+
 /**
- * Bloque azul de marca a sangre, con el fondo del hero (.seccion-azul en
- * styles.css).
- * Las etapas son un recorrido (styles.css, .sistema-*): un rail dorado del
- * que cuelga cada etapa por una bajante cada vez más corta, y en cada
- * ficha sus entregables (`includes` de lib/sistema.ts).
+ * Las cuatro etapas en un carrusel de scroll-snap nativo (sin librería).
+ * El JavaScript solo averigua qué tarjeta está centrada, mueve las
+ * flechas y las barras, y centra la tarjeta que recibe el foco.
+ *
+ * Sin JavaScript (o antes de que React tome el control) la pista se
+ * desliza igual y las cuatro tarjetas se ven de frente y nítidas: el giro,
+ * la distancia y el desenfoque de las laterales solo se aplican con
+ * data-vivo. Todo es transform, opacity y filter: no se mueve nada de
+ * sitio. Estilos en styles.css (.carrusel-*).
  */
 function Sistema() {
-  const { ref, fase } = useEntrada<HTMLDivElement>(0.2);
+  const pista = useRef<HTMLDivElement>(null);
+  const [activa, setActiva] = useState(0);
+  const [vivo, setVivo] = useState(false);
+  const total = SYSTEM_STAGES.length;
+
+  const tarjetas = () => [
+    ...(pista.current?.querySelectorAll<HTMLElement>(".carrusel-tarjeta") ?? []),
+  ];
+  const centrada = () => {
+    const p = pista.current;
+    if (!p) return 0;
+    const centro = p.scrollLeft + p.clientWidth / 2;
+    let mejor = 0;
+    let dist = Infinity;
+    tarjetas().forEach((t, i) => {
+      const d = Math.abs(t.offsetLeft + t.offsetWidth / 2 - centro);
+      if (d < dist) {
+        dist = d;
+        mejor = i;
+      }
+    });
+    return mejor;
+  };
+  const irA = (i: number) => {
+    const p = pista.current;
+    const t = tarjetas()[Math.max(0, Math.min(total - 1, i))];
+    if (!p || !t) return;
+    const suave = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    p.scrollTo({
+      left: t.offsetLeft - (p.clientWidth - t.offsetWidth) / 2,
+      behavior: suave ? "smooth" : "auto",
+    });
+  };
+
+  useEffect(() => {
+    const p = pista.current;
+    if (!p) return;
+    setVivo(true);
+    let raf = 0;
+    const pintar = () => setActiva(centrada());
+    const alMover = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(pintar);
+    };
+    p.addEventListener("scroll", alMover, { passive: true });
+    window.addEventListener("resize", alMover);
+    pintar();
+    return () => {
+      cancelAnimationFrame(raf);
+      p.removeEventListener("scroll", alMover);
+      window.removeEventListener("resize", alMover);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <section id="sistema" className="seccion-azul seccion ancla">
+    <section id="sistema" className="seccion-azul seccion ancla carrusel-seccion">
       <div className="contenedor">
-        <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-start min-[900px]:gap-14">
-          <div>
-            <p className="etiqueta">
-              <span className="etiqueta-num">02</span>Sistema Vértice
-            </p>
-            <h2 className="mt-5 max-w-[calc(15*var(--ch-raleway))] text-h2 text-balance">
-              Cuatro etapas, un solo ecosistema
-            </h2>
-          </div>
-          <p className="max-w-[34em] text-lead text-cream/72">
+        <div className="carrusel-cabeza">
+          <p className="carrusel-pildora">
+            <i aria-hidden />
+            {numeroDeSeccion("sistema")} · Sistema Vértice
+          </p>
+          <h2>
+            Cuatro etapas conectadas para convertir tu presencia digital en <em>oportunidades</em>
+          </h2>
+          <p>
             Cada etapa se apoya en la anterior. No lanzamos campañas hasta que la base está
             construida, porque es lo que hace que el gasto se convierta en retorno.
           </p>
         </div>
 
-        <div ref={ref} className={cn("sistema-ruta", fase)}>
-          <div className="sistema-rail" aria-hidden>
-            <span />
-          </div>
-          <ol className="sistema-etapas">
-            {SYSTEM_STAGES.map((s, i) => (
-              <li
-                key={s.number}
-                className="sistema-etapa"
-                style={{ "--paso": String(i) } as React.CSSProperties}
+        <div className="carrusel" data-vivo={vivo || undefined}>
+          <button
+            type="button"
+            className="carrusel-flecha carrusel-flecha-izq"
+            aria-label="Etapa anterior"
+            // aria-disabled y no disabled: un botón con el foco que pasa a
+            // disabled lo pierde y el foco se va al body.
+            aria-disabled={activa === 0 || undefined}
+            onClick={() => activa > 0 && irA(centrada() - 1)}
+          >
+            <ArrowLeft aria-hidden strokeWidth={2.2} className="h-[18px] w-[18px]" />
+          </button>
+          <button
+            type="button"
+            className="carrusel-flecha carrusel-flecha-der"
+            aria-label="Etapa siguiente"
+            aria-disabled={activa === total - 1 || undefined}
+            onClick={() => activa < total - 1 && irA(centrada() + 1)}
+          >
+            <ArrowRight aria-hidden strokeWidth={2.2} className="h-[18px] w-[18px]" />
+          </button>
+
+          <div
+            ref={pista}
+            className="carrusel-pista"
+            tabIndex={0}
+            role="group"
+            aria-label="Las cuatro etapas del Sistema Vértice"
+            onKeyDown={(e) => {
+              if (e.target !== e.currentTarget) return;
+              if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+                e.preventDefault();
+                irA(centrada() + (e.key === "ArrowRight" ? 1 : -1));
+              }
+            }}
+          >
+            {SYSTEM_STAGES.map((etapa, i) => (
+              <article
+                key={etapa.number}
+                className="carrusel-tarjeta"
+                aria-label={`Etapa ${etapa.number}: ${etapa.title}`}
+                data-activa={i === activa || undefined}
+                data-despues={i > activa || undefined}
+                onFocus={() => irA(i)}
               >
-                <div className="sistema-bajante">
-                  <span className="sistema-paso" aria-hidden>
-                    {s.number}
-                  </span>
-                </div>
-                <div className="sistema-ficha">
-                  {/* Una sola pieza para la fila de arriba de la subrejilla:
-                      así las cuatro listas empiezan a la misma altura. */}
-                  <div className="sistema-cabeza">
-                    <h3>{s.title}</h3>
-                    <p className="sistema-lema">{s.tagline}</p>
-                    <p className="sistema-desc">{RESUMEN_ETAPA[s.number]}</p>
-                  </div>
-                  <ul className="sistema-incluye">
-                    {s.includes.map((item) => (
-                      <li key={item}>
-                        <i aria-hidden />
-                        {item}
+                <span aria-hidden className="carrusel-marca">
+                  {etapa.number}
+                </span>
+                <span className="carrusel-paso">
+                  <s aria-hidden />
+                  Etapa {etapa.number}
+                </span>
+                <h3>{etapa.title}</h3>
+                <p>{RESUMEN_ETAPA[etapa.number]}</p>
+                <div className="carrusel-lista">
+                  <p className="carrusel-rotulo">{etapa.rotulo}</p>
+                  <ul>
+                    {listaDeEtapa(etapa).map((s) => (
+                      <li key={s.label}>
+                        {s.to ? (
+                          <Link to={s.to}>
+                            {s.label}
+                            <ArrowRight aria-hidden strokeWidth={2.6} className="h-3.5 w-3.5" />
+                          </Link>
+                        ) : (
+                          <span className="carrusel-plano">
+                            <i aria-hidden />
+                            {s.label}
+                          </span>
+                        )}
                       </li>
                     ))}
                   </ul>
                 </div>
-              </li>
+              </article>
             ))}
-          </ol>
-          <div className="sistema-pie">
+          </div>
+
+          <div className="carrusel-puntos">
+            {SYSTEM_STAGES.map((etapa, i) => (
+              <button
+                key={etapa.number}
+                type="button"
+                aria-label={`Etapa ${etapa.number}: ${etapa.title}`}
+                aria-current={i === activa ? "true" : undefined}
+                onClick={() => irA(i)}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="carrusel-pie">
+          <div>
             <p>
-              Empezamos siempre por la etapa 01. El orden no es una preferencia: es lo que evita
-              pagar dos veces por lo mismo.
+              <b>Empezamos siempre por la etapa 01.</b> El orden no es una preferencia: es lo que
+              evita pagar dos veces por lo mismo. Si no sabes qué pieza te falta, el diagnóstico lo
+              dice.
             </p>
+            <ul className="carrusel-promesas">
+              {GARANTIAS.map((g) => (
+                <li key={g}>
+                  <i aria-hidden />
+                  {g}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="carrusel-acciones">
             <Link to="/servicios" className="enlace-dibujado">
-              <span>Ver el sistema servicio a servicio</span>
+              <span>Ver los nueve servicios</span>
               <ArrowRight aria-hidden strokeWidth={2.2} className="h-4 w-4" />
             </Link>
+            {/* Lleva al formulario del cierre, como el botón del bloque de
+                cómo empezamos. Contorno de foco en el dorado único. */}
+            <SectionLink
+              id="contacto"
+              onClick={(e) => e.detail === 0 && enfocarFormularioAlLlegar()}
+              className={goldCtaClasses(
+                "default",
+                "rounded-none px-7 py-[17px] focus-visible:outline-gold",
+              )}
+            >
+              Solicitar diagnóstico
+              <ArrowRight
+                aria-hidden
+                strokeWidth={2.4}
+                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-[3px] motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+              />
+            </SectionLink>
           </div>
         </div>
       </div>
@@ -541,8 +706,7 @@ function Sistema() {
 }
 
 /**
- * Entrada de un bloque (el recorrido del sistema, el camino de "Cómo
- * empezamos"). En el HTML del servidor no hay clase y se ve todo dibujado
+ * Entrada de un bloque (el camino de "Cómo empezamos"). En el HTML del servidor no hay clase y se ve todo dibujado
  * (sin JS no queda nada oculto). Al montar pasa a "espera" (el estado de
  * salida, sin transición) y a "on" al entrar `umbral` en pantalla, una sola
  * vez. Con movimiento reducido va directo a "on", sin observar.
@@ -576,165 +740,6 @@ function useEntrada<T extends HTMLElement>(umbral: number) {
 }
 
 /* ------------------------------------------------------------------ */
-/* 3b · SERVICIOS                                                       */
-/* ------------------------------------------------------------------ */
-
-/**
- * Servicios de la home. `etapa` es la etapa del Sistema Vértice a la que
- * pertenece cada uno, escrita a mano: así un enlace que no esté en
- * lib/sistema.ts (p. ej. el índice /servicios) no rompe nada.
- *
- * "Automatización y sistemas" va al índice porque aún no hay página de
- * CRM y automatizaciones (pendiente de crear); cuando exista, cambiar su `to`.
- */
-const SERVICIOS_HOME = [
-  {
-    nombre: "Diseño y desarrollo web",
-    texto: "Webs, landings y aplicaciones a medida, pensadas para captar.",
-    to: "/servicios/desarrollo-web",
-    etapa: "02",
-  },
-  {
-    nombre: "Branding y posicionamiento",
-    texto: "Identidad, mensaje y propuesta de valor con criterio.",
-    to: "/servicios/branding-completo",
-    etapa: "02",
-  },
-  {
-    nombre: "Contenido y redes sociales",
-    texto: "Estrategia, producción audiovisual y publicación constante.",
-    to: "/servicios/contenido",
-    etapa: "02",
-  },
-  {
-    nombre: "Publicidad y captación",
-    texto: "Campañas, landings y seguimiento de cada contacto.",
-    to: "/servicios/captacion",
-    etapa: "03",
-  },
-  {
-    nombre: "Automatización y sistemas",
-    texto: "CRM, flujos y herramientas internas que quitan trabajo manual.",
-    to: "/servicios",
-    etapa: "03",
-  },
-] as const;
-
-/*
- * Solo en desarrollo: si el `to` de un servicio sí aparece en alguna lista
- * `services` de lib/sistema.ts, su etapa tiene que ser esa. Si no coincide,
- * avisa en la consola; en producción este bloque no existe (Vite lo quita
- * al compilar) y la página se pinta igual.
- */
-if (import.meta.env.DEV) {
-  for (const s of SERVICIOS_HOME) {
-    const enSistema = SYSTEM_STAGES.find((e) => e.services?.some((x) => x.to === s.to));
-    if (enSistema && enSistema.number !== s.etapa) {
-      console.warn(
-        `[servicios] "${s.nombre}" dice etapa ${s.etapa}, pero ${s.to} está en la etapa ${enSistema.number} de lib/sistema.ts`,
-      );
-    }
-  }
-}
-
-/**
- * Índice de servicios sobre crema apagado: una fila enlazable por
- * servicio con la etapa del sistema a la que pertenece, y a la derecha un
- * panel fijo que lleva al diagnóstico. Estilos en styles.css (.servicios-*).
- */
-function Servicios() {
-  return (
-    <section id="servicios" className="seccion-clara alterna seccion ancla">
-      <div className="contenedor">
-        <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-start min-[900px]:gap-14">
-          <div>
-            <p className="etiqueta">
-              <span className="etiqueta-num">03</span>Servicios
-            </p>
-            <h2 className="mt-5 max-w-[calc(14*var(--ch-raleway))] text-h2 text-balance">
-              Las piezas que montamos dentro del sistema
-            </h2>
-          </div>
-          <p className="max-w-[34em] text-lead text-navy/72">
-            Se pueden contratar por separado, pero cobran sentido cuando forman parte del ecosistema
-            completo.
-          </p>
-        </div>
-
-        {/* Misma plantilla que la cabecera: el panel queda bajo el párrafo. */}
-        <div className="servicios-cuerpo">
-          <div>
-            <ol className="servicios-lista">
-              {SERVICIOS_HOME.map((s) => (
-                <li key={s.to}>
-                  <Link to={s.to} className="servicios-fila">
-                    <span className="servicios-texto">
-                      <span className="servicios-nombre">{s.nombre}</span>
-                      <span className="servicios-desc">{s.texto}</span>
-                    </span>
-                    <span className="servicios-der">
-                      <span className="servicios-etapa">Etapa {s.etapa}</span>
-                      <span aria-hidden className="servicios-flecha">
-                        <ArrowRight className="h-[15px] w-[15px]" strokeWidth={2.4} />
-                      </span>
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ol>
-
-            <Link
-              to="/servicios"
-              className="mt-8 inline-flex items-center gap-2 border-b-2 border-current pb-1 text-[15px] font-semibold text-navy transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-navy"
-            >
-              Ver todos los servicios
-              <ArrowRight aria-hidden className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-
-          <aside className="servicios-panel" aria-labelledby="servicios-panel-titulo">
-            <p className="servicios-panel-tag">
-              <i aria-hidden />
-              Por dónde empezar
-            </p>
-            <h3 id="servicios-panel-titulo">
-              Si no sabes qué pieza te falta, empieza por el diagnóstico
-            </h3>
-            <p className="servicios-panel-texto">
-              Es la etapa 01 del sistema: miramos qué tienes montado, qué falta y en qué orden
-              conviene construirlo.
-            </p>
-            {/* Sobre blanco el contorno de foco dorado claro no se ve: navy. */}
-            <Link
-              to="/diagnostico"
-              className={goldCtaClasses(
-                "default",
-                "mt-5 w-full rounded-none focus-visible:outline-navy",
-              )}
-            >
-              Solicitar diagnóstico
-              <ArrowRight
-                aria-hidden
-                strokeWidth={2.4}
-                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-[3px] motion-reduce:transition-none"
-              />
-            </Link>
-            <ul className="servicios-panel-lista">
-              {GARANTIAS.map((g) => (
-                <li key={g}>
-                  <i aria-hidden />
-                  {g}
-                </li>
-              ))}
-            </ul>
-          </aside>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
 /* 4 · CASO DE ÉXITO                                                    */
 /* ------------------------------------------------------------------ */
 
@@ -754,7 +759,7 @@ function CasoDeExito() {
         <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-end min-[900px]:gap-14">
           <div>
             <p className="etiqueta">
-              <span className="etiqueta-num">04</span>Caso de éxito
+              <span className="etiqueta-num">{numeroDeSeccion("caso")}</span>Caso de éxito
             </p>
             <h2 className="mt-5 max-w-[calc(18*var(--ch-raleway))] text-h2 text-balance">
               Esto es lo que pasa cuando el contenido deja de ser <Subrayado>improvisado</Subrayado>
@@ -829,7 +834,7 @@ function ComoTrabajamos() {
         <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-end min-[900px]:gap-14">
           <div>
             <p className="etiqueta">
-              <span className="etiqueta-num">05</span>Cómo trabajamos
+              <span className="etiqueta-num">{numeroDeSeccion("equipo")}</span>Cómo trabajamos
             </p>
             <h2 className="mt-5 max-w-[calc(16*var(--ch-raleway))] text-h2 text-balance">
               Lo que proponemos lo <Subrayado>construimos</Subrayado> nosotros
@@ -920,7 +925,7 @@ function Empezar() {
         <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-end min-[900px]:gap-14">
           <div>
             <p className="etiqueta">
-              <span className="etiqueta-num">06</span>Cómo empezamos
+              <span className="etiqueta-num">{numeroDeSeccion("empezar")}</span>Cómo empezamos
             </p>
             <h2 className="mt-5 max-w-[calc(15*var(--ch-raleway))] text-h2 text-balance">
               Tres pasos y sabrás qué le falta a tu empresa
@@ -1002,7 +1007,7 @@ function FAQ() {
         <div className="grid gap-[18px] min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] min-[900px]:items-end min-[900px]:gap-14">
           <div>
             <p className="etiqueta">
-              <span className="etiqueta-num">07</span>Preguntas frecuentes
+              <span className="etiqueta-num">{numeroDeSeccion("faq")}</span>Preguntas frecuentes
             </p>
             <h2 className="mt-5 max-w-[calc(14*var(--ch-raleway))] text-h2 text-balance">
               Lo que nos preguntan antes de empezar

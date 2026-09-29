@@ -779,495 +779,431 @@
     }
   }
 
-  /* 3 · Sistema Vértice: un recorrido. Un rail dorado cruza el bloque y de
-     él cuelga cada etapa por una bajante cada vez más corta; en cada ficha,
-     sus entregables. Estados de la entrada (lo pone useEntradaSistema en
-     .sistema-ruta): sin clase, todo dibujado (HTML del servidor, sin JS);
-     "espera", el punto de partida sin transición; "on", vuelve a lo
-     dibujado con las transiciones. Solo se animan transform, opacity y
-     color: nada mueve la maquetación (CLS 0). */
-  .sistema-ruta {
-    --curva-sistema: cubic-bezier(0.3, 0.9, 0.25, 1);
-    --linea-sistema: rgb(245 242 233 / 12%);
-    position: relative;
-    margin-top: clamp(40px, 5vw, 70px);
-  }
-  .sistema-rail { display: none; }
-  .sistema-etapas {
-    display: grid;
-    gap: 14px;
-  }
-  .sistema-etapa {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    transition:
-      opacity 0.7s var(--curva-sistema),
-      transform 0.7s var(--curva-sistema);
-    transition-delay: calc(0.05s + var(--paso, 0) * 0.13s);
-  }
+  /* 2 · Sistema Vértice en carrusel (la referencia es
+     design/referencia-sistema-carrusel.html). Un único amarillo en toda la
+     sección: var(--gold), #DDAE45, a veces con transparencia; ni
+     --gold-light ni --gold-ink. Funciona porque todo va sobre oscuro.
 
-  /* Chip del paso: el número es decorativo, el orden lo da la <ol>. El de
-     la 01 va relleno: es el punto de partida. */
-  .sistema-paso {
-    display: grid;
-    place-content: center;
-    width: 32px;
-    height: 32px;
-    font-family: var(--font-display);
-    font-size: 12.5px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: 0.04em;
-    font-variant-numeric: lining-nums;
-    color: var(--gold-light);
-    background: var(--ink);
-    border: 1px solid rgb(221 174 69 / 55%);
-    transition:
-      border-color 0.35s,
-      color 0.35s,
-      background-color 0.35s;
-  }
-  .sistema-etapa:first-child .sistema-paso {
-    color: var(--on-gold);
-    background: var(--gold);
-    border-color: var(--gold);
-  }
-
-  /* Ficha recta, como las del bloque del problema, con filete dorado. */
-  .sistema-ficha {
+     Sin JavaScript no hay data-vivo: las cuatro tarjetas de frente, nítidas
+     y con la pista deslizable. Con data-vivo, las laterales se giran 22°,
+     se alejan, se atenúan y se desenfocan. Todo transform, opacity y
+     filter: nada mueve la maquetación. */
+  .carrusel-seccion {
+    --curva-carrusel: cubic-bezier(0.22, 0.85, 0.25, 1);
     position: relative;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
     overflow: hidden;
-    padding: 24px 22px 26px;
-    background: linear-gradient(180deg, rgb(245 242 233 / 6%), rgb(245 242 233 / 2.5%));
-    border: 1px solid var(--linea-sistema);
-    border-radius: 0;
-    transition:
-      transform 0.35s var(--curva-sistema),
-      border-color 0.35s;
   }
-  .sistema-ficha::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto;
-    height: 2px;
-    background: var(--gold);
-    transform-origin: left;
-    transition: transform 0.9s var(--curva-sistema) 0.6s;
+
+  .carrusel-cabeza {
+    position: relative;
+    z-index: 2;
+    text-align: center;
   }
-  .sistema-ficha h3 {
-    font-size: 19.5px;
-    line-height: 1.08;
-    letter-spacing: -0.03em;
-    text-wrap: balance;
-  }
-  /* El lema en crema: el dorado se queda para rail, chips y rombos. */
-  .sistema-lema {
-    margin-top: 10px;
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 1.5;
-    color: var(--cream);
-  }
-  .sistema-desc {
-    margin-top: 8px;
-    font-size: 14px;
-    line-height: 1.62;
-    color: color-mix(in oklab, var(--cream) 74%, transparent);
-  }
-  /* align-content: start: en escritorio la fila de la lista mide lo que la
-     más larga, y sin él las de tres entregables se estiraban. */
-  .sistema-incluye {
-    display: grid;
-    align-content: start;
-    gap: 8px;
-    margin-top: 20px;
-    padding-top: 16px;
-    border-top: 1px solid var(--linea-sistema);
-  }
-  .sistema-incluye li {
-    display: flex;
-    align-items: flex-start;
+  .carrusel-pildora {
+    display: inline-flex;
+    align-items: center;
     gap: 9px;
-    font-size: 13px;
-    line-height: 1.45;
-    color: color-mix(in oklab, var(--cream) 56%, transparent);
+    padding: 10px 18px;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold);
   }
-  /* Rombo dorado de 5px. */
-  .sistema-incluye i {
-    flex: none;
+  .carrusel-pildora i {
     width: 5px;
     height: 5px;
-    margin-top: 0.55em;
+    border-radius: 50%;
     background: var(--gold);
-    transform: rotate(45deg);
+  }
+  .carrusel-cabeza h2 {
+    max-width: calc(17 * var(--ch-raleway));
+    margin: 24px auto 0;
+    font-size: clamp(32px, 5vw, 62px);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  .carrusel-cabeza h2 em {
+    font-style: normal;
+    color: var(--gold);
+  }
+  .carrusel-cabeza > p:last-child {
+    max-width: 33em;
+    margin: 18px auto 0;
+    font-size: clamp(15px, 1.2vw, 17px);
+    line-height: 1.6;
+    color: color-mix(in oklab, var(--cream) 76%, transparent);
   }
 
-  .sistema-etapa:hover .sistema-ficha {
-    transform: translateY(-6px);
-    border-color: rgb(221 174 69 / 45%);
-    background: linear-gradient(180deg, rgb(245 242 233 / 9%), rgb(245 242 233 / 3.5%));
-  }
-
-  /* Pie: la frase y el enlace a /servicios, con el subrayado dorado que se
-     dibuja de izquierda a derecha (la misma técnica que .mark-v3). */
-  .sistema-pie {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px 24px;
-    margin-top: clamp(30px, 3.6vw, 46px);
-    padding-top: 20px;
-    border-top: 1px solid var(--linea-sistema);
-  }
-  .sistema-pie p {
-    max-width: 52ch;
-    font-size: 14.5px;
-    color: color-mix(in oklab, var(--cream) 74%, transparent);
-  }
-  /* El enlace es un .enlace-dibujado; aquí solo su color sobre azul. */
-  .sistema-pie a { color: var(--gold-light); }
-  .sistema-pie a:focus-visible {
-    outline: 2px solid var(--gold-light);
-    outline-offset: 4px;
-  }
-
-  /* Punto de partida de la entrada. */
-  .sistema-ruta.espera .sistema-etapa {
-    opacity: 0;
-    transform: translateY(16px);
-    transition: none;
-  }
-  .sistema-ruta.espera .sistema-rail span {
-    transform: scaleX(0);
-    transition: none;
-  }
-  .sistema-ruta.espera .sistema-bajante::after {
-    transform: scaleY(0);
-    transition: none;
-  }
-  .sistema-ruta.espera .sistema-ficha::before {
-    transform: scaleX(0);
-    transition: none;
-  }
-
-  /* Hasta 1023px: el rail va vertical a la izquierda, con los chips
-     encima, y las etapas se apilan (a 900-1023 las cuatro columnas se
-     quedaban en 189-220px y el texto no cabía). */
-  @media (max-width: 1023px) {
-    .sistema-etapas {
-      position: relative;
-      gap: 18px;
-      padding-left: 50px;
-    }
-    .sistema-etapas::before {
-      content: "";
-      position: absolute;
-      top: 16px;
-      bottom: 16px;
-      left: 15.5px;
-      width: 1px;
-      background: linear-gradient(180deg, var(--gold), rgb(221 174 69 / 15%));
-    }
-    .sistema-bajante {
-      position: absolute;
-      top: 16px;
-      left: -50px;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .sistema-rail {
-      display: block;
-      position: absolute;
-      inset: 0 0 auto;
-      height: 1px;
-      background: var(--linea-sistema);
-    }
-    .sistema-rail span {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgb(221 174 69 / 25%), var(--gold));
-      transform-origin: left;
-      transition: transform 1.5s var(--curva-sistema) 0.15s;
-    }
-
-    /* Subrejilla de dos filas compartidas por las cuatro etapas: arriba
-       bajante y cabecera de la ficha, abajo la lista. La ficha empieza
-       tras su bajante (margin-top) y ocupa las dos filas, así las cuatro
-       terminan a la misma altura y las cuatro listas empiezan a la misma
-       altura, tengan tres entregables o cuatro. */
-    .sistema-etapas {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      grid-template-rows: auto auto;
-      gap: 0 22px;
-    }
-    .sistema-etapa {
-      display: grid;
-      grid-row: span 2;
-      grid-template-rows: subgrid;
-    }
-    /* El escalón: cada tramo más corto que el anterior. */
-    .sistema-etapa:nth-child(1) { --baja: 92px; }
-    .sistema-etapa:nth-child(2) { --baja: 68px; }
-    .sistema-etapa:nth-child(3) { --baja: 46px; }
-    .sistema-etapa:nth-child(4) { --baja: 28px; }
-    .sistema-bajante {
-      position: relative;
-      grid-row: 1;
-      align-self: start;
-      height: var(--baja);
-    }
-    .sistema-paso {
-      position: absolute;
-      top: -16px;
-      left: 0;
-      z-index: 2;
-    }
-    .sistema-bajante::after {
-      content: "";
-      position: absolute;
-      top: 18px;
-      bottom: 0;
-      left: 15.5px;
-      width: 1px;
-      background: linear-gradient(180deg, var(--gold), rgb(221 174 69 / 18%));
-      transform-origin: top;
-      transition: transform 0.8s var(--curva-sistema) 0.5s;
-    }
-    .sistema-ficha {
-      display: grid;
-      grid-row: 1 / span 2;
-      grid-template-rows: subgrid;
-      margin-top: var(--baja);
-    }
-    .sistema-incluye { grid-row: 2; }
-
-    .sistema-etapa:hover .sistema-paso {
-      color: var(--cream);
-      border-color: var(--gold);
-    }
-    .sistema-etapa:first-child:hover .sistema-paso { color: var(--on-gold); }
-    .sistema-etapa:hover .sistema-bajante::after {
-      background: linear-gradient(180deg, var(--gold), rgb(221 174 69 / 55%));
-    }
-  }
-
-  /* Sin movimiento: todo visible desde el principio (el hook pone "on" sin
-     observar), sin transiciones, y el realce se queda en el color. */
-  @media (prefers-reduced-motion: reduce) {
-    .sistema-etapa,
-    .sistema-rail span,
-    .sistema-bajante::after,
-    .sistema-ficha,
-    .sistema-ficha::before,
-    .sistema-paso {
-      transition: none !important;
-    }
-    .sistema-etapa:hover .sistema-ficha { transform: none; }
-  }
-
-  /* 3b · Servicios: índice de filas con su etapa y, a la derecha, un panel
-     fijo hacia el diagnóstico. El realce de la fila es solo transform y
-     color (CLS 0). */
-  .servicios-cuerpo {
-    --curva-servicios: cubic-bezier(0.3, 0.9, 0.25, 1);
-    display: grid;
-    gap: 34px;
-    margin-top: clamp(36px, 4vw, 54px);
-  }
-  /* Desde 1024px, la misma plantilla que la cabecera del bloque. */
-  @media (min-width: 1024px) {
-    .servicios-cuerpo {
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-      gap: 56px;
-      align-items: start;
-    }
-  }
-
-  .servicios-lista { border-top: 1px solid rgb(2 21 87 / 12%); }
-  .servicios-lista > li { border-bottom: 1px solid rgb(2 21 87 / 12%); }
-  .servicios-fila {
+  .carrusel {
     position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 10px 22px;
-    padding: 22px 10px 24px;
-    transition: background-color 0.25s var(--curva-servicios);
+    z-index: 1;
+    margin-top: clamp(36px, 4.4vw, 60px);
   }
-  /* Línea dorada de 2px sobre el filete inferior, de izquierda a derecha. */
-  .servicios-fila::after {
+  /* La pista: el desplazamiento se queda dentro (overflow-x), nunca en la
+     página. El relleno lateral deja centrar la primera y la última. */
+  .carrusel-pista {
+    --ancho: min(352px, 80vw);
+    position: relative;
+    display: flex;
+    gap: clamp(16px, 2.2vw, 30px);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: calc(50% - var(--ancho) / 2);
+    padding: 30px calc(50% - var(--ancho) / 2) 16px;
+    perspective: 1600px;
+    scrollbar-width: none;
+  }
+  .carrusel-pista::-webkit-scrollbar { display: none; }
+  .carrusel-pista:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 6px;
+  }
+  @media (min-width: 900px) {
+    .carrusel-pista { --ancho: 376px; }
+  }
+
+  .carrusel-tarjeta {
+    position: relative;
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    width: var(--ancho);
+    padding: 30px 26px;
+    scroll-snap-align: center;
+    border: 1px solid color-mix(in oklab, var(--cream) 30%, transparent);
+    background: linear-gradient(
+      168deg,
+      rgb(245 242 233 / 0.2) 0%,
+      rgb(245 242 233 / 0.1) 50%,
+      rgb(221 174 69 / 0.07) 100%
+    );
+    color: var(--paper);
+    transform-style: preserve-3d;
+    transition:
+      transform 0.6s var(--curva-carrusel),
+      opacity 0.6s var(--curva-carrusel),
+      filter 0.6s var(--curva-carrusel),
+      border-color 0.6s,
+      box-shadow 0.6s;
+  }
+  /* Filete dorado de arriba, solo en la tarjeta del centro. */
+  .carrusel-tarjeta::before {
     content: "";
     position: absolute;
-    inset: auto 0 -1px;
+    inset: -1px -1px auto;
     height: 2px;
-    background: var(--gold);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.5s var(--curva-servicios);
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.6s;
   }
-  .servicios-fila:focus-visible {
-    outline: 2px solid var(--navy);
-    outline-offset: -2px;
+  .carrusel-tarjeta[data-activa] {
+    border-color: rgb(221 174 69 / 0.85);
+    box-shadow: 0 42px 90px -46px rgb(0 0 0 / 1);
   }
-  .servicios-texto {
-    display: block;
-    min-width: 0;
-    transition: transform 0.3s var(--curva-servicios);
+  .carrusel-tarjeta[data-activa]::before { opacity: 1; }
+  /* Solo con JS: las laterales, giradas, lejos, atenuadas y desenfocadas. */
+  .carrusel[data-vivo] .carrusel-tarjeta:not([data-activa]) {
+    transform: rotateY(22deg) scale(0.86) translateZ(-90px);
+    opacity: 0.4;
+    filter: blur(1px);
   }
-  .servicios-nombre {
-    display: block;
+  .carrusel[data-vivo] .carrusel-tarjeta[data-despues] {
+    transform: rotateY(-22deg) scale(0.86) translateZ(-90px);
+  }
+
+  /* Número de etapa en contorno, como marca de agua. */
+  .carrusel-marca {
+    position: absolute;
+    top: 6px;
+    right: 16px;
     font-family: var(--font-display);
-    font-size: clamp(18px, 1.7vw, 22px);
-    font-weight: 700;
-    line-height: 1.25;
-    letter-spacing: -0.015em;
+    font-size: 112px;
+    font-weight: 800;
+    line-height: 0.78;
+    letter-spacing: -0.04em;
+    font-variant-numeric: lining-nums tabular-nums;
+    color: transparent;
+    -webkit-text-stroke: 2px rgb(221 174 69 / 0.45);
+    pointer-events: none;
+    user-select: none;
+    transition: -webkit-text-stroke-color 0.6s;
   }
-  .servicios-desc {
-    display: block;
-    margin-top: 5px;
-    font-size: 14.5px;
-    line-height: 1.5;
-    color: color-mix(in oklab, var(--navy) 72%, transparent);
-  }
-  .servicios-der {
-    display: flex;
+  .carrusel-tarjeta[data-activa] .carrusel-marca { -webkit-text-stroke-color: var(--gold); }
+
+  .carrusel-paso {
+    position: relative;
+    display: inline-flex;
     align-items: center;
-    gap: 16px;
-  }
-  /* Etapa: texto real (entra en el nombre del enlace). Un punto más oscuro
-     que --gold-ink, como la píldora del problema: #7E640E sobre el dorado
-     al 12 % se quedaba en 4,4:1. */
-  .servicios-etapa,
-  .caso-plazo {
-    padding: 7px 11px;
-    font-size: 10.5px;
+    gap: 9px;
+    font-size: 9.5px;
     font-weight: 600;
     line-height: 1;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    white-space: nowrap;
-    color: #6e580b;
-    background: rgb(221 174 69 / 12%);
-    border: 1px solid rgb(221 174 69 / 50%);
-    transition:
-      background-color 0.25s,
-      border-color 0.25s;
+    color: var(--gold);
   }
-  .servicios-flecha {
+  .carrusel-paso s {
+    display: block;
+    width: 22px;
+    height: 1px;
+    background: currentColor;
+  }
+  .carrusel-tarjeta h3 {
+    position: relative;
+    max-width: calc(13 * var(--ch-raleway));
+    min-height: 2.1em;
+    margin-top: 16px;
+    font-size: clamp(21px, 2.1vw, 25px);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  .carrusel-tarjeta > p {
+    position: relative;
+    margin-top: 12px;
+    margin-bottom: 26px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: color-mix(in oklab, var(--cream) 90%, transparent);
+  }
+
+  /* La lista, pegada abajo: así empieza a la misma altura en las cuatro. */
+  .carrusel-lista {
+    position: relative;
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid color-mix(in oklab, var(--cream) 20%, transparent);
+  }
+  .carrusel-rotulo {
+    margin-bottom: 12px;
+    font-size: 9px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--cream) 66%, transparent);
+  }
+  .carrusel-lista li + li { border-top: 1px solid color-mix(in oklab, var(--cream) 20%, transparent); }
+  .carrusel-lista a {
     display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 0;
+    font-size: 13.5px;
+    line-height: 1.35;
+    color: color-mix(in oklab, var(--cream) 90%, transparent);
+    transition:
+      color 0.25s,
+      padding-left 0.3s var(--curva-carrusel);
+  }
+  .carrusel-lista a svg {
+    color: var(--gold);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition:
+      opacity 0.25s,
+      transform 0.3s var(--curva-carrusel);
+  }
+  .carrusel-lista a:hover,
+  .carrusel-lista a:focus-visible {
+    padding-left: 6px;
+    color: var(--paper);
+  }
+  .carrusel-lista a:hover svg,
+  .carrusel-lista a:focus-visible svg {
+    opacity: 1;
+    transform: none;
+  }
+  .carrusel-lista a:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+  .carrusel-plano {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 9px 0;
+    font-size: 13.5px;
+    line-height: 1.35;
+    color: color-mix(in oklab, var(--cream) 76%, transparent);
+  }
+  .carrusel-plano i {
     flex: none;
+    width: 4px;
+    height: 4px;
+    background: var(--gold);
+    transform: translateY(-2px) rotate(45deg);
+  }
+
+  /* Flechas y barras: solo sirven con JS. Sin JS no se ven, pero ocupan su
+     sitio (las flechas van encima y las barras reservan su hueco), así que
+     al llegar JS no se mueve nada. */
+  .carrusel-flecha,
+  .carrusel-puntos { visibility: hidden; }
+  .carrusel[data-vivo] .carrusel-flecha,
+  .carrusel[data-vivo] .carrusel-puntos { visibility: visible; }
+  .carrusel-flecha {
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    display: grid;
     place-content: center;
-    width: 38px;
-    height: 38px;
-    color: var(--navy);
-    border: 1px solid rgb(2 21 87 / 18%);
+    width: 48px;
+    height: 48px;
+    border: 1px solid color-mix(in oklab, var(--cream) 20%, transparent);
+    border-radius: 50%;
+    background: color-mix(in oklab, var(--cream) 8%, transparent);
+    color: var(--cream);
+    backdrop-filter: blur(12px);
+    transform: translateY(-50%);
+    cursor: pointer;
     transition:
       background-color 0.25s,
       border-color 0.25s,
-      transform 0.25s var(--curva-servicios);
+      color 0.25s,
+      transform 0.25s var(--curva-carrusel);
   }
-  @media (max-width: 679px) {
-    .servicios-etapa { display: none; }
-  }
-
-  .servicios-fila:hover,
-  .servicios-fila:focus-visible { background: rgb(2 21 87 / 3.5%); }
-  .servicios-fila:hover::after,
-  .servicios-fila:focus-visible::after { transform: scaleX(1); }
-  .servicios-fila:hover .servicios-texto,
-  .servicios-fila:focus-visible .servicios-texto { transform: translateX(5px); }
-  .servicios-fila:hover .servicios-etapa,
-  .servicios-fila:focus-visible .servicios-etapa {
-    background: rgb(221 174 69 / 22%);
-    border-color: rgb(221 174 69 / 80%);
-  }
-  .servicios-fila:hover .servicios-flecha,
-  .servicios-fila:focus-visible .servicios-flecha {
+  .carrusel-flecha:hover:not([aria-disabled]) {
+    border-color: var(--gold);
     background: var(--gold);
-    border-color: transparent;
-    transform: translateX(3px);
+    color: var(--on-gold);
+    transform: translateY(-50%) scale(1.07);
+  }
+  .carrusel-flecha:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+  .carrusel-flecha[aria-disabled] {
+    opacity: 0.22;
+    cursor: default;
+  }
+  .carrusel-flecha-izq { left: 2px; }
+  .carrusel-flecha-der { right: 2px; }
+  @media (min-width: 1100px) {
+    .carrusel-flecha-izq { left: -10px; }
+    .carrusel-flecha-der { right: -10px; }
+  }
+  @media (max-width: 620px) {
+    .carrusel-flecha { display: none; }
   }
 
-  /* Panel: blanco, recto, con el borde de las fichas del resto de la home.
-     Desde 1024px se queda pegado bajo la cabecera fija (que mide 76px). */
-  .servicios-panel {
-    padding: 26px 24px 28px;
-    background: #fff;
-    border: 1px solid rgb(2 21 87 / 10%);
-    box-shadow: 0 26px 50px -40px rgb(2 21 87 / 55%);
+  .carrusel-puntos {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 30px;
   }
-  @media (min-width: 1024px) {
-    .servicios-panel {
-      position: sticky;
-      top: 100px;
+  /* Barra de 3 px con 12 px de zona pulsable por arriba y por abajo. */
+  .carrusel-puntos button {
+    position: relative;
+    width: 26px;
+    height: 3px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--cream) 22%, transparent);
+    cursor: pointer;
+    transition:
+      background-color 0.3s,
+      width 0.4s var(--curva-carrusel);
+  }
+  .carrusel-puntos button::after {
+    content: "";
+    position: absolute;
+    inset: -12px 0;
+  }
+  .carrusel-puntos button[aria-current="true"] {
+    width: 54px;
+    background: var(--gold);
+  }
+  .carrusel-puntos button:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 4px;
+  }
+
+  /* El cierre de la sección: por dónde se empieza y la acción. */
+  .carrusel-pie {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: 22px;
+    margin-top: clamp(34px, 4vw, 54px);
+    padding-top: 28px;
+    border-top: 1px solid color-mix(in oklab, var(--cream) 12%, transparent);
+  }
+  @media (min-width: 900px) {
+    .carrusel-pie {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 48px;
     }
   }
-  .servicios-panel-tag {
-    display: inline-flex;
+  .carrusel-pie p {
+    max-width: 38em;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: color-mix(in oklab, var(--cream) 76%, transparent);
+  }
+  .carrusel-pie p b {
+    font-weight: 600;
+    color: var(--cream);
+  }
+  .carrusel-promesas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+    margin-top: 12px;
+  }
+  .carrusel-promesas li {
+    display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 10.5px;
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--gold-ink);
+    font-size: 13px;
+    color: color-mix(in oklab, var(--cream) 66%, transparent);
   }
-  .servicios-panel-tag i,
-  .servicios-panel-lista i {
+  .carrusel-promesas i {
     flex: none;
     width: 5px;
     height: 5px;
     background: var(--gold);
     transform: rotate(45deg);
   }
-  .servicios-panel h3 {
-    margin-top: 14px;
-    font-size: 21px;
-    line-height: 1.2;
-    letter-spacing: -0.03em;
-    text-wrap: balance;
-  }
-  .servicios-panel-texto {
-    margin-top: 10px;
-    font-size: 14.5px;
-    line-height: 1.6;
-    color: color-mix(in oklab, var(--navy) 72%, transparent);
-  }
-  /* Navy al 68 %: el 50 % de la referencia se quedaba en 3,4:1 sobre blanco. */
-  .servicios-panel-lista {
-    display: grid;
-    gap: 7px;
-    margin-top: 16px;
-  }
-  .servicios-panel-lista li {
+  .carrusel-acciones {
     display: flex;
-    align-items: flex-start;
-    gap: 9px;
-    font-size: 13px;
-    line-height: 1.45;
-    color: color-mix(in oklab, var(--navy) 68%, transparent);
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 22px;
   }
-  .servicios-panel-lista i { margin-top: 0.55em; }
+  /* "Ver los nueve servicios": .enlace-dibujado, en el dorado único. */
+  .carrusel-acciones .enlace-dibujado {
+    --enlace-grosor: 1px;
+    color: var(--gold);
+  }
+  .carrusel-acciones .enlace-dibujado:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 4px;
+  }
 
-  /* Sin movimiento: ni desplazamiento del texto ni línea dibujada; el
-     realce se queda en el fondo y el color de la flecha. */
+  /* Sin movimiento: sin giros, sin desenfoque, todas de frente. */
   @media (prefers-reduced-motion: reduce) {
-    .servicios-fila,
-    .servicios-texto,
-    .servicios-etapa,
-    .servicios-flecha { transition: none; }
-    .servicios-fila::after { display: none; }
-    .servicios-fila:hover .servicios-texto,
-    .servicios-fila:focus-visible .servicios-texto,
-    .servicios-fila:hover .servicios-flecha,
-    .servicios-fila:focus-visible .servicios-flecha { transform: none; }
+    .carrusel-tarjeta,
+    .carrusel-tarjeta::before,
+    .carrusel-marca,
+    .carrusel-lista a,
+    .carrusel-lista a svg,
+    .carrusel-flecha,
+    .carrusel-puntos button { transition: none; }
+    .carrusel[data-vivo] .carrusel-tarjeta:not([data-activa]),
+    .carrusel[data-vivo] .carrusel-tarjeta[data-despues] {
+      transform: none;
+      opacity: 1;
+      filter: none;
+    }
+    .carrusel-tarjeta::before { opacity: 1; }
   }
 
   /* 4 · Caso de éxito: una tarjeta blanca, recta, con filete dorado

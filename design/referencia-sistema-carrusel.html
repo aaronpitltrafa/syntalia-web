@@ -1,0 +1,329 @@
+<title>Referencia · Sistema Vértice en carrusel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Raleway:wght@600;700;800&display=swap">
+<style>
+  :root{
+    --navy:#021557; --ink:#030B24; --cream:#F5F2E9; --cream-2:#EDE9DD;
+    --gold:#DDAE45; --gold-2:#E9C877; --gold-ink:#7E640E;
+    --disp:'Raleway','Helvetica Neue',Arial,sans-serif;
+    --body:'Poppins','Helvetica Neue',Arial,sans-serif;
+    --curva:cubic-bezier(.22,.85,.25,1);
+  }
+
+  /* Paleta de la sección: un único amarillo, #DDAE45, en todo. */
+  body{
+    --sec-fondo:radial-gradient(90% 55% at 50% 42%,rgba(10,30,98,.5) 0%,transparent 70%),
+                radial-gradient(120% 80% at 50% -10%,#061C57 0%,#020E3A 44%,#01060F 100%);
+    --sec-t1:#F5F2E9; --sec-t2:rgba(245,242,233,.76); --sec-t3:rgba(245,242,233,.5);
+    --sec-line:rgba(245,242,233,.12); --sec-eyebrow:#DDAE45;
+    --card-bg:linear-gradient(168deg,rgba(245,242,233,.20) 0%,rgba(245,242,233,.10) 50%,rgba(221,174,69,.07) 100%);
+    --card-borde:rgba(245,242,233,.3); --card-borde-on:rgba(221,174,69,.85);
+    --card-t1:#FFFDF8; --card-t2:rgba(245,242,233,.9); --card-t3:rgba(245,242,233,.66);
+    --card-line:rgba(245,242,233,.2);
+    --card-marca:rgba(221,174,69,.45); --card-marca-on:rgba(221,174,69,1);
+    --card-paso:#DDAE45; --card-flecha:#DDAE45; --card-rombo:#DDAE45;
+    --card-sombra:0 42px 90px -46px rgba(0,0,0,1);
+    --ctrl-bg:rgba(245,242,233,.08); --ctrl-borde:rgba(245,242,233,.2); --ctrl-t:#F5F2E9;
+    --punto:rgba(245,242,233,.22);
+  }
+
+  *{box-sizing:border-box}
+  body{margin:0;background:#01060F;color:var(--sec-t1);
+       font-family:var(--body);font-weight:300;font-size:16px;line-height:1.7;
+       transition:color .3s}
+  .wrap{max-width:1240px;margin:0 auto;padding-inline:16px;position:relative}
+  @media(min-width:900px){.wrap{padding-inline:40px}}
+  h2,h3{font-family:var(--disp);margin:0;font-weight:700;letter-spacing:-.035em;line-height:1.05;text-wrap:balance}
+  p{margin:0}
+
+
+  section{padding-block:clamp(60px,7vw,110px);position:relative;overflow:hidden;
+          background:var(--sec-fondo);transition:background .35s}
+
+  .cab{text-align:center;position:relative;z-index:2}
+  .pildora{display:inline-flex;align-items:center;gap:9px;font:600 10px/1 var(--body);letter-spacing:.24em;
+           text-transform:uppercase;color:var(--sec-eyebrow);
+           border:1px solid currentColor;padding:10px 18px;border-radius:999px;opacity:.9}
+  .pildora i{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+  h2{margin-top:24px;font-size:clamp(32px,5vw,62px);max-width:17ch;margin-inline:auto}
+  h2 em{font-style:normal;color:var(--gold)}
+  .cab > p{margin:18px auto 0;color:var(--sec-t2);font-size:clamp(15px,1.2vw,17px);line-height:1.6;max-width:54ch}
+
+  /* ---------- carrusel ---------- */
+  .carrusel{margin-top:clamp(36px,4.4vw,60px);position:relative;z-index:1}
+  .pista{display:flex;gap:clamp(16px,2.2vw,30px);overflow-x:auto;scroll-snap-type:x mandatory;
+         padding-block:30px 16px;perspective:1600px;
+         --ancho:min(352px,80vw);
+         scroll-padding-inline:calc(50% - var(--ancho)/2);
+         padding-inline:calc(50% - var(--ancho)/2);
+         scrollbar-width:none;-ms-overflow-style:none}
+  .pista::-webkit-scrollbar{display:none}
+  .pista:focus-visible{outline:2px solid var(--gold);outline-offset:6px}
+  @media(min-width:900px){.pista{--ancho:376px}}
+
+  .tarjeta{flex:none;width:var(--ancho);scroll-snap-align:center;position:relative;
+           display:flex;flex-direction:column;padding:30px 26px;
+           background:var(--card-bg);color:var(--card-t1);
+           border:1px solid var(--card-borde);
+           transform-style:preserve-3d;
+           transform:rotateY(22deg) scale(.86) translateZ(-90px);
+           opacity:.4;filter:blur(1px);
+           transition:transform .6s var(--curva),opacity .6s var(--curva),
+                      filter .6s var(--curva),border-color .6s,box-shadow .6s}
+  .tarjeta.next{transform:rotateY(-22deg) scale(.86) translateZ(-90px)}
+  .tarjeta.activa{transform:none;opacity:1;filter:none;
+                  border-color:var(--card-borde-on);box-shadow:var(--card-sombra)}
+  .tarjeta::before{content:"";position:absolute;left:-1px;right:-1px;top:-1px;height:2px;
+                   background:linear-gradient(90deg,transparent,var(--gold),transparent);
+                   opacity:0;transition:opacity .6s}
+  .tarjeta.activa::before{opacity:1}
+
+  .marca{position:absolute;right:16px;top:6px;pointer-events:none;user-select:none;
+         font-family:var(--disp);font-weight:800;font-size:112px;line-height:.78;
+         letter-spacing:-.04em;font-variant-numeric:lining-nums tabular-nums;
+         color:transparent;-webkit-text-stroke:2px var(--card-marca);transition:-webkit-text-stroke-color .6s}
+  .tarjeta.activa .marca{-webkit-text-stroke-color:var(--card-marca-on)}
+
+  .paso{position:relative;display:inline-flex;align-items:center;gap:9px;
+        font:600 9.5px/1 var(--body);letter-spacing:.22em;text-transform:uppercase;color:var(--card-paso)}
+  .paso s{text-decoration:none;width:22px;height:1px;background:currentColor;display:block}
+  .tarjeta h3{position:relative;margin-top:16px;font-size:clamp(21px,2.1vw,25px);min-height:2.1em;max-width:13ch}
+  .tarjeta > p{position:relative;margin-top:12px;color:var(--card-t2);font-size:14px;line-height:1.6}
+
+  .lista{position:relative;margin:26px 0 0;padding:20px 0 0;list-style:none;display:grid;
+         border-top:1px solid var(--card-line)}
+  .tarjeta .lista{margin-top:auto}
+  .rotulo{display:block;margin-bottom:12px;font:600 9px/1 var(--body);letter-spacing:.2em;
+          text-transform:uppercase;color:var(--card-t3)}
+  .lista a{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;
+           padding:9px 0;font-size:13.5px;line-height:1.35;color:var(--card-t2);text-decoration:none;
+           border-bottom:1px solid var(--card-line);
+           transition:color .25s,padding-left .3s var(--curva)}
+  .lista li:last-child a{border-bottom:0}
+  .lista a svg{opacity:0;transform:translateX(-6px);color:var(--card-flecha);
+               transition:opacity .25s,transform .3s var(--curva)}
+  .lista a:hover{color:var(--card-t1);padding-left:6px}
+  .lista a:hover svg{opacity:1;transform:none}
+  .lista a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .lista .plano{display:flex;gap:10px;align-items:baseline;padding:9px 0;
+                font-size:13.5px;line-height:1.35;color:var(--card-t3);
+                border-bottom:1px solid var(--card-line)}
+  .lista li:last-child .plano{border-bottom:0}
+  .lista .plano i{flex:none;width:4px;height:4px;background:var(--card-rombo);transform:rotate(45deg)}
+
+  .flecha{position:absolute;top:50%;transform:translateY(-50%);z-index:5;
+          width:48px;height:48px;border-radius:50%;display:grid;place-content:center;cursor:pointer;
+          background:var(--ctrl-bg);backdrop-filter:blur(12px);
+          border:1px solid var(--ctrl-borde);color:var(--ctrl-t);
+          transition:background .25s,border-color .25s,color .25s,transform .25s var(--curva)}
+  .flecha:hover{background:var(--gold);border-color:var(--gold);color:#1E1704;transform:translateY(-50%) scale(1.07)}
+  .flecha:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  .flecha[disabled]{opacity:.22;cursor:default}
+  .flecha[disabled]:hover{background:var(--ctrl-bg);border-color:var(--ctrl-borde);
+                          color:var(--ctrl-t);transform:translateY(-50%)}
+  .flecha.izq{left:2px} .flecha.der{right:2px}
+  @media(min-width:1100px){.flecha.izq{left:-10px} .flecha.der{right:-10px}}
+  @media(max-width:620px){.flecha{display:none}}
+
+  .puntos{margin-top:30px;display:flex;justify-content:center;gap:8px}
+  .puntos button{width:26px;height:3px;border:0;padding:0;cursor:pointer;border-radius:999px;
+                 background:var(--punto);transition:background .3s,width .4s var(--curva)}
+  .puntos button[aria-current="true"]{background:var(--gold);width:54px}
+  .puntos button:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+
+  .pie{margin-top:clamp(34px,4vw,54px);padding-top:28px;border-top:1px solid var(--sec-line);
+       display:grid;gap:22px;position:relative;z-index:2}
+  @media(min-width:900px){.pie{grid-template-columns:minmax(0,1fr) auto;gap:48px;align-items:center}}
+  .pie p{color:var(--sec-t2);font-size:14.5px;line-height:1.6;max-width:62ch}
+  .pie p b{color:var(--sec-t1);font-weight:600}
+  .promesas{margin:12px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px 20px}
+  .promesas li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sec-t3)}
+  .promesas i{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);flex:none}
+  .acciones{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;white-space:nowrap;
+       background:var(--gold);color:#1E1704;text-decoration:none;font-weight:600;font-size:15px;
+       padding:17px 28px;box-shadow:0 18px 40px -18px rgba(221,174,69,.9);transition:transform .2s}
+  .btn:hover{transform:translateY(-2px)}
+  .todos{display:inline-flex;align-items:center;gap:9px;color:var(--sec-eyebrow);text-decoration:none;
+         font-weight:600;font-size:14.5px;white-space:nowrap}
+  .todos span{position:relative;padding-bottom:3px}
+  .todos span::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--gold);
+                     transform:scaleX(0);transform-origin:left;transition:transform .4s var(--curva)}
+  .todos:hover span::after{transform:scaleX(1)}
+
+
+  @media(prefers-reduced-motion:reduce){
+    *{transition:none!important}
+    .tarjeta{transform:none!important;opacity:1!important;filter:none!important}
+    .tarjeta::before{opacity:1}
+  }
+</style>
+
+<body>
+
+<section><div class="wrap">
+  <div class="cab">
+    <span class="pildora"><i></i>02 · Sistema Vértice</span>
+    <h2>Cuatro etapas conectadas para convertir tu presencia digital en <em>oportunidades</em></h2>
+    <p>Cada etapa se apoya en la anterior. No lanzamos campañas hasta que la base está construida, porque es lo que hace que el gasto se convierta en retorno.</p>
+  </div>
+
+  <div class="carrusel">
+    <button class="flecha izq" type="button" aria-label="Etapa anterior">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="flecha der" type="button" aria-label="Etapa siguiente">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+
+    <div class="pista" tabindex="0" role="group" aria-label="Las cuatro etapas del Sistema Vértice">
+
+      <article class="tarjeta" aria-label="Etapa 01: Diagnóstico estratégico">
+        <span class="marca" aria-hidden="true">01</span>
+        <span class="paso"><s></s>Etapa 01</span>
+        <h3>Diagnóstico estratégico</h3>
+        <p>Negocio, mercado, cliente ideal y presencia digital, para ver qué frena el crecimiento.</p>
+        <ul class="lista">
+          <span class="rotulo">Qué sale de aquí</span>
+          <li><span class="plano"><i></i>Posicionamiento y captación actual</span></li>
+          <li><span class="plano"><i></i>Prioridades y objetivos</span></li>
+          <li><span class="plano"><i></i>Hoja de ruta</span></li>
+        </ul>
+      </article>
+
+      <article class="tarjeta" aria-label="Etapa 02: Posicionamiento y base digital">
+        <span class="marca" aria-hidden="true">02</span>
+        <span class="paso"><s></s>Etapa 02</span>
+        <h3>Posicionamiento y base digital</h3>
+        <p>Mensaje, propuesta de valor, marca, web y contenidos que sostienen todo lo demás.</p>
+        <ul class="lista">
+          <span class="rotulo">Servicios incluidos</span>
+          <li><a href="#">Branding e identidad visual<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+          <li><a href="#">Web y landing pages<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+          <li><a href="#">Estrategia de contenidos<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+          <li><a href="#">Gestión de redes sociales<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+          <li><a href="#">Copywriting y SEO<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+          <li><a href="#">Contenido de autoridad<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+        </ul>
+      </article>
+
+      <article class="tarjeta" aria-label="Etapa 03: Captación y conversión">
+        <span class="marca" aria-hidden="true">03</span>
+        <span class="paso"><s></s>Etapa 03</span>
+        <h3>Captación y conversión</h3>
+        <p>Campañas, landings, formularios, CRM y automatizaciones conectados entre sí.</p>
+        <ul class="lista">
+          <span class="rotulo">Servicios incluidos</span>
+          <li><a href="#">Social Ads y campañas<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+          <li><a href="#">Formularios y landing de captación<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+          <li><a href="#">Email marketing y seguimiento<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+          <li><span class="plano"><i></i>CRM y automatizaciones</span></li>
+        </ul>
+      </article>
+
+      <article class="tarjeta" aria-label="Etapa 04: Optimización y escalado">
+        <span class="marca" aria-hidden="true">04</span>
+        <span class="paso"><s></s>Etapa 04</span>
+        <h3>Optimización y escalado</h3>
+        <p>Analizamos el sistema para potenciar lo que de verdad genera negocio.</p>
+        <ul class="lista">
+          <span class="rotulo">Qué hacemos aquí</span>
+          <li><span class="plano"><i></i>Conversión y rendimiento</span></li>
+          <li><span class="plano"><i></i>Automatización</span></li>
+          <li><span class="plano"><i></i>Escalado</span></li>
+        </ul>
+      </article>
+
+    </div>
+
+    <div class="puntos" aria-label="Ir a una etapa"></div>
+  </div>
+
+  <div class="pie">
+    <div>
+      <p><b>Empezamos siempre por la etapa 01.</b> El orden no es una preferencia: es lo que evita pagar dos veces por lo mismo. Si no sabes qué pieza te falta, el diagnóstico lo dice.</p>
+      <ul class="promesas">
+        <li><i></i>Sin compromiso</li>
+        <li><i></i>Respuesta en 24 h</li>
+        <li><i></i>Plan estratégico gratuito</li>
+      </ul>
+    </div>
+    <div class="acciones">
+      <a class="todos" href="#"><span>Ver los nueve servicios</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn" href="#">Solicitar diagnóstico
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1E1704" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </div>
+
+</div></section>
+
+<script>
+(function(){
+  var pista = document.querySelector('.pista');
+  var tarjetas = [].slice.call(document.querySelectorAll('.tarjeta'));
+  var puntos = document.querySelector('.puntos');
+  var izq = document.querySelector('.flecha.izq');
+  var der = document.querySelector('.flecha.der');
+  if(!pista || !tarjetas.length) return;
+
+  var suave = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  tarjetas.forEach(function(t,i){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label','Etapa 0'+(i+1));
+    b.addEventListener('click', function(){ irA(i); });
+    puntos.appendChild(b);
+  });
+  var bolas = [].slice.call(puntos.children);
+
+  function irA(i){
+    var t = tarjetas[i]; if(!t) return;
+    pista.scrollTo({left: t.offsetLeft - (pista.clientWidth - t.offsetWidth)/2,
+                    behavior: suave ? 'smooth' : 'auto'});
+  }
+
+  function pintar(){
+    var centro = pista.scrollLeft + pista.clientWidth/2;
+    var mejor = 0, dist = Infinity;
+    tarjetas.forEach(function(t,i){
+      var d = Math.abs((t.offsetLeft + t.offsetWidth/2) - centro);
+      if(d < dist){ dist = d; mejor = i; }
+    });
+    tarjetas.forEach(function(t,i){
+      t.classList.toggle('activa', i === mejor);
+      t.classList.toggle('next', i > mejor);
+    });
+    bolas.forEach(function(b,i){ b.setAttribute('aria-current', i === mejor ? 'true' : 'false'); });
+    izq.disabled = mejor === 0;
+    der.disabled = mejor === tarjetas.length - 1;
+    return mejor;
+  }
+
+  izq.addEventListener('click', function(){ irA(pintar() - 1); });
+  der.addEventListener('click', function(){ irA(pintar() + 1); });
+
+  var raf = null;
+  pista.addEventListener('scroll', function(){
+    if(raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(pintar);
+  }, {passive:true});
+
+  pista.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowRight'){ e.preventDefault(); irA(pintar()+1); }
+    if(e.key === 'ArrowLeft'){ e.preventDefault(); irA(pintar()-1); }
+  });
+
+  tarjetas.forEach(function(t,i){
+    t.addEventListener('focusin', function(){ irA(i); });
+  });
+
+
+  pintar();
+  addEventListener('resize', pintar);
+})();
+</script>

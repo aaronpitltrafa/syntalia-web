@@ -9,7 +9,6 @@ export const HOME_SECTIONS = [
   { id: "hero", label: "Inicio" },
   { id: "problema", label: "Problema" },
   { id: "sistema", label: "Sistema" },
-  { id: "servicios", label: "Servicios" },
   { id: "caso", label: "Resultados" },
   { id: "equipo", label: "Cómo trabajamos" },
   { id: "empezar", label: "Empezar" },
@@ -18,6 +17,20 @@ export const HOME_SECTIONS = [
 ] as const;
 
 export type HomeSectionId = (typeof HOME_SECTIONS)[number]["id"];
+
+/** El hero y el cierre no llevan número de bloque. */
+const SIN_NUMERO: readonly HomeSectionId[] = ["hero", "contacto"];
+
+/**
+ * Número de bloque de la home ("01", "02"…), por su orden en HOME_SECTIONS.
+ * Es la única fuente de los números: al quitar, añadir o mover un bloque,
+ * los demás se renumeran solos.
+ */
+export function numeroDeSeccion(id: HomeSectionId): string {
+  const numerados = HOME_SECTIONS.filter((s) => !SIN_NUMERO.includes(s.id));
+  const i = numerados.findIndex((s) => s.id === id);
+  return String(i + 1).padStart(2, "0");
+}
 
 const IDS: readonly string[] = HOME_SECTIONS.map((s) => s.id);
 

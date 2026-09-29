@@ -7,14 +7,26 @@ import { SectionLink } from "@/components/section-link";
 import { HOME_SECTIONS, useActiveSection, type HomeSectionId } from "@/lib/home-sections";
 import { cn } from "@/lib/utils";
 
-/** Cada entrada apunta a su sección de la home; el texto sale de
-    HOME_SECTIONS, el mismo que usa el raíl lateral. */
-const nav: { label: string; section: HomeSectionId }[] = (
-  ["sistema", "servicios", "caso", "equipo", "faq"] as const
-).map((section) => ({
+/** Entrada del menú: una sección de la home (por ancla) o una página. */
+type EntradaMenu =
+  | { label: string; section: HomeSectionId; to?: undefined }
+  | { label: string; to: "/servicios"; section?: undefined };
+
+const deSeccion = (section: HomeSectionId): EntradaMenu => ({
   section,
+  // El texto sale de HOME_SECTIONS, el mismo que usa el raíl lateral.
   label: HOME_SECTIONS.find((s) => s.id === section)?.label ?? section,
-}));
+});
+
+/** "Servicios" ya no es un bloque de la home (se fundió con el Sistema):
+    lleva a la página /servicios. */
+const nav: EntradaMenu[] = [
+  deSeccion("sistema"),
+  { label: "Servicios", to: "/servicios" },
+  deSeccion("caso"),
+  deSeccion("equipo"),
+  deSeccion("faq"),
+];
 
 /** Píldora azul translúcida: se lee igual sobre la home oscura y sobre las páginas crema. */
 const glass =
@@ -29,7 +41,7 @@ function NavLink({
   onClick,
   tabIndex,
 }: {
-  item: (typeof nav)[number];
+  item: EntradaMenu;
   on: boolean;
   className: string;
   onClick?: () => void;
@@ -50,6 +62,20 @@ function NavLink({
     </>
   );
 
+  if (item.to) {
+    return (
+      <Link
+        to={item.to}
+        onClick={onClick}
+        tabIndex={tabIndex}
+        aria-current={on ? "page" : undefined}
+        className={cls}
+      >
+        {content}
+      </Link>
+    );
+  }
+
   return (
     <SectionLink
       id={item.section}
@@ -69,7 +95,8 @@ export function SiteHeader() {
   const isHome = pathname === "/";
   const active = useActiveSection();
 
-  const isOn = (item: (typeof nav)[number]) => isHome && active === item.section;
+  const isOn = (item: EntradaMenu) =>
+    item.to ? pathname.startsWith(item.to) : isHome && active === item.section;
 
   useEffect(() => {
     if (!open) return;

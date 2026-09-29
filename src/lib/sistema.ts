@@ -1,9 +1,15 @@
 /**
  * Las cuatro etapas del Sistema Vértice, en un solo sitio.
  *
- * La home las pinta resumidas (number, title y tagline, con su propia
- * frase corta) y /servicios las pinta desarrolladas, con la lista
- * `services`. Antes cada página tenía su propia copia y se desincronizaron.
+ * La home las pinta resumidas, en el carrusel del bloque Sistema: título,
+ * su propia frase corta y la lista `includes`. /servicios las pinta
+ * desarrolladas, con la lista `services`. Antes cada página tenía su propia
+ * copia y se desincronizaron.
+ *
+ * Los enlaces de la home salen de aquí: cada elemento de `includes` que
+ * también está en `services` con un `to` se pinta como enlace a esa página.
+ * Cuando exista una página nueva (p. ej. CRM y automatizaciones), basta con
+ * ponerle su `to` en `services`.
  */
 
 /** Un servicio de la etapa. Si tiene página propia, `to` la apunta. */
@@ -17,7 +23,11 @@ export type EtapaSistema = {
   title: string;
   tagline: string;
   description: string;
+  /** Lo que enseña la home en la tarjeta de la etapa (por su nombre, igual
+      que en `services`). */
   includes: readonly string[];
+  /** Rótulo de esa lista en la home. */
+  rotulo: string;
   /** Lista ampliada, solo para /servicios. */
   services?: readonly Servicio[];
 };
@@ -30,6 +40,7 @@ export const SYSTEM_STAGES: readonly EtapaSistema[] = [
     description:
       "Analizamos el negocio, el mercado, el cliente ideal y la presencia digital para identificar qué está frenando el crecimiento.",
     includes: ["Posicionamiento y captación actual", "Prioridades y objetivos", "Hoja de ruta"],
+    rotulo: "Qué sale de aquí",
     services: [
       { label: "Posicionamiento y captación actual" },
       { label: "Prioridades y objetivos" },
@@ -42,7 +53,15 @@ export const SYSTEM_STAGES: readonly EtapaSistema[] = [
     tagline: "Ordenamos cómo debe percibirse tu empresa.",
     description:
       "Clarificamos el mensaje, la propuesta de valor y los activos digitales necesarios para transmitir una imagen sólida, profesional y diferenciada.",
-    includes: ["Branding e identidad visual", "Web y landing pages", "Contenidos y redes sociales", "Copywriting y SEO"],
+    includes: [
+      "Branding e identidad visual",
+      "Web y landing pages",
+      "Estrategia de contenidos",
+      "Gestión de redes sociales",
+      "Copywriting y SEO",
+      "Contenido de autoridad",
+    ],
+    rotulo: "Servicios incluidos",
     services: [
       { label: "Posicionamiento de marca" },
       { label: "Propuesta de valor y mensaje" },
@@ -61,7 +80,13 @@ export const SYSTEM_STAGES: readonly EtapaSistema[] = [
     tagline: "Convertimos atención en oportunidades.",
     description:
       "Diseñamos el recorrido necesario para atraer, recoger, organizar y seguir contactos con intención comercial.",
-    includes: ["Social Ads y campañas", "Formularios y landing de captación", "CRM y automatizaciones", "Email marketing y seguimiento"],
+    includes: [
+      "Social Ads y campañas",
+      "Formularios y landing de captación",
+      "Email marketing y seguimiento",
+      "CRM y automatizaciones",
+    ],
+    rotulo: "Servicios incluidos",
     services: [
       { label: "Social Ads y campañas", to: "/servicios/social-ads" },
       { label: "Formularios y landing de captación", to: "/servicios/captacion" },
@@ -77,6 +102,7 @@ export const SYSTEM_STAGES: readonly EtapaSistema[] = [
     description:
       "Analizamos el funcionamiento del sistema para mejorar su eficiencia y potenciar aquello que realmente genera resultados.",
     includes: ["Conversión y rendimiento", "Automatización", "Escalado"],
+    rotulo: "Qué hacemos aquí",
     services: [
       { label: "Conversión y rendimiento" },
       { label: "Automatización" },
