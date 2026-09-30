@@ -669,6 +669,18 @@
     color: color-mix(in oklab, var(--navy) 68%, transparent);
     transition: color 0.5s;
   }
+  /* Reserva del alto: "Ahora" y "Con sistema" ocupan la misma celda de
+     rejilla y la celda mide lo que el más alto; el otro queda invisible.
+     Sin altos fijos: si cambia un texto, la reserva cambia con él. */
+  .problema-chip-textos {
+    display: grid;
+  }
+  .problema-chip-textos > span {
+    grid-area: 1 / 1;
+  }
+  .problema-chip-textos > span:not([data-activo]) {
+    visibility: hidden;
+  }
   .problema-chip i {
     flex: none;
     width: 6px;
@@ -745,9 +757,8 @@
     [data-modo="sistema"] .problema-ficha { --dx: 0%; --dy: 0%; --z: 28px; --r: 0deg; }
     .problema-icono { width: 40px; height: 40px; }
     .problema-ficha h3 { margin-top: 14px; font-size: 17px; }
-    /* Siempre dos líneas de alto (2 × 1,45em): el texto cambia de largo
-       con el modo y, pegado al pie, una línea de más o de menos movía la
-       etiqueta (era lo único que quedaba en el CLS). */
+    /* Siempre dos líneas de alto (2 × 1,45em), aunque los dos textos
+       quepan en una: así las cinco etiquetas arrancan a la misma altura. */
     .problema-chip { min-height: calc(12px + 2.9em); padding-top: 12px; font-size: 13.5px; }
 
     /* Al acercarse (Z 108px) la perspectiva también la empuja hacia fuera

@@ -432,7 +432,17 @@ function Problema() {
                   <h3 className="mt-3 text-[16px] leading-[1.08] tracking-[-0.01em]">{f.titulo}</h3>
                   <p className="problema-chip">
                     <i aria-hidden />
-                    {f.estado[modo]}
+                    {/* Los dos estados, apilados en la misma celda: la ficha
+                        mide siempre lo que su texto más largo, con la fuente
+                        que haya cargado, y alternar no mueve lo de debajo.
+                        Solo el activo se ve (y se lee). */}
+                    <span className="problema-chip-textos">
+                      {MODOS_PROBLEMA.map((m) => (
+                        <span key={m.id} data-activo={m.id === modo ? "" : undefined}>
+                          {f.estado[m.id]}
+                        </span>
+                      ))}
+                    </span>
                   </p>
                 </article>
               ))}
