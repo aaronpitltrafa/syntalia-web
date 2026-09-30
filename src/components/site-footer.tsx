@@ -3,6 +3,7 @@ import { Instagram, type LucideProps } from "lucide-react";
 import logoHorizontal from "@/assets/logo-horizontal.png";
 import { GoldCta } from "@/components/gold-cta";
 import { legalData } from "@/lib/legal-data";
+import { SYSTEM_STAGES } from "@/lib/sistema";
 
 /** lucide-react ships no TikTok glyph; this mirrors its icon conventions. */
 function TikTokIcon(props: LucideProps) {
@@ -23,31 +24,39 @@ function TikTokIcon(props: LucideProps) {
 
 const NAV: { to: string; label: string; hash?: string }[] = [
   { to: "/", label: "Inicio" },
-  { to: "/servicios", label: "Servicios" },
   { to: "/", hash: "sistema", label: "Sistema Vértice" },
+  // La sección de servicios de la home se fundió con el carrusel del
+  // sistema: "Servicios" lleva a su página.
+  { to: "/servicios", label: "Servicios" },
   { to: "/quienes-somos", label: "Quiénes somos" },
-  { to: "/", hash: "faq", label: "FAQ" },
+  { to: "/", hash: "faq", label: "Preguntas frecuentes" },
   { to: "/contacto", label: "Contacto" },
 ];
 
-/** Las nueve páginas de servicio que existen en el proyecto. */
-const SERVICIOS = [
-  { to: "/servicios/captacion", label: "Sistema de captación" },
-  { to: "/servicios/redes-sociales", label: "Redes sociales" },
-  { to: "/servicios/branding-completo", label: "Branding completo" },
-  { to: "/servicios/desarrollo-web", label: "Desarrollo web" },
-  { to: "/servicios/social-ads", label: "Social Ads" },
-  { to: "/servicios/seo", label: "SEO" },
-  { to: "/servicios/contenido", label: "Estrategias de contenido" },
-  { to: "/servicios/email-marketing", label: "Email marketing" },
-  { to: "/servicios/grabacion-contenido", label: "Grabación de contenido" },
-];
+/**
+ * Los cinco servicios del pie, con el mismo nombre que en el carrusel del
+ * bloque 02: se buscan por su página en lib/sistema.ts, no se escriben a
+ * mano. Si allí cambia un nombre, cambia aquí también.
+ */
+const SERVICIOS_PIE = [
+  "/servicios/desarrollo-web",
+  "/servicios/branding-completo",
+  "/servicios/redes-sociales",
+  "/servicios/social-ads",
+  "/servicios/seo",
+].map((to) => {
+  const servicio = SYSTEM_STAGES.flatMap((e) => e.services ?? []).find((s) => s.to === to);
+  return { to, label: servicio?.label ?? to };
+});
 
-const LEGAL = [
+const CASOS_Y_LEGAL = [
+  { to: "/casos/frulonsa", label: "Caso Frulonsa" },
   { to: "/aviso-legal", label: "Aviso legal" },
   { to: "/privacidad", label: "Política de privacidad" },
   { to: "/cookies", label: "Política de cookies" },
 ];
+
+const { direccion } = legalData;
 
 const enlace =
   "rounded-sm text-[14.5px] leading-[1.5] text-cream/72 transition-colors hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold";
@@ -65,11 +74,13 @@ function Columna({ titulo, children }: { titulo: string; children: React.ReactNo
 
 /**
  * Pie en azul profundo, igual en todas las páginas. Crema al 72% sobre
- * #061032 da 8,9:1 y las etiquetas al 62%, 6,8:1.
+ * #061032 da 8,9:1 y las etiquetas al 62%, 6,8:1. Correo, teléfono y
+ * dirección salen de lib/legal-data.ts. Abajo, la firma: el nombre en
+ * contorno dorado, decorativo (.pie-firma en styles.css).
  */
 export function SiteFooter() {
   return (
-    <footer className="relative border-t border-cream/13 bg-ink-2 text-cream">
+    <footer className="relative overflow-hidden border-t border-cream/13 bg-ink-2 text-cream">
       {/* padding inferior: en móvil deja hueco a la barra fija (69px) y al
           WhatsApp flotante que va encima (54px + márgenes); en escritorio,
           al flotante solo. Así lo último del pie nunca queda debajo. */}
@@ -90,8 +101,9 @@ export function SiteFooter() {
                 className="h-[42px] w-auto"
               />
             </Link>
-            <p className="mt-3 text-[13.5px] text-cream/62">
-              Consultora estratégica de marketing digital · {legalData.ubicacion}
+            <p className="mt-3 max-w-[32em] text-[13.5px] text-cream/62">
+              Consultora estratégica de marketing digital, sistemas y tecnología ·{" "}
+              {legalData.ubicacion}
             </p>
           </div>
 
@@ -121,7 +133,7 @@ export function SiteFooter() {
         </div>
 
         {/* fila 2 · columnas de enlaces */}
-        <div className="mt-10 grid gap-x-8 gap-y-9 border-t border-cream/13 pt-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1fr)_minmax(0,1fr)]">
+        <div className="mt-10 grid gap-x-8 gap-y-9 border-t border-cream/13 pt-10 sm:grid-cols-2 lg:grid-cols-4">
           <Columna titulo="Navegación">
             {NAV.map((n) => (
               <li key={n.label}>
@@ -138,17 +150,25 @@ export function SiteFooter() {
           </Columna>
 
           <Columna titulo="Servicios">
-            {SERVICIOS.map((s) => (
+            {SERVICIOS_PIE.map((s) => (
               <li key={s.to}>
                 <Link to={s.to} className={enlace}>
                   {s.label}
                 </Link>
               </li>
             ))}
+            <li>
+              <Link
+                to="/servicios"
+                className="rounded-sm text-[14.5px] leading-[1.5] font-medium text-gold-light transition-colors hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+              >
+                Ver los nueve servicios →
+              </Link>
+            </li>
           </Columna>
 
-          <Columna titulo="Legal">
-            {LEGAL.map((l) => (
+          <Columna titulo="Casos y legal">
+            {CASOS_Y_LEGAL.map((l) => (
               <li key={l.to}>
                 <Link to={l.to} className={enlace}>
                   {l.label}
@@ -159,27 +179,40 @@ export function SiteFooter() {
 
           <Columna titulo="Contacto">
             <li>
-              <a href="mailto:vertice@syntalia.es" className={enlace}>
-                vertice@syntalia.es
+              <a href={`mailto:${legalData.email}`} className={enlace}>
+                {legalData.email}
               </a>
             </li>
             <li>
-              <a href="tel:+34672167758" className={enlace}>
-                +34 672 167 758
+              <a href={legalData.telefonoHref} className={enlace}>
+                {legalData.telefono}
               </a>
             </li>
-            <li>
-              <address className="text-[14.5px] leading-[1.5] text-cream/72 not-italic">
-                {legalData.domicilioSocial}
+            <li className="mt-2.5">
+              <p className="text-[14.5px] leading-[1.5] font-medium text-cream">Oficina</p>
+              <address className="text-[14.5px] leading-[1.55] text-cream/72 not-italic">
+                {direccion.calle}, {direccion.barrio}
+                <br />
+                {direccion.codigoPostal} {direccion.localidad}, {direccion.provincia},{" "}
+                {direccion.pais}
               </address>
+              <p className="mt-2.5 text-[14.5px] leading-[1.55] text-cream/72">
+                Atención presencial y online
+              </p>
             </li>
           </Columna>
         </div>
 
         {/* fila 3 · copyright */}
         <div className="mt-10 border-t border-cream/13 pt-6 text-[13px] text-cream/62">
-          © {new Date().getFullYear()} Syntalia Vértice. Todos los derechos reservados.
+          © {new Date().getFullYear()} {legalData.marca} · {legalData.razonSocial}
         </div>
+
+        {/* La firma: decorativa, siempre en una línea (con la fuente de
+            respaldo también) y recortada por el overflow del pie. */}
+        <p aria-hidden="true" className="pie-firma">
+          {legalData.nombreComercial}
+        </p>
       </div>
     </footer>
   );

@@ -1,5 +1,6 @@
 import { useId, useState } from "react";
 import { Loader2 } from "lucide-react";
+import { legalData } from "@/lib/legal-data";
 import { sendLead } from "@/lib/send-lead";
 import { PrivacyNotice } from "@/components/privacy-notice";
 
@@ -98,7 +99,7 @@ export function ContactForm({
       </button>
       {status === "error" && (
         <p className="text-sm font-medium text-destructive">
-          No se pudo enviar. Escríbenos directamente a vertice@syntalia.es.
+          No se pudo enviar. Escríbenos directamente a {legalData.email}.
         </p>
       )}
     </form>

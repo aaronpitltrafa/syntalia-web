@@ -32,8 +32,11 @@ const CONTACT_ITEMS = [
     icon: Phone,
     label: "Teléfono",
     content: (
-      <a href="tel:+34672167758" className="mt-1 block text-lg font-semibold text-primary hover:text-accent">
-        +34 672 167 758
+      <a
+        href={legalData.telefonoHref}
+        className="mt-1 block text-lg font-semibold text-primary hover:text-accent"
+      >
+        {legalData.telefono}
       </a>
     ),
   },
@@ -41,8 +44,11 @@ const CONTACT_ITEMS = [
     icon: Mail,
     label: "Correo electrónico",
     content: (
-      <a href="mailto:vertice@syntalia.es" className="mt-1 block text-lg font-semibold text-primary hover:text-accent">
-        vertice@syntalia.es
+      <a
+        href={`mailto:${legalData.email}`}
+        className="mt-1 block text-lg font-semibold text-primary hover:text-accent"
+      >
+        {legalData.email}
       </a>
     ),
   },

@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { asunto, sanear, texto } from "@/lib/lead-saneado";
+import { legalData } from "@/lib/legal-data";
 
 export type LeadPayload = {
   name: string;
@@ -146,7 +147,7 @@ async function enviar(entrada: Record<string, unknown>) {
     throw new Error("El envío no está disponible ahora mismo.");
   }
 
-  const to = (await getEnvVar("LEAD_NOTIFICATION_EMAIL")) || "vertice@syntalia.es";
+  const to = (await getEnvVar("LEAD_NOTIFICATION_EMAIL")) || legalData.email;
   const from = (await getEnvVar("LEAD_FROM_EMAIL")) || "Syntalia Vértice <onboarding@resend.dev>";
 
   const response = await fetch("https://api.resend.com/emails", {

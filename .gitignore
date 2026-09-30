@@ -36,3 +36,7 @@ Claude outputs/
 
 # Ajustes locales de Claude Code (preferencias de cada uno, no del proyecto)
 .claude/
+
+# Archivos que crea el sistema operativo (Windows, macOS)
+desktop.ini
+Thumbs.db

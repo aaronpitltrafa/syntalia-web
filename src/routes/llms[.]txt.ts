@@ -12,7 +12,7 @@ const LLMS = `# Syntalia Vértice
 
 > Consultora estratégica de marketing digital, sistemas y tecnología. Para empresas con ambición real diseñamos y construimos lo que las hace crecer: branding, web, SEO, contenido, ads, email y captación, con software a medida (aplicaciones, CRM, automatizaciones e IA aplicada) y producción audiovisual propios.
 
-Syntalia Vértice trabaja con negocios que quieren dejar de depender del boca a boca, mejorar su imagen, captar contactos cualificados y construir una presencia digital que genere oportunidades comerciales. Sede en ${legalData.domicilioSocial}.
+Syntalia Vértice trabaja con negocios que quieren dejar de depender del boca a boca, mejorar su imagen, captar contactos cualificados y construir una presencia digital que genere oportunidades comerciales. Oficina en ${legalData.domicilioSocial}.
 
 ## Páginas
 

@@ -1,6 +1,7 @@
 import { useId, useState } from "react";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { legalData } from "@/lib/legal-data";
 import { sendLead } from "@/lib/send-lead";
 import { PrivacyNotice } from "@/components/privacy-notice";
 
@@ -328,7 +329,7 @@ export function DiagnosticoForm() {
         </p>
         {status === "error" && (
           <p className="mt-3 text-center text-[13px] font-medium text-red-500">
-            No se pudo enviar. Escríbenos directamente a vertice@syntalia.es.
+            No se pudo enviar. Escríbenos directamente a {legalData.email}.
           </p>
         )}
       </div>

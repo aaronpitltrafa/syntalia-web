@@ -2218,6 +2218,30 @@
     .cierre-enviado[data-activo] { animation: none; }
   }
 
+  /* Firma del pie: el nombre en contorno dorado, decorativo (aria-hidden).
+     Siempre en una línea (nowrap): con 190 px, si con la fuente de
+     respaldo partiera en dos movería el pie entero. Es más ancha que el
+     contenedor: flex con justify-content: center la centra aunque no
+     quepa (text-align: center no lo hace con lo que desborda), y lo que
+     sobresale por los dos lados lo recorta el overflow: hidden del pie. */
+  .pie-firma {
+    display: flex;
+    justify-content: center;
+    margin-top: 14px;
+    font-family: var(--font-display);
+    font-size: clamp(54px, 13.6vw, 190px);
+    font-weight: 800;
+    line-height: 0.82;
+    letter-spacing: 0.02em;
+    text-align: center;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke-width: clamp(1px, 0.16vw, 2px);
+    -webkit-text-stroke-color: rgb(221 174 69 / 0.3);
+    pointer-events: none;
+    user-select: none;
+  }
+
   /* Página de un caso (/casos/frulonsa): crema, tarjetas blancas rectas
      con filete dorado y las mismas piezas .caso-* del bloque de la home. */
   .caso-pagina {

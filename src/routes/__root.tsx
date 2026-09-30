@@ -118,8 +118,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         // La organización, una sola vez y con @id: /contacto y las páginas
         // de servicio la referencian en vez de redeclararla. Solo datos
         // publicados en la web: ni precios ni horarios. La dirección sale de
-        // lib/legal-data.ts. Sin "geo": ni CartoCiudad ni el Catastro tienen
-        // ese portal, y unas coordenadas aproximadas serían inventadas.
+        // lib/legal-data.ts, igual que el correo y el teléfono. Sin "geo":
+        // solo se pondrá con coordenadas de una fuente oficial para este
+        // portal; unas aproximadas serían inventadas.
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
@@ -130,8 +131,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           logo: ORG_LOGO_URL,
           description:
             "Consultora estratégica de marketing digital, sistemas y tecnología para empresas con ambición real.",
-          email: "vertice@syntalia.es",
-          telephone: "+34-672-167-758",
+          email: legalData.email,
+          telephone: legalData.telefonoJsonLd,
           address: {
             "@type": "PostalAddress",
             streetAddress: `${direccion.calle}, ${direccion.barrio}`,
@@ -146,8 +147,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           ],
           contactPoint: {
             "@type": "ContactPoint",
-            telephone: "+34-672-167-758",
-            email: "vertice@syntalia.es",
+            telephone: legalData.telefonoJsonLd,
+            email: legalData.email,
             contactType: "customer service",
             areaServed: "ES",
             availableLanguage: ["Spanish"],
