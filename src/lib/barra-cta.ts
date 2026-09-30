@@ -6,13 +6,15 @@ import { useActiveSection } from "@/lib/home-sections";
 export const SIN_BARRA_CTA = ["/diagnostico", "/contacto"];
 
 /*
- * ¿Se ha pasado ya el arranque de la home? Dos condiciones a la vez:
- *   1. el bloque 01 (#problema) ha salido entero por arriba de la pantalla;
- *   2. y se ha bajado más de una pantalla completa (scrollY > innerHeight).
- * Es un umbral de scroll puro, sin observadores: se recalcula al hacer scroll
- * y al cambiar el tamaño de la ventana (una vez por fotograma como mucho).
- * Lo comparten la barra y el botón de WhatsApp: los oyentes se ponen con el
- * primero que lo necesita y se quitan con el último.
+ * ¿Se ha dejado atrás la primera pantalla? En todas las rutas hace falta
+ * haber bajado más de una pantalla completa (scrollY > innerHeight): todas
+ * tienen ya un botón arriba. Si la página tiene bloque 01 (#problema, solo
+ * la home), además tiene que haber salido entero por arriba.
+ * Es un umbral de scroll puro, sin observadores: se recalcula al hacer
+ * scroll, al cambiar el tamaño de la ventana y al cambiar de ruta (una vez
+ * por fotograma como mucho). Lo comparten la barra y el botón de WhatsApp:
+ * los oyentes se ponen con el primero que lo necesita y se quitan con el
+ * último.
  */
 let pasado = false;
 const oyentes = new Set<() => void>();
@@ -41,15 +43,17 @@ function suscribir(o: () => void) {
   return () => oyentes.delete(o);
 }
 
-function usePasadoElArranque(enLaHome: boolean) {
+function usePasadaLaPrimeraPantalla(pathname: string) {
   useEffect(() => {
-    if (!enLaHome) return;
+    if (SIN_BARRA_CTA.includes(pathname)) return;
     usuarios++;
     if (usuarios === 1) {
       window.addEventListener("scroll", alMover, { passive: true });
       window.addEventListener("resize", alMover, { passive: true });
-      medir();
     }
+    // Al llegar a una ruta se mide de nuevo (tras pintarla): la página
+    // anterior no dice nada de esta.
+    alMover();
     return () => {
       usuarios--;
       if (usuarios === 0) {
@@ -60,8 +64,8 @@ function usePasadoElArranque(enLaHome: boolean) {
         fijar(false);
       }
     };
-  }, [enLaHome]);
-  // En el servidor y hasta la primera medida cuenta como no pasado: la barra
+  }, [pathname]);
+  // En el servidor y hasta la primera medida cuenta como no pasada: la barra
   // empieza escondida y no aparece para irse.
   return useSyncExternalStore(
     suscribir,
@@ -72,16 +76,15 @@ function usePasadoElArranque(enLaHome: boolean) {
 
 /**
  * Si la barra fija de CTA está a la vista (solo existe por debajo de md).
- * En la home aparece cuando el bloque 01 ha salido por arriba y se ha bajado
- * más de una pantalla, y se esconde en el cierre, que lleva su propio
- * formulario. La usan la barra y el botón flotante de WhatsApp, que sube
- * para no taparla.
+ * En cualquier ruta aparece al bajar más de una pantalla; en la home,
+ * además, cuando el bloque 01 ha salido por arriba, y se esconde en el
+ * cierre, que lleva su propio formulario. La usan la barra y el botón
+ * flotante de WhatsApp, que sube para no taparla.
  */
 export function useBarraCtaVisible() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const enLaHome = pathname === "/";
-  const pasadoElArranque = usePasadoElArranque(enLaHome);
+  const pasada = usePasadaLaPrimeraPantalla(pathname);
   const active = useActiveSection();
   if (SIN_BARRA_CTA.includes(pathname)) return false;
-  return enLaHome ? pasadoElArranque && active !== "contacto" : true;
+  return pasada && !(pathname === "/" && active === "contacto");
 }
