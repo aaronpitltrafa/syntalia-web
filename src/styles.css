@@ -80,6 +80,7 @@
   --color-paper: var(--paper);
   --color-ink-2: var(--ink-2);
   --color-gold-ink: var(--gold-ink);
+  --color-gold-legible: var(--gold-legible);
   --color-on-gold: var(--on-gold);
 
   /* Radios v3: botones y campos, tarjetas, bloques grandes. */
@@ -148,6 +149,13 @@
   --navy-soft: oklch(0.295 0.138 265);  /* #0A2170, superficie elevada */
   --gold-light: oklch(0.8439 0.1071 87.92); /* #E9C877, texto dorado sobre oscuro (12:1 sobre ink, 10,4:1 sobre navy) */
   --gold-ink: oklch(0.5149 0.1005 89.83);   /* #7E640E, texto dorado sobre crema (5:1) */
+  /* #846100: el matiz exacto de --gold (84,26°) con la croma máxima que cabe
+     en sRGB, para texto dorado sobre los cremas degradados de la home. Da
+     4,64:1 en el punto más oscuro del fondo del bloque 01 (#ECE8DB); el
+     #8D6800, un punto más claro, se quedaba en 4,17:1 ahí. --gold-ink se
+     queda como está: tiene el matiz 5,5° desplazado hacia el oliva, pero lo
+     usan otros sitios. */
+  --gold-legible: oklch(0.515 0.1055 84.26);
   --on-gold: oklch(0.2083 0.0348 89.05);    /* #1E1704, texto del boton dorado (8,5:1) */
   --gold-grad: oklch(0.701 0.131 84.26); /* final del degradado */
   /* Dorado para TEXTO sobre la superficie actual. En claro es el dorado
@@ -526,6 +534,23 @@
     /* duración, retraso y curva los pone <Subrayado> por palabra */
     animation: subrayado-v3 var(--sub-dur, 1s) var(--sub-delay, 0.35s)
       var(--sub-ease, cubic-bezier(0.2, 0.8, 0.2, 1)) both;
+  }
+
+  /* Palabra destacada de un titular sobre crema (bloque 01): el texto en
+     --gold-legible y debajo una raya en --gold, el amarillo de marca sin
+     rebajar. La raya es una box-shadow sin desenfoque desplazada hacia
+     abajo: la sombra exterior no se pinta dentro de la caja, así que solo
+     asoma la franja inferior, y no ocupa sitio (no mueve nada). Con
+     box-decoration-break: clone, si la palabra parte en dos líneas cada
+     trozo lleva su propia raya. El padding-bottom (en línea no cambia el
+     alto de la línea) la separa de las bajantes de la "j". Todo en em:
+     grosor y separación van con el tamaño de la letra. */
+  .palabra-destacada {
+    padding-bottom: 0.05em;
+    color: var(--gold-legible);
+    box-shadow: 0 0.085em 0 0 var(--gold);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
   @keyframes subrayado-v3 {
     from { transform: scaleX(0); }

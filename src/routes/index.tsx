@@ -369,7 +369,7 @@ function Problema() {
         <div className="mt-6 grid gap-[18px] min-[960px]:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] min-[960px]:items-end min-[960px]:gap-14">
           <h2 className="max-w-[calc(16*var(--ch-raleway))] text-[clamp(30px,4.2vw,58px)] leading-[1.08] tracking-[-0.03em] text-balance">
             Tu empresa no necesita hacer más. Necesita que todo{" "}
-            <span className="text-gold-ink">trabaje conectado</span>
+            <span className="palabra-destacada">trabaje conectado</span>
           </h2>
           <p className="max-w-[44ch] text-[clamp(15.5px,1.2vw,18px)] leading-[1.6] text-navy/72">
             La web por un lado, las redes por otro, campañas que captan pero no convierten y
