@@ -11,6 +11,9 @@ Reglas obligatorias:
 - Prioriza claridad, captación de leads, CTA visible, formulario y estructura comercial simple.
 - Todo titular nuevo o rehecho se comprueba con la fuente real (Raleway/Poppins) Y con la de respaldo (bloqueando los .woff2) antes de darlo por bueno: mismo número de líneas con las dos en todo el rango de 320 a 1920 px. Si cambia, el titular salta al cargar la fuente (CLS).
 
+Convenciones:
+- Idioma: siempre en español. Las respuestas e informes, los comentarios del código y los mensajes de commit, en español. Los nombres de variables, funciones y clases CSS se quedan como están (no se traducen ni se renombran).
+
 Comandos habituales:
 - npm install
 - npm run dev
