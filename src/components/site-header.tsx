@@ -139,8 +139,10 @@ export function SiteHeader() {
             aria-label="Syntalia Vértice · inicio"
             className={cn("mr-auto flex min-w-0 items-center rounded-full", focus)}
           >
-            {/* A 360px no caben logo de 34px, botón y hamburguesa: el logo
-                se encoge lo justo en vez de desbordar la píldora. */}
+            {/* Por debajo de 768 px el logo va entero (sin el botón dorado
+                sobra sitio). El encogimiento queda para el escritorio: hacia
+                980 px, con el menú, el botón y el logo de 38 px, el logo cede
+                lo justo en vez de desbordar la píldora. */}
             <img
               src={logoHorizontal}
               alt=""
@@ -161,9 +163,15 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          <GoldCta to="/diagnostico" size="compact" onClick={() => setOpen(false)}>
-            <span className="sm:hidden">Diagnóstico</span>
-            <span className="hidden sm:inline">Solicitar diagnóstico</span>
+          {/* En móvil no hay botón en la cabecera: el diagnóstico está en el
+              menú y en la barra fija de abajo. */}
+          <GoldCta
+            to="/diagnostico"
+            size="compact"
+            onClick={() => setOpen(false)}
+            className="hidden md:inline-flex"
+          >
+            Solicitar diagnóstico
           </GoldCta>
 
           <button
@@ -191,6 +199,17 @@ export function SiteHeader() {
           )}
         >
           <nav aria-label="Principal" className={cn("flex flex-col gap-1 rounded-card p-3", glass)}>
+            <Link
+              to="/diagnostico"
+              onClick={() => setOpen(false)}
+              tabIndex={open ? 0 : -1}
+              className={cn(
+                "flex items-center rounded-btn px-4 py-3 text-body leading-none font-semibold text-gold transition-colors hover:bg-cream/7",
+                focus,
+              )}
+            >
+              Solicitar diagnóstico
+            </Link>
             {nav.map((item) => (
               <NavLink
                 key={item.label}

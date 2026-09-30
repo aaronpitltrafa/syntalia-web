@@ -6,22 +6,34 @@ import { useActiveSection } from "@/lib/home-sections";
 export const SIN_BARRA_CTA = ["/diagnostico", "/contacto"];
 
 /*
- * ¿Se ve el hero? Un único IntersectionObserver sobre #hero con threshold 0:
- * mientras asome aunque sea un píxel, cuenta como visible. No depende de la
- * altura de la pantalla ni de franjas (la barra del navegador del móvil
- * cambia el alto del viewport al deslizar y movía la franja del observador
- * de secciones). Lo comparten la barra y el botón de WhatsApp: se crea con
- * el primero que lo necesita y se quita con el último.
+ * ¿Se ha pasado ya el arranque de la home? Dos condiciones a la vez:
+ *   1. el bloque 01 (#problema) ha salido entero por arriba de la pantalla;
+ *   2. y se ha bajado más de una pantalla completa (scrollY > innerHeight).
+ * Es un umbral de scroll puro, sin observadores: se recalcula al hacer scroll
+ * y al cambiar el tamaño de la ventana (una vez por fotograma como mucho).
+ * Lo comparten la barra y el botón de WhatsApp: los oyentes se ponen con el
+ * primero que lo necesita y se quitan con el último.
  */
-let heroVisible = true;
+let pasado = false;
 const oyentes = new Set<() => void>();
-let observador: IntersectionObserver | null = null;
 let usuarios = 0;
+let pendiente = 0;
 
-function fijarHero(v: boolean) {
-  if (v === heroVisible) return;
-  heroVisible = v;
+function fijar(v: boolean) {
+  if (v === pasado) return;
+  pasado = v;
   oyentes.forEach((o) => o());
+}
+
+function medir() {
+  pendiente = 0;
+  const problema = document.getElementById("problema");
+  const fuera = problema ? problema.getBoundingClientRect().bottom <= 0 : true;
+  fijar(fuera && window.scrollY > window.innerHeight);
+}
+
+function alMover() {
+  if (!pendiente) pendiente = requestAnimationFrame(medir);
 }
 
 function suscribir(o: () => void) {
@@ -29,48 +41,47 @@ function suscribir(o: () => void) {
   return () => oyentes.delete(o);
 }
 
-function useHeroVisible(enLaHome: boolean) {
+function usePasadoElArranque(enLaHome: boolean) {
   useEffect(() => {
     if (!enLaHome) return;
     usuarios++;
-    if (!observador) {
-      const hero = document.getElementById("hero");
-      if (hero) {
-        observador = new IntersectionObserver((e) => fijarHero(e[0].isIntersecting), {
-          threshold: 0,
-        });
-        observador.observe(hero);
-      }
+    if (usuarios === 1) {
+      window.addEventListener("scroll", alMover, { passive: true });
+      window.addEventListener("resize", alMover, { passive: true });
+      medir();
     }
     return () => {
       usuarios--;
       if (usuarios === 0) {
-        observador?.disconnect();
-        observador = null;
-        fijarHero(true);
+        window.removeEventListener("scroll", alMover);
+        window.removeEventListener("resize", alMover);
+        if (pendiente) cancelAnimationFrame(pendiente);
+        pendiente = 0;
+        fijar(false);
       }
     };
   }, [enLaHome]);
-  // En el servidor y hasta que el observador responde, el hero cuenta como
-  // visible: la barra empieza escondida y no aparece para irse.
+  // En el servidor y hasta la primera medida cuenta como no pasado: la barra
+  // empieza escondida y no aparece para irse.
   return useSyncExternalStore(
     suscribir,
-    () => heroVisible,
-    () => true,
+    () => pasado,
+    () => false,
   );
 }
 
 /**
  * Si la barra fija de CTA está a la vista (solo existe por debajo de md).
- * En la home se esconde mientras se ve cualquier trozo del hero, que ya
- * tiene sus botones, y en el cierre, que lleva su propio formulario. La
- * usan la barra y el botón flotante de WhatsApp, que sube para no taparla.
+ * En la home aparece cuando el bloque 01 ha salido por arriba y se ha bajado
+ * más de una pantalla, y se esconde en el cierre, que lleva su propio
+ * formulario. La usan la barra y el botón flotante de WhatsApp, que sube
+ * para no taparla.
  */
 export function useBarraCtaVisible() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const enLaHome = pathname === "/";
-  const hero = useHeroVisible(enLaHome);
+  const pasadoElArranque = usePasadoElArranque(enLaHome);
   const active = useActiveSection();
   if (SIN_BARRA_CTA.includes(pathname)) return false;
-  return !(enLaHome && (hero || active === "contacto"));
+  return enLaHome ? pasadoElArranque && active !== "contacto" : true;
 }
