@@ -13,6 +13,10 @@ Reglas obligatorias:
 
 Convenciones:
 - Idioma: siempre en español. Las respuestas e informes, los comentarios del código y los mensajes de commit, en español. Los nombres de variables, funciones y clases CSS se quedan como están (no se traducen ni se renombran).
+- Push: hacer push a main significa PUBLICAR EN PRODUCCIÓN. Vercel despliega en uno a tres minutos y lo ve cualquiera que entre en verticeagency.es. No es guardar, es publicar; por eso solo se sube trabajo terminado.
+  - El push a main lo haces tú, sin pedirlo, pero solo cuando el trabajo esté terminado y comprobado, nunca después de un commit intermedio.
+  - El orden es: terminas la tarea, pasas las comprobaciones que se hayan pedido, commiteas, `git push origin main`, y entonces escribes el informe diciendo que has subido y qué commits van.
+  - Si el push falla por credenciales, no lo reintentes de otra forma ni toques la configuración de git: dilo en el informe y deja los commits en local.
 
 Comandos habituales:
 - npm install
