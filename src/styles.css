@@ -986,10 +986,13 @@
     letter-spacing: -0.035em;
     text-wrap: balance;
   }
-  /* La lista, pegada abajo: así empieza a la misma altura en las cuatro. */
+  /* La lista va justo detrás del título, y el aire que sobra queda debajo
+     del último servicio, no en medio de la tarjeta. Las cuatro tarjetas
+     siguen midiendo lo mismo (la pista las estira a la más alta), y la
+     lista empieza a la misma altura en todas porque el título reserva dos
+     líneas (min-height del h3). */
   .carrusel-lista {
     position: relative;
-    margin-top: auto;
     padding-top: 20px;
     border-top: 1px solid color-mix(in oklab, var(--cream) 20%, transparent);
   }
