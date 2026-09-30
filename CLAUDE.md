@@ -17,6 +17,8 @@ Convenciones:
   - El push a main lo haces tú, sin pedirlo, pero solo cuando el trabajo esté terminado y comprobado, nunca después de un commit intermedio.
   - El orden es: terminas la tarea, pasas las comprobaciones que se hayan pedido, commiteas, `git push origin main`, y entonces escribes el informe diciendo que has subido y qué commits van.
   - Si el push falla por credenciales, no lo reintentes de otra forma ni toques la configuración de git: dilo en el informe y deja los commits en local.
+- CLS después de la carga: el CLS se mide también después de la carga. Cualquier cosa que cambie de tamaño sola (un temporizador, una animación de entrada, un texto que aparece) tiene que reservar su espacio. Medir el CLS solo durante la carga no basta: hay que medirlo leyendo, durante 30 segundos, con el elemento asomando bajo la cabecera, que es donde el anclaje de scroll de Chrome deja de taparlo.
+- Comportamiento por ruta: un comportamiento que dependa de la ruta se comprueba en todas las rutas, no solo en la home. Si una condición lleva escrito el nombre de una página, hay que preguntarse qué pasa en todas las demás (hoy son 18 páginas: las 15 del sitemap más /aviso-legal, /privacidad y /cookies).
 
 Comandos habituales:
 - npm install
