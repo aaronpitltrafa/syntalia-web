@@ -928,11 +928,21 @@
     transform: rotateY(-22deg) scale(0.86) translateZ(-90px);
   }
 
+  /* Rótulo de etapa y número en la misma fila. El número asoma hacia la
+     esquina con márgenes negativos (como marca de agua), pero su caja
+     ocupa la fila, y el título empieza en la siguiente: no puede pisarlo
+     a ningún ancho ni con ninguna fuente. */
+  .carrusel-arriba {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
   /* Número de etapa en contorno, como marca de agua. */
   .carrusel-marca {
-    position: absolute;
-    top: 6px;
-    right: 16px;
+    flex: none;
+    margin: -24px -10px 0 0;
     font-family: var(--font-display);
     font-size: 112px;
     font-weight: 800;
@@ -970,20 +980,12 @@
     max-width: calc(13 * var(--ch-raleway));
     min-height: 2.1em;
     margin-top: 16px;
+    margin-bottom: 26px;
     font-size: clamp(21px, 2.1vw, 25px);
     line-height: 1.05;
     letter-spacing: -0.035em;
     text-wrap: balance;
   }
-  .carrusel-tarjeta > p {
-    position: relative;
-    margin-top: 12px;
-    margin-bottom: 26px;
-    font-size: 14px;
-    line-height: 1.6;
-    color: color-mix(in oklab, var(--cream) 90%, transparent);
-  }
-
   /* La lista, pegada abajo: así empieza a la misma altura en las cuatro. */
   .carrusel-lista {
     position: relative;
@@ -1001,20 +1003,25 @@
     color: color-mix(in oklab, var(--cream) 66%, transparent);
   }
   .carrusel-lista li + li { border-top: 1px solid color-mix(in oklab, var(--cream) 20%, transparent); }
+  /* Filas enlazadas: rombo, texto y la flecha a la derecha. Al pasar por
+     encima, rombo y texto se desplazan juntos 6 px con translate (no con
+     padding: así no se mueve la maquetación) y aparece la flecha. */
   .carrusel-lista a {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 12px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
     padding: 9px 0;
     font-size: 13.5px;
     line-height: 1.35;
     color: color-mix(in oklab, var(--cream) 90%, transparent);
-    transition:
-      color 0.25s,
-      padding-left 0.3s var(--curva-carrusel);
+    transition: color 0.25s;
   }
+  .carrusel-lista a .carrusel-rombo,
+  .carrusel-lista a .carrusel-texto { transition: translate 0.3s var(--curva-carrusel); }
   .carrusel-lista a svg {
+    flex: none;
+    align-self: center;
+    margin-left: auto;
     color: var(--gold);
     opacity: 0;
     transform: translateX(-6px);
@@ -1023,10 +1030,11 @@
       transform 0.3s var(--curva-carrusel);
   }
   .carrusel-lista a:hover,
-  .carrusel-lista a:focus-visible {
-    padding-left: 6px;
-    color: var(--paper);
-  }
+  .carrusel-lista a:focus-visible { color: var(--paper); }
+  .carrusel-lista a:hover .carrusel-rombo,
+  .carrusel-lista a:hover .carrusel-texto,
+  .carrusel-lista a:focus-visible .carrusel-rombo,
+  .carrusel-lista a:focus-visible .carrusel-texto { translate: 6px 0; }
   .carrusel-lista a:hover svg,
   .carrusel-lista a:focus-visible svg {
     opacity: 1;
@@ -1045,7 +1053,8 @@
     line-height: 1.35;
     color: color-mix(in oklab, var(--cream) 76%, transparent);
   }
-  .carrusel-plano i {
+  /* El rombo de todas las líneas, enlazadas o no (<RomboServicio />). */
+  .carrusel-rombo {
     flex: none;
     width: 4px;
     height: 4px;
@@ -1207,6 +1216,8 @@
     .carrusel-marca,
     .carrusel-lista a,
     .carrusel-lista a svg,
+    .carrusel-lista a .carrusel-rombo,
+    .carrusel-lista a .carrusel-texto,
     .carrusel-flecha,
     .carrusel-puntos button { transition: none; }
     .carrusel[data-vivo] .carrusel-tarjeta:not([data-activa]),

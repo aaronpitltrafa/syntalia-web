@@ -448,16 +448,11 @@ function Problema() {
 /* 2 · EL SISTEMA, EN CARRUSEL                                          */
 /* ------------------------------------------------------------------ */
 
-/**
- * La home resume cada etapa en una frase. El título, la lista y su rótulo
- * salen de lib/sistema.ts, que comparte con /servicios.
- */
-const RESUMEN_ETAPA: Record<string, string> = {
-  "01": "Negocio, mercado, cliente ideal y presencia digital, para ver qué frena el crecimiento.",
-  "02": "Mensaje, propuesta de valor, marca, web y contenidos que sostienen todo lo demás.",
-  "03": "Campañas, landings, formularios, CRM y automatizaciones conectados entre sí.",
-  "04": "Analizamos el sistema para potenciar lo que de verdad genera negocio.",
-};
+/** El rombo de cada línea de las listas de las tarjetas, enlace o no: un
+ *  solo elemento, así cambia a la vez en todas. Decorativo. */
+function RomboServicio() {
+  return <i aria-hidden className="carrusel-rombo" />;
+}
 
 /** Lo que enseña la tarjeta: cada `include`, con su página si `services` la tiene. */
 function listaDeEtapa(e: EtapaSistema) {
@@ -614,15 +609,18 @@ function Sistema() {
                 data-despues={i > activa || undefined}
                 onFocus={() => irA(i)}
               >
-                <span aria-hidden className="carrusel-marca">
-                  {etapa.number}
-                </span>
-                <span className="carrusel-paso">
-                  <s aria-hidden />
-                  Etapa {etapa.number}
-                </span>
+                {/* Rótulo y número en la misma fila; el título empieza en
+                    la siguiente, así el número no puede pisarlo. */}
+                <div className="carrusel-arriba">
+                  <span className="carrusel-paso">
+                    <s aria-hidden />
+                    Etapa {etapa.number}
+                  </span>
+                  <span aria-hidden className="carrusel-marca">
+                    {etapa.number}
+                  </span>
+                </div>
                 <h3>{etapa.title}</h3>
-                <p>{RESUMEN_ETAPA[etapa.number]}</p>
                 <div className="carrusel-lista">
                   <p className="carrusel-rotulo">{etapa.rotulo}</p>
                   <ul>
@@ -630,12 +628,13 @@ function Sistema() {
                       <li key={s.label}>
                         {s.to ? (
                           <Link to={s.to}>
-                            {s.label}
+                            <RomboServicio />
+                            <span className="carrusel-texto">{s.label}</span>
                             <ArrowRight aria-hidden strokeWidth={2.6} className="h-3.5 w-3.5" />
                           </Link>
                         ) : (
                           <span className="carrusel-plano">
-                            <i aria-hidden />
+                            <RomboServicio />
                             {s.label}
                           </span>
                         )}
