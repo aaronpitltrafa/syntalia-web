@@ -27,8 +27,10 @@ const AREA_OPTIONS = [
 ];
 
 const labelClass = "text-xs font-bold uppercase tracking-widest text-muted-foreground";
+/* Por debajo de 768 px la letra de los campos va a 16 px: con menos, Safari
+   en iPhone amplía la página al enfocar el campo y no la devuelve. */
 const inputClass =
-  "mt-2 w-full rounded-2xl border border-[color:var(--campo-borde)] bg-background px-5 py-3.5 text-sm focus:border-[color:var(--campo-foco)] focus:outline-none focus:ring-2 focus:ring-[color-mix(in_oklab,var(--campo-foco)_30%,transparent)]";
+  "mt-2 w-full rounded-2xl border border-[color:var(--campo-borde)] bg-background px-5 py-3.5 text-base focus:border-[color:var(--campo-foco)] focus:outline-none focus:ring-2 focus:ring-[color-mix(in_oklab,var(--campo-foco)_30%,transparent)] md:text-sm";
 
 /**
  * Full diagnostic-request form for /diagnostico. Reuses the same `sendLead`
@@ -122,6 +124,7 @@ export function DiagnosticoForm() {
               id={nameId}
               name="name"
               type="text"
+              autoComplete="name"
               required
               placeholder="¿Cómo te llamas?"
               className={inputClass}
@@ -135,6 +138,7 @@ export function DiagnosticoForm() {
               id={roleId}
               name="role"
               type="text"
+              autoComplete="organization-title"
               required
               placeholder="Ej. Dirección general"
               className={inputClass}
@@ -148,6 +152,8 @@ export function DiagnosticoForm() {
               id={emailId}
               name="email"
               type="email"
+              autoComplete="email"
+              inputMode="email"
               required
               placeholder="tunombre@empresa.com"
               className={inputClass}
@@ -161,6 +167,8 @@ export function DiagnosticoForm() {
               id={phoneId}
               name="phone"
               type="tel"
+              autoComplete="tel"
+              inputMode="tel"
               required
               placeholder="600 000 000"
               className={inputClass}
@@ -179,19 +187,40 @@ export function DiagnosticoForm() {
             <label htmlFor={companyId} className={labelClass}>
               Nombre de la empresa *
             </label>
-            <input id={companyId} name="company" type="text" required className={inputClass} />
+            <input
+              id={companyId}
+              name="company"
+              type="text"
+              autoComplete="organization"
+              required
+              className={inputClass}
+            />
           </div>
           <div>
             <label htmlFor={sectorId} className={labelClass}>
               Sector *
             </label>
-            <input id={sectorId} name="sector" type="text" required className={inputClass} />
+            <input
+              id={sectorId}
+              name="sector"
+              type="text"
+              autoComplete="off"
+              required
+              className={inputClass}
+            />
           </div>
           <div>
             <label htmlFor={revenueId} className={labelClass}>
               Facturación aproximada anual *
             </label>
-            <select id={revenueId} name="revenue" required defaultValue="" className={inputClass}>
+            <select
+              id={revenueId}
+              name="revenue"
+              required
+              defaultValue=""
+              autoComplete="off"
+              className={inputClass}
+            >
               <option value="" disabled>
                 Selecciona un rango
               </option>
@@ -211,6 +240,7 @@ export function DiagnosticoForm() {
               name="employees"
               required
               defaultValue=""
+              autoComplete="off"
               className={inputClass}
             >
               <option value="" disabled>
@@ -231,6 +261,8 @@ export function DiagnosticoForm() {
               id={websiteId}
               name="website"
               type="text"
+              autoComplete="url"
+              inputMode="url"
               placeholder="tuempresa.com"
               className={inputClass}
             />
@@ -248,7 +280,14 @@ export function DiagnosticoForm() {
             <label htmlFor={challengeId} className={labelClass}>
               ¿Cuál es el principal reto de tu empresa ahora mismo? *
             </label>
-            <textarea id={challengeId} name="challenge" required rows={4} className={inputClass} />
+            <textarea
+              id={challengeId}
+              name="challenge"
+              required
+              rows={4}
+              autoComplete="off"
+              className={inputClass}
+            />
           </div>
 
           <div>

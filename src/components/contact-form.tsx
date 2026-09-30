@@ -51,10 +51,24 @@ export function ContactForm({
       className="grid gap-4"
     >
       <div className={compact ? "grid gap-4" : "grid gap-4 md:grid-cols-2"}>
-        <Field label="Nombre y Apellidos" name="name" required />
-        <Field label="Teléfono" name="phone" type="tel" required />
+        <Field label="Nombre y Apellidos" name="name" autoComplete="name" required />
+        <Field
+          label="Teléfono"
+          name="phone"
+          type="tel"
+          autoComplete="tel"
+          inputMode="tel"
+          required
+        />
       </div>
-      <Field label="Correo electrónico" name="email" type="email" required />
+      <Field
+        label="Correo electrónico"
+        name="email"
+        type="email"
+        autoComplete="email"
+        inputMode="email"
+        required
+      />
       <div>
         <label
           htmlFor={messageId}
@@ -67,7 +81,8 @@ export function ContactForm({
           name="message"
           required
           rows={5}
-          className="mt-2 w-full rounded-2xl border border-[color:var(--campo-borde)] bg-background px-5 py-4 text-sm focus:border-[color:var(--campo-foco)] focus:outline-none"
+          autoComplete="off"
+          className="mt-2 w-full rounded-2xl border border-[color:var(--campo-borde)] bg-background px-5 py-4 text-base focus:border-[color:var(--campo-foco)] focus:outline-none md:text-sm"
         />
       </div>
 
@@ -106,16 +121,24 @@ export function ContactForm({
   );
 }
 
+/**
+ * Campo de una línea. Por debajo de 768 px la letra va a 16 px: con menos,
+ * Safari en iPhone amplía la página al enfocar el campo y no la devuelve.
+ */
 function Field({
   label,
   name,
   type = "text",
   required,
+  autoComplete,
+  inputMode,
 }: {
   label: string;
   name: string;
   type?: string;
   required?: boolean;
+  autoComplete: string;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
 }) {
   const id = useId();
   return (
@@ -129,7 +152,9 @@ function Field({
         name={name}
         type={type}
         required={required}
-        className="mt-2 w-full rounded-full border border-[color:var(--campo-borde)] bg-background px-5 py-3.5 text-sm focus:border-[color:var(--campo-foco)] focus:outline-none"
+        autoComplete={autoComplete}
+        inputMode={inputMode}
+        className="mt-2 w-full rounded-full border border-[color:var(--campo-borde)] bg-background px-5 py-3.5 text-base focus:border-[color:var(--campo-foco)] focus:outline-none md:text-sm"
       />
     </div>
   );

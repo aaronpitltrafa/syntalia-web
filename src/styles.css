@@ -1148,28 +1148,33 @@
     gap: 8px;
     margin-top: 30px;
   }
-  /* Barra de 3 px con 12 px de zona pulsable por arriba y por abajo. */
+  /* Cada barra es un botón de 44 px de alto (la zona que recibe el
+     toque, transparente) con la raya de 3 px dibujada en el centro con
+     ::before. El margen negativo devuelve la fila a los 3 px de la raya:
+     la sección no cambia de alto, y la zona pulsable ocupa el aire que ya
+     había por encima (30 px) y por debajo. Entre botones siguen 8 px. */
   .carrusel-puntos button {
     position: relative;
     width: 26px;
-    height: 3px;
-    border-radius: 999px;
-    background: color-mix(in oklab, var(--cream) 22%, transparent);
+    height: 44px;
+    margin-block: -20.5px;
+    background: transparent;
     cursor: pointer;
-    transition:
-      background-color 0.3s,
-      width 0.4s var(--curva-carrusel);
+    transition: width 0.4s var(--curva-carrusel);
   }
-  .carrusel-puntos button::after {
+  .carrusel-puntos button::before {
     content: "";
     position: absolute;
-    inset: -12px 0;
+    inset: 20.5px 0;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--cream) 22%, transparent);
+    transition: background-color 0.3s;
   }
-  .carrusel-puntos button[aria-current="true"] {
-    width: 54px;
-    background: var(--gold);
-  }
-  .carrusel-puntos button:focus-visible {
+  .carrusel-puntos button[aria-current="true"] { width: 54px; }
+  .carrusel-puntos button[aria-current="true"]::before { background: var(--gold); }
+  /* El foco se dibuja alrededor de la raya, no del botón entero. */
+  .carrusel-puntos button:focus-visible { outline: none; }
+  .carrusel-puntos button:focus-visible::before {
     outline: 2px solid var(--gold);
     outline-offset: 4px;
   }
@@ -1247,7 +1252,8 @@
     .carrusel-lista a .carrusel-rombo,
     .carrusel-lista a .carrusel-texto,
     .carrusel-flecha,
-    .carrusel-puntos button { transition: none; }
+    .carrusel-puntos button,
+    .carrusel-puntos button::before { transition: none; }
     .carrusel[data-vivo] .carrusel-tarjeta:not([data-activa]),
     .carrusel[data-vivo] .carrusel-tarjeta[data-despues] {
       transform: none;
