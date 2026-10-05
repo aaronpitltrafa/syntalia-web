@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2, ClipboardList, Search, Target } from "lucide-react";
-import { DiagnosticoForm } from "@/components/diagnostico-form";
+import { DiagnosticoForm, DiagnosticoWhatsApp } from "@/components/diagnostico-form";
 import logo from "@/assets/logo.png";
 import { SITE_URL } from "@/lib/site";
 
@@ -18,6 +18,10 @@ export const Route = createFileRoute("/diagnostico")({
     ],
     links: [{ rel: "canonical", href: `${SITE_URL}/diagnostico` }],
   }),
+  // ?envio=ok|error: vuelta del formulario cuando se envía sin JavaScript
+  // (ver DiagnosticoForm y sendLead).
+  validateSearch: (s: Record<string, unknown>): { envio?: "ok" | "error" } =>
+    s.envio === "ok" || s.envio === "error" ? { envio: s.envio } : {},
   component: Diagnostico,
 });
 
@@ -41,6 +45,7 @@ const PASOS = [
 ];
 
 function Diagnostico() {
+  const { envio } = Route.useSearch();
   return (
     <section className="relative bg-background">
       <div className="relative mx-auto grid max-w-7xl gap-14 px-6 py-20 md:py-28 lg:grid-cols-2 lg:items-start lg:gap-16">
@@ -107,13 +112,25 @@ function Diagnostico() {
           </div>
         </div>
 
-        {/* Right — form */}
-        <div className="surface-card rounded-[2rem] p-7 md:p-10">
-          <h2 className="text-xl font-bold text-foreground md:text-2xl">Solicita tu diagnóstico gratuito</h2>
-          <p className="mt-2 text-sm text-foreground/60">Cuéntanos sobre tu empresa y te contactamos en menos de 24h.</p>
-          <div className="mt-8">
-            <DiagnosticoForm />
+        {/* Right — form + WhatsApp. Entre md y lg va a una columna: el
+            formulario no pasa de 680 px para que los campos no se estiren. */}
+        <div className="grid w-full max-w-[680px] gap-6 lg:max-w-none">
+          <div id="formulario" className="ancla surface-card rounded-[2rem] p-6 sm:p-8 md:p-10">
+            {/* En una línea mide 279 px con Raleway y 277 con la de respaldo
+                (20 px): cabe desde 400 px de ventana. Por debajo va cortado a
+                mano en dos, para tener las mismas líneas con las dos. */}
+            <h2 className="text-xl font-bold text-foreground md:text-2xl">
+              Solicita tu diagnóstico <br className="min-[400px]:hidden" />
+              gratuito
+            </h2>
+            <p className="mt-2.5 text-[15px] leading-relaxed text-foreground/65">
+              Cuéntanos brevemente qué necesitas y nuestro equipo contactará contigo.
+            </p>
+            <div className="mt-8">
+              <DiagnosticoForm envioInicial={envio} />
+            </div>
           </div>
+          <DiagnosticoWhatsApp />
         </div>
       </div>
     </section>

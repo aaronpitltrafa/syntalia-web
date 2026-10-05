@@ -45,6 +45,8 @@ function desdeFormulario(f: FormData): Entrada {
     phone: campo("phone"),
     email: campo("email"),
     message: campo("message"),
+    // Opciones marcadas del formulario de /diagnostico (la home no las manda).
+    areas: f.getAll("areas").filter((v): v is string => typeof v === "string"),
     honeypot: campo("url"),
     source: campo("source"),
     // Solo rutas de esta web, nunca una URL de fuera.
