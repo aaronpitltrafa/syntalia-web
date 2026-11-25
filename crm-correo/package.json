@@ -1,0 +1,24 @@
+{
+  "name": "tradyn-correo",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Piezas del correo del CRM de TRADYN (cifrado de credenciales y lector IMAP), listas para integrarse en el repositorio de TRADYN.",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/mailparser": "^3.9.0",
+    "@types/node": "^26.6.10",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.1"
+  },
+  "dependencies": {
+    "imapflow": "^2.12.2",
+    "mailparser": "^3.15.0"
+  }
+}
